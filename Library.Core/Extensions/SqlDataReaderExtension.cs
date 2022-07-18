@@ -11,7 +11,6 @@ namespace Library.Core.Extensions
 
             val = reader[columnName];
 
-
             T result = default;
 
             if (val != DBNull.Value && val != null)
