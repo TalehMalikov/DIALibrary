@@ -1,4 +1,4 @@
-﻿using Library.Core.Domain.Abstract;
+﻿using Library.Entities.Abstract;
 
 namespace Library.DataAccess.Abstraction
 {
