@@ -1,7 +1,7 @@
-﻿using Library.Core.DataAccess.Abstraction;
-using Library.Core.Domain.Entities;
-using Library.Core.Domain.Enums;
-using Library.Core.Factories;
+﻿using Library.Core.Domain.Enums;
+using Library.DataAccess.Abstraction;
+using Library.DataAccess.Factories;
+using Library.Entities.Concrete;
 
 string connectionString = "postgres://taleh:Taleh642477@95.86.133.98:5432/DIALibrary";
 string connectionString2 = "Server=95.86.133.98;Port=5432;Database=DIALibrary;User Id=taleh;Password=Taleh642477;";
