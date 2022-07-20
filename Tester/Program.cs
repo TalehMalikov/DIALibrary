@@ -4,36 +4,34 @@ using Library.DataAccess.Factories;
 using Library.Entities.Concrete;
 
 string connectionString = "postgres://taleh:Taleh642477@95.86.133.98:5432/DIALibrary";
-string connectionString2 = "Server=95.86.133.98;Port=5432;Database=DIALibrary;User Id=taleh;Password=Taleh642477;";
+string connectionString2 = "Server=95.86.133.98;Port=5432;Database=DIALibrary;User Id=ehmed;Password=Ehmed642477;";
 
 IUnitOfWork unitOfWork = DbFactory.Create(ServerType.Postgre, connectionString2);
 
-Console.OutputEncoding = System.Text.Encoding.UTF8;
-
-Account account = new Account()
+bool result = unitOfWork.SpecialtyRepository.Add(new Specialty
 {
-    Id = 5,
-    User = new User()
+    Name = "Dövlət və bələdiyyə idarəetməsi",
+    Faculty = new Faculty
     {
-        Id = 2
-    },
-    AccountName = "Ahmadov",
-    PasswordHash = "1111",
-    Email = "eehmedov17@gmail.com",
-    IsDeleted = false,
-    LastModified = DateTime.Now
-};
-unitOfWork.AccountRepository.Update(account);
+        Id = 1,
+        Name = "İnzibati idarəetmə"
+    }
+});
+if (result) Console.WriteLine("Process completed successfully");
 
-foreach (var item in unitOfWork.AccountRepository.GetAll())
+Console.OutputEncoding = System.Text.Encoding.UTF8;
+//var item = unitOfWork.SpecialtyRepository.Get(3);
+//Console.WriteLine("Speciality Id: " + item.Id);
+//Console.WriteLine("Name of Speciality: " + item.Name);
+//Console.WriteLine("Name of Faculty: " + item.Faculty.Name);
+//Console.WriteLine();
+
+
+foreach (var item in unitOfWork.SpecialtyRepository.GetAll())
 {
-    Console.WriteLine(item.Id);
-    Console.WriteLine(item.AccountName);
-    Console.WriteLine(item.PasswordHash);
-    Console.WriteLine(item.Email);
-    Console.WriteLine(item.User.FirstName);
-    Console.WriteLine(item.User.LastName);
-    Console.WriteLine(item.User.FatherName);
-    Console.WriteLine(item.User.BirthDate);
-    Console.WriteLine(item.User.Gender);
+    Console.WriteLine("Speciality Id: " + item.Id);
+    Console.WriteLine("Name of Speciality: " + item.Name);
+    Console.WriteLine("Name of Faculty: " + item.Faculty.Name);
+    Console.WriteLine();
 }
+Console.ReadLine();
