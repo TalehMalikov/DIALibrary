@@ -72,7 +72,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
         {
             return new Sector
             {
-                Id = reader.Get<int>(nameof(Sector.Name)),
+                Id = reader.Get<int>(nameof(Sector.Id)),
                 Name = reader.Get<string>(nameof(Sector.Name))
             };
         }

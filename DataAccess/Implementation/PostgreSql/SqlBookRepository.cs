@@ -30,9 +30,10 @@ namespace Library.DataAccess.Implementation.PostgreSql
         {
             using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
             connection.Open();
-            string cmdString = "Delete From Books Where Id=@id";
+            string cmdString = "Update Books Set IsDeleted=@isDeleted Where Id=@id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString,connection);
             command.Parameters.AddWithValue("@id", id);
+            command.Parameters.AddWithValue("@isDeleted", true);
             return 1 == command.ExecuteNonQuery();
         }
 
