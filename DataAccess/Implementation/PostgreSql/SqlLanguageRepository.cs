@@ -73,8 +73,8 @@ namespace Library.DataAccess.Implementation.PostgreSql
         {
             return new Language
             {
-                Id = reader.Get<int>("Id"),
-                Name = reader.Get<string>("Name")
+                Id = reader.Get<int>(nameof(Language.Id)),
+                Name = reader.Get<string>(nameof(Language.Name))
             };
         }
     }
