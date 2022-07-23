@@ -11,6 +11,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public bool Add(Group value)
         {
+            
             throw new NotImplementedException();
         }
 

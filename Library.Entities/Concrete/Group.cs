@@ -6,7 +6,7 @@ namespace Library.Entities.Concrete
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int SectorId { get; set; }
-        public int SpecialtyId { get; set; }
+        public Sector Sector { get; set; }
+        public Specialty Speciality { get; set; }
     }
 }

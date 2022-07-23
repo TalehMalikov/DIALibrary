@@ -6,8 +6,8 @@ namespace Library.Entities.Concrete
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int CategoryId { get; set; }
-        public int OriginalLangaugeId { get; set; }
+        public Category Category { get; set; }
+        public Language OriginaLanguage { get; set; }
         public DateTime LastModified { get; set; }
         public bool IsDeleted { get; set; }
     }
