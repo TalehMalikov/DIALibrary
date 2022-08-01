@@ -44,7 +44,16 @@ namespace Library.DataAccess.Implementation.PostgreSql
         {
             using NpgsqlConnection connection = new(connectionString);
             connection.Open();
-            string cmdString = "Select * From Publications Where Id=@id";
+            string cmdString = "Select Publications.Id as PublicationId, " +
+                               "Books.Id as BookId,Books.Name as BookName, Categories.Id as CategoryId, " +
+                               "Categories.Name as CategoryName,Languages.Id as BookLanguageId, " +
+                               "Languages.Name as BookLanguageName, " +
+                               "PhotoPath,FilePath,PublisherName,PageNumber, " +
+                               "Languages.Id as PublicationLanguageId, Languages.Name as PublicationLanguageName, " +
+                               "PublicationDate, Publications.LastModified, Publications.IsDeleted From Publications " +
+                               "inner join Books on Publications.BookId = Books.Id " +
+                               "inner join Languages on Books.OriginalLanguageId = Languages.Id and Publications.PublicationLanguageId = Languages.Id " +
+                               "inner join Categories on Books.CategoryId = Categories.Id Where Publications.Id =@id";
             using NpgsqlCommand command = new(cmdString, connection);
             command.Parameters.AddWithValue("@id");
             var reader = command.ExecuteReader();
@@ -58,9 +67,17 @@ namespace Library.DataAccess.Implementation.PostgreSql
             List<Publication> list = new List<Publication>();
             using NpgsqlConnection connection = new(connectionString);
             connection.Open();
-            string cmdString = "Select * From Publications Where Id=@id";
+            string cmdString = "Select Publications.Id as PublicationId, " +
+                               "Books.Id as BookId,Books.Name as BookName, Categories.Id as CategoryId, " +
+                               "Categories.Name as CategoryName,Languages.Id as BookLanguageId, " +
+                               "Languages.Name as BookLanguageName, " +
+                               "PhotoPath,FilePath,PublisherName,PageNumber, " +
+                               "Languages.Id as PublicationLanguageId, Languages.Name as PublicationLanguageName, " +
+                               "PublicationDate, Publications.LastModified, Publications.IsDeleted From Publications " +
+                               "inner join Books on Publications.BookId = Books.Id " +
+                               "inner join Languages on Books.OriginalLanguageId = Languages.Id and Publications.PublicationLanguageId = Languages.Id " +
+                               "inner join Categories on Books.CategoryId = Categories.Id ";
             using NpgsqlCommand command = new(cmdString, connection);
-            command.Parameters.AddWithValue("@id");
             var reader = command.ExecuteReader();
             while (reader.Read())
                  list.Add(ReadPublication(reader));
