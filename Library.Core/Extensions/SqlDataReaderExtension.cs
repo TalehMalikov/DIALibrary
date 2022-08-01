@@ -13,10 +13,9 @@ namespace Library.Core.Extensions
 
             T result = default;
 
-            if (val != DBNull.Value && val != null)
-            {
-                result = (T)val;
-            }
+            if (val != DBNull.Value && val != null) 
+                result = (T) val;
+
             return result;
         }
 

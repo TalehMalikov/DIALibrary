@@ -51,13 +51,13 @@ namespace Library.DataAccess.Implementation.PostgreSql
         {
             List<Specialty> specialties = new List<Specialty>();
             using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
-            connection.Open(); 
+            connection.Open();
             string cmdString = "Select Faculties.Id as FacultyId,Faculties.Name as FacultyName, Specialities.Id as SpecialityId, " +
                                "Specialities.Name as SpecialityName From Specialities inner join Faculties on Specialities.FacultyId = Faculties.Id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             dynamic reader = command.ExecuteReader();
             while (reader.Read())
-                 specialties.Add(ReadSpeciality(reader));
+                specialties.Add(ReadSpeciality(reader));
             return specialties;
         }
 

@@ -1,13 +1,14 @@
-﻿using Library.Entities.Concrete;
+﻿using Library.DataAccess.Abstraction;
+using Library.Entities.Concrete;
 
 namespace Library.DataAccess.Implementation.PostgreSql
 {
-    public class SqlAccountRoleRepository : BaseRepository,Abstraction.IAccountRoleRepository
+    public class SqlAccountRoleRepository : BaseRepository, IAccountRoleRepository
     {
         public SqlAccountRoleRepository(string connectionString) : base(connectionString)
         {
         }
-
+        
         public bool Add(Account value)
         {
             throw new NotImplementedException();

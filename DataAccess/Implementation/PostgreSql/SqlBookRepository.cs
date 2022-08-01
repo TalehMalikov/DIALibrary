@@ -20,7 +20,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             command.Parameters.AddWithValue("@name", value.Name);
             command.Parameters.AddWithValue("@categoryId", value.Category.Id);
-            command.Parameters.AddWithValue("@originalLanguageId", value.OriginaLanguage.Id);
+            command.Parameters.AddWithValue("@originalLanguageId", value.OriginalLanguage.Id);
             command.Parameters.AddWithValue("@lastModified", value.LastModified);
             command.Parameters.AddWithValue("@isDeleted", false);
             return 1 == command.ExecuteNonQuery();
@@ -79,7 +79,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             command.Parameters.AddWithValue("@id", value.Id);
             command.Parameters.AddWithValue("@name", value.Name);
             command.Parameters.AddWithValue("@categoryId", value.Category.Id);
-            command.Parameters.AddWithValue("@originalLanguageId", value.OriginaLanguage.Id);
+            command.Parameters.AddWithValue("@originalLanguageId", value.OriginalLanguage.Id);
             command.Parameters.AddWithValue("@lastModified", value.LastModified);
             command.Parameters.AddWithValue("@isDeleted", value.IsDeleted);
             return 1 == command.ExecuteNonQuery();
@@ -95,7 +95,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
                     Id = reader.Get<int>(nameof(Category.Id)),
                     Name = reader.Get<string>(nameof(Category.Name))
                 },
-                OriginaLanguage = new Language
+                OriginalLanguage = new Language
                 {
                     Id = reader.Get<int>(nameof(Language.Id)),
                     Name = reader.Get<string>(nameof(Language.Name))
