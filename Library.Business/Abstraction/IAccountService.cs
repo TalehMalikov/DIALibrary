@@ -4,10 +4,10 @@ using Library.Entities.Concrete;
 
 namespace Library.Business.Abstraction
 {
-    public interface IAccountService
+    public interface IAccountService : IBaseService<Account>
     {
-        DataResult<List<Role>> GetRoles(User user);
-        IResult Add(User user);
-        IDataResult<User> GetByEmail(string email);
+        DataResult<List<Role>> GetRoles(Account account);
+        //IResult Add(User user);
+        DataResult<Account> GetByEmail(string email);
     }
 }

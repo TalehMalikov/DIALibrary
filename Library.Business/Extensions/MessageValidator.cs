@@ -1,14 +1,16 @@
 ﻿using FluentValidation;
-using Library.Entities.Abstract;
-using Library.Entities.Concrete;
 
 namespace Library.Business.Extensions
 {
     public static class MessageValidator
     {
-        public static IRuleBuilderOptions<BaseEntity, string> MinimumLengthMessage(this IRuleBuilderOptions<BaseEntity, string> rule, int count)
+        public static IRuleBuilderOptions<T, string> MinLengthMessage<T>(this IRuleBuilderOptions<T, string> rule, int count, string propertyName)
         {
-            return rule.WithMessage($"Min. {count} number of characters for Firstname is required");
+            return rule.WithMessage($"Min. {count} number of characters for {propertyName} is required");
+        }
+        public static IRuleBuilderOptions<T, string> MaxLengthMessage<T>(this IRuleBuilderOptions<T, string> rule, int count, string propertyName)
+        {
+            return rule.WithMessage($"Max. {count} number of characters for {propertyName} is required");
         }
     }
-}
+}    

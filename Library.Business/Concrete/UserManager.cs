@@ -1,6 +1,6 @@
-﻿using Core.Aspects.Autofac.Caching;
+﻿using Business.CrossCuttingConcerns.Validation.FluentValidation;
 using Library.Business.Abstraction;
-using Library.Business.CrossCuttingConcerns.Validation.FluentValidation;
+using Library.Core.Aspects.Autofac.Caching;
 using Library.Core.Aspects.Autofac.Validation;
 using Library.Core.Result.Concrete;
 using Library.DataAccess.Abstraction;
@@ -10,37 +10,45 @@ namespace Library.Business.Concrete
 {
     public class UserManager : IUserService
     {
-        private readonly IUserRepository userRepository;
+        private readonly IUserRepository _userRepository;
         public UserManager(IUserRepository userRepository)
         {
-            userRepository = userRepository;
+            _userRepository = userRepository;
         }
 
-        [CacheRemoveAspect("Business.Abstract.IAuthorService.Get")]
-        [ValidationAspect(typeof(AuthorValidator))]
+        [CacheRemoveAspect(nameof(Library.Business.Abstraction.IUserService.Get))]
+        [ValidationAspect(typeof(UserValidator))]
         public Result Add(User value)
         {
-            throw new NotImplementedException();
+            _userRepository.Add(value);
+            return new SuccessResult();
         }
 
+        [CacheRemoveAspect(nameof(Library.Business.Abstraction.IUserService.Get))]
         public Result Delete(User value)
         {
-            throw new NotImplementedException();
+            _userRepository.Delete(value.Id);
+            return new SuccessResult();
         }
 
+        [CacheAspect]
         public DataResult<User> Get(int id)
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<User>(_userRepository.Get(id));
         }
 
+        [CacheAspect]
         public DataResult<List<User>> GetAll()
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<List<User>>(_userRepository.GetAll());
         }
 
+        [CacheRemoveAspect(nameof(Library.Business.Abstraction.IUserService.Get))]
+        [ValidationAspect(typeof(UserValidator))]
         public Result Update(User value)
         {
-            throw new NotImplementedException();
+            _userRepository.Update(value);
+            return new SuccessResult();
         }
     }
 }

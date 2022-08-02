@@ -75,6 +75,38 @@ namespace Library.DataAccess.Implementation.PostgreSql
             return accounts;
         }
 
+        public Account GetByEmail(string email)
+        {
+            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            connection.Open();
+            string query = "select Accounts.id as accountid,accountname,passwordhash,email," +
+                           "Accounts.isdeleted as AccountIsDeleted,Accounts.lastmodified as AccountLastModified, " +
+                           "Users.Id as UserId,firstname,lastname,fathername,birthdate,gender," +
+                           "Users.IsDeleted as UserIsDeleted,Users.LastModified as UserLastModified " +
+                           "from accounts inner join Users on Users.id = accounts.userid where Accounts.Email=@email and Users.IsDeleted=false and Accounts.IsDeleted = false";
+            using NpgsqlCommand cmd = new NpgsqlCommand(query, connection);
+            cmd.Parameters.AddWithValue("@email", email);
+            var reader = cmd.ExecuteReader();
+            if (reader.Read())
+                return ReadAccount(reader);
+            return null;
+        }
+
+        public List<Role> GetRoles(Account account)
+        {
+            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            connection.Open();
+            string query = "";
+
+            using NpgsqlCommand cmd = new NpgsqlCommand(query, connection);
+            cmd.Parameters.AddWithValue("@accountid", account.Id);
+            var roles = new List<Role>();
+            var reader = cmd.ExecuteReader();
+            while (reader.Read())
+                roles.Add(ReadRole(reader));
+            return roles;
+        }
+
         public bool Update(Account value)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
@@ -114,6 +146,15 @@ namespace Library.DataAccess.Implementation.PostgreSql
                 Email = reader.Get<string>("Email"),
                 IsDeleted = reader.Get<bool>("AccountIsDeleted"),
                 LastModified = reader.Get<DateTime>("AccountLastModified")
+            };
+        }
+
+        private Role ReadRole(NpgsqlDataReader reader)
+        {
+            return new Role()
+            {
+                Id = reader.Get<int>("RoleId"),
+                Name = reader.Get<string>("Name")
             };
         }
     }

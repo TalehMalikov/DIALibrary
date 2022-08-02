@@ -1,12 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentValidation;
+using Library.Entities.Concrete;
 
 namespace Library.Business.CrossCuttingConcerns.Validation.FluentValidation
 {
-    internal class AccountValidator
+    public class AccountValidator : AbstractValidator<Account>
     {
+        public AccountValidator()
+        {
+            RuleFor(x => string.IsNullOrWhiteSpace(x.AccountName)).NotEqual(true);
+            RuleFor(account => account.AccountName).NotEmpty()
+                .Length(10, 50)
+                .Must((account, AccountName) => AccountName.Contains(account.User.FirstName))
+                .Must((account, AccountName) => AccountName.Contains(account.User.LastName));
+
+            RuleFor(x => x.Email).EmailAddress();
+        }
     }
 }
+
+
+//RuleFor(customer => customer.Address.Postcode).NotNull().When(customer => customer.Address != null)
+
+/*
+ RuleFor(customer => customer.Photo)
+    .NotEmpty()
+    .Matches("https://wwww.photos.io/\d+\.png")
+    .When(customer => customer.IsPreferredCustomer, ApplyConditionTo.CurrentValidator)
+    .Empty()
+    .When(customer => ! customer.IsPreferredCustomer, ApplyConditionTo.CurrentValidator);
+ */
+
+// 0-255
+

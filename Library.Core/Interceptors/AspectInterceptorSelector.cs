@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using Castle.DynamicProxy;
-using Core.Aspects.Autofac.Exception;
+using Library.Core.Aspects.Autofac.Exception;
 using Library.Core.CrossCuttingConcerns.Logging.Log4Net.Loggers;
 
 namespace Library.Core.Interceptors

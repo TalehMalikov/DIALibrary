@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentValidation;
+using System.Text.RegularExpressions;
 
 namespace Library.Business.CrossCuttingConcerns.Validation.FluentValidation
 {
-    internal class GroupValidator
+    public class GroupValidator : AbstractValidator<Group>
     {
+        public GroupValidator()
+        {
+            RuleFor(x => String.IsNullOrWhiteSpace(x.Name)).NotEqual(true);
+            RuleFor(x => x.Name).Length(3, 6);
+        }
     }
 }

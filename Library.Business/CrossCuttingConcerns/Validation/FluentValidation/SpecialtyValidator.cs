@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentValidation;
+using Library.Entities.Concrete;
 
 namespace Library.Business.CrossCuttingConcerns.Validation.FluentValidation
 {
-    internal class SpecialtyValidator
+    public class SpecialtyValidator : AbstractValidator<Specialty>
     {
+        public SpecialtyValidator()
+        {
+            RuleFor(x => String.IsNullOrWhiteSpace(x.Name)).NotEqual(true);
+            RuleFor(x => x.Name).Length(3, 50);
+        }
     }
 }

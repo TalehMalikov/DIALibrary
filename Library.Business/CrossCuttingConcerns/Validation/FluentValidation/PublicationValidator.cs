@@ -1,12 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentValidation;
+using Library.Entities.Concrete;
 
 namespace Library.Business.CrossCuttingConcerns.Validation.FluentValidation
 {
-    internal class PublicationValidator
+    public class PublicationValidator : AbstractValidator<Publication>
     {
+        public PublicationValidator()
+        {
+            RuleFor(x => string.IsNullOrWhiteSpace(x.PublisherName)).NotEqual(true);
+            RuleFor(x => x.PublisherName).MinimumLength(3);
+            RuleFor(x => x.PublisherName).MaximumLength(255);
+
+            RuleFor(x => (int)x.PageNumber).NotNull()
+                .GreaterThanOrEqualTo(20)
+                .LessThanOrEqualTo(1000);
+
+            RuleFor(x => x.PublicationDate).NotNull()
+                .GreaterThan(new DateTime(1500, 1, 1))
+                .LessThan(DateTime.Now);
+
+            #region File&Foto -- Dusunurem hele
+            RuleFor(x => string.IsNullOrWhiteSpace(x.PhotoPath)).NotEqual(true);
+            RuleFor(x => string.IsNullOrWhiteSpace(x.FilePath)).NotEqual(true);
+            #endregion
+
+        }
     }
 }
