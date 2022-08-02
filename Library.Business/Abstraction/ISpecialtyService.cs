@@ -2,7 +2,7 @@
 
 namespace Library.Business.Abstraction
 {
-    public interface ISpecialtyService : IBaseService<Specialty>
+    public interface ISpecialtyService : IBaseService<Speciality>
     {
     }
 }

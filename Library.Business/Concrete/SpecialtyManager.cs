@@ -18,34 +18,34 @@ namespace Library.Business.Concrete
 
         [ValidationAspect(typeof(SpecialtyValidator))]
         [CacheRemoveAspect("Business.Abstract.ISpecialtyService.Get")]
-        public Result Add(Specialty value)
+        public Result Add(Speciality value)
         {
             _specialtyRepository.Add(value);
             return new SuccessResult();
         }
 
         [CacheRemoveAspect("Business.Abstract.ISpecialtyService.Get")]
-        public Result Delete(Specialty value)
+        public Result Delete(Speciality value)
         {
             _specialtyRepository.Delete(value.Id);
             return new SuccessResult();
         }
 
         [CacheAspect]
-        public DataResult<Specialty> Get(int id)
+        public DataResult<Speciality> Get(int id)
         {
-            return new SuccessDataResult<Specialty>(_specialtyRepository.Get(id));
+            return new SuccessDataResult<Speciality>(_specialtyRepository.Get(id));
         }
 
         [CacheAspect]
-        public DataResult<List<Specialty>> GetAll()
+        public DataResult<List<Speciality>> GetAll()
         {
-            return new SuccessDataResult<List<Specialty>>(_specialtyRepository.GetAll());
+            return new SuccessDataResult<List<Speciality>>(_specialtyRepository.GetAll());
         }
 
         [ValidationAspect(typeof(SpecialtyValidator))]
         [CacheRemoveAspect("Business.Abstract.ISpecialtyService.Get")]
-        public Result Update(Specialty value)
+        public Result Update(Speciality value)
         {
             _specialtyRepository.Update(value);
             return new SuccessResult();

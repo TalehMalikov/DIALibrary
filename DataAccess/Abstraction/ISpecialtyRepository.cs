@@ -2,7 +2,7 @@
 
 namespace Library.DataAccess.Abstraction
 {
-    public interface ISpecialtyRepository : ICrudRepository<Specialty>
+    public interface ISpecialtyRepository : ICrudRepository<Speciality>
     {
     }
 }

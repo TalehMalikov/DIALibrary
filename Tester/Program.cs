@@ -8,7 +8,7 @@ string connectionString2 = "Server=95.86.133.98;Port=5432;Database=DIALibrary;Us
 
 IUnitOfWork unitOfWork = DbFactory.Create(ServerType.Postgre, connectionString2);
 
-bool result = unitOfWork.SpecialtyRepository.Add(new Specialty
+bool result = unitOfWork.SpecialtyRepository.Add(new Speciality
 {
     Name = "Dövlət və bələdiyyə idarəetməsi",
     Faculty = new Faculty

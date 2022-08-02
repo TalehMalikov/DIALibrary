@@ -11,7 +11,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
         {
         }
 
-        public bool Add(Specialty value)
+        public bool Add(Speciality value)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
             connection.Open();
@@ -31,7 +31,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             return 1 == command.ExecuteNonQuery();
         }
 
-        public Specialty Get(int id)
+        public Speciality Get(int id)
         {
             //"from accounts inner join Users on Users.id = accounts.userid where Users.IsDeleted=false and Accounts.IsDeleted = false";
             using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
@@ -47,9 +47,9 @@ namespace Library.DataAccess.Implementation.PostgreSql
             return null;
         }
 
-        public List<Specialty> GetAll()
+        public List<Speciality> GetAll()
         {
-            List<Specialty> specialties = new List<Specialty>();
+            List<Speciality> specialties = new List<Speciality>();
             using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
             connection.Open();
             string cmdString = "Select Faculties.Id as FacultyId,Faculties.Name as FacultyName, Specialities.Id as SpecialityId, " +
@@ -61,7 +61,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             return specialties;
         }
 
-        public bool Update(Specialty value)
+        public bool Update(Speciality value)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
             connection.Open();
@@ -73,9 +73,9 @@ namespace Library.DataAccess.Implementation.PostgreSql
             return 1 == command.ExecuteNonQuery();
         }
 
-        private Specialty ReadSpeciality(NpgsqlDataReader reader)
+        private Speciality ReadSpeciality(NpgsqlDataReader reader)
         {
-            return new Specialty
+            return new Speciality
             {
                 Id = reader.Get<int>("SpecialityId"),
                 Faculty = new Faculty

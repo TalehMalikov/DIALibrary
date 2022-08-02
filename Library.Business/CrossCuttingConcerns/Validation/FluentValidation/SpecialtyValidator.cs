@@ -3,7 +3,7 @@ using Library.Entities.Concrete;
 
 namespace Library.Business.CrossCuttingConcerns.Validation.FluentValidation
 {
-    public class SpecialtyValidator : AbstractValidator<Specialty>
+    public class SpecialtyValidator : AbstractValidator<Speciality>
     {
         public SpecialtyValidator()
         {
