@@ -1,6 +1,6 @@
 ﻿namespace Library.DataAccess.Implementation.PostgreSql
 {
-    public abstract class BaseRepository
+    public class BaseRepository
     {
         protected readonly string connectionString;
         public BaseRepository(string connectionString)

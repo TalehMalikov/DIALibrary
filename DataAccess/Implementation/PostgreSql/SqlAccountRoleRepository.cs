@@ -3,13 +3,13 @@ using Library.Entities.Concrete;
 
 namespace Library.DataAccess.Implementation.PostgreSql
 {
-    public class SqlAccountRoleRepository : BaseRepository, IAccountRoleRepository
+
+    public class SqlAccountRoleRepository : BaseRepository,IAccountRoleRepository
     {
         public SqlAccountRoleRepository(string connectionString) : base(connectionString)
         {
         }
-        
-        public bool Add(Account value)
+        public bool Add(AccountRole value)
         {
             throw new NotImplementedException();
         }
@@ -19,17 +19,17 @@ namespace Library.DataAccess.Implementation.PostgreSql
             throw new NotImplementedException();
         }
 
-        public Account Get(int id)
+        public AccountRole Get(int id)
         {
             throw new NotImplementedException();
         }
 
-        public List<Account> GetAll()
+        public List<AccountRole> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public bool Update(Account value)
+        public bool Update(AccountRole value)
         {
             throw new NotImplementedException();
         }

@@ -2,7 +2,7 @@
 
 namespace Library.DataAccess.Abstraction
 {
-    public interface ICrudRepository<T> where T : class, IEntity,new()
+    public interface ICrudRepository<T> where T : BaseEntity,new()
     {
         bool Add(T value);
         T Get(int id);

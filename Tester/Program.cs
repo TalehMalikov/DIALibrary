@@ -35,3 +35,6 @@ foreach (var item in unitOfWork.SpecialtyRepository.GetAll())
     Console.WriteLine();
 }
 Console.ReadLine();
+
+
+

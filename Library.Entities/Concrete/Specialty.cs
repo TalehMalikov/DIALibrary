@@ -2,9 +2,8 @@
 
 namespace Library.Entities.Concrete
 {
-    public class Specialty : IEntity
+    public class Specialty : BaseEntity
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public Faculty Faculty { get; set; }
     }
