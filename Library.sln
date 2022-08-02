@@ -11,7 +11,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.DataAccess", "DataA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Entities", "Library.Entities\Library.Entities.csproj", "{D2015CEE-C64C-49D4-919F-EE35F33CC615}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.Business", "Library.Business\Library.Business.csproj", "{4FC19C0D-001C-43EC-82B9-D635BB13DABC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Business", "Library.Business\Library.Business.csproj", "{4FC19C0D-001C-43EC-82B9-D635BB13DABC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{72880223-C914-4E41-A223-3C614D3F79A6}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -6,7 +6,7 @@ namespace Library.Entities.Concrete
     {
         public string Name { get; set; }
         public Category Category { get; set; }
-        public Language OriginaLanguage { get; set; }
+        public Language OriginalLanguage { get; set; }
         public DateTime LastModified { get; set; }
         public bool IsDeleted { get; set; }
     }

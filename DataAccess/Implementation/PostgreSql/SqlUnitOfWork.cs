@@ -15,6 +15,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public IAuthorRepository AuthorRepository => new SqlAuthorRepository(connectionString);
 
+
         public IBookAuthorRepository BookAuthorRepository => new SqlBookAuthorRepository(connectionString);
 
         public IBookRepository BookRepository => new SqlBookRepository(connectionString);
