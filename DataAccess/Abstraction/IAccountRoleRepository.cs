@@ -2,7 +2,7 @@
 
 namespace Library.DataAccess.Abstraction
 {
-    public interface IAccountRoleRepository : ICrudRepository<Account>
+    public interface IAccountRoleRepository : ICrudRepository<AccountRole>
     {
     }
 }

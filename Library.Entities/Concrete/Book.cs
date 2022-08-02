@@ -2,9 +2,8 @@
 
 namespace Library.Entities.Concrete
 {
-    public class Book : IEntity
+    public class Book : BaseEntity
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public Category Category { get; set; }
         public Language OriginaLanguage { get; set; }

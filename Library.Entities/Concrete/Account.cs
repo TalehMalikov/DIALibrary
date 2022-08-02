@@ -2,9 +2,8 @@
 
 namespace Library.Entities.Concrete
 {
-    public class Account : IEntity
+    public class Account : BaseEntity
     {
-        public int Id { get; set; }
         public User User { get; set; }
         public string AccountName { get; set; }
         public string PasswordHash { get; set; }
