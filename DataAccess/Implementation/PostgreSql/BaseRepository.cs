@@ -2,10 +2,8 @@
 {
     public class BaseRepository
     {
-        protected readonly string connectionString;
-        public BaseRepository(string connectionString)
-        {
-            this.connectionString = connectionString;
-        }
+        protected string connectionString = 
+            "Server=95.86.133.98;Port=5432;Database=DIALibrary;User Id=ehmed;Password=Ehmed642477;";
+        
     }
 }

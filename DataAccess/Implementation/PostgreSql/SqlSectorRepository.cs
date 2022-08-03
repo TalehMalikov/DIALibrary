@@ -7,10 +7,6 @@ namespace Library.DataAccess.Implementation.PostgreSql
 {
     public class SqlSectorRepository : BaseRepository, ISectorRepository
     {
-        public SqlSectorRepository(string connectionString) : base(connectionString)
-        {
-        }
-
         public bool Add(Sector value)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(connectionString);

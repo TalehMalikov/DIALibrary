@@ -1,23 +1,18 @@
+﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Core.Extensions;
+using Library.Business.DependencyResolvers.Autofac;
 using Library.Core.DependencyResolvers;
-using Library.DataAccess.Factories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-/*var x = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+var x = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
 var _configuration = x.Build();
 var connectionstring = _configuration.GetConnectionString("DefaultConnection");
-*/
 
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new AutofacBusinessModule(connectionstring)));
 
-string connectionstring = "Server=95.86.133.98;Port=5432;Database=DIALibrary;User Id=ehmed;Password=Ehmed642477;";
-//builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
-//builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new AutofacBusinessModule(connectionstring)));
-
-builder.Services.AddSingleton((t) =>
-{
-    return DbFactory.Create(Library.Core.Domain.Enums.ServerType.Postgre,connectionstring);
-});
 
 builder.Services.AddDependencyResolvers(new ICoreModule[]
 {

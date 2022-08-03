@@ -7,10 +7,6 @@ namespace Library.DataAccess.Implementation.PostgreSql
 {
     public class SqlCategoryRepository : BaseRepository, ICategoryRepository
     {
-        public SqlCategoryRepository(string connectionString) : base(connectionString)
-        {
-        }
-
         public bool Add(Category value)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(connectionString);

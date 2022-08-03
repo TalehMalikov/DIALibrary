@@ -7,10 +7,6 @@ namespace Library.DataAccess.Implementation.PostgreSql
 {
     public class SqlBookRepository : BaseRepository, IBookRepository
     {
-        public SqlBookRepository(string connectionString) : base(connectionString)
-        {
-        }
-
         public bool Add(Book value)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(connectionString);

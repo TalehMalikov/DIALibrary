@@ -7,10 +7,6 @@ namespace Library.DataAccess.Implementation.PostgreSql
 {
     public class SqlAuthorRepository : BaseRepository, IAuthorRepository
     {
-        public SqlAuthorRepository(string connectionString) : base(connectionString)
-        {
-        }
-
         public bool Add(Author value)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(connectionString);

@@ -5,10 +5,6 @@ namespace Library.DataAccess.Implementation.PostgreSql
 {
     public class SqlStudentRepository : BaseRepository, IStudentRepository
     {
-        public SqlStudentRepository(string connectionString) : base(connectionString)
-        {
-        }
-
         public bool Add(Student value)
         {
             throw new NotImplementedException();
