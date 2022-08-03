@@ -15,7 +15,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
         {
             using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
             connection.Open();
-            string cmdString = "Insert Into Specialities(FacultyId,Name) Values(@facultyId,@name)";
+            string cmdString = "Insert Into Specialties(FacultyId,Name) Values(@facultyId,@name)";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             command.Parameters.AddWithValue("@facultyId", value.Faculty.Id);
             command.Parameters.AddWithValue("@name", value.Name);
@@ -25,7 +25,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
         {
             using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
             connection.Open();
-            string cmdString = "Delete From Specialities Where Id=@id";
+            string cmdString = "Delete From Specialties Where Id=@id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             command.Parameters.AddWithValue("@id", id);
             return 1 == command.ExecuteNonQuery();
@@ -36,14 +36,14 @@ namespace Library.DataAccess.Implementation.PostgreSql
             //"from accounts inner join Users on Users.id = accounts.userid where Users.IsDeleted=false and Accounts.IsDeleted = false";
             using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
             connection.Open();
-            string cmdString = "Select Faculties.Id as FacultyId,Faculties.Name as FacultyName, Specialities.Id as SpecialityId," +
-                               "Specialities.Name as SpecialityName From Specialities inner join Faculties on Specialities.FacultyId = Faculties.Id " +
-                               "Where Specialities.Id = @specialityId";
+            string cmdString = "Select Faculties.Id as FacultyId,Faculties.Name as FacultyName, Specialties.Id as SpecialtyId," +
+                               "Specialties.Name as SpecialtyName From Specialties inner join Faculties on Specialties.FacultyId = Faculties.Id " +
+                               "Where Specialties.Id = @specialtyId";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
-            command.Parameters.AddWithValue("@specialityId", id);
+            command.Parameters.AddWithValue("@specialtyId", id);
             dynamic reader = command.ExecuteReader();
             if (reader.Read())
-                return ReadSpeciality(reader);
+                return ReadSpecialty(reader);
             return null;
         }
 
@@ -52,12 +52,12 @@ namespace Library.DataAccess.Implementation.PostgreSql
             List<Speciality> specialties = new List<Speciality>();
             using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
             connection.Open();
-            string cmdString = "Select Faculties.Id as FacultyId,Faculties.Name as FacultyName, Specialities.Id as SpecialityId, " +
-                               "Specialities.Name as SpecialityName From Specialities inner join Faculties on Specialities.FacultyId = Faculties.Id";
+            string cmdString = "Select Faculties.Id as FacultyId,Faculties.Name as FacultyName, Specialties.Id as SpecialtyId, " +
+                               "Specialties.Name as SpecialtyName From Specialties inner join Faculties on Specialties.FacultyId = Faculties.Id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             dynamic reader = command.ExecuteReader();
             while (reader.Read())
-                specialties.Add(ReadSpeciality(reader));
+                specialties.Add(ReadSpecialty(reader));
             return specialties;
         }
 
@@ -65,7 +65,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
         {
             using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
             connection.Open();
-            string cmdString = "Update Specialities Set FacultyId=@facultyName, Name=@name Where Id=@id";
+            string cmdString = "Update Specialties Set FacultyId=@facultyName, Name=@name Where Id=@id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             command.Parameters.AddWithValue("@facultyId", value.Faculty.Id);
             command.Parameters.AddWithValue("@name", value.Name);
@@ -73,17 +73,17 @@ namespace Library.DataAccess.Implementation.PostgreSql
             return 1 == command.ExecuteNonQuery();
         }
 
-        private Speciality ReadSpeciality(NpgsqlDataReader reader)
+        private Speciality ReadSpecialty(NpgsqlDataReader reader)
         {
             return new Speciality
             {
-                Id = reader.Get<int>("SpecialityId"),
+                Id = reader.Get<int>("SpecialtyId"),
                 Faculty = new Faculty
                 {
                     Id = reader.Get<int>("FacultyId"),
                     Name = reader.Get<string>("FacultyName")
                 },
-                Name = reader.Get<string>("SpecialityName")
+                Name = reader.Get<string>("SpecialtyName")
             };
         }
     }
