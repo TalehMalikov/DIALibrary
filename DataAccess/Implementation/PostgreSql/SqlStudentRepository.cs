@@ -37,17 +37,69 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public Student Get(int id)
         {
-            throw new NotImplementedException();
+            using NpgsqlConnection connection = new(connectionString);
+            connection.Open();
+            string cmdString =
+                "select Students.Id as StudentId," +
+                "Users.Id as UserId, Users.FirstName,Users.LastName,Users.FatherName,Users.Birthdate,Users.Gender," +
+                "Users.IsDeleted as UserIsDeleted, Users.LastModified as UserLastModified,Students.AcceptanceDate," +
+                "Specialties.Id as SpecialtyId,Specialties.Name as SpecialtyName," +
+                "Faculties.Id as FacultyId, Faculties.Name as FacultyName," +
+                "Groups.Id as GroupId, Groups.Name as GroupName," +
+                "Sectors.Id as SectorId, Sectors.Name as SectorName," +
+                "Specialties.Id as GroupSpecialtyId,Specialties.Name as GroupSpecialtyName from Students" +
+                "inner join Groups on Students.GroupId = Groups.Id " +
+                "inner join Users on Students.UserId = Users.Id " +
+                "inner join Specialties on Students.SpecialtyId = Specialties.Id and Groups.SpecialtyId = Specialties.Id " +
+                "inner join Sectors on Groups.SectorId = Sectors.Id " +
+                "inner join Faculties on Specialties.FacultyId = Faculties.Id  where Students.Id = @id";
+            using NpgsqlCommand command = new(cmdString,connection);
+            command.Parameters.AddWithValue("@id", id);
+            var reader = command.ExecuteReader();
+            if (reader.Read())
+                return ReadStudent(reader);
+            return null;
         }
 
         public List<Student> GetAll()
         {
-            throw new NotImplementedException();
+            List<Student> students = new List<Student>();
+            using NpgsqlConnection connection = new(connectionString);
+            connection.Open();
+            string cmdString =
+                "select Students.Id as StudentId," +
+                "Users.Id as UserId, Users.FirstName,Users.LastName,Users.FatherName,Users.Birthdate,Users.Gender," +
+                "Users.IsDeleted as UserIsDeleted, Users.LastModified as UserLastModified,Students.AcceptanceDate," +
+                "Specialties.Id as SpecialtyId,Specialties.Name as SpecialtyName," +
+                "Faculties.Id as FacultyId, Faculties.Name as FacultyName," +
+                "Groups.Id as GroupId, Groups.Name as GroupName," +
+                "Sectors.Id as SectorId, Sectors.Name as SectorName," +
+                "Specialties.Id as GroupSpecialtyId,Specialties.Name as GroupSpecialtyName from Students" +
+                "inner join Groups on Students.GroupId = Groups.Id " +
+                "inner join Users on Students.UserId = Users.Id " +
+                "inner join Specialties on Students.SpecialtyId = Specialties.Id and Groups.SpecialtyId = Specialties.Id " +
+                "inner join Sectors on Groups.SectorId = Sectors.Id " +
+                "inner join Faculties on Specialties.FacultyId = Faculties.Id";
+            using NpgsqlCommand command = new(cmdString, connection);
+            var reader = command.ExecuteReader();
+            while (reader.Read())
+                students.Add(ReadStudent(reader));
+            return students;
         }
 
         public bool Update(Student value)
         {
-            throw new NotImplementedException();
+            using NpgsqlConnection connection = new(connectionString);
+            connection.Open();
+            string cmdString =
+                "Update Students Set UserId=@userId,AcceptanceDate=@acceptanceDate,SpecialtyId=@specialtyId,GroupId=@groupId Where Id=@id";
+            using NpgsqlCommand command = new(cmdString, connection);
+            command.Parameters.AddWithValue("@userId", value.User.Id);
+            command.Parameters.AddWithValue("@acceptanceDate", value.AcceptanceDate);
+            command.Parameters.AddWithValue("@specialtyId", value.Specialty.Id);
+            command.Parameters.AddWithValue("@groupId", value.Group.Id);
+            command.Parameters.AddWithValue("@id", value.Id);
+            return 1 == command.ExecuteNonQuery();
         }
 
         private Student ReadStudent(NpgsqlDataReader reader)
