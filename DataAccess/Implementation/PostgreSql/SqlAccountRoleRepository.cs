@@ -8,7 +8,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
     public class SqlAccountRoleRepository : BaseRepository, IAccountRoleRepository
     {
-        public SqlAccountRoleRepository(string connectionString) : base(connectionString)
+        public SqlAccountRoleRepository(string connectionString)
         {
         }
         public bool Add(AccountRole value)
