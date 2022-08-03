@@ -14,10 +14,12 @@ namespace Library.Business.DependencyResolvers.Autofac
     public class AutofacBusinessModule : Module
     {
         private readonly string _connectionString;
+
         public AutofacBusinessModule(string connectionString)
         {
             _connectionString = connectionString;
         }
+
         protected override void Load(ContainerBuilder builder)
         {
             #region Business
@@ -38,7 +40,7 @@ namespace Library.Business.DependencyResolvers.Autofac
             #endregion
 
             #region DataAccess
-            /*builder.Register(b => new BaseRepository(_connectionString)).AsSelf();
+            builder.Register(b => new BaseRepository()).AsSelf();
             builder.RegisterType<SqlAccountRepository>().As<IAccountRepository>().SingleInstance();
             builder.RegisterType<SqlAccountRoleRepository>().As<IAccountRoleRepository>().SingleInstance();
             builder.RegisterType<SqlAuthorRepository>().As<IAuthorRepository>().SingleInstance();
@@ -50,13 +52,10 @@ namespace Library.Business.DependencyResolvers.Autofac
             builder.RegisterType<SqlLanguageRepository>().As<ILanguageRepository>().SingleInstance();
             builder.RegisterType<SqlPublicationRepository>().As<IPublicationRepository>().SingleInstance();
             builder.RegisterType<SqlSectorRepository>().As<ISectorRepository>().SingleInstance();
-            builder.RegisterType<SqlSpecialtyRepository>().As<ISpecialtyRepository>().SingleInstance();
+            builder.RegisterType<SqlSpecialtyRepository>().As<ISpecialtyRepository>().WithParameter("connectionString", _connectionString).SingleInstance();
             builder.RegisterType<SqlStudentRepository>().As<IStudentRepository>().SingleInstance();
-            builder.RegisterType<SqlUserRepository>().As<IUserRepository>().SingleInstance();*/
-           // builder.RegisterType<SqlUnitOfWork>().As<IUnitOfWork>().SingleInstance();
+            builder.RegisterType<SqlUserRepository>().As<IUserRepository>().SingleInstance();
             #endregion
-
-           // builder.RegisterType<JwtHelper>().As<ITokenHelper>().SingleInstance();
 
             var assembly = Assembly.GetExecutingAssembly();
 

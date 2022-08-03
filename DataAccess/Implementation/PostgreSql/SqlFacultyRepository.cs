@@ -5,10 +5,6 @@ namespace Library.DataAccess.Implementation.PostgreSql
 {
     public class SqlFacultyRepository : BaseRepository, IFacultyRepository
     {
-        public SqlFacultyRepository(string connectionString) : base(connectionString)
-        {
-        }
-
         public bool Add(Faculty value)
         {
             throw new NotImplementedException();
