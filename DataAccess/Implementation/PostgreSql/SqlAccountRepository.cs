@@ -8,10 +8,6 @@ namespace Library.DataAccess.Implementation.PostgreSql
 {
     public class SqlAccountRepository : BaseRepository, IAccountRepository
     {
-        public SqlAccountRepository(string connectionString) : base(connectionString)
-        {
-        }
-
         public bool Add(Account value)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(connectionString);

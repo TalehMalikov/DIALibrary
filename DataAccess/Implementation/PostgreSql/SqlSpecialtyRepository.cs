@@ -5,15 +5,17 @@ using Npgsql;
 
 namespace Library.DataAccess.Implementation.PostgreSql
 {
-    public class SqlSpecialtyRepository : BaseRepository, ISpecialtyRepository
-    {
-        public SqlSpecialtyRepository(string connectionString) : base(connectionString)
-        {
-        }
 
-        public bool Add(Speciality value)
+    public class SqlSpecialtyRepository :  ISpecialtyRepository
+    {
+        private readonly string _connectionString;
+        public SqlSpecialtyRepository(string connectionString)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            _connectionString = connectionString;
+        }
+        public bool Add(Specialty value)
+        {
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Insert Into Specialties(FacultyId,Name) Values(@facultyId,@name)";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
@@ -23,7 +25,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
         }
         public bool Delete(int id)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Delete From Specialties Where Id=@id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
@@ -34,7 +36,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
         public Speciality Get(int id)
         {
             //"from accounts inner join Users on Users.id = accounts.userid where Users.IsDeleted=false and Accounts.IsDeleted = false";
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Select Faculties.Id as FacultyId,Faculties.Name as FacultyName, Specialties.Id as SpecialtyId," +
                                "Specialties.Name as SpecialtyName From Specialties inner join Faculties on Specialties.FacultyId = Faculties.Id " +
@@ -49,21 +51,21 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public List<Speciality> GetAll()
         {
-            List<Speciality> specialties = new List<Speciality>();
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
-            connection.Open();
+            List<Specialty> specialties = new List<Specialty>();
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
+            connection.Open(); 
             string cmdString = "Select Faculties.Id as FacultyId,Faculties.Name as FacultyName, Specialties.Id as SpecialtyId, " +
                                "Specialties.Name as SpecialtyName From Specialties inner join Faculties on Specialties.FacultyId = Faculties.Id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             dynamic reader = command.ExecuteReader();
             while (reader.Read())
-                specialties.Add(ReadSpecialty(reader));
+                 specialties.Add(ReadSpecialty(reader));
             return specialties;
         }
 
         public bool Update(Speciality value)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Update Specialties Set FacultyId=@facultyName, Name=@name Where Id=@id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
@@ -73,7 +75,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             return 1 == command.ExecuteNonQuery();
         }
 
-        private Speciality ReadSpecialty(NpgsqlDataReader reader)
+        private Specialty ReadSpecialty(NpgsqlDataReader reader)
         {
             return new Speciality
             {

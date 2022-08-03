@@ -8,10 +8,6 @@ namespace Library.DataAccess.Implementation.PostgreSql
 {
     public class SqlLanguageRepository : BaseRepository, ILanguageRepository
     {
-        public SqlLanguageRepository(string connectionString) : base(connectionString)
-        {
-        }
-
         public bool Add(Language value)
         {
 

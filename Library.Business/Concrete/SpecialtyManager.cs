@@ -17,15 +17,15 @@ namespace Library.Business.Concrete
         }
 
         [ValidationAspect(typeof(SpecialtyValidator))]
-        [CacheRemoveAspect("Business.Abstract.ISpecialtyService.Get")]
-        public Result Add(Speciality value)
+        [CacheRemoveAspect(nameof(Library.Business.Abstraction.ISpecialtyService.Get))]
+        public Result Add(Specialty value)
         {
             _specialtyRepository.Add(value);
             return new SuccessResult();
         }
 
-        [CacheRemoveAspect("Business.Abstract.ISpecialtyService.Get")]
-        public Result Delete(Speciality value)
+        [CacheRemoveAspect(nameof(Library.Business.Abstraction.ISpecialtyService.Get))]
+        public Result Delete(Specialty value)
         {
             _specialtyRepository.Delete(value.Id);
             return new SuccessResult();
@@ -44,8 +44,8 @@ namespace Library.Business.Concrete
         }
 
         [ValidationAspect(typeof(SpecialtyValidator))]
-        [CacheRemoveAspect("Business.Abstract.ISpecialtyService.Get")]
-        public Result Update(Speciality value)
+        [CacheRemoveAspect(nameof(Library.Business.Abstraction.ISpecialtyService.Get))]
+        public Result Update(Specialty value)
         {
             _specialtyRepository.Update(value);
             return new SuccessResult();

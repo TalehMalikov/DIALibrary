@@ -7,10 +7,6 @@ namespace Library.DataAccess.Implementation.PostgreSql
 {
     public class SqlUserRepository : BaseRepository, IUserRepository
     {
-        public SqlUserRepository(string connectionString) : base(connectionString)
-        {
-        }
-
         public bool Add(User value)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(connectionString);

@@ -7,10 +7,6 @@ namespace Library.DataAccess.Implementation.PostgreSql
 {
     public class SqlGroupRepository : BaseRepository, IGroupRepository
     {
-        public SqlGroupRepository(string connectionString) : base(connectionString)
-        {
-        }
-
         public bool Add(Group value)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
