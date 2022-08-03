@@ -8,19 +8,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 var x = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
 var _configuration = x.Build();
-var connectionstring = _configuration.GetConnectionString("DefaultConnection");
+string connectionString = _configuration.GetConnectionString("DefaultConnection");
 
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
-builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new AutofacBusinessModule(connectionstring)));
+builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new AutofacBusinessModule(connectionString)));
 
-
+// Add services to the container.
 builder.Services.AddDependencyResolvers(new ICoreModule[]
 {
     new CoreModule()
 });
-
-// Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
