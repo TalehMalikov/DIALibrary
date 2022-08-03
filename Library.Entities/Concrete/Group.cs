@@ -9,6 +9,6 @@ namespace Library.Entities.Concrete
         public int SpecialtyId { get; set; }
 
         public Sector Sector { get; set; } 
-        public Speciality Speciality { get; set; }
+        public Specialty Speciality { get; set; }
     }
 }

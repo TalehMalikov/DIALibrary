@@ -33,7 +33,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             return 1 == command.ExecuteNonQuery();
         }
 
-        public Speciality Get(int id)
+        public Specialty Get(int id)
         {
             //"from accounts inner join Users on Users.id = accounts.userid where Users.IsDeleted=false and Accounts.IsDeleted = false";
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
@@ -49,7 +49,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             return null;
         }
 
-        public List<Speciality> GetAll()
+        public List<Specialty> GetAll()
         {
             List<Specialty> specialties = new List<Specialty>();
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
@@ -63,7 +63,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             return specialties;
         }
 
-        public bool Update(Speciality value)
+        public bool Update(Specialty value)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
@@ -77,7 +77,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         private Specialty ReadSpecialty(NpgsqlDataReader reader)
         {
-            return new Speciality
+            return new Specialty
             {
                 Id = reader.Get<int>("SpecialtyId"),
                 Faculty = new Faculty

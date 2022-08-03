@@ -10,7 +10,7 @@ namespace Library.Entities.Concrete
         public int SpecialtyId { get; set; }
         public int GroupId { get; set; }
 
-        public Speciality Specialty { get; set; }
+        public Specialty Specialty { get; set; }
         public Group Group { get; set; }
     }
 }

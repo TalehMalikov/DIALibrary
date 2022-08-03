@@ -113,7 +113,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
                         Id = reader.Get<int>("SectorId"),
                         Name = reader.Get<string>("SectorName")
                     },
-                    Speciality = new Speciality
+                    Speciality = new Specialty
                     {
                         Id = reader.Get<int>("SpecialtyId"),
                         Name = reader.Get<string>("SpecialtyName"),
@@ -124,7 +124,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
                         }
                     }
                 },
-                Specialty = new Speciality
+                Specialty = new Specialty
                 {
                     Id = reader.Get<int>("StudentSpecialtyName"),
                     Name = reader.Get<string>("StudentSpecialtyName"),

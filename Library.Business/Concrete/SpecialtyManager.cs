@@ -32,15 +32,15 @@ namespace Library.Business.Concrete
         }
 
         [CacheAspect]
-        public DataResult<Speciality> Get(int id)
+        public DataResult<Specialty> Get(int id)
         {
-            return new SuccessDataResult<Speciality>(_specialtyRepository.Get(id));
+            return new SuccessDataResult<Specialty>(_specialtyRepository.Get(id));
         }
 
         [CacheAspect]
-        public DataResult<List<Speciality>> GetAll()
+        public DataResult<List<Specialty>> GetAll()
         {
-            return new SuccessDataResult<List<Speciality>>(_specialtyRepository.GetAll());
+            return new SuccessDataResult<List<Specialty>>(_specialtyRepository.GetAll());
         }
 
         [ValidationAspect(typeof(SpecialtyValidator))]
