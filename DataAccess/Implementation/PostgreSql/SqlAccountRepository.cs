@@ -66,11 +66,11 @@ namespace Library.DataAccess.Implementation.PostgreSql
                            "Users.Id as UserId,firstname,lastname,fathername,birthdate,gender," +
                            "Users.IsDeleted as UserIsDeleted,Users.LastModified as UserLastModified " +
                            "from accounts inner join Users on Users.id = accounts.userid where Users.IsDeleted=false and Accounts.IsDeleted = false";
-                
+
             List<Account> accounts = new List<Account>();
             using NpgsqlCommand cmd = new NpgsqlCommand(query, connection);
             var reader = cmd.ExecuteReader();
-            while (reader.Read()) 
+            while (reader.Read())
                 accounts.Add(ReadAccount(reader));
             return accounts;
         }
@@ -122,8 +122,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             cmd.Parameters.AddWithValue("@email", value.Email);
             cmd.Parameters.AddWithValue("@lastmodified", value.LastModified);
 
-            int affectedCount = cmd.ExecuteNonQuery();
-            return affectedCount == 1;
+            return 1 == cmd.ExecuteNonQuery();
         }
         private Account ReadAccount(NpgsqlDataReader reader)
         {
