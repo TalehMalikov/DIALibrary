@@ -6,6 +6,8 @@ using Library.Business.Concrete;
 using Library.Core.Interceptors;
 using Library.DataAccess.Abstraction;
 using Library.DataAccess.Implementation.PostgreSql;
+using System.Reflection;
+using Module = Autofac.Module;
 
 namespace Library.Business.DependencyResolvers.Autofac
 {
@@ -36,7 +38,7 @@ namespace Library.Business.DependencyResolvers.Autofac
             #endregion
 
             #region DataAccess
-            builder.Register(b => new BaseRepository(_connectionString)).AsSelf();
+            /*builder.Register(b => new BaseRepository(_connectionString)).AsSelf();
             builder.RegisterType<SqlAccountRepository>().As<IAccountRepository>().SingleInstance();
             builder.RegisterType<SqlAccountRoleRepository>().As<IAccountRoleRepository>().SingleInstance();
             builder.RegisterType<SqlAuthorRepository>().As<IAuthorRepository>().SingleInstance();
@@ -50,11 +52,12 @@ namespace Library.Business.DependencyResolvers.Autofac
             builder.RegisterType<SqlSectorRepository>().As<ISectorRepository>().SingleInstance();
             builder.RegisterType<SqlSpecialtyRepository>().As<ISpecialtyRepository>().SingleInstance();
             builder.RegisterType<SqlStudentRepository>().As<IStudentRepository>().SingleInstance();
-            builder.RegisterType<SqlUserRepository>().As<IUserRepository>().SingleInstance();
-            builder.RegisterType<SqlUnitOfWork>().As<IUnitOfWork>().SingleInstance();
+            builder.RegisterType<SqlUserRepository>().As<IUserRepository>().SingleInstance();*/
+           // builder.RegisterType<SqlUnitOfWork>().As<IUnitOfWork>().SingleInstance();
             #endregion
 
-           /* builder.RegisterType<JwtHelper>().As<ITokenHelper>().SingleInstance();
+           // builder.RegisterType<JwtHelper>().As<ITokenHelper>().SingleInstance();
+
             var assembly = Assembly.GetExecutingAssembly();
 
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()
@@ -62,7 +65,7 @@ namespace Library.Business.DependencyResolvers.Autofac
                 {
                     Selector = new AspectInterceptorSelector()
                 }).SingleInstance();
-*/
+
         }
     }
 }
