@@ -5,11 +5,17 @@ using Npgsql;
 
 namespace Library.DataAccess.Implementation.PostgreSql
 {
-    public class SqlFacultyRepository : BaseRepository, IFacultyRepository
+    public class SqlFacultyRepository : IFacultyRepository
     {
+        private readonly string _connectionString;
+        public SqlFacultyRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         public bool Add(Faculty value)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Insert Into Faculties(Name) Values(@name)";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
@@ -19,7 +25,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public bool Delete(int id)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Delete From Faculties Where Id=@id";
             NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
@@ -29,7 +35,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public Faculty Get(int id)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Select * From Faculties Where Id=@id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
@@ -43,7 +49,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
         public List<Faculty> GetAll()
         {
             List<Faculty> facultyList = new List<Faculty>();
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Select * From Faculties";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
@@ -55,7 +61,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public bool Update(Faculty value)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Update Faculties Set Name=@name Where Id=@id";
             NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);

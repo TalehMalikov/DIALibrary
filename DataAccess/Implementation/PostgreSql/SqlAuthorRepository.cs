@@ -5,11 +5,17 @@ using Npgsql;
 
 namespace Library.DataAccess.Implementation.PostgreSql
 {
-    public class SqlAuthorRepository : BaseRepository, IAuthorRepository
+    public class SqlAuthorRepository : IAuthorRepository
     {
+        private readonly string _connectionString;
+        public SqlAuthorRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         public bool Add(Author value)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdSTring = "Insert Into Authors(FirstName,LastName,FatherName,BookCount,Gender) " +
                                "Values(@firstName,@lastName,@fatherName,@bookCount,@gender)";
@@ -24,7 +30,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public bool Delete(int id)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdSTring = "Delete From Authors Where Id=@id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdSTring, connection);
@@ -34,10 +40,10 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public Author Get(int id)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
-            string cmdSTring = "Select * From Where Id=@id";
-            using NpgsqlCommand command = new NpgsqlCommand(cmdSTring, connection);
+            string cmdString = "Select * From Authors Where Id=@id";
+            using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             command.Parameters.AddWithValue("@id", id);
             var reader = command.ExecuteReader();
             if (reader.Read())
@@ -48,10 +54,10 @@ namespace Library.DataAccess.Implementation.PostgreSql
         public List<Author> GetAll()
         {
             List<Author> authors = new List<Author>();
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
-            string cmdSTring = "Select * From Where";
-            using NpgsqlCommand command = new NpgsqlCommand(cmdSTring, connection);
+            string cmdString = "Select * From Authors";
+            using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             var reader = command.ExecuteReader();
             while (reader.Read())
                 authors.Add(ReadAuthor(reader));
@@ -60,11 +66,11 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public bool Update(Author value)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
-            string cmdSTring = "Update Authors Set FirstName=@firstName,LastName=@lastName," +
+            string cmdString = "Update Authors Set FirstName=@firstName,LastName=@lastName," +
                                "FatherName=@fatherName,BookCount=@bookCount,Gender=@gender Where Id=@id";
-            using NpgsqlCommand command = new NpgsqlCommand(cmdSTring, connection);
+            using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             command.Parameters.AddWithValue("@id", value.Id);
             command.Parameters.AddWithValue("@firstName", value.FirstName);
             command.Parameters.AddWithValue("@lastName", value.LastName);
@@ -73,7 +79,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             command.Parameters.AddWithValue("@gender", value.Gender);
             return 1 == command.ExecuteNonQuery();
         }
-
+         
         private Author ReadAuthor(NpgsqlDataReader reader)
         {
             return new Author

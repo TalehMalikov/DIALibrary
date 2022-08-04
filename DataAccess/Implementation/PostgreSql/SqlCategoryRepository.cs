@@ -5,11 +5,17 @@ using Npgsql;
 
 namespace Library.DataAccess.Implementation.PostgreSql
 {
-    public class SqlCategoryRepository : BaseRepository, ICategoryRepository
+    public class SqlCategoryRepository : ICategoryRepository
     {
+        private readonly string _connectionString;
+        public SqlCategoryRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         public bool Add(Category value)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Insert Into Categories(Name) Values(@name)";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
@@ -20,7 +26,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public bool Delete(int id)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Delete From Categories Where Id = @id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
@@ -30,7 +36,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public Category Get(int id)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Select * From Where Id=@id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
@@ -44,7 +50,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
         public List<Category> GetAll()
         {
             List<Category> categories = new List<Category>();
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Select * From Where Id=@id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
@@ -56,7 +62,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public bool Update(Category value)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Update Category Set Name = @name Where Id = @id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);

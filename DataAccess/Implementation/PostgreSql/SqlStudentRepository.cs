@@ -5,11 +5,17 @@ using Npgsql;
 
 namespace Library.DataAccess.Implementation.PostgreSql
 {
-    public class SqlStudentRepository : BaseRepository, IStudentRepository
+    public class SqlStudentRepository : IStudentRepository
     {
+        private readonly string _connectionString;
+        public SqlStudentRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         public bool Add(Student value)
         {
-            using NpgsqlConnection connection = new(connectionString);
+            using NpgsqlConnection connection = new(_connectionString);
             connection.Open();
             string cmdString =
                 "Insert Into Students(UserId,AcceptanceDate,SpecialtyId,GroupId) Values(@userId,@acceptanceDate,@specialtyId,@groupId)";
@@ -23,7 +29,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public bool Delete(int id)
         {
-            using NpgsqlConnection connection = new(connectionString);
+            using NpgsqlConnection connection = new(_connectionString);
             connection.Open();
             string cmdString = "Delete From Students Where Id = @id";
             using NpgsqlCommand command = new(cmdString, connection);
@@ -33,7 +39,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public Student Get(int id)
         {
-            using NpgsqlConnection connection = new(connectionString);
+            using NpgsqlConnection connection = new(_connectionString);
             connection.Open();
             string cmdString =
                 "select Students.Id as StudentId," +
@@ -60,7 +66,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
         public List<Student> GetAll()
         {
             List<Student> students = new List<Student>();
-            using NpgsqlConnection connection = new(connectionString);
+            using NpgsqlConnection connection = new(_connectionString);
             connection.Open();
             string cmdString =
                 "select Students.Id as StudentId," +
@@ -85,7 +91,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public bool Update(Student value)
         {
-            using NpgsqlConnection connection = new(connectionString);
+            using NpgsqlConnection connection = new(_connectionString);
             connection.Open();
             string cmdString =
                 "Update Students Set UserId=@userId,AcceptanceDate=@acceptanceDate,SpecialtyId=@specialtyId,GroupId=@groupId Where Id=@id";

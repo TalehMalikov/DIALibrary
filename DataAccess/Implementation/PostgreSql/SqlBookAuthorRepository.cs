@@ -5,11 +5,17 @@ using Npgsql;
 
 namespace Library.DataAccess.Implementation.PostgreSql
 {
-    public class SqlBookAuthorRepository : BaseRepository, IBookAuthorRepository
+    public class SqlBookAuthorRepository : IBookAuthorRepository
     {
+        private readonly string _connectionString;
+        public SqlBookAuthorRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         public bool Add(BookAuthor value)
         {
-            using NpgsqlConnection  connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection  connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Insert Into BookAuthors(BookId,AuthorId) Values(@bookId,@authorId)";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
@@ -20,7 +26,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public bool Delete(int id)
         {
-            using NpgsqlConnection connection = new(connectionString);
+            using NpgsqlConnection connection = new(_connectionString);
             connection.Open();
             string cmdString = "Delete From BookAuthors Where Id=@id";
             using NpgsqlCommand command = new(cmdString,connection);
@@ -30,7 +36,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public BookAuthor Get(int id)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "select BookAuthors.Id,Books.Id as BookId,Books.Name as BookName, Books.LastModified,Books.IsDeleted," +
                 " Authors.Id as AuthorId,Authors.FirstName,Authors.LastName,Authors.FatherName,Authors.BookCount,Authors.Gender," +
@@ -52,7 +58,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
         public List<BookAuthor> GetAll()
         {
             List<BookAuthor> bookAuthorList = new List<BookAuthor>();
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "select BookAuthors.Id,Books.Id as BookId,Books.Name as BookName, Books.LastModified,Books.IsDeleted," +
                 " Authors.Id as AuthorId,Authors.FirstName,Authors.LastName,Authors.FatherName,Authors.BookCount,Authors.Gender," +
@@ -71,7 +77,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public bool Update(BookAuthor value)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Update BookAuthors Set BookId=@bookId, AuthorId=@authorId Where Id=@id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);

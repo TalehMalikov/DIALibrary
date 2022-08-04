@@ -6,20 +6,25 @@ using Npgsql;
 
 namespace Library.DataAccess.Implementation.PostgreSql
 {
-    public class SqlAccountRepository : BaseRepository, IAccountRepository
+    public class SqlAccountRepository :  IAccountRepository
     {
+        private readonly string _connectionString;
+        public SqlAccountRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
         public bool Add(Account value)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdText = "insert into Accounts(AccountName,UserId,PasswordHash,Email,LastModified) " +
-                             "values(@accountname,@userid,@passwordhash,@email,@lastmodified)";
+                             "values(@accountname,@userId,@passwordHash,@email,@lastModified)";
             using NpgsqlCommand cmd = new NpgsqlCommand(cmdText, connection);
-            cmd.Parameters.AddWithValue("@accountname", value.AccountName);
+            cmd.Parameters.AddWithValue("@accountName", value.AccountName);
             cmd.Parameters.AddWithValue("@userid", value.User.Id);
-            cmd.Parameters.AddWithValue("@passwordhash", SecurityUtil.ComputeSha256Hash(value.PasswordHash));
+            cmd.Parameters.AddWithValue("@passwordHash", SecurityUtil.ComputeSha256Hash(value.PasswordHash));
             cmd.Parameters.AddWithValue("@email", value.Email);
-            cmd.Parameters.AddWithValue("@lastmodified", value.LastModified);
+            cmd.Parameters.AddWithValue("@lastModified", value.LastModified);
 
             int affectedCount = cmd.ExecuteNonQuery();
             return affectedCount == 1;
@@ -27,7 +32,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public bool Delete(int id)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdText = "update Accounts set IsDeleted = true where Id = @id";
             using NpgsqlCommand cmd = new NpgsqlCommand(cmdText, connection);
@@ -38,11 +43,11 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public Account Get(int id)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
-            string query = "select Accounts.id as accountid,accountname,passwordhash,email," +
-                           "Accounts.isdeleted as AccountIsDeleted,Accounts.lastmodified as AccountLastModified, " +
-                           "Users.Id as UserId,firstname,lastname,fathername,birthdate,gender," +
+            string query = "select Accounts.id as accountId,accountName,passwordHash,Email," +
+                           "Accounts.isDeleted as AccountIsDeleted,Accounts.LastModified as AccountLastModified, " +
+                           "Users.Id as UserId,FirstName,LastNsame,FatherName,birthdate,gender," +
                            "Users.IsDeleted as UserIsDeleted,Users.LastModified as UserLastModified " +
                            "from accounts inner join Users on Users.id = accounts.userid where Accounts.Id=@id and Users.IsDeleted=false and Accounts.IsDeleted = false";
             using NpgsqlCommand cmd = new NpgsqlCommand(query, connection);
@@ -55,7 +60,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public List<Account> GetAll()
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string query = "select Accounts.id as accountid,accountname,passwordhash,email," +
                            "Accounts.isdeleted as AccountIsDeleted,Accounts.lastmodified as AccountLastModified, " +
@@ -73,7 +78,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public Account GetByEmail(string email)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string query = "select Accounts.id as accountid,accountname,passwordhash,email," +
                            "Accounts.isdeleted as AccountIsDeleted,Accounts.lastmodified as AccountLastModified, " +
@@ -90,7 +95,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public List<Role> GetRoles(Account account)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string query = "";
 
@@ -105,7 +110,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public bool Update(Account value)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdText = "update Accounts set AccountName=@accountname, UserId=@userid, " +
                              "PasswordHash=@passwordhash, Email=@email, LastModified=@lastmodified " +
