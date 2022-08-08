@@ -5,16 +5,16 @@ using Npgsql;
 
 namespace Library.DataAccess.Implementation.PostgreSql
 {
-
-    public class SqlAccountRoleRepository : BaseRepository, IAccountRoleRepository
+    public class SqlAccountRoleRepository : IAccountRoleRepository
     {
+        private readonly string _connectionString;
         public SqlAccountRoleRepository(string connectionString)
         {
+            _connectionString = connectionString;
         }
         public bool Add(AccountRole value)
         {
-
-            using NpgsqlConnection connection = new(connectionString);
+            using NpgsqlConnection connection = new(_connectionString);
             connection.Open();
             string cmdString = "Insert Into AccountRoles(AccountId,RoleId) Values(@accountId,@roleId)";
             using NpgsqlCommand command = new(cmdString, connection);
@@ -25,7 +25,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public bool Delete(int id)
         {
-            using NpgsqlConnection connection = new(connectionString);
+            using NpgsqlConnection connection = new(_connectionString);
             connection.Open();
             string cmdString = "Delete From AccountRoles Where Id=@id";
             using NpgsqlCommand command = new(cmdString, connection);
@@ -45,7 +45,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public bool Update(AccountRole value)
         {
-            using NpgsqlConnection connection = new(connectionString);
+            using NpgsqlConnection connection = new(_connectionString);
             connection.Open();
             string cmdString = "Update AccountRoles Set AccountId=@accountId, RoleId=@roleId Where Id=@id";
             using NpgsqlCommand command = new(cmdString, connection);

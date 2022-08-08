@@ -1,17 +1,22 @@
-﻿
-using Library.Core.Extensions;
+﻿using Library.Core.Extensions;
 using Library.DataAccess.Abstraction;
 using Library.Entities.Concrete;
 using Npgsql;
 
 namespace Library.DataAccess.Implementation.PostgreSql
 {
-    public class SqlLanguageRepository : BaseRepository, ILanguageRepository
+    public class SqlLanguageRepository :  ILanguageRepository
     {
+        private readonly string _connectionString;
+        public SqlLanguageRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         public bool Add(Language value)
         {
 
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             string cmdString = "Insert Into Languages(Name) Values(@name)";
             connection.Open();
             using NpgsqlCommand cmd = new NpgsqlCommand(cmdString, connection);
@@ -21,7 +26,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public bool Delete(int id)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             string cmdString = "Delete From Languages Where Id = @id";
             connection.Open();
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
@@ -30,7 +35,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public Language Get(int id)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Select * From Languages Where Id = @id";
             using NpgsqlCommand cmd = new NpgsqlCommand(cmdString, connection);
@@ -44,7 +49,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
         public List<Language> GetAll()
         {
             List<Language> languages = new List<Language>();
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Select * From Languages";
             using NpgsqlCommand cmd = new NpgsqlCommand(cmdString, connection);
@@ -56,7 +61,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public bool Update(Language value)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             string cmdString = "Update Languages Set Name=@name Where id=@id";
             connection.Open();
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);

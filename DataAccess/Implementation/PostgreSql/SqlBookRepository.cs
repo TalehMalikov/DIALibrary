@@ -5,11 +5,17 @@ using Npgsql;
 
 namespace Library.DataAccess.Implementation.PostgreSql
 {
-    public class SqlBookRepository : BaseRepository, IBookRepository
+    public class SqlBookRepository : IBookRepository
     {
+        private readonly string _connectionString;
+        public SqlBookRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         public bool Add(Book value)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Insert Into Books(Name,CategoryId,OriginalLanguageId,LastModified,IsDeleted)" +
                                " Values(@name,@categoryId,@originalCategoryId,@lastModified,@isDeleted)";
@@ -24,7 +30,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public bool Delete(int id)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Update Books Set IsDeleted=@isDeleted Where Id=@id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
@@ -35,7 +41,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public Book Get(int id)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = " select Categories.Id as CategoryId, Categories.Name as CategoryName,Books.Id as BookId, Books.Name as BookName," +
             "Books.LastModified as LastModified, Books.IsDeleted as IsDeleted, Languages.Id as LanguageId,Languages.Name as OriginalLanguageName, " +
@@ -52,7 +58,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
         public List<Book> GetAll()
         {
             List<Book> books = new List<Book>();
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = " select Categories.Id as CategoryId, Categories.Name as CategoryName,Books.Id as BookId, Books.Name as BookName," + 
                                "Books.LastModified as LastModified, Books.IsDeleted as IsDeleted, Languages.Id as LanguageId,Languages.Name as OriginalLanguageName " +
@@ -67,7 +73,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public bool Update(Book value)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString =
                 "Update Books Set Name=@name,CategoryId=@categoryId,OriginalLanguageId=@originalLanguageId,LastModified=@lastModified,IsDeleted=@isDeleted Where Id=@id";

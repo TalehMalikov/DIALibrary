@@ -5,11 +5,17 @@ using Npgsql;
 
 namespace Library.DataAccess.Implementation.PostgreSql
 {
-    public class SqlGroupRepository : BaseRepository, IGroupRepository
+    public class SqlGroupRepository : IGroupRepository
     {
+        private readonly string _connectionString;
+        public SqlGroupRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         public bool Add(Group value)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Insert Into Groups(Name,SpecialtyId,SectorId) Values(@name,@speacialtyId,@sectorId)";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
@@ -22,7 +28,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public bool Delete(int id)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Delete From Groups Where Id=@id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
@@ -32,7 +38,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public Group Get(int id)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString =
                 "select Groups.Id as GroupId, Groups.Name as GroupName,Sectors.Id as SectorId, Sectors.Name as SectorName," +
@@ -51,7 +57,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
         public List<Group> GetAll()
         {
             List<Group> groupList = new List<Group>();
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString =
                 "select Groups.Id as GroupId, Groups.Name as GroupName,Sectors.Id as SectorId, Sectors.Name as SectorName," +
@@ -69,13 +75,13 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public bool Update(Group value)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Update Groups Set Name=@name,SpecialtyId=@specialtyId,SectorId=@sectorId Where Id=@id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             command.Parameters.AddWithValue("@name", value.Name);
             command.Parameters.AddWithValue("@specialtyId", value.Speciality.Id);
-            command.Parameters.AddWithValue("@sectorId",value.Sector.Id);
+            command.Parameters.AddWithValue("@sectorId", value.Sector.Id);
             command.Parameters.AddWithValue("@id", value.Id);
             return 1 == command.ExecuteNonQuery();
         }

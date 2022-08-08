@@ -5,22 +5,27 @@ using Npgsql;
 
 namespace Library.DataAccess.Implementation.PostgreSql
 {
-    public class SqlSectorRepository : BaseRepository, ISectorRepository
+    public class SqlSectorRepository : ISectorRepository
     {
+        private readonly string _connectionString;
+        public SqlSectorRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         public bool Add(Sector value)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Insert Into Sectors(Name) Values(@name)";
             using NpgsqlCommand cmd = new NpgsqlCommand(cmdString, connection);
             cmd.Parameters.AddWithValue("@name", value.Name);
             return 1 == cmd.ExecuteNonQuery();
-
         }
 
         public bool Delete(int id)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Delete From Sectors Where Id = @id";
             NpgsqlCommand cmd = new NpgsqlCommand(cmdString, connection);
@@ -30,7 +35,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public Sector Get(int id)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Select * From Sectors Where Id=@id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
@@ -43,7 +48,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
         public List<Sector> GetAll()
         {
             List<Sector> sectors = new List<Sector>();
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Select * From Sectors";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
@@ -55,7 +60,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public bool Update(Sector value)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Update Sectors Set Name = @name where Id = @id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);

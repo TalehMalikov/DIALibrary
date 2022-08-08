@@ -5,11 +5,18 @@ using Npgsql;
 
 namespace Library.DataAccess.Implementation.PostgreSql
 {
-    public class SqlUserRepository : BaseRepository, IUserRepository
+    public class SqlUserRepository : IUserRepository
     {
+        private readonly string _connectionString;
+
+        public SqlUserRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         public bool Add(User value)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString =
                 "Insert Into Users(FirstName,LastName,FatherName,BirthDate,Gender,IsDeleted,LastModified) " +
@@ -27,7 +34,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public bool Delete(int id)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Update Users Set IsDeleted=true Where Id=@id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
@@ -37,7 +44,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public User Get(int id)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Select * From Users Where Id=@id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
@@ -51,7 +58,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
         public List<User> GetAll()
         {
             List<User> users = new List<User>();
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Select * From Users";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
@@ -63,7 +70,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public bool Update(User value)
         {
-            using NpgsqlConnection connection = new NpgsqlConnection(connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString =
                 "Update Users Set FirstName=@firstName,LastName=@lastName,FatherName=@fatherName,BirthDate=@birthDate,Gender=@gender,IsDeleted=@isDeleted,LastModified=@lastModified " +

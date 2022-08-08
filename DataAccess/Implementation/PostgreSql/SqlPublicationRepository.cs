@@ -5,11 +5,17 @@ using Npgsql;
 
 namespace Library.DataAccess.Implementation.PostgreSql
 {
-    public class SqlPublicationRepository : BaseRepository, IPublicationRepository
+    public class SqlPublicationRepository : IPublicationRepository
     {
+        private readonly string _connectionString;
+        public SqlPublicationRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         public bool Add(Publication value)
         {
-            using NpgsqlConnection connection = new(connectionString);
+            using NpgsqlConnection connection = new(_connectionString);
             connection.Open();
             string cmdString = "Insert Into Publications(BookId,PhotoPath,FilePath,PublisherName,PageNumber,PublicationLanguageId,PublicationDate,LastModified,IsDeleted) " +
                 "Values(@bookId,@photoPath,@filePath,@publisherName,@pageNumber,@publicationLanguageId,@publicationDate,@lastModified,@isDeleted)";
@@ -28,7 +34,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public bool Delete(int id)
         {
-            using NpgsqlConnection npgsqlConnection = new(connectionString);
+            using NpgsqlConnection npgsqlConnection = new(_connectionString);
             npgsqlConnection.Open();
             string cmdString = "Delete From Publications Where Id=@id";
             using NpgsqlCommand command = new(cmdString,npgsqlConnection);
@@ -38,7 +44,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public Publication Get(int id)
         {
-            using NpgsqlConnection connection = new(connectionString);
+            using NpgsqlConnection connection = new(_connectionString);
             connection.Open();
             string cmdString = "Select Publications.Id as PublicationId, " +
                                "Books.Id as BookId,Books.Name as BookName, Categories.Id as CategoryId, " +
@@ -61,7 +67,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
         public List<Publication> GetAll()
         {
             List<Publication> list = new List<Publication>();
-            using NpgsqlConnection connection = new(connectionString);
+            using NpgsqlConnection connection = new(_connectionString);
             connection.Open();
             string cmdString = "Select Publications.Id as PublicationId, " +
                                "Books.Id as BookId,Books.Name as BookName, Categories.Id as CategoryId, " +
@@ -82,7 +88,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public bool Update(Publication value)
         {
-            using NpgsqlConnection connection = new(connectionString);
+            using NpgsqlConnection connection = new(_connectionString);
             connection.Open();
             string cmdString =
                 "Update Publications Set BookId=@bookId,PhotoPath=@photoPath,FilePath=@filePath,PublisherName=@publisherName,PageNumber=@pageNumber," +
