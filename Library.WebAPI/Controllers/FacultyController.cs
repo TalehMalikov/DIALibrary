@@ -17,6 +17,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpPost]
+        [Route("add")]
         public IActionResult Add(Faculty faculty)
         {
             var result = _facultyService.Add(faculty);
@@ -28,6 +29,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpPut]
+        [Route("update")]
         public IActionResult Update(Faculty faculty)
         {
             var result = _facultyService.Update(faculty);
@@ -38,18 +40,8 @@ namespace Library.WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpDelete("{id:int}")]
-        public IActionResult Delete(int id)
-        {
-            var result = _facultyService.Delete(id);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
-        }
-
         [HttpGet]
+        [Route("getall")]
         public IActionResult GetAll()
         {
             var result = _facultyService.GetAll();
@@ -64,6 +56,17 @@ namespace Library.WebAPI.Controllers
         public IActionResult Update(int id)
         {
             var result = _facultyService.Get(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpDelete("{id:int}")]
+        public IActionResult Delete(int id)
+        {
+            var result = _facultyService.Delete(id);
             if (result.Success)
             {
                 return Ok(result);

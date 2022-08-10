@@ -1,4 +1,5 @@
 ﻿using Library.Business.Abstraction;
+using Library.Entities.Concrete;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,7 +8,7 @@ namespace Library.WebAPI.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class SpecialtyController : Controller
+    public class SpecialtyController : ControllerBase
     {
         private readonly ISpecialtyService _specialtyService;
         public SpecialtyController(ISpecialtyService specialtyService)
@@ -15,19 +16,66 @@ namespace Library.WebAPI.Controllers
             _specialtyService = specialtyService;
         }
 
+        [HttpPost]
+        [Route("add")]
+        public IActionResult Add(Specialty specialty)
+        {
+            var result = _specialtyService.Add(specialty);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpPut]
+        [Route("update")]
+        public IActionResult Update(Specialty specialty)
+        {
+            var result = _specialtyService.Update(specialty);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
         [HttpGet]
+        [Route("getall")]
         public IActionResult GetAll()
         {
-            try
+            var result = _specialtyService.GetAll();
+            if (result.Success)
             {
-                var specialties = _specialtyService.GetAll();
+                return Ok(result);
+            }
 
-                return Ok(specialties);
-            }
-            catch
+            return BadRequest(result);
+        }
+
+        [HttpGet("getbyid/{id:int}")]
+        public IActionResult Get(int id)
+        {
+            var result = _specialtyService.Get(id);
+            if (result.Success)
             {
-                return BadRequest("Unknown error occured");
+                return Ok(result);
             }
+
+            return BadRequest(result);
+        }
+
+        [HttpDelete("{id:int}")]
+        public IActionResult Delete(int id)
+        {
+            var result = _specialtyService.Delete(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
         }
     }
 }

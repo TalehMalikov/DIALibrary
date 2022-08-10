@@ -17,6 +17,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpPost]
+        [Route("add")]
         public IActionResult Add(Language language)
         {
             var result = _languageService.Add(language);
@@ -28,6 +29,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpPut]
+        [Route("update")]
         public IActionResult Update(Language language)
         {
             var result = _languageService.Update(language);
@@ -39,19 +41,8 @@ namespace Library.WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpDelete("{id:int}")]
-        public IActionResult Delete(int id)
-        {
-            var result = _languageService.Delete(id);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-
-            return BadRequest(result);
-        }
-
         [HttpGet]
+        [Route("getall")]
         public IActionResult GetAll()
         {
             var result = _languageService.GetAll();
@@ -67,6 +58,18 @@ namespace Library.WebAPI.Controllers
         public IActionResult Get(int id)
         {
             var result = _languageService.Get(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpDelete("{id:int}")]
+        public IActionResult Delete(int id)
+        {
+            var result = _languageService.Delete(id);
             if (result.Success)
             {
                 return Ok(result);

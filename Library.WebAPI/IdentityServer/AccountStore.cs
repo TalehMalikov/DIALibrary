@@ -1,4 +1,5 @@
 ﻿using Library.Business.Abstraction;
+using Library.Core.Result.Concrete;
 using Library.Entities.Concrete;
 using Microsoft.AspNetCore.Identity;
 
@@ -59,9 +60,24 @@ namespace Library.WebAPI.IdentityServer
             return Task.FromResult(user.Email);
         }
 
-        public Task SetNormalizedUserNameAsync(Account user, string normalizedName, CancellationToken cancellationToken)
+        public Task SetNormalizedUserNameAsync(Account user, string normalizedName, CancellationToken cancellationToken = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+            //ThrowIfDisposed();
+
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+
+            if (normalizedName == null)
+            {
+                throw new ArgumentNullException(nameof(normalizedName));
+            }
+
+            user.Email = normalizedName;
+
+            return Task.CompletedTask;
         }
 
         public Task SetUserNameAsync(Account user, string userName, CancellationToken cancellationToken)
@@ -72,6 +88,7 @@ namespace Library.WebAPI.IdentityServer
         public Task<IdentityResult> UpdateAsync(Account user, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
+            // basin burax, bos seydir. Continue et))
         }
 
         #endregion
@@ -102,14 +119,13 @@ namespace Library.WebAPI.IdentityServer
             throw new NotImplementedException();
         }
 
+        public Task AddToRolesAsync(Account user, string roleName, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<IList<string>> GetRolesAsync(Account user, CancellationToken cancellationToken)
         {
-            // get  UserRoles from db
-           /* IList<string> roles = new List<string>
-            {
-                "A", "SA"
-            };*/
-
             IList<string> roles = new List<string>();
             foreach (var role in db.GetRoles(user).Data)
             {
@@ -125,7 +141,8 @@ namespace Library.WebAPI.IdentityServer
 
         public Task<bool> IsInRoleAsync(Account user, string roleName, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+             var x = db.GetRoles(user).Data.FirstOrDefault(x => x.Name == roleName);
+             return x!=null ? Task.FromResult(true) : Task.FromResult(false);
         }
 
         public Task RemoveFromRoleAsync(Account user, string roleName, CancellationToken cancellationToken)

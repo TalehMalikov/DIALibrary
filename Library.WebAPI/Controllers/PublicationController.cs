@@ -8,19 +8,19 @@ namespace Library.WebAPI.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class GroupController : ControllerBase
+    public class PublicationController : ControllerBase
     {
-        private readonly IGroupService _groupService;
-        public GroupController(IGroupService groupService)
+        private readonly IPublicationService _publicationService;
+        public PublicationController(IPublicationService publicationService)
         {
-            _groupService = groupService;
+            _publicationService = publicationService;
         }
 
         [HttpPost]
         [Route("add")]
-        public IActionResult Add(Group group)
+        public IActionResult Add(Publication publication)
         {
-            var result = _groupService.Add(group);
+            var result = _publicationService.Add(publication);
             if (result.Success)
             {
                 return Ok(result);
@@ -30,13 +30,14 @@ namespace Library.WebAPI.Controllers
 
         [HttpPut]
         [Route("update")]
-        public IActionResult Update(Group group)
+        public IActionResult Update(Publication publication)
         {
-            var result = _groupService.Update(group);
+            var result = _publicationService.Update(publication);
             if (result.Success)
             {
                 return Ok(result);
             }
+
             return BadRequest(result);
         }
 
@@ -44,7 +45,7 @@ namespace Library.WebAPI.Controllers
         [Route("getall")]
         public IActionResult GetAll()
         {
-            var result = _groupService.GetAll();
+            var result = _publicationService.GetAll();
             if (result.Success)
             {
                 return Ok(result);
@@ -56,7 +57,7 @@ namespace Library.WebAPI.Controllers
         [HttpGet("getbyid/{id:int}")]
         public IActionResult Get(int id)
         {
-            var result = _groupService.Get(id);
+            var result = _publicationService.Get(id);
             if (result.Success)
             {
                 return Ok(result);
@@ -68,7 +69,7 @@ namespace Library.WebAPI.Controllers
         [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {
-            var result = _groupService.Delete(id);
+            var result = _publicationService.Delete(id);
             if (result.Success)
             {
                 return Ok(result);

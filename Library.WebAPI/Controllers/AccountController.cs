@@ -8,7 +8,7 @@ namespace Library.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles ="SA,A")]
     public class AccountController : ControllerBase
     {
         private readonly IAccountService accountService;

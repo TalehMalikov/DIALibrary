@@ -22,7 +22,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             using NpgsqlCommand cmd = new NpgsqlCommand(cmdText, connection);
             cmd.Parameters.AddWithValue("@accountName", value.AccountName);
             cmd.Parameters.AddWithValue("@userid", value.User.Id);
-            cmd.Parameters.AddWithValue("@passwordHash", SecurityUtil.ComputeSha256Hash(value.PasswordHash));
+            cmd.Parameters.AddWithValue("@passwordHash", value.PasswordHash);
             cmd.Parameters.AddWithValue("@email", value.Email);
             cmd.Parameters.AddWithValue("@lastModified", value.LastModified);
 

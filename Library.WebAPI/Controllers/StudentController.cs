@@ -8,19 +8,19 @@ namespace Library.WebAPI.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class GroupController : ControllerBase
+    public class StudentController : ControllerBase
     {
-        private readonly IGroupService _groupService;
-        public GroupController(IGroupService groupService)
+        private readonly IStudentService _studentService;
+        public StudentController(IStudentService studentService)
         {
-            _groupService = groupService;
+            _studentService = studentService;
         }
 
         [HttpPost]
         [Route("add")]
-        public IActionResult Add(Group group)
+        public IActionResult Add(Student student)
         {
-            var result = _groupService.Add(group);
+            var result = _studentService.Add(student);
             if (result.Success)
             {
                 return Ok(result);
@@ -30,13 +30,14 @@ namespace Library.WebAPI.Controllers
 
         [HttpPut]
         [Route("update")]
-        public IActionResult Update(Group group)
+        public IActionResult Update(Student student)
         {
-            var result = _groupService.Update(group);
+            var result = _studentService.Update(student);
             if (result.Success)
             {
                 return Ok(result);
             }
+
             return BadRequest(result);
         }
 
@@ -44,7 +45,7 @@ namespace Library.WebAPI.Controllers
         [Route("getall")]
         public IActionResult GetAll()
         {
-            var result = _groupService.GetAll();
+            var result = _studentService.GetAll();
             if (result.Success)
             {
                 return Ok(result);
@@ -56,7 +57,7 @@ namespace Library.WebAPI.Controllers
         [HttpGet("getbyid/{id:int}")]
         public IActionResult Get(int id)
         {
-            var result = _groupService.Get(id);
+            var result = _studentService.Get(id);
             if (result.Success)
             {
                 return Ok(result);
@@ -68,7 +69,7 @@ namespace Library.WebAPI.Controllers
         [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {
-            var result = _groupService.Delete(id);
+            var result = _studentService.Delete(id);
             if (result.Success)
             {
                 return Ok(result);

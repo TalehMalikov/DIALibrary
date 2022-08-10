@@ -17,6 +17,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpPost]
+        [Route("add")]
         public IActionResult Add(Book book)
         {
             var result = _bookService.Add(book);
@@ -28,6 +29,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpPut]
+        [Route("update")]
         public IActionResult Update(Book book)
         {
             var result = _bookService.Update(book);
@@ -38,18 +40,8 @@ namespace Library.WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpDelete("{id:int}")]
-        public IActionResult Delete(int id)
-        {
-            var result = _bookService.Delete(id);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
-        }
-
         [HttpGet]
+        [Route("getall")]
         public IActionResult GetAll()
         {
             var result = _bookService.GetAll();
@@ -71,5 +63,15 @@ namespace Library.WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpDelete("{id:int}")]
+        public IActionResult Delete(int id)
+        {
+            var result = _bookService.Delete(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
     }
 }

@@ -19,6 +19,7 @@ namespace Library.WebAPI.Controllers
         private readonly SignInManager<Account> _signInManager;
         private readonly IAccountService _accountService;
         private readonly IUserService _userService;
+        private List<string> _roles = new List<string>(2);
         public AuthenticationController(UserManager<Account> userManager, SignInManager<Account> signInManager, IAccountService accountService, IUserService userService)
         {
             _userManager = userManager;
@@ -33,10 +34,20 @@ namespace Library.WebAPI.Controllers
         {
             var account = _userManager.FindByNameAsync(model.Email).Result;
 
+            var roles = _accountService.GetRoles(account).Data as List<Role>;
+            // bu nece bas verir????
+
+            foreach (var role in roles)
+            {
+                _roles.Add(role.Name);
+            }
+
             if (account == null)
                 return BadRequest("Username or password is incorrect");
 
             var signInResult = _signInManager.PasswordSignInAsync(account, model.Password, true, false).Result;
+
+            _userManager.AddToRolesAsync(account, _roles);
 
             if (signInResult.Succeeded == false)
                 return BadRequest("Username or password is incorrect");
@@ -95,6 +106,11 @@ namespace Library.WebAPI.Controllers
                 Expires = DateTime.Now.AddDays(15), //Token expires after 15 days
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
+
+            foreach (var item in _roles)
+            {
+                tokenDescriptor.Subject.AddClaim(new Claim(ClaimTypes.Role, item));
+            }
 
             SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
 

@@ -17,6 +17,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpPost]
+        [Route("add")]
         public IActionResult Add(Author author)
         {
             var result = _authorService.Add(author);
@@ -28,6 +29,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpPut]
+        [Route("update")]
         public IActionResult Update(Author author)
         {
             var result = _authorService.Update(author);
@@ -40,6 +42,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpGet]
+        [Route("getall")]
         public IActionResult GetAll()
         {
             var result = _authorService.GetAll();

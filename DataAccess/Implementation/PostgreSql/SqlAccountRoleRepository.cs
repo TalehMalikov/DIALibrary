@@ -35,12 +35,41 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public AccountRole Get(int id)
         {
-            throw new NotImplementedException();
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
+            connection.Open();
+            string query = "select accountroles.id as accountroleid ,accountid,userid,firstname," +
+                            "lastname,fathername,birthdate,gender,users.isdeleted as userisdeleted," +
+                            "users.lastmodified as userlastmodified,accountname,passwordhash,email," +
+                            "accounts.isdeleted as accountisdeleted,accounts.lastmodified as accountlastmodified," +
+                            "roleid, roles.name as rolename from accountroles join accounts on accountid = accounts.id " +
+                            "join users on userid = users.id join roles on roleid = roles.id " +
+                            "where accountroles.id = @id and accounts.isdeleted=false and users.isdeleted=false";
+            using NpgsqlCommand cmd = new NpgsqlCommand(query, connection);
+            cmd.Parameters.AddWithValue("@id", id);
+            var reader = cmd.ExecuteReader();
+            if (reader.Read())
+                return ReadAccountRoles(reader);
+            return null;
         }
 
         public List<AccountRole> GetAll()
         {
-            throw new NotImplementedException();
+
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
+            connection.Open();
+            string query = "select accountroles.id as accountroleid ,accountid,userid,firstname," +
+                            "lastname,fathername,birthdate,gender,users.isdeleted as userisdeleted," +
+                            "users.lastmodified as userlastmodified,accountname,passwordhash,email," +
+                            "accounts.isdeleted as accountisdeleted,accounts.lastmodified as accountlastmodified," +
+                            "roleid, roles.name as rolename from accountroles join accounts on accountid = accounts.id " +
+                            "join users on userid = users.id join roles on roleid = roles.id " +
+                            "where accounts.isdeleted=false and users.isdeleted=false";
+            using NpgsqlCommand cmd = new NpgsqlCommand(query, connection);
+            var reader = cmd.ExecuteReader();
+            var accountRoles = new List<AccountRole>();
+            while (reader.Read())
+                accountRoles.Add(ReadAccountRoles(reader));
+            return accountRoles;
         }
 
         public bool Update(AccountRole value)
@@ -67,7 +96,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
                     Email = reader.Get<string>("Email"),
                     IsDeleted = reader.Get<bool>("AccountIsDeleted"),
                     LastModified = reader.Get<DateTime>("AccountLastModified"),
-                    PasswordHash = reader.Get<string>("Password"),
+                    PasswordHash = reader.Get<string>("Passwordhash"),
                     User = new User
                     {
                         Id = reader.Get<int>("UserId"),
