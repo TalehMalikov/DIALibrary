@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Core.Extensions;
 using Library.Business.DependencyResolvers.Autofac;
 using Library.Core.DependencyResolvers;
 using Library.Entities.Concrete;
@@ -11,7 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
-
+using Library.Core.Extensions;
 
 
 #region ++++

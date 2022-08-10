@@ -1,5 +1,5 @@
-﻿using Core.CrossCuttingConcerns.Caching.MicrosoftMemoryCache;
-using Library.Core.CrossCuttingConcerns.Caching;
+﻿using Library.Core.CrossCuttingConcerns.Caching;
+using Library.Core.CrossCuttingConcerns.Caching.MicrosoftMemoryCache;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Library.Core.DependencyResolvers

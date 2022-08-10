@@ -1,11 +1,10 @@
-﻿using Library.Core.CrossCuttingConcerns.Caching;
+﻿using System.Reflection;
+using System.Text.RegularExpressions;
 using Library.Core.DependencyResolvers;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
-using System.Text.RegularExpressions;
 
-namespace Core.CrossCuttingConcerns.Caching.MicrosoftMemoryCache
+namespace Library.Core.CrossCuttingConcerns.Caching.MicrosoftMemoryCache
 {
     public class MemoryCacheManager : ICacheManager
     {
