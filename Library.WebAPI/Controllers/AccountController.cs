@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Library.Core.Utils;
 
 namespace Library.WebAPI.Controllers
 {
@@ -49,12 +50,23 @@ namespace Library.WebAPI.Controllers
 
         [HttpPost]
         [Route("register")]
-        public IActionResult Register(Account account)
+        public IActionResult Register(RegisterRequestModel model)
         {
 
             try
             {
-                accountService.Add(account);
+                accountService.Add(new Account
+                {
+                    User = new User
+                    {
+                        Id = model.UserId
+                    },
+                    Email = model.Email,
+                    LastModified = DateTime.Now,
+                    IsDeleted = false,
+                    AccountName = model.AccountName,
+                    PasswordHash = SecurityUtil.ComputeSha256Hash(model.Password),
+                });
 
                 return Ok("Success!");
             }
@@ -74,10 +86,10 @@ namespace Library.WebAPI.Controllers
                 if (accountToUpdate == null)
                     return NotFound($"Account with Id = {account.Id} not found");
 
-                 var result  = accountService.Update(account);
-                 if(result.Success) 
-                        return Ok("Successfully Updated");
-                 return BadRequest(result);
+                var result  = accountService.Update(account);
+                if(result.Success) 
+                    return Ok("Successfully Updated");
+                return BadRequest(result);
         }
 
         [HttpGet]
