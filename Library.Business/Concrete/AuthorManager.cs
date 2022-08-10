@@ -30,7 +30,7 @@ namespace Library.Business.Concrete
         {
             if(_authorRepository.Delete(id))
                 return new SuccessResult(StatusMessagesUtil.DeleteSuccessMessage);
-            return new ErrorResult(StatusMessagesUtil.NotFoundErrorMessage);
+            return new ErrorResult(StatusMessagesUtil.NotFoundMessageGivenId);
         }
 
         [CacheAspect]
@@ -51,7 +51,7 @@ namespace Library.Business.Concrete
         {
             if(_authorRepository.Update(value))
                 return new SuccessResult(StatusMessagesUtil.UpdateSuccessMessage);
-            return new ErrorResult(StatusMessagesUtil.NotFoundErrorMessage);
+            return new ErrorResult(StatusMessagesUtil.NotFoundMessageGivenId);
         }
     }
 }

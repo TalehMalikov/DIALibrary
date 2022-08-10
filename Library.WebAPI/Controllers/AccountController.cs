@@ -2,6 +2,7 @@
 using Library.Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Library.Core.Utils;
 
 namespace Library.WebAPI.Controllers
 {
@@ -20,14 +21,10 @@ namespace Library.WebAPI.Controllers
         [Route("update")]
         public IActionResult Update(Account account)
         {
-            var accountToUpdate = accountService.Get(account.Id);
-
-            if (accountToUpdate == null)
-                return NotFound($"Account with Id = {account.Id} not found");
-
             var result = accountService.Update(account);
+
             if (result.Success)
-                return Ok("Successfully Updated");
+                return Ok(result);
             return BadRequest(result);
         }
 
@@ -35,37 +32,21 @@ namespace Library.WebAPI.Controllers
         [Route("getall")]
         public IActionResult GetAll()
         {
-            try
-            {
-                var accounts = accountService.GetAll();
+            var result = accountService.GetAll();
 
-                if (accounts == null)
-                    return BadRequest("No Account found with given id");
-
-                return Ok(accounts);
-            }
-            catch
-            {
-                return BadRequest("Unknown error occured");
-            }
+            if (result.Success)
+                return Ok(result);
+            return BadRequest(result);
         }
 
         [HttpGet("getbyid/{id:int}")]
         public IActionResult Get(int id)
         {
-            try
-            {
-                var account = accountService.Get(id);
+            var result = accountService.Get(id);
 
-                if (account == null)
-                    return BadRequest("No Account found with given id");
-
-                return Ok(account);
-            }
-            catch
-            {
-                return BadRequest("Unknown error occured");
-            }
+            if (result.Success)
+                return Ok(result);
+            return BadRequest(result);
         }
 
         [HttpDelete("{id:int}")]
