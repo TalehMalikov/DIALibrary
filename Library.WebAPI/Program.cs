@@ -101,25 +101,27 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
+
+app.UseMiddleware<HttpLoggerMiddleware>();
+app.UseMiddleware<ErrorHandlerMiddleware>();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseMiddleware<HttpLoggerMiddleware>();
-    app.UseMiddleware<ErrorHandlerMiddleware>();
-
+   
     app.UseDeveloperExceptionPage();
-
-    app.UseHttpsRedirection();
-
-    app.UseAuthorization();
-    app.UseAuthentication();
-
-
-    app.UseRouting();
 
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
 
 app.MapControllers();
 /*app.UseEndpoints(endpoints =>

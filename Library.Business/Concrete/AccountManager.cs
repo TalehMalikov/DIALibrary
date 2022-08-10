@@ -3,6 +3,7 @@ using Library.Business.CrossCuttingConcerns.Validation.FluentValidation;
 using Library.Core.Aspects.Autofac.Caching;
 using Library.Core.Aspects.Autofac.Validation;
 using Library.Core.Result.Concrete;
+using Library.Core.Utils;
 using Library.DataAccess.Abstraction;
 using Library.Entities.Concrete;
 
@@ -39,8 +40,9 @@ namespace Library.Business.Concrete
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IAccountService.Get))]
         public Result Delete(int id)
         {
-            _accountRepository.Delete(id);
-            return new SuccessResult();
+            if (!_accountRepository.Delete(id))
+                return new ErrorResult(StatusMessagesUtil.DeleteErrorMessage);
+            return new SuccessResult(StatusMessagesUtil.DeleteSuccessMessage);
         }
 
         [CacheAspect]
