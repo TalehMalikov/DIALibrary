@@ -1,10 +1,12 @@
 ﻿using Library.Business.Abstraction;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class SpecialtyController : Controller
     {
         private readonly ISpecialtyService _specialtyService;
@@ -14,7 +16,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult GetAll()
         {
             try
             {

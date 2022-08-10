@@ -25,9 +25,9 @@ namespace Library.Business.Concrete
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IGroupService.Get))]
-        public Result Delete(Group value)
+        public Result Delete(int id)
         {
-            _groupRepository.Delete(value.Id);
+            _groupRepository.Delete(id);
             return new SuccessResult();
         }
 

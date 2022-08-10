@@ -22,9 +22,9 @@ namespace Library.Business.Concrete
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IFacultyService.Get))]
-        public Result Delete(Faculty value)
+        public Result Delete(int id)
         {
-            _facultyRepository.Delete(value.Id);
+            _facultyRepository.Delete(id);
             return new SuccessResult();
         }
 

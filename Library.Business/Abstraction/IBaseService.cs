@@ -6,7 +6,7 @@ namespace Library.Business.Abstraction
     {
         Result Add(T value);
         Result Update(T value);
-        Result Delete(T value);
+        Result Delete(int id);
         DataResult<T> Get(int id);
         DataResult<List<T>> GetAll();
     }

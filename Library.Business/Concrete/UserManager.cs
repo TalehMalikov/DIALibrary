@@ -25,9 +25,9 @@ namespace Library.Business.Concrete
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IUserService.Get))]
-        public Result Delete(User value)
+        public Result Delete(int id)
         {
-            _userRepository.Delete(value.Id);
+            _userRepository.Delete(id);
             return new SuccessResult();
         }
 

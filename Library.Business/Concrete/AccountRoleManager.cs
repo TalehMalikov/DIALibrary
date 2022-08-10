@@ -22,9 +22,9 @@ namespace Library.Business.Concrete
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IAccountRoleService.Get))]
-        public Result Delete(AccountRole value)
+        public Result Delete(int id)
         {
-            _accountRoleRepository.Delete(value.Id);
+            _accountRoleRepository.Delete(id);
             return new SuccessResult();
         }
 

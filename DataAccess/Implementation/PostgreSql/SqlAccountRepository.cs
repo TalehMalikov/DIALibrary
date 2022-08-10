@@ -47,7 +47,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             connection.Open();
             string query = "select Accounts.id as accountId,accountName,passwordHash,Email," +
                            "Accounts.isDeleted as AccountIsDeleted,Accounts.LastModified as AccountLastModified, " +
-                           "Users.Id as UserId,FirstName,LastNsame,FatherName,birthdate,gender," +
+                           "Users.Id as UserId,FirstName,LastName,FatherName,birthdate,gender," +
                            "Users.IsDeleted as UserIsDeleted,Users.LastModified as UserLastModified " +
                            "from accounts inner join Users on Users.id = accounts.userid where Accounts.Id=@id and Users.IsDeleted=false and Accounts.IsDeleted = false";
             using NpgsqlCommand cmd = new NpgsqlCommand(query, connection);
@@ -84,7 +84,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
                            "Accounts.isdeleted as AccountIsDeleted,Accounts.lastmodified as AccountLastModified, " +
                            "Users.Id as UserId,firstname,lastname,fathername,birthdate,gender," +
                            "Users.IsDeleted as UserIsDeleted,Users.LastModified as UserLastModified " +
-                           "from accounts inner join Users on Users.id = accounts.userid where Accounts.Email=@email and Users.IsDeleted=false and Accounts.IsDeleted = false";
+                           "from accounts inner join Users on Users.id = accounts.userid where Upper(Accounts.Email)=@email and Users.IsDeleted=false and Accounts.IsDeleted = false";
             using NpgsqlCommand cmd = new NpgsqlCommand(query, connection);
             cmd.Parameters.AddWithValue("@email", email);
             var reader = cmd.ExecuteReader();
@@ -97,7 +97,10 @@ namespace Library.DataAccess.Implementation.PostgreSql
         {
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
-            string query = "";
+            string query = "select roleid,roles.name as rolename from accountroles " +
+                           "join accounts on accountid = accounts.id " +
+                           "join roles on roleid = roles.id " +
+                           "where accountid = @accountid and accounts.isdeleted = false ";
 
             using NpgsqlCommand cmd = new NpgsqlCommand(query, connection);
             cmd.Parameters.AddWithValue("@accountid", account.Id);
@@ -153,8 +156,8 @@ namespace Library.DataAccess.Implementation.PostgreSql
         {
             return new Role()
             {
-                Id = reader.Get<int>("RoleId"),
-                Name = reader.Get<string>("Name")
+                Id = reader.Get<int>("roleid"),
+                Name = reader.Get<string>("rolename")
             };
         }
     }
