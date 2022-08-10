@@ -66,13 +66,13 @@ namespace Library.WebAPI.Controllers
         [Route("register")]
         public IActionResult Register(RegisterRequestModel model)
         {
-            var _user = _userService.Get(model.UserId);
-            if (_user == null)
+            var user = _userService.Get(model.UserId);
+            if (user?.Data == null)
                 return BadRequest("No user found with given id");
 
             var result = _accountService.Add(new Account
             {
-                User = _user.Data,
+                User = user.Data,
                 Email = model.Email,
                 LastModified = DateTime.Now,
                 IsDeleted = false,
