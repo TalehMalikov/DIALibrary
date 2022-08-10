@@ -34,15 +34,15 @@ namespace Library.Business.Concrete
         public Result Add(Account value)
         {
             _accountRepository.Add(value);
-            return new SuccessResult();
+            return new SuccessResult(StatusMessagesUtil.AddSuccessMessage);
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IAccountService.Get))]
         public Result Delete(int id)
         {
-            if (!_accountRepository.Delete(id))
-                return new ErrorResult(StatusMessagesUtil.DeleteErrorMessage);
-            return new SuccessResult(StatusMessagesUtil.DeleteSuccessMessage);
+            if (_accountRepository.Delete(id))
+                return new SuccessResult(StatusMessagesUtil.DeleteSuccessMessage);
+            return new ErrorResult(StatusMessagesUtil.NotFoundErrorMessage);
         }
 
         [CacheAspect]
@@ -61,8 +61,9 @@ namespace Library.Business.Concrete
         [ValidationAspect(typeof(AccountValidator))]
         public Result Update(Account value)
         {
-            _accountRepository.Update(value);
-            return new SuccessResult();
+            if (_accountRepository.Update(value))
+                return new SuccessResult(StatusMessagesUtil.UpdateSuccessMessage);
+            return new ErrorResult(StatusMessagesUtil.NotFoundErrorMessage);
         }
     }
 }

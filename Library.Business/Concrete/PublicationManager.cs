@@ -3,6 +3,7 @@ using Library.Business.CrossCuttingConcerns.Validation.FluentValidation;
 using Library.Core.Aspects.Autofac.Caching;
 using Library.Core.Aspects.Autofac.Validation;
 using Library.Core.Result.Concrete;
+using Library.Core.Utils;
 using Library.DataAccess.Abstraction;
 using Library.Entities.Concrete;
 
@@ -13,7 +14,7 @@ namespace Library.Business.Concrete
         private readonly IPublicationRepository _publicationRepository;
         public PublicationManager(IPublicationRepository publicationRepository)
         {
-           _publicationRepository = publicationRepository;
+            _publicationRepository = publicationRepository;
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IPublicationService.Get))]
@@ -21,14 +22,15 @@ namespace Library.Business.Concrete
         public Result Add(Publication value)
         {
             _publicationRepository.Add(value);
-            return new SuccessResult();
+            return new SuccessResult(StatusMessagesUtil.AddSuccessMessage);
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IPublicationService.Get))]
         public Result Delete(int id)
         {
-            _publicationRepository.Delete(id);
-            return new SuccessResult();
+            if (_publicationRepository.Delete(id))
+                return new SuccessResult(StatusMessagesUtil.DeleteSuccessMessage);
+            return new ErrorResult(StatusMessagesUtil.NotFoundErrorMessage);
         }
 
         [CacheAspect]
@@ -47,8 +49,9 @@ namespace Library.Business.Concrete
         [ValidationAspect(typeof(PublicationValidator))]
         public Result Update(Publication value)
         {
-            _publicationRepository.Update(value);
-            return new SuccessResult();
+            if (_publicationRepository.Update(value))
+                return new SuccessResult(StatusMessagesUtil.UpdateSuccessMessage);
+            return new ErrorResult(StatusMessagesUtil.NotFoundErrorMessage);
         }
     }
 }
