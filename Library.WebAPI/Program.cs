@@ -18,13 +18,13 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 var x = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-var _configuration = x.Build();
 
+var configuration = x.Build();
 
-string connectionString = _configuration.GetConnectionString("DefaultConnection");
+string connectionString = configuration.GetConnectionString("DefaultConnection");
 
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
-builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new AutofacBusinessModule(connectionString)));
+builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder => containerBuilder.RegisterModule(new AutofacBusinessModule(connectionString)));
 
 // Add services to the container.
 builder.Services.AddDependencyResolvers(new ICoreModule[]
