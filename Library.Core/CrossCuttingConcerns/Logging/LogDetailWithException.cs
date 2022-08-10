@@ -1,7 +1,5 @@
 ﻿
-using Library.Core.CrossCuttingConcerns.Logging;
-
-namespace Core.CrossCuttingConcerns.Logging
+namespace Library.Core.CrossCuttingConcerns.Logging
 {
     public class LogDetailWithException : LogDetail
     {

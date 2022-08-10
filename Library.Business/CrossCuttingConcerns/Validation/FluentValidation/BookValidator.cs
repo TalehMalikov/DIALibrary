@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Library.Entities.Concrete;
 
-namespace Business.CrossCuttingConcerns.Validation.FluentValidation
+namespace Library.Business.CrossCuttingConcerns.Validation.FluentValidation
 {
     public class BookValidator : AbstractValidator<Book>
     {

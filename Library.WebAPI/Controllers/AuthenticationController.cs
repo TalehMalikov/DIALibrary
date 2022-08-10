@@ -1,14 +1,13 @@
-﻿using Library.Business.Abstraction;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Library.Business.Abstraction;
 using Library.Core.Utils;
 using Library.Entities.Concrete;
 using Library.WebAPI.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace Library.WebAPI.Controllers
 {
@@ -32,19 +31,19 @@ namespace Library.WebAPI.Controllers
         [Route("login")]
         public IActionResult Login(LoginRequestModel model)
         {
-            var account = userManager.FindByNameAsync(model.Email).Result;
+            var account = _userManager.FindByNameAsync(model.Email).Result;
 
             if (account == null)
                 return BadRequest("Username or password is incorrect");
 
-            var signInResult = signInManager.PasswordSignInAsync(account, model.Password, true, false).Result;
+            var signInResult = _signInManager.PasswordSignInAsync(account, model.Password, true, false).Result;
 
             if (signInResult.Succeeded == false)
                 return BadRequest("Username or password is incorrect");
 
             string token = GenerateJwtToken(account);
 
-            return Ok(new LoginResponseModel()
+            return Ok(new LoginResponseModel
             {
                 Email = account.Email,
                 Token = token
@@ -73,6 +72,7 @@ namespace Library.WebAPI.Controllers
             if (result.Success)
                 return Ok(result);
             return BadRequest(result);
+
         }
 
         #region private logic

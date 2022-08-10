@@ -1,5 +1,5 @@
-﻿using Business.CrossCuttingConcerns.Validation.FluentValidation;
-using Library.Business.Abstraction;
+﻿using Library.Business.Abstraction;
+using Library.Business.CrossCuttingConcerns.Validation.FluentValidation;
 using Library.Core.Aspects.Autofac.Caching;
 using Library.Core.Aspects.Autofac.Validation;
 using Library.Core.Result.Concrete;

@@ -1,7 +1,6 @@
 ﻿using Castle.DynamicProxy;
-using Core.CrossCuttingConcerns.Logging;
-using Core.CrossCuttingConcerns.Logging.Log4Net;
 using Library.Core.CrossCuttingConcerns.Logging;
+using Library.Core.CrossCuttingConcerns.Logging.Log4Net;
 using Library.Core.Interceptors;
 
 namespace Library.Core.Aspects.Autofac.Exception

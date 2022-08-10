@@ -1,11 +1,13 @@
 ﻿using Library.Business.Abstraction;
 using Library.Entities.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
@@ -36,10 +38,10 @@ namespace Library.WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpDelete]
-        public IActionResult Delete(Category category)
+        [HttpDelete("{id:int}")]
+        public IActionResult Delete(int id)
         {
-            var result = _categoryService.Delete(category);
+            var result = _categoryService.Delete(id);
             if (result.Success)
             {
                 return Ok(result);

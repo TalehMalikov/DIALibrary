@@ -1,8 +1,8 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Core.Extensions;
 using Library.Business.DependencyResolvers.Autofac;
 using Library.Core.DependencyResolvers;
+using Library.Core.Extensions;
 using Library.Entities.Concrete;
 using Library.WebAPI.IdentityServer;
 using Library.WebAPI.Middlewares;
@@ -13,8 +13,6 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 
 
-
-#region ++++
 var builder = WebApplication.CreateBuilder(args);
 
 var x = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
@@ -33,17 +31,13 @@ builder.Services.AddDependencyResolvers(new ICoreModule[]
 });
 
 
-#endregion
-
 builder.Services.AddControllers();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddIdentity<Account, Role>().AddDefaultTokenProviders();
 
-#region ///
 builder.Services.AddSingleton<IPasswordHasher<Account>, CustomPasswordHasher>();
 builder.Services.AddSingleton<IUserStore<Account>, AccountStore>();
 builder.Services.AddSingleton<IRoleStore<Role>, RoleStore>();
-#endregion
 
 builder.Services.AddAuthentication(x =>
 {

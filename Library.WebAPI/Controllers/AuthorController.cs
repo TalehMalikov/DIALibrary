@@ -63,7 +63,7 @@ namespace Library.WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {
             var result = _authorService.Delete(id);

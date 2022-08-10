@@ -1,6 +1,4 @@
-﻿using Library.Entities.Concrete;
-
-namespace Library.WebAPI.Models
+﻿namespace Library.WebAPI.Models
 {
     public class RegisterRequestModel
     {

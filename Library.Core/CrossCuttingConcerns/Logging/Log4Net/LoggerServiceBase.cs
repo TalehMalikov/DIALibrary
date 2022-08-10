@@ -1,10 +1,10 @@
-﻿using log4net;
+﻿using System.Reflection;
+using System.Xml;
+using log4net;
 using log4net.Core;
 using log4net.Repository;
-using System.Reflection;
-using System.Xml;
 
-namespace Core.CrossCuttingConcerns.Logging.Log4Net
+namespace Library.Core.CrossCuttingConcerns.Logging.Log4Net
 {
     public class LoggerServiceBase
     {
