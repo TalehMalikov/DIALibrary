@@ -1,6 +1,7 @@
 ﻿using Library.Business.Abstraction;
 using Library.Core.Aspects.Autofac.Caching;
 using Library.Core.Result.Concrete;
+using Library.Core.Utils;
 using Library.DataAccess.Abstraction;
 using Library.Entities.Concrete;
 
@@ -18,14 +19,15 @@ namespace Library.Business.Concrete
         public Result Add(Faculty value)
         {
             _facultyRepository.Add(value);
-            return new SuccessResult();
+            return new SuccessResult(StatusMessagesUtil.AddSuccessMessage);
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IFacultyService.Get))]
         public Result Delete(int id)
         {
-            _facultyRepository.Delete(id);
-            return new SuccessResult();
+            if(_facultyRepository.Delete(id))
+                return new SuccessResult(StatusMessagesUtil.DeleteSuccessMessage);
+            return new ErrorResult(StatusMessagesUtil.NotFoundErrorMessage);
         }
 
         [CacheAspect]
@@ -43,8 +45,9 @@ namespace Library.Business.Concrete
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IFacultyService.Get))]
         public Result Update(Faculty value)
         {
-            _facultyRepository.Update(value);
-            return new SuccessResult();
+            if(_facultyRepository.Update(value))
+                return new SuccessResult(StatusMessagesUtil.UpdateSuccessMessage);
+            return new ErrorResult(StatusMessagesUtil.NotFoundErrorMessage);
         }
     }
 }

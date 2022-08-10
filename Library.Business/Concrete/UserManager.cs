@@ -3,6 +3,7 @@ using Library.Business.Abstraction;
 using Library.Core.Aspects.Autofac.Caching;
 using Library.Core.Aspects.Autofac.Validation;
 using Library.Core.Result.Concrete;
+using Library.Core.Utils;
 using Library.DataAccess.Abstraction;
 using Library.Entities.Concrete;
 
@@ -21,14 +22,15 @@ namespace Library.Business.Concrete
         public Result Add(User value)
         {
             _userRepository.Add(value);
-            return new SuccessResult();
+            return new SuccessResult(StatusMessagesUtil.AddSuccessMessage);
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IUserService.Get))]
         public Result Delete(int id)
         {
-            _userRepository.Delete(id);
-            return new SuccessResult();
+            if (_userRepository.Delete(id))
+                return new SuccessResult(StatusMessagesUtil.DeleteSuccessMessage);
+            return new ErrorResult(StatusMessagesUtil.NotFoundErrorMessage);
         }
 
         [CacheAspect]
@@ -47,8 +49,9 @@ namespace Library.Business.Concrete
         [ValidationAspect(typeof(UserValidator))]
         public Result Update(User value)
         {
-            _userRepository.Update(value);
-            return new SuccessResult();
+            if (_userRepository.Update(value))
+                return new SuccessResult(StatusMessagesUtil.UpdateSuccessMessage);
+            return new ErrorResult(StatusMessagesUtil.NotFoundErrorMessage);
         }
     }
 }

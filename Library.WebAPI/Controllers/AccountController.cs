@@ -1,20 +1,13 @@
 ﻿using Library.Business.Abstraction;
 using Library.Entities.Concrete;
-using Library.WebAPI.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Library.Core.Utils;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Library.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-   // [Authorize]
+    [Authorize]
     public class AccountController : ControllerBase
     {
         private readonly IAccountService accountService;
@@ -27,16 +20,15 @@ namespace Library.WebAPI.Controllers
         [Route("update")]
         public IActionResult Update(Account account)
         {
+            var accountToUpdate = accountService.Get(account.Id);
 
-                var accountToUpdate = accountService.Get(account.Id);
+            if (accountToUpdate == null)
+                return NotFound($"Account with Id = {account.Id} not found");
 
-                if (accountToUpdate == null)
-                    return NotFound($"Account with Id = {account.Id} not found");
-
-                var result  = accountService.Update(account);
-                if(result.Success) 
-                    return Ok("Successfully Updated");
-                return BadRequest(result);
+            var result = accountService.Update(account);
+            if (result.Success)
+                return Ok("Successfully Updated");
+            return BadRequest(result);
         }
 
         [HttpGet]
@@ -79,16 +71,11 @@ namespace Library.WebAPI.Controllers
         [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {
-                //var account = accountService.Get(id);
+            var result = accountService.Delete(id);
 
-                /*if (account == null)
-                    return BadRequest("No such a account found to delete");
-*/
-                var result = accountService.Delete(id);
-
-                if(result.Success)
-                    return Ok(result);
-                return BadRequest(result);
+            if (result.Success)
+                return Ok(result);
+            return BadRequest(result);
         }
     }
 }

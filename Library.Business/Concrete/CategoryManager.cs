@@ -3,6 +3,7 @@ using Library.Business.CrossCuttingConcerns.Validation.FluentValidation;
 using Library.Core.Aspects.Autofac.Caching;
 using Library.Core.Aspects.Autofac.Validation;
 using Library.Core.Result.Concrete;
+using Library.Core.Utils;
 using Library.DataAccess.Abstraction;
 using Library.Entities.Concrete;
 
@@ -21,14 +22,15 @@ namespace Library.Business.Concrete
         public Result Add(Category value)
         {
             _categoryRepository.Add(value);
-            return new SuccessResult();
+            return new SuccessResult(StatusMessagesUtil.AddSuccessMessage);
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.ICategoryService.Get))]
         public Result Delete(int id)
         {
-            _categoryRepository.Delete(id);
-            return new SuccessResult();
+            if(_categoryRepository.Delete(id))
+                return new SuccessResult(StatusMessagesUtil.DeleteSuccessMessage);
+            return new ErrorResult(StatusMessagesUtil.NotFoundErrorMessage);
         }
 
         [CacheAspect]
@@ -47,8 +49,9 @@ namespace Library.Business.Concrete
         [ValidationAspect(typeof(CategoryValidator))]
         public Result Update(Category value)
         {
-            _categoryRepository.Update(value);
-            return new SuccessResult();
+            if(_categoryRepository.Update(value))
+                return new SuccessResult(StatusMessagesUtil.UpdateSuccessMessage);
+            return new ErrorResult(StatusMessagesUtil.NotFoundErrorMessage);
         }
     }
 }
