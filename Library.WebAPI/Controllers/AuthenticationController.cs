@@ -15,14 +15,14 @@ namespace Library.WebAPI.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        private readonly UserManager<Account> userManager;
-        private readonly SignInManager<Account> signInManager;
+        private readonly UserManager<Account> _userManager;
+        private readonly SignInManager<Account> _signInManager;
         private readonly IAccountService _accountService;
         private readonly IUserService _userService;
         public AuthenticationController(UserManager<Account> userManager, SignInManager<Account> signInManager, IAccountService accountService, IUserService userService)
         {
-            this.userManager = userManager;
-            this.signInManager = signInManager;
+            _userManager = userManager;
+            _signInManager = signInManager;
             _accountService = accountService;
             _userService = userService;
         }
