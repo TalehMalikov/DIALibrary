@@ -15,14 +15,16 @@ namespace Library.WebAPI.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        private readonly UserManager<Account> _userManager;
-        private readonly SignInManager<Account> _signInManager;
+        private readonly UserManager<Account> userManager;
+        private readonly SignInManager<Account> signInManager;
         private readonly IAccountService _accountService;
-        public AuthenticationController(UserManager<Account> userManager, SignInManager<Account> signInManager, IAccountService accountService)
+        private readonly IUserService _userService;
+        public AuthenticationController(UserManager<Account> userManager, SignInManager<Account> signInManager, IAccountService accountService, IUserService userService)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
+            this.userManager = userManager;
+            this.signInManager = signInManager;
             _accountService = accountService;
+            _userService = userService;
         }
 
         [HttpPost]
@@ -53,28 +55,24 @@ namespace Library.WebAPI.Controllers
         [Route("register")]
         public IActionResult Register(RegisterRequestModel model)
         {
+            var _user = _userService.Get(model.UserId);
+            if (_user == null)
+                return BadRequest("No user found with given id");
 
-            try
+            var result = _accountService.Add(new Account
             {
-                _accountService.Add(new Account
-                {
-                    User = new User
-                    {
-                        Id = model.UserId
-                    },
-                    Email = model.Email,
-                    LastModified = DateTime.Now,
-                    IsDeleted = false,
-                    AccountName = model.AccountName,
-                    PasswordHash = SecurityUtil.ComputeSha256Hash(model.Password),
-                });
+                User = _user.Data,
+                Email = model.Email,
+                LastModified = DateTime.Now,
+                IsDeleted = false,
+                AccountName = model.AccountName,
+                PasswordHash = SecurityUtil.ComputeSha256Hash(model.Password),
+            });
 
-                return Ok("Success!");
-            }
-            catch
-            {
-                return BadRequest("Failed to add");
-            }
+            if (result.Success)
+                return Ok(result);
+            return BadRequest(result);
+
         }
 
         #region private logic

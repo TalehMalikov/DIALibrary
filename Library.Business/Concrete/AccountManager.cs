@@ -42,19 +42,25 @@ namespace Library.Business.Concrete
         {
             if (_accountRepository.Delete(id))
                 return new SuccessResult(StatusMessagesUtil.DeleteSuccessMessage);
-            return new ErrorResult(StatusMessagesUtil.NotFoundErrorMessage);
+            return new ErrorResult(StatusMessagesUtil.NotFoundMessageGivenId);
         }
 
         [CacheAspect]
         public DataResult<Account> Get(int id)
         {
-            return new SuccessDataResult<Account>(_accountRepository.Get(id));
+            var result = _accountRepository.Get(id);
+            if (result == null)
+                return new ErrorDataResult<Account>(result,StatusMessagesUtil.NotFoundMessageGivenId);
+            return new SuccessDataResult<Account>(result);
         }
 
         [CacheAspect]
         public DataResult<List<Account>> GetAll()
         {
-            return new SuccessDataResult<List<Account>>(_accountRepository.GetAll());
+            var result = _accountRepository.GetAll();
+            if (result == null)
+                return new ErrorDataResult<List<Account>>(result,StatusMessagesUtil.NotFoundMessage);
+            return new SuccessDataResult<List<Account>>(result);
         }
         
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IAccountService.Get))]
@@ -63,7 +69,7 @@ namespace Library.Business.Concrete
         {
             if (_accountRepository.Update(value))
                 return new SuccessResult(StatusMessagesUtil.UpdateSuccessMessage);
-            return new ErrorResult(StatusMessagesUtil.NotFoundErrorMessage);
+            return new ErrorResult(StatusMessagesUtil.NotFoundMessageGivenId);
         }
     }
 }
