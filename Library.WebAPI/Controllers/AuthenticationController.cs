@@ -1,14 +1,13 @@
-﻿using Library.Business.Abstraction;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Library.Business.Abstraction;
 using Library.Core.Utils;
 using Library.Entities.Concrete;
 using Library.WebAPI.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace Library.WebAPI.Controllers
 {
@@ -16,33 +15,33 @@ namespace Library.WebAPI.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        private readonly UserManager<Account> userManager;
-        private readonly SignInManager<Account> signInManager;
-        private readonly IAccountService accountService;
+        private readonly UserManager<Account> _userManager;
+        private readonly SignInManager<Account> _signInManager;
+        private readonly IAccountService _accountService;
         public AuthenticationController(UserManager<Account> userManager, SignInManager<Account> signInManager, IAccountService accountService)
         {
-            this.userManager = userManager;
-            this.signInManager = signInManager;
-            this.accountService = accountService;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _accountService = accountService;
         }
 
         [HttpPost]
         [Route("login")]
         public IActionResult Login(LoginRequestModel model)
         {
-            var account = userManager.FindByNameAsync(model.Email).Result;
+            var account = _userManager.FindByNameAsync(model.Email).Result;
 
             if (account == null)
                 return BadRequest("Username or password is incorrect");
 
-            var signInResult = signInManager.PasswordSignInAsync(account, model.Password, true, false).Result;
+            var signInResult = _signInManager.PasswordSignInAsync(account, model.Password, true, false).Result;
 
             if (signInResult.Succeeded == false)
                 return BadRequest("Username or password is incorrect");
 
             string token = GenerateJwtToken(account);
 
-            return Ok(new LoginResponseModel()
+            return Ok(new LoginResponseModel
             {
                 Email = account.Email,
                 Token = token
@@ -57,7 +56,7 @@ namespace Library.WebAPI.Controllers
 
             try
             {
-                accountService.Add(new Account
+                _accountService.Add(new Account
                 {
                     User = new User
                     {

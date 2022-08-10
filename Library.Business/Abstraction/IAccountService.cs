@@ -1,5 +1,4 @@
-﻿using Library.Core.Result.Abstract;
-using Library.Core.Result.Concrete;
+﻿using Library.Core.Result.Concrete;
 using Library.Entities.Concrete;
 
 namespace Library.Business.Abstraction

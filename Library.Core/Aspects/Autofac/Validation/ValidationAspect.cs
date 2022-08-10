@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Library.Core.Interceptors;
 using Castle.DynamicProxy;
-using Core.CrossCuttingConcerns.Validation;
+using Library.Core.CrossCuttingConcerns.Validation;
 
 namespace Library.Core.Aspects.Autofac.Validation
 {

@@ -1,7 +1,7 @@
 ﻿using Library.Core.DependencyResolvers;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Core.Extensions
+namespace Library.Core.Extensions
 {
     public static class ServiceCollectionExtension
     {

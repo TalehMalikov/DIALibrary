@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Threading.Tasks;
-
-namespace Library.WebAPI.Middlewares
+﻿namespace Library.WebAPI.Middlewares
 {
     public class ErrorHandlerMiddleware
     {

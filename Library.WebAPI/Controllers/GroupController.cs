@@ -1,12 +1,13 @@
 ﻿using Library.Business.Abstraction;
 using Library.Entities.Concrete;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class GroupController : ControllerBase
     {
         private readonly IGroupService _groupService;
@@ -37,10 +38,10 @@ namespace Library.WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpDelete]
-        public IActionResult Delete(Group group)
+        [HttpDelete("{id:int}")]
+        public IActionResult Delete(int id)
         {
-            var result = _groupService.Delete(group);
+            var result = _groupService.Delete(id);
             if (result.Success)
             {
                 return Ok(result);
