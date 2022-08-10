@@ -29,7 +29,7 @@ namespace Library.Business.Concrete
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IAccountService.Get))]
-        //[ValidationAspect(typeof(AccountValidator))]
+        [ValidationAspect(typeof(AccountValidator))]
         public Result Add(Account value)
         {
             _accountRepository.Add(value);
