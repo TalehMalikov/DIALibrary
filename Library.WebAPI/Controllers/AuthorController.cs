@@ -1,12 +1,13 @@
 ﻿using Library.Business.Abstraction;
 using Library.Entities.Concrete;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AuthorController : ControllerBase
     {
         private readonly IAuthorService _authorService;
@@ -64,9 +65,9 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Delete(Author author)
+        public IActionResult Delete(int id)
         {
-            var result = _authorService.Delete(author);
+            var result = _authorService.Delete(id);
             if (result.Success)
             {
                 return Ok(result);

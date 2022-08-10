@@ -25,9 +25,9 @@ namespace Library.Business.Concrete
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.ICategoryService.Get))]
-        public Result Delete(Category value)
+        public Result Delete(int id)
         {
-            _categoryRepository.Delete(value.Id);
+            _categoryRepository.Delete(id);
             return new SuccessResult();
         }
 

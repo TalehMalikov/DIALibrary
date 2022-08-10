@@ -25,9 +25,9 @@ namespace Library.Business.Concrete
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IPublicationService.Get))]
-        public Result Delete(Publication value)
+        public Result Delete(int id)
         {
-            _publicationRepository.Delete(value.Id);
+            _publicationRepository.Delete(id);
             return new SuccessResult();
         }
 

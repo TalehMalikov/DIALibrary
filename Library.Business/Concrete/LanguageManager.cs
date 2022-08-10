@@ -25,9 +25,9 @@ namespace Library.Business.Concrete
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.ILanguageService.Get))]
-        public Result Delete(Language value)
+        public Result Delete(int id)
         {
-            _languageRepository.Delete(value.Id);
+            _languageRepository.Delete(id);
             return new SuccessResult();
         }
 
