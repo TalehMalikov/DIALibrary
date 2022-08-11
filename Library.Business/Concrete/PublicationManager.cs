@@ -36,13 +36,19 @@ namespace Library.Business.Concrete
         [CacheAspect]
         public DataResult<Publication> Get(int id)
         {
-            return new SuccessDataResult<Publication>(_publicationRepository.Get(id));
+            var result = _publicationRepository.Get(id);
+            if (result == null)
+                return new ErrorDataResult<Publication>(result, StatusMessagesUtil.NotFoundMessageGivenId);
+            return new SuccessDataResult<Publication>(result);
         }
 
         [CacheAspect]
         public DataResult<List<Publication>> GetAll()
         {
-            return new SuccessDataResult<List<Publication>>(_publicationRepository.GetAll());
+            var result = _publicationRepository.GetAll();
+            if (result.Count == 0)
+                return new ErrorDataResult<List<Publication>>(result, StatusMessagesUtil.NotFoundMessage);
+            return new SuccessDataResult<List<Publication>>(result);
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IPublicationService.Get))]

@@ -36,13 +36,19 @@ namespace Library.Business.Concrete
         [CacheAspect]
         public DataResult<Category> Get(int id)
         {
-            return new SuccessDataResult<Category>(_categoryRepository.Get(id));
+            var result = _categoryRepository.Get(id);
+            if (result == null)
+                return new ErrorDataResult<Category>(result, StatusMessagesUtil.NotFoundMessageGivenId);
+            return new SuccessDataResult<Category>(result);
         }
 
         [CacheAspect]
         public DataResult<List<Category>> GetAll()
         {
-            return new SuccessDataResult<List<Category>>(_categoryRepository.GetAll());
+            var result = _categoryRepository.GetAll();
+            if (result.Count == 0)
+                return new ErrorDataResult<List<Category>>(result,StatusMessagesUtil.NotFoundMessage);
+            return new SuccessDataResult<List<Category>>();
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.ICategoryService.Get))]

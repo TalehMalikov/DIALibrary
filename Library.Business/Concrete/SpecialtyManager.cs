@@ -28,7 +28,7 @@ namespace Library.Business.Concrete
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.ISpecialtyService.Get))]
         public Result Delete(int id)
         {
-            if(_specialtyRepository.Delete(id))
+            if (_specialtyRepository.Delete(id))
                 return new SuccessResult(StatusMessagesUtil.DeleteSuccessMessage);
             return new ErrorResult(StatusMessagesUtil.NotFoundMessageGivenId);
         }
@@ -36,12 +36,18 @@ namespace Library.Business.Concrete
         [CacheAspect]
         public DataResult<Specialty> Get(int id)
         {
-            return new SuccessDataResult<Specialty>(_specialtyRepository.Get(id));
+            var result = _specialtyRepository.Get(id);
+            if (result == null)
+                return new ErrorDataResult<Specialty>(result, StatusMessagesUtil.NotFoundMessageGivenId);
+            return new SuccessDataResult<Specialty>(result);
         }
 
         [CacheAspect]
         public DataResult<List<Specialty>> GetAll()
         {
+            var result = _specialtyRepository.GetAll();
+            if (result.Count == 0)
+                return new ErrorDataResult<List<Specialty>>(result, StatusMessagesUtil.NotFoundMessage);
             return new SuccessDataResult<List<Specialty>>(_specialtyRepository.GetAll());
         }
 
@@ -49,8 +55,8 @@ namespace Library.Business.Concrete
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.ISpecialtyService.Get))]
         public Result Update(Specialty value)
         {
-            if(_specialtyRepository.Update(value))
-                    return new SuccessResult(StatusMessagesUtil.UpdateSuccessMessage);
+            if (_specialtyRepository.Update(value))
+                return new SuccessResult(StatusMessagesUtil.UpdateSuccessMessage);
             return new ErrorResult(StatusMessagesUtil.NotFoundMessageGivenId);
         }
     }

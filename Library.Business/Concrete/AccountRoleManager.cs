@@ -33,13 +33,19 @@ namespace Library.Business.Concrete
         [CacheAspect]
         public DataResult<AccountRole> Get(int id)
         {
-            return new SuccessDataResult<AccountRole>(_accountRoleRepository.Get(id));
+            var result = _accountRoleRepository.Get(id);
+            if (result == null)
+                return new ErrorDataResult<AccountRole>(result, StatusMessagesUtil.NotFoundMessageGivenId);
+            return new SuccessDataResult<AccountRole>(result);
         }
 
         [CacheAspect]
         public DataResult<List<AccountRole>> GetAll()
         {
-            return new SuccessDataResult<List<AccountRole>>(_accountRoleRepository.GetAll());
+            var result = _accountRoleRepository.GetAll();
+            if (result.Count == 0)
+                return new ErrorDataResult<List<AccountRole>>(result, StatusMessagesUtil.NotFoundMessage);
+            return new SuccessDataResult<List<AccountRole>>();
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IAccountRoleService.Get))]

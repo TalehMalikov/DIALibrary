@@ -44,11 +44,11 @@ namespace Library.DataAccess.Implementation.PostgreSql
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = " select Categories.Id as CategoryId, Categories.Name as CategoryName,Books.Id as BookId, Books.Name as BookName," +
-            "Books.LastModified as LastModified, Books.IsDeleted as IsDeleted, Languages.Id as LanguageId,Languages.Name as OriginalLanguageName, " +
             "Books.LastModified as LastModified, Books.IsDeleted as IsDeleted, Languages.Id as LanguageId,Languages.Name as OriginalLanguageName " +
             "from Books inner join Categories on Books.CategoryId = Categories.Id inner join Languages on Books.OriginalLanguageId = Languages.Id " +
-                               "Where Id=@id and IsDeleted=false";
+                               "Where Books.Id=@id and IsDeleted=false";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
+            command.Parameters.AddWithValue("@id", id);
             var reader = command.ExecuteReader();
             if (reader.Read())
                 return ReadBook(reader);
@@ -60,8 +60,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             List<Book> books = new List<Book>();
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
-            string cmdString = " select Categories.Id as CategoryId, Categories.Name as CategoryName,Books.Id as BookId, Books.Name as BookName," + 
-                               "Books.LastModified as LastModified, Books.IsDeleted as IsDeleted, Languages.Id as LanguageId,Languages.Name as OriginalLanguageName " +
+            string cmdString = " Select Categories.Id as CategoryId, Categories.Name as CategoryName,Books.Id as BookId, Books.Name as BookName," + 
                                "Books.LastModified as LastModified, Books.IsDeleted as IsDeleted, Languages.Id as LanguageId,Languages.Name as OriginalLanguageName " +
                                "from Books inner join Categories on Books.CategoryId = Categories.Id inner join Languages on Books.OriginalLanguageId = Languages.Id ";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);

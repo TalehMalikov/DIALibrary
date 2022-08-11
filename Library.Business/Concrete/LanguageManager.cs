@@ -42,7 +42,10 @@ namespace Library.Business.Concrete
         [CacheAspect]
         public DataResult<List<Language>> GetAll()
         {
-            return new SuccessDataResult<List<Language>>(_languageRepository.GetAll());
+            var result = _languageRepository.GetAll();
+            if (result.Count == 0)
+                return new ErrorDataResult<List<Language>>(result, StatusMessagesUtil.NotFoundMessage);
+            return new SuccessDataResult<List<Language>>(result);
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.ILanguageService.Get))]
