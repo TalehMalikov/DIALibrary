@@ -1,0 +1,4 @@
+1. Cache check
+2. Autherization check
+3. Log check
+4. Localization

@@ -103,7 +103,7 @@ namespace Library.WebAPI.Controllers
                     new Claim(ClaimTypes.Name, account.Id.ToString()),
                     new Claim(ClaimTypes.Email, account.Email),
                 }),
-                Expires = DateTime.Now.AddDays(15), //Token expires after 15 days
+                Expires = DateTime.Now.AddHours(1.5D), //Token expires after 1.5 hours
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
