@@ -36,13 +36,19 @@ namespace Library.Business.Concrete
         [CacheAspect]
         public DataResult<Sector> Get(int id)
         {
-            return new SuccessDataResult<Sector>(_sectorRepository.Get(id));
+            var result = _sectorRepository.Get(id);
+            if (result == null)
+                return new ErrorDataResult<Sector>(result, StatusMessagesUtil.NotFoundMessageGivenId);
+            return new SuccessDataResult<Sector>(result);
         }
         
         [CacheAspect]
         public DataResult<List<Sector>> GetAll()
         {
-            return new SuccessDataResult<List<Sector>>(_sectorRepository.GetAll());
+            var result = _sectorRepository.GetAll();
+            if (result.Count == 0)
+                return new ErrorDataResult<List<Sector>>(result, StatusMessagesUtil.NotFoundMessage);
+            return new SuccessDataResult<List<Sector>>(result);
         }
 
         [ValidationAspect(typeof(SectorValidator))]

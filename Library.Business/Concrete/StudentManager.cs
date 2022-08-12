@@ -33,12 +33,18 @@ namespace Library.Business.Concrete
         [CacheAspect]
         public DataResult<Student> Get(int id)
         {
-            return new SuccessDataResult<Student>(_studentRepository.Get(id));
+            var result = _studentRepository.Get(id);
+            if (result == null)
+                return new ErrorDataResult<Student>(result, StatusMessagesUtil.NotFoundMessageGivenId);
+            return new SuccessDataResult<Student>(result);
         }
 
         [CacheAspect]
         public DataResult<List<Student>> GetAll()
         {
+            var result = _studentRepository.GetAll();
+            if (result.Count == 0)
+                return new ErrorDataResult<List<Student>>(result, StatusMessagesUtil.NotFoundMessage);
             return new SuccessDataResult<List<Student>>(_studentRepository.GetAll());
         }
 

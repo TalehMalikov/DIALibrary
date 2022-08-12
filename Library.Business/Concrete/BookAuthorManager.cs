@@ -33,13 +33,19 @@ namespace Library.Business.Concrete
         [CacheAspect]
         public DataResult<BookAuthor> Get(int id)
         {
-            return new SuccessDataResult<BookAuthor>(_bookAuthorRepository.Get(id));
+            var result = _bookAuthorRepository.Get(id);
+            if (result == null)
+                return new ErrorDataResult<BookAuthor>(result, StatusMessagesUtil.NotFoundMessageGivenId);
+            return new SuccessDataResult<BookAuthor>(result);
         }
 
         [CacheAspect]
         public DataResult<List<BookAuthor>> GetAll()
         {
-            return new SuccessDataResult<List<BookAuthor>>(_bookAuthorRepository.GetAll());
+            var result = _bookAuthorRepository.GetAll();
+            if (result.Count == 0)
+                return new ErrorDataResult<List<BookAuthor>>(result, StatusMessagesUtil.NotFoundMessage);
+            return new SuccessDataResult<List<BookAuthor>>();
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IBookAuthorService.Get))]

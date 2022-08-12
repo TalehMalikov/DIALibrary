@@ -33,13 +33,17 @@ namespace Library.Business.Concrete
         [CacheAspect]
         public DataResult<Faculty> Get(int id)
         {
-            return new SuccessDataResult<Faculty>(_facultyRepository.Get(id));
+            var result = _facultyRepository.Get(id);
+            return new SuccessDataResult<Faculty>(result);
         }
 
         [CacheAspect]
         public DataResult<List<Faculty>> GetAll()
         {
-            return new SuccessDataResult<List<Faculty>>(_facultyRepository.GetAll());
+            var result = _facultyRepository.GetAll();
+            if (result.Count == 0)
+                return new ErrorDataResult<List<Faculty>>(result, StatusMessagesUtil.NotFoundMessage);
+            return new SuccessDataResult<List<Faculty>>(result);
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IFacultyService.Get))]

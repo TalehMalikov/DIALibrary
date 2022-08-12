@@ -58,7 +58,7 @@ namespace Library.Business.Concrete
         public DataResult<List<Account>> GetAll()
         {
             var result = _accountRepository.GetAll();
-            if (result == null)
+            if (result.Count == 0)
                 return new ErrorDataResult<List<Account>>(result,StatusMessagesUtil.NotFoundMessage);
             return new SuccessDataResult<List<Account>>(result);
         }

@@ -36,13 +36,19 @@ namespace Library.Business.Concrete
         [CacheAspect]
         public DataResult<User> Get(int id)
         {
-            return new SuccessDataResult<User>(_userRepository.Get(id));
+            var result = _userRepository.Get(id);
+            if (result == null)
+                return new ErrorDataResult<User>(result, StatusMessagesUtil.NotFoundMessageGivenId);
+            return new SuccessDataResult<User>(result);
         }
 
         [CacheAspect]
         public DataResult<List<User>> GetAll()
         {
-            return new SuccessDataResult<List<User>>(_userRepository.GetAll());
+            var result = _userRepository.GetAll();
+            if (result.Count == 0)
+                return new ErrorDataResult<List<User>>(result, StatusMessagesUtil.NotFoundMessage);
+            return new SuccessDataResult<List<User>>(result);
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IUserService.Get))]

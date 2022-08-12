@@ -34,8 +34,7 @@ namespace Library.WebAPI.Controllers
         {
             var account = _userManager.FindByNameAsync(model.Email).Result;
 
-            var roles = _accountService.GetRoles(account).Data as List<Role>;
-            // bu nece bas verir????
+            var roles = _accountService.GetRoles(account).Data.ToList();
 
             foreach (var role in roles)
             {
