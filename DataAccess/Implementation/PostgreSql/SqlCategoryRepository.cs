@@ -21,7 +21,6 @@ namespace Library.DataAccess.Implementation.PostgreSql
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             command.Parameters.AddWithValue("@name", value.Name);
             return 1==command.ExecuteNonQuery();
-
         }
 
         public bool Delete(int id)
