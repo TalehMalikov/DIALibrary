@@ -48,7 +48,7 @@ namespace Library.Business.Concrete
             var result = _specialtyRepository.GetAll();
             if (result.Count == 0)
                 return new ErrorDataResult<List<Specialty>>(result, StatusMessagesUtil.NotFoundMessage);
-            return new SuccessDataResult<List<Specialty>>(_specialtyRepository.GetAll());
+            return new SuccessDataResult<List<Specialty>>(result);
         }
 
         [ValidationAspect(typeof(SpecialtyValidator))]

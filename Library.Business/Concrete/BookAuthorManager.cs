@@ -45,7 +45,7 @@ namespace Library.Business.Concrete
             var result = _bookAuthorRepository.GetAll();
             if (result.Count == 0)
                 return new ErrorDataResult<List<BookAuthor>>(result, StatusMessagesUtil.NotFoundMessage);
-            return new SuccessDataResult<List<BookAuthor>>();
+            return new SuccessDataResult<List<BookAuthor>>(result);
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IBookAuthorService.Get))]

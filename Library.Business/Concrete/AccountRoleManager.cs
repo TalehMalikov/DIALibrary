@@ -45,7 +45,7 @@ namespace Library.Business.Concrete
             var result = _accountRoleRepository.GetAll();
             if (result.Count == 0)
                 return new ErrorDataResult<List<AccountRole>>(result, StatusMessagesUtil.NotFoundMessage);
-            return new SuccessDataResult<List<AccountRole>>();
+            return new SuccessDataResult<List<AccountRole>>(result);
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IAccountRoleService.Get))]
