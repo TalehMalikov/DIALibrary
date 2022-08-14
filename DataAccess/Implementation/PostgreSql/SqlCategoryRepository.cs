@@ -51,7 +51,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             List<Category> categories = new List<Category>();
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
-            string cmdString = "Select * From Where Id=@id";
+            string cmdString = "Select * From Categories";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             var reader = command.ExecuteReader();
             while (reader.Read())
