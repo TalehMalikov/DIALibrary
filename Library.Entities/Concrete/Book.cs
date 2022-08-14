@@ -9,5 +9,7 @@ namespace Library.Entities.Concrete
         public Language OriginalLanguage { get; set; }
         public DateTime LastModified { get; set; }
         public bool IsDeleted { get; set; }
+        public bool Status { get; set; }
+        public FileType Type { get; set; }
     }
 }

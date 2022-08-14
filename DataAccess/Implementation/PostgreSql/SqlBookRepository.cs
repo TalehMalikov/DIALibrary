@@ -17,14 +17,16 @@ namespace Library.DataAccess.Implementation.PostgreSql
         {
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
-            string cmdString = "Insert Into Books(Name,CategoryId,OriginalLanguageId,LastModified,IsDeleted)" +
-                               " Values(@name,@categoryId,@originalCategoryId,@lastModified,@isDeleted)";
+            string cmdString = "Insert Into Books(Name,CategoryId,OriginalLanguageId,LastModified,IsDeleted,Status,FileTypeId)" +
+                               " Values(@name,@categoryId,@originalCategoryId,@lastModified,@isDeleted,@status,@fileTypeId)";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             command.Parameters.AddWithValue("@name", value.Name);
             command.Parameters.AddWithValue("@categoryId", value.Category.Id);
             command.Parameters.AddWithValue("@originalLanguageId", value.OriginalLanguage.Id);
             command.Parameters.AddWithValue("@lastModified", value.LastModified);
             command.Parameters.AddWithValue("@isDeleted", false);
+            command.Parameters.AddWithValue("@status", value.Status);
+            command.Parameters.AddWithValue("@fileTypeId", value.Type.Id);
             return 1 == command.ExecuteNonQuery();
         }
 
@@ -44,9 +46,11 @@ namespace Library.DataAccess.Implementation.PostgreSql
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = " select Categories.Id as CategoryId, Categories.Name as CategoryName,Books.Id as BookId, Books.Name as BookName," +
-            "Books.LastModified as LastModified, Books.IsDeleted as IsDeleted, Languages.Id as LanguageId,Languages.Name as OriginalLanguageName " +
+            "Books.LastModified as LastModified, Books.IsDeleted as IsDeleted, Languages.Id as LanguageId,Languages.Name as OriginalLanguageName, " +
+            "FileTypes.Id as FileTypeId, FileTypes.Name as FileTypeName" +
             "from Books inner join Categories on Books.CategoryId = Categories.Id inner join Languages on Books.OriginalLanguageId = Languages.Id " +
-                               "Where Books.Id=@id and IsDeleted=false";
+            "inner join FileTypes on Books.FileTypeId=FileTypes.Id" + 
+            "Where Books.Id=@id and IsDeleted=false";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             command.Parameters.AddWithValue("@id", id);
             var reader = command.ExecuteReader();
@@ -60,9 +64,10 @@ namespace Library.DataAccess.Implementation.PostgreSql
             List<Book> books = new List<Book>();
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
-            string cmdString = " Select Categories.Id as CategoryId, Categories.Name as CategoryName,Books.Id as BookId, Books.Name as BookName," + 
+            string cmdString = "Select Categories.Id as CategoryId, Categories.Name as CategoryName,Books.Id as BookId, Books.Name as BookName," + 
                                "Books.LastModified as LastModified, Books.IsDeleted as IsDeleted, Languages.Id as LanguageId,Languages.Name as OriginalLanguageName " +
-                               "from Books inner join Categories on Books.CategoryId = Categories.Id inner join Languages on Books.OriginalLanguageId = Languages.Id ";
+                               "from Books inner join Categories on Books.CategoryId = Categories.Id inner join Languages on Books.OriginalLanguageId = Languages.Id " +
+                               "Where Books.IsDeleted = false";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             var reader = command.ExecuteReader();
             while (reader.Read())
@@ -90,20 +95,26 @@ namespace Library.DataAccess.Implementation.PostgreSql
         {
             return new Book
             {
-                Id = reader.Get<int>(nameof(Book.Id)),
+                Id = reader.Get<int>("BookId"),
                 Category = new Category
                 {
-                    Id = reader.Get<int>(nameof(Category.Id)),
-                    Name = reader.Get<string>(nameof(Category.Name))
+                    Id = reader.Get<int>("CategoryId"),
+                    Name = reader.Get<string>("CategoryName")
                 },
                 OriginalLanguage = new Language
                 {
-                    Id = reader.Get<int>(nameof(Language.Id)),
-                    Name = reader.Get<string>(nameof(Language.Name))
+                    Id = reader.Get<int>("LanguageId"),
+                    Name = reader.Get<string>("LanguageName")
                 },
-                IsDeleted = reader.Get<bool>(nameof(Book.IsDeleted)),
-                LastModified = reader.Get<DateTime>(nameof(Book.LastModified)),
-                Name = reader.Get<string>(nameof(Book.Name))
+                IsDeleted = reader.Get<bool>("IsDeleted"),
+                LastModified = reader.Get<DateTime>("LastModified"),
+                Name = reader.Get<string>("BookName"),
+                Status = reader.Get<bool>("BookStatus"),
+                Type = new FileType
+                {
+                    Id = reader.Get<int>("FileTypeId"),
+                    Name = reader.Get<string>("FileTypeName")
+                }
             };
         }
     }
