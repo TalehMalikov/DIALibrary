@@ -7,20 +7,20 @@ namespace Library.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
-    public class CategoryController : ControllerBase
+    [Authorize]
+    public class FileTypeController : ControllerBase
     {
-        private readonly ICategoryService _categoryService;
-        public CategoryController(ICategoryService categoryService)
+        private readonly IFileTypeService _fileTypeService;
+        public FileTypeController(IFileTypeService fileTypeService)
         {
-            _categoryService = categoryService;
+            _fileTypeService = fileTypeService;
         }
 
         [HttpPost]
         [Route("add")]
-        public IActionResult Add(Category category)
+        public IActionResult Add(FileType fileType)
         {
-            var result = _categoryService.Add(category);
+            var result = _fileTypeService.Add(fileType);
             if (result.Success)
             {
                 return Ok(result);
@@ -30,48 +30,50 @@ namespace Library.WebAPI.Controllers
 
         [HttpPut]
         [Route("update")]
-        public IActionResult Update(Category category)
+        public IActionResult Update(FileType fileType)
         {
-            var result = _categoryService.Update(category);
+            var result = _fileTypeService.Update(fileType);
             if (result.Success)
             {
                 return Ok(result);
             }
+
             return BadRequest(result);
         }
 
-        [HttpGet]
-        [Route("getall")]
-        public IActionResult GetAll()
+        [HttpDelete("delete/{id:int}")]
+        public IActionResult Delete(int id)
         {
-            var result = _categoryService.GetAll();
+            var result = _fileTypeService.Delete(id);
             if (result.Success)
             {
                 return Ok(result);
             }
+
+            return BadRequest(result);
+        }
+
+        [HttpGet("getall")]
+        public IActionResult GetAll()
+        {
+            var result = _fileTypeService.GetAll();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
             return BadRequest(result);
         }
 
         [HttpGet("getbyid/{id:int}")]
         public IActionResult Get(int id)
         {
-            var result = _categoryService.Get(id);
+            var result = _fileTypeService.Get(id);
             if (result.Success)
             {
                 return Ok(result);
             }
 
-            return BadRequest(result);
-        }
-
-        [HttpDelete("{id:int}")]
-        public IActionResult Delete(int id)
-        {
-            var result = _categoryService.Delete(id);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
             return BadRequest(result);
         }
     }

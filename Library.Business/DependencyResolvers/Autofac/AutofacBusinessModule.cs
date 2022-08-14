@@ -7,6 +7,7 @@ using Library.Core.Interceptors;
 using Library.DataAccess.Abstraction;
 using Library.DataAccess.Implementation.PostgreSql;
 using System.Reflection;
+using Library.DataAccess.Implementation;
 using Module = Autofac.Module;
 
 namespace Library.Business.DependencyResolvers.Autofac
@@ -37,23 +38,42 @@ namespace Library.Business.DependencyResolvers.Autofac
             builder.RegisterType<SpecialtyManager>().As<ISpecialtyService>().SingleInstance();
             builder.RegisterType<StudentManager>().As<IStudentService>().SingleInstance();
             builder.RegisterType<UserManager>().As<IUserService>().SingleInstance();
+            builder.RegisterType<ActivityManager>().As<IActivityService>().SingleInstance();
             #endregion
 
             #region DataAccess
-            builder.RegisterType<SqlAccountRepository>().As<IAccountRepository>().WithParameter("connectionString", _connectionString).SingleInstance();
-            builder.RegisterType<SqlAccountRoleRepository>().As<IAccountRoleRepository>().WithParameter("connectionString", _connectionString).SingleInstance();
-            builder.RegisterType<SqlAuthorRepository>().As<IAuthorRepository>().WithParameter("connectionString", _connectionString).SingleInstance();
-            builder.RegisterType<SqlBookAuthorRepository>().As<IBookAuthorRepository>().WithParameter("connectionString", _connectionString).SingleInstance();
-            builder.RegisterType<SqlBookRepository>().As<IBookRepository>().WithParameter("connectionString", _connectionString).SingleInstance();
-            builder.RegisterType<SqlCategoryRepository>().As<ICategoryRepository>().WithParameter("connectionString", _connectionString).SingleInstance();
-            builder.RegisterType<SqlFacultyRepository>().As<IFacultyRepository>().WithParameter("connectionString", _connectionString).SingleInstance();
-            builder.RegisterType<SqlGroupRepository>().As<IGroupRepository>().WithParameter("connectionString", _connectionString).SingleInstance();
-            builder.RegisterType<SqlLanguageRepository>().As<ILanguageRepository>().WithParameter("connectionString", _connectionString).SingleInstance();
-            builder.RegisterType<SqlPublicationRepository>().As<IPublicationRepository>().WithParameter("connectionString", _connectionString).SingleInstance();
-            builder.RegisterType<SqlSectorRepository>().As<ISectorRepository>().WithParameter("connectionString", _connectionString).SingleInstance();
-            builder.RegisterType<SqlSpecialtyRepository>().As<ISpecialtyRepository>().WithParameter("connectionString", _connectionString).SingleInstance();
-            builder.RegisterType<SqlStudentRepository>().As<IStudentRepository>().WithParameter("connectionString", _connectionString).SingleInstance();
-            builder.RegisterType<SqlUserRepository>().As<IUserRepository>().WithParameter("connectionString", _connectionString).SingleInstance();
+            builder.RegisterType<SqlAccountRepository>().As<IAccountRepository>()
+                .WithParameter("connectionString", _connectionString).SingleInstance();
+            builder.RegisterType<SqlAccountRoleRepository>().As<IAccountRoleRepository>()
+                .WithParameter("connectionString", _connectionString).SingleInstance();
+            builder.RegisterType<SqlAuthorRepository>().As<IAuthorRepository>()
+                .WithParameter("connectionString", _connectionString).SingleInstance();
+            builder.RegisterType<SqlBookAuthorRepository>().As<IBookAuthorRepository>()
+                .WithParameter("connectionString", _connectionString).SingleInstance();
+            builder.RegisterType<SqlBookRepository>().As<IBookRepository>()
+                .WithParameter("connectionString", _connectionString).SingleInstance();
+            builder.RegisterType<SqlCategoryRepository>().As<ICategoryRepository>()
+                .WithParameter("connectionString", _connectionString).SingleInstance();
+            builder.RegisterType<SqlFacultyRepository>().As<IFacultyRepository>()
+                .WithParameter("connectionString", _connectionString).SingleInstance();
+            builder.RegisterType<SqlGroupRepository>().As<IGroupRepository>()
+                .WithParameter("connectionString", _connectionString).SingleInstance();
+            builder.RegisterType<SqlLanguageRepository>().As<ILanguageRepository>()
+                .WithParameter("connectionString", _connectionString).SingleInstance();
+            builder.RegisterType<SqlPublicationRepository>().As<IPublicationRepository>()
+                .WithParameter("connectionString", _connectionString).SingleInstance();
+            builder.RegisterType<SqlSectorRepository>().As<ISectorRepository>()
+                .WithParameter("connectionString", _connectionString).SingleInstance();
+            builder.RegisterType<SqlSpecialtyRepository>().As<ISpecialtyRepository>()
+                .WithParameter("connectionString", _connectionString).SingleInstance();
+            builder.RegisterType<SqlStudentRepository>().As<IStudentRepository>()
+                .WithParameter("connectionString", _connectionString).SingleInstance();
+            builder.RegisterType<SqlUserRepository>().As<IUserRepository>()
+                .WithParameter("connectionString", _connectionString).SingleInstance();
+            builder.RegisterType<SqlFileTypeRepository>().As<IFileTypeRepository>()
+                .WithParameter("connectionString", _connectionString).SingleInstance();
+            builder.RegisterType<SqlActivityRepository>().As<IActivityRepository>()
+                .WithParameter("connectionString", _connectionString).SingleInstance();
             #endregion
 
             var assembly = Assembly.GetExecutingAssembly();

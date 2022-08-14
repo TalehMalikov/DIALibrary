@@ -21,7 +21,6 @@ namespace Library.DataAccess.Implementation.PostgreSql
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             command.Parameters.AddWithValue("@name", value.Name);
             return 1==command.ExecuteNonQuery();
-
         }
 
         public bool Delete(int id)
@@ -52,7 +51,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             List<Category> categories = new List<Category>();
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
-            string cmdString = "Select * From Where Id=@id";
+            string cmdString = "Select * From Categories";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             var reader = command.ExecuteReader();
             while (reader.Read())
