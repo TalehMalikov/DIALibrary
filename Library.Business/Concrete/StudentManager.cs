@@ -45,7 +45,7 @@ namespace Library.Business.Concrete
             var result = _studentRepository.GetAll();
             if (result.Count == 0)
                 return new ErrorDataResult<List<Student>>(result, StatusMessagesUtil.NotFoundMessage);
-            return new SuccessDataResult<List<Student>>(_studentRepository.GetAll());
+            return new SuccessDataResult<List<Student>>(result);
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IStudentService.Get))]

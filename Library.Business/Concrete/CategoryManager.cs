@@ -48,7 +48,7 @@ namespace Library.Business.Concrete
             var result = _categoryRepository.GetAll();
             if (result.Count == 0)
                 return new ErrorDataResult<List<Category>>(result,StatusMessagesUtil.NotFoundMessage);
-            return new SuccessDataResult<List<Category>>();
+            return new SuccessDataResult<List<Category>>(result);
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.ICategoryService.Get))]
