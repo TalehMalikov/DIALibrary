@@ -7,7 +7,6 @@ using Library.Core.Interceptors;
 using Library.DataAccess.Abstraction;
 using Library.DataAccess.Implementation.PostgreSql;
 using System.Reflection;
-using Library.DataAccess.Implementation;
 using Module = Autofac.Module;
 
 namespace Library.Business.DependencyResolvers.Autofac

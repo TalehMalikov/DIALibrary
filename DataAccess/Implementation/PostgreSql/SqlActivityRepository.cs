@@ -3,7 +3,7 @@ using Library.DataAccess.Abstraction;
 using Library.Entities.Concrete;
 using Npgsql;
 
-namespace Library.DataAccess.Implementation
+namespace Library.DataAccess.Implementation.PostgreSql
 {
     public class SqlActivityRepository : IActivityRepository
     {
@@ -49,7 +49,7 @@ namespace Library.DataAccess.Implementation
             string cmdString = "Select * From Activities Where IsDeleted=false";
             using NpgsqlCommand command = new(cmdString, connection);
             var reader = command.ExecuteReader();
-            while(reader.Read())
+            while (reader.Read())
                 activities.Add(ReadActivity(reader));
             return activities;
         }

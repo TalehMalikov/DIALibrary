@@ -1,6 +1,6 @@
-﻿namespace Library.WebAPI.Models
+﻿namespace Library.Core.Domain.Dtos
 {
-    public class LoginResponseModel
+    public class LoginResponseDto
     {
         public string Token { get; set; }
         public string Email { get; set; }

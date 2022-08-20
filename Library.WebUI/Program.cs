@@ -1,7 +1,12 @@
+using Library.WebUI.Services.Abstract;
+using Library.WebUI.Services.Concrete;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton<IAuthService, AuthService>();
+builder.Services.AddSingleton<ICategoryService, CategoryService>();
 
 var app = builder.Build();
 

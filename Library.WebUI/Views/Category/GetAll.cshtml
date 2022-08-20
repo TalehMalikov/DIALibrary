@@ -1,0 +1,25 @@
+﻿@model CategoryViewModel
+@{
+    Layout = "_EBooksLayout";
+}
+<section id="category" class="my-5">
+    <div class="container-lg">
+        <div class="category-div">
+            <div class="category-title"><button class="p-2">Katiqoriyalar</button></div>
+            <div class="category d-flex p-2 justify-content-between">
+                <div class="category-row">
+                    <ul class="list">
+
+                        @foreach (Category item in Model.CategoryList.Data)
+                        {
+                            <li>
+                                <a href="#" class="category-link">@item.Name</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

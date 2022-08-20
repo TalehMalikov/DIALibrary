@@ -2,6 +2,8 @@
 using System.Security.Claims;
 using System.Text;
 using Library.Business.Abstraction;
+using Library.Core.Domain.Dtos;
+using Library.Core.Result.Concrete;
 using Library.Core.Utils;
 using Library.Entities.Concrete;
 using Library.WebAPI.Models;
@@ -52,12 +54,12 @@ namespace Library.WebAPI.Controllers
                 return BadRequest("Username or password is incorrect");
 
             string token = GenerateJwtToken(account);
-
-            return Ok(new LoginResponseModel
+            return Ok(new SuccessDataResult<LoginResponseDto>(new LoginResponseDto
             {
                 Email = account.Email,
                 Token = token
-            });
+            }));
+            
         }
 
 
