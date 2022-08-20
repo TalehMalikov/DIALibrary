@@ -13,11 +13,14 @@ namespace Library.WebUI.Controllers
             _categoryService = categoryService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var result = await _categoryService.GetAll();
-            var model = new CategoryViewModel();
-            model.CategoryList = result;
+            var model = new CategoryViewModel
+            {
+                CategoryList = result
+            };
             return View(model);
         }
     }

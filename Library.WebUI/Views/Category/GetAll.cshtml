@@ -1,7 +1,9 @@
 ﻿@model CategoryViewModel
 @{
-    Layout = "_CommonLayout";
+    ViewData["Title"] = "GetAll";
+    Layout = "~/Views/Shared/_CommonLayout2.cshtml";
 }
+
 
 @section navbar_bottom{
     <section id="navbottom">
@@ -23,13 +25,13 @@
 }
 
 
-<section id="category" class="my-5">
-    <div class="container-lg">
-        <div class="category-div">
-            <div class="category-title"><button class="p-2">Katiqoriyalar</button></div>
-            <div class="category d-flex p-2 justify-content-between">
-                <div class="category-row">
-                    <ul class="list">
+    <section id="category" class="my-5">
+        <div class="container-lg">
+            <div class="category-div">
+                <div class="category-title"><button class="p-2">Katiqoriyalar</button></div>
+                <div class="category d-flex p-2 justify-content-between">
+                    <div class="category-row">
+                        <ul class="list">
 
                         @foreach (Category item in Model.CategoryList.Data)
                         {
@@ -43,4 +45,3 @@
         </div>
     </div>
 </section>
-
