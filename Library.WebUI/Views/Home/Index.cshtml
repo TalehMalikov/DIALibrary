@@ -1,115 +1,58 @@
 ﻿@{
     Layout = "_MainLayout";
 }
+<header>
+    <section id="navbottom">
 
-<section id="main-photo" class="pt-2 pb-5">
-    <div class="container-lg">
-        <div class="image-area">
-            <img src="images/academy.jpg" width="100%">
-        </div>
-    </div>
-</section>
+        <div class="container-lg">
+            <nav class="navbar-down">
+                <a class="btn btn-menu red" asp-action="Index" asp-controller="Home">
+                    Ana səhifə
+                </a>
 
-<section id="books">
-    <div class="container-lg">
-        <div class="title d-flex justify-content-between">
-            <div class="left">
-                <span class="text-bold">Yeni kitablar</span>
-                <a href="#" class="text-italic">-bütün kitablar</a>
-            </div>
-            <div class="right">
-                <button class="prev-btn">
-                    <i class="fas fa-angle-left"></i>
-                </button>
-                <button class="next-btn">
-                    <i class="fas fa-angle-right"></i>
-                </button>
-            </div>
-
-        </div>
-        <div class="swiper">
-            <hr class="w-100">
-
-            <!-- Additional required wrapper -->
-            <div class="swiper-wrapper">
-                <!-- Slides -->
-                <div class="swiper-slide">
-                    <a href="#" class="card-book">
-                        <img src="img/Book1.png">
+                <div class="dropdown">
+                    <a class="btn btn-menu dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Bizim kitabxana
                     </a>
+
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li><a class="dropdown-item" href="moreinfo.html">Ümumi məlumat</a></li>
+                        <li><a class="dropdown-item" href="otherlib.html">Digər kitabxanalar</a></li>
+                        <li><a class="dropdown-item" href="news.html">Yeniliklər</a></li>
+                    </ul>
                 </div>
 
-                <div class="swiper-slide">
-                    <div class="card-book">
-                        <img src="img/Book2.png">
-                    </div>
+                <div class="dropdown">
+                    <a class="btn btn-menu dropdown-toggle" role="button" id="dropdownMenuLink"
+                       data-bs-toggle="dropdown" aria-expanded="false" asp-action="GetAll" asp-controller="Category">
+                        E-Kitabxana
+                    </a>
+
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li><a class="dropdown-item" href="category.html">E-Kataloq</a></li>
+                        <li><a class="dropdown-item" asp-action="GetAll" asp-controller="Category">E-Kitablar</a></li>
+                        <li class="sub"><a class="dropdown-item" href="#">E-Resurslar ></a></li>
+
+                        <ul class="submenu">
+                            <li><a class="dropdown-item" href="#">Kitablar</a></li>
+                            <li><a class="dropdown-item" href="#">Məqalələr</a></li>
+                            <li><a class="dropdown-item" href="#">Avtoreferatlar</a></li>
+                            <li><a class="dropdown-item" href="#">Jurnallar</a></li>
+                            <li><a class="dropdown-item" href="#">Dərsliklər</a></li>
+                        </ul>
+                    </ul>
+
+
                 </div>
 
-                <div class="swiper-slide">
-                    <div class="card-book">
-                        <img src="img/Book3.png">
-                    </div>
-                </div>
+                <a class="btn btn-menu modal-btn" href="#">
+                    Giriş
+                </a>
 
-                <div class="swiper-slide">
-                    <div class="card-book">
-                        <img src="img/Book4.png">
-                    </div>
-                </div>
-
-            </div>
+            </nav>
         </div>
-    </div>
-</section>
+    </section>
+</header>
 
-<section id="sign" class="py-2 mb-4">
-    <div class="container-lg">
-        <div class="text-box">
-            <span class="fw-bold pb-2">Qeydiyyat</span>
-
-            <span class="text">
-                1.Kitabxanaya yazılmaq üçün şəxsiyyəti təsdiq edən sənəd və bir ədəd 3X4 ölçülü
-                şəkil təqdim olunmalıdır.
-            </span>
-            <span class="text-">
-                2.Kitabxananın Oxu zallarından istənilən oxucu şəxsiyyəti təsdiq edən sənəd
-                təqdim edərək istifadə edə bilər.
-            </span>
-            <span class="text-">
-                3.Abonementdən Azərbaycan Respublikası Prezidentinin Administrasiyasının və
-                İşlər İdarəsinin əməkdaşları istifadə edə bilərlər.
-            </span>
-
-            <span class="fw-bold mx-md-5 my-2 pt-2">Əlaqə nömrələri:</span>
-            <span class="mx-md-5 px-md-5 px-3 fw-bold">Oxu zalı: (+99412) 492-65-29</span>
-            <span class="mx-md-5 px-md-5 px-3 fw-bold mb-3">Abonement: (+99450) 582-28-31 </span>
-        </div>
-    </div>
-</section>
-
-<section id="carousel">
-    <div class="container-lg">
-        <div class="carousel my-5">
-            <div class="owl-carousel owl-theme">
-                <div class="item">
-                    <a href="https://heydaraliyevcenter.az/"><img src="images/HeydarAliyevCenter.jpg"></a>
-                </div>
-
-                <div class="item">
-                    <a href="https://president.az/"><img src="images/PresidentAz.gif"></a>
-                </div>
-
-                <div class="item">
-                    <a href="https://heydar-aliyev-foundation.org/az"><img src="images/HeydarAliyevFoundation.png"></a>
-                </div>
-
-                <div class="item">
-                    <a href="http://www.millikitabxana.az/"><img src="images/libraries_anl.png"></a>
-                </div>
-
-            </div>
-
-        </div>
-    </div>
-</section>
 
