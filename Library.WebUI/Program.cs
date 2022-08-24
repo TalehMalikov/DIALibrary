@@ -7,6 +7,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<IAuthService, AuthService>();
 builder.Services.AddSingleton<ICategoryService, CategoryService>();
+builder.Services.AddSingleton<IFileService, FileService>();
+
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AddPageRoute("/Contact", "Category/GetNewAddedBooks/{id?}");
+});
 
 var app = builder.Build();
 

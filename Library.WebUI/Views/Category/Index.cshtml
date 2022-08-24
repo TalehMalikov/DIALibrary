@@ -1,0 +1,152 @@
+﻿@using Library.WebUI.Systems
+@using System.Drawing
+@model CategoryViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_CommonLayout.cshtml";
+}
+
+@section navbar_bottom{
+<section id="navbottom">
+
+    <div class="container-lg">
+        <nav class="navbar-down justify-content-between align-items-center">
+            <a class="btn btn-menu red" href="#">
+                E-Kitablar
+            </a>
+
+            <div class="input-area ">
+                <input type="text" class="input-nav" placeholder="Kitab Axtar">
+                <button class="fas fa-search"></button>
+
+            </div>
+        </nav>
+    </div>
+</section>
+}
+
+
+<section id="category" class="my-5">
+    <div class="container-lg">
+        <div class="category-div">
+            <div class="category-title"><button class="p-2">Katiqoriyalar</button></div>
+            <div class="category d-flex p-2 justify-content-between">
+                @{
+                    int count = Model.CategoryList.Data.Count;
+                    int i = 0;
+                    for (; i < (count / 8); i++)
+                    {
+                        <div class="category-row">
+
+                            <ul class="list">
+
+                                @for (int j = i * 8; j < (i + 1) * 8; j++)
+                                {
+                                    <li>
+                                        <a href="#" class="category-link">@Model.CategoryList.Data[j].Name</a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                    @if ((count - i * 8) > 0)
+                    {
+                        <ul class="list">
+                            @for (int j = i * 8; j < count; j++)
+                            {
+                                <li>
+                                    <a href="#" class="category-link">@Model.CategoryList.Data[j].Name</a>
+                                </li>
+                            }
+                        </ul>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<main>
+
+    <section id="newbooks" class="my-4">
+        <div class="container-lg">
+            <div class="title d-flex justify-content-between">
+                <div class="left">
+                    <span class="text-bold">Yeni Elave Olunanlar</span>
+                </div>
+                <div class="right">
+                    <button class="prev-btn">
+                        <i class="fas fa-angle-left"></i>
+                    </button>
+                    <button class="next-btn">
+                        <i class="fas fa-angle-right"></i>
+                    </button>
+                </div>
+            </div>
+            <hr>
+        </div>
+        </div>
+    </section>
+
+    <div class="swiper">
+        <div class="swiper-wrapper">
+            @{
+                var result = Model.NewAddedBookList.Data;
+
+                @for (int k = 0; k < result.Count; k++)
+                {
+                    //string fullPath = System.IO.Path.Combine(SystemDefaults.DefaultBookPhotoPath, result[k].Photo);
+
+                    <div class="swiper-slide">
+                        <a href="#" class="card-book d-flex flex-column align-items-center">
+                            <img width="150" height="200" src="@Url.Action("Picture", new { name = result[k].Photo })">
+
+                            <span class="book-comment">
+                                @result[k].PublisherName
+                            </span>
+                        </a>
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+
+
+
+
+</main>
+
+
+
+
+@section ScriptArea
+{
+<script>
+    (function(){
+        $.ajax({
+            url:"/category/getnewaddedbooks?count=10",
+            success : function(data)
+            {
+                $('#seenewaddedbooks').html(data);
+                $("#seenewaddedbooks").modal("show");
+                console.log("success")
+            }
+        })
+    })();
+
+
+    //function ShowPhoto(elem) {
+    //    var dataId = $(elem).data("id");
+
+    //    $.ajax({
+    //        url: "/Category/PhotoModal?bookId=" + dataId,
+    //        success: function (data) {
+    //            $('#seeBookPhoto').html(data);
+    //            $("#seeBookPhoto").modal("show");
+    //        }
+    //    });
+    //}
+
+</script>
+}

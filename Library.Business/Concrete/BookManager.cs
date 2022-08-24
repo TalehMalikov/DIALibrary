@@ -19,7 +19,7 @@ namespace Library.Business.Concrete
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IBookService.Get))]
         [ValidationAspect(typeof(BookValidator))]
-        public Result Add(Book value)
+        public Result Add(Entities.Concrete.File value)
         {
             _bookRepository.Add(value);
             return new SuccessResult(StatusMessagesUtil.AddSuccessMessage);
@@ -34,26 +34,26 @@ namespace Library.Business.Concrete
         }
 
         [CacheAspect]
-        public DataResult<Book> Get(int id)
+        public DataResult<Entities.Concrete.File> Get(int id)
         {
             var result = _bookRepository.Get(id);
             if (result == null)
-                return new ErrorDataResult<Book>(result, StatusMessagesUtil.NotFoundMessageGivenId);
-            return new SuccessDataResult<Book>(result);
+                return new ErrorDataResult<Entities.Concrete.File>(result, StatusMessagesUtil.NotFoundMessageGivenId);
+            return new SuccessDataResult<Entities.Concrete.File>(result);
         }
 
         [CacheAspect]
-        public DataResult<List<Book>> GetAll()
+        public DataResult<List<Entities.Concrete.File>> GetAll()
         {
             var result = _bookRepository.GetAll();
             if (result.Count == 0)
-                return new ErrorDataResult<List<Book>>(result, StatusMessagesUtil.NotFoundMessage);
-            return new SuccessDataResult<List<Book>>(result);
+                return new ErrorDataResult<List<Entities.Concrete.File>>(result, StatusMessagesUtil.NotFoundMessage);
+            return new SuccessDataResult<List<Entities.Concrete.File>>(result);
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IBookService.Get))]
         [ValidationAspect(typeof(BookValidator))]
-        public Result Update(Book value)
+        public Result Update(Entities.Concrete.File value)
         {
             if(_bookRepository.Update(value))
                 return new SuccessResult(StatusMessagesUtil.UpdateSuccessMessage);

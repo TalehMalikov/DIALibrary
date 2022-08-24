@@ -2,7 +2,7 @@
 
 namespace Library.Business.Abstraction
 {
-    public interface IBookService : IBaseService<Book>
+    public interface IBookService : IBaseService<Entities.Concrete.File>
     {
     }
 }

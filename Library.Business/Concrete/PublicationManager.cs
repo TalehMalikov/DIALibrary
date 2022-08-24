@@ -51,6 +51,14 @@ namespace Library.Business.Concrete
             return new SuccessDataResult<List<Publication>>(result);
         }
 
+        public DataResult<List<Publication>> GetNewAdded(int count)
+        {
+            var result = _publicationRepository.GetNewAdded(count);
+            if (result.Count == 0)
+                return new ErrorDataResult<List<Publication>>(result, StatusMessagesUtil.NotFoundMessage);
+            return new SuccessDataResult<List<Publication>>(result);
+        }
+
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IPublicationService.Get))]
         [ValidationAspect(typeof(PublicationValidator))]
         public Result Update(Publication value)

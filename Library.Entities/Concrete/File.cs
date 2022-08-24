@@ -2,7 +2,7 @@
 
 namespace Library.Entities.Concrete
 {
-    public class Book : BaseEntity
+    public class File : BaseEntity
     {
         public string Name { get; set; }
         public Category Category { get; set; }

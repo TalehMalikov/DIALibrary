@@ -1,0 +1,85 @@
+﻿@using Library.WebUI.Systems
+@model CategoryViewModel
+
+<head>
+     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+</head>
+
+<div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <!-- Modal content -->
+    <div class="modal-content" id="editDebtModelBody">
+        <div style="overflow:auto;" class="modal-body">
+            <form asp-controller="Category" asp-action="GetNewAddedBooks" class="form-group">
+                <div class="swiper">
+                    <div class="swiper-wrapper">
+                        @{
+                            var result = @Model.NewAddedBookList.Data;
+                            int x = 1;
+                        }
+                        @for (int k = 0; k < result.Count; k++)
+                        {
+                             string fullPath = System.IO.Path.Combine(SystemDefaults.DefaultBookPhotoPath, result[k].Photo+".jpg");
+                            string path = @"C:\DIALibrary\BookPhotos\uçurum_hüseyn_cavid.jpg";
+                            <div class="swiper-slide">
+                                    <a href="#" class="card-book d-flex flex-column align-items-center" >
+                                        <img src="@Url.Content(@path)" alt="">
+                                       
+                                        <span class="book-comment">
+                                            Nizami Gəncəvi dilinin lüğəti: I hissə
+
+                                        </span>
+                                    </a>
+                             </div>
+                        }
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div  class="modal fade" id="seebookphoto">
+</div>
+
+
+<partial name="_ValidationScriptsPartial"/>
+
+@section ScriptArea
+{
+<script>
+
+    function ShowPhoto(elem) {
+        var photoName = $(elem).data("path");
+
+        $.ajax({
+            url: "/Category/Picture?name=" + photoName,
+            success: function (data) {
+                $('#seebookphoto').html(data);
+                $("#seebookphoto").modal("show");
+            }
+            error : function(data)
+            {
+                @{
+                    int a=1;
+                }
+            }
+        });
+    }
+
+</script>
+}
+
+
+@*@model string
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">PromoCodePhoto</h4>
+            <button type="button" class="close" data-dismiss="modal">×</button>
+        </div>
+        <div class="modal-body" id="seePhotoModal">
+            <img src="@Model" class="img-fluid mx-auto d-block" alt="PromoCodePhoto">
+        </div>
+    </div>
+</div>*@

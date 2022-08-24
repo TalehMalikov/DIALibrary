@@ -4,44 +4,151 @@
     Layout = "~/Views/Shared/_CommonLayout.cshtml";
 }
 
-
 @section navbar_bottom{
-    <section id="navbottom">
+<section id="navbottom">
 
-        <div class="container-lg">
-            <nav class="navbar-down justify-content-between align-items-center">
-                <a class="btn btn-menu red" href="#">
-                    E-Kitablar
-                </a>
+    <div class="container-lg">
+        <nav class="navbar-down justify-content-between align-items-center">
+            <a class="btn btn-menu red" href="#">
+                E-Kitablar
+            </a>
 
-                <div class="input-area ">
-                    <input type="text" class="input-nav" placeholder="Kitab Axtar">
-                    <button class="fas fa-search"></button>
+            <div class="input-area ">
+                <input type="text" class="input-nav" placeholder="Kitab Axtar">
+                <button class="fas fa-search"></button>
 
-                </div>
-            </nav>
-        </div>
-    </section>
+            </div>
+        </nav>
+    </div>
+</section>
 }
 
 
-    <section id="category" class="my-5">
-        <div class="container-lg">
-            <div class="category-div">
-                <div class="category-title"><button class="p-2">Katiqoriyalar</button></div>
-                <div class="category d-flex p-2 justify-content-between">
-                    <div class="category-row">
-                        <ul class="list">
+<section id="category" class="my-5">
+    <div class="container-lg">
+        <div class="category-div">
+            <div class="category-title"><button class="p-2">Katiqoriyalar</button></div>
+            <div class="category d-flex p-2 justify-content-between">
+                @{
+                    int count = Model.CategoryList.Data.Count;
+                    int i = 0;
+                    for (; i < (count / 8); i++)
+                    {
+                        <div class="category-row">
 
-                        @foreach (Category item in Model.CategoryList.Data)
-                        {
-                            <li>
-                                <a href="#" class="category-link">@item.Name</a>
-                            </li>
-                        }
-                    </ul>
-                </div>
+                            <ul class="list">
+
+                                @for (int j = i * 8; j < (i + 1) * 8; j++)
+                                {
+                                    <li>
+                                        <a href="#" class="category-link">@Model.CategoryList.Data[j].Name</a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                    @if ((count - i * 8) > 0)
+                    {
+                        <ul class="list">
+                            @for (int j = i * 8; j < count; j++)
+                            {
+                                <li>
+                                    <a href="#" class="category-link">@Model.CategoryList.Data[j].Name</a>
+                                </li>
+                            }
+                        </ul>
+                    }
+                }
             </div>
         </div>
     </div>
 </section>
+
+<main>
+
+    <section id="newbooks" class="my-4">
+        <div class="container-lg">
+            <div class="title d-flex justify-content-between">
+                <div class="left">
+                    <span class="text-bold">Yeni Elave Olunanlar</span>
+                </div>
+                <div  class="right">
+                    <button class="prev-btn">
+                        <i class="fas fa-angle-left"></i>
+                    </button>
+                    <button class="next-btn">
+                        <i class="fas fa-angle-right"></i>
+                    </button>
+                </div>
+            </div>
+            <hr>
+
+            <div onshow="GetNewAddedBooks()" data-target="seeNewAddedBooks" @*id="seeNewAddedBooks"*@>
+                  @*<div onshow="GetNewAddedBooks(10)" class="category d-flex p-2 justify-content-between" id="seeNewAddedBooks">
+                        @{
+                            var result = @Model.BookList.Data;
+                        }
+                  </div>*@
+                  @* <div class="swiper-wrapper">
+                        @for (int k = 0; k < result.Count; k++)
+                        {
+                                <div class="swiper-slide">
+                                    <a href="#" class="card-book d-flex flex-column align-items-center" asp-controller="Category" asp-action="GetNewAddedBooks">
+                                                <div onshow="ShowPhoto(@result[i])" class="modal fade" id="modalPromoPhoto">
+
+                                                </div>
+
+                                        <img data-id="' + row.id + '" id="seeBookPhoto">
+
+                                        <span class="book-comment">
+                                            Nizami Gəncəvi dilinin lüğəti: I hissə
+
+                                        </span>
+                                    </a>
+                                </div>
+                        }
+                  </div>*@
+
+
+            </div>
+        </div>
+    </section>
+</main>
+
+
+<!-- The Modal -->
+<div class="modal fade" id="seeNewAddedBooks">
+</div>
+
+
+
+@section ScriptArea
+{
+<script>
+    function GetNewAddedBooks()
+    {
+        $.ajax({
+            url:"/Category/GetNewAddedBooks?count="+10,
+            success : function(data)
+            {
+                $('#seeNewAddedBooks').html(data);
+                $('#seeNewAddedBooks').modal("show");
+            }
+        })();
+    }
+
+
+    //function ShowPhoto(elem) {
+    //    var dataId = $(elem).data("id");
+
+    //    $.ajax({
+    //        url: "/Category/PhotoModal?bookId=" + dataId,
+    //        success: function (data) {
+    //            $('#seeBookPhoto').html(data);
+    //            $("#seeBookPhoto").modal("show");
+    //        }
+    //    });
+    //}
+
+</script>
+}

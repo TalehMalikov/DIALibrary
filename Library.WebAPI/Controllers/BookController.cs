@@ -18,7 +18,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPost]
         [Route("add")]
-        public IActionResult Add(Book book)
+        public IActionResult Add(Entities.Concrete.File book)
         {
             var result = _bookService.Add(book);
             if (result.Success)
@@ -30,7 +30,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPut]
         [Route("update")]
-        public IActionResult Update(Book book)
+        public IActionResult Update(Entities.Concrete.File book)
         {
             var result = _bookService.Update(book);
             if (result.Success)

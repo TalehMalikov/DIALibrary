@@ -21,7 +21,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
                 "Values(@bookId,@photoPath,@filePath,@publisherName,@pageNumber,@publicationLanguageId,@publicationDate,@lastModified,@isDeleted)";
             using NpgsqlCommand command = new(cmdString, connection);
             command.Parameters.AddWithValue("@bookId", value.Book.Id);
-            command.Parameters.AddWithValue("@photoPath", value.PhotoPath);
+            command.Parameters.AddWithValue("@photoPath", value.Photo);
             command.Parameters.AddWithValue("@publisherName", value.PublisherName);
             command.Parameters.AddWithValue("@pageNumber", value.PageNumber);
             command.Parameters.AddWithValue("@publicationLanguageId",value.PublicationLanguage);
@@ -47,17 +47,17 @@ namespace Library.DataAccess.Implementation.PostgreSql
             using NpgsqlConnection connection = new(_connectionString);
             connection.Open();
             string cmdString = "Select Publications.Id as PublicationId, " +
-                               "Books.Id as BookId,Books.Name as BookName, Categories.Id as CategoryId, " +
-                               "Categories.Name as CategoryName,Languages.Id as BookLanguageId, " +
-                               "Languages.Name as BookLanguageName, " +
+                               "Files.Id as FileId,Files.Name as FileName, Categories.Id as CategoryId, " +
+                               "Categories.Name as CategoryName,Languages.Id as FileLanguageId, " +
+                               "Languages.Name as FileLanguageName, Files.Lastmodified as FileLastModified,Files.IsDeleted as FileIsDeleted, " +
                                "PhotoPath,FilePath,PublisherName,PageNumber, " +
                                "Languages.Id as PublicationLanguageId, Languages.Name as PublicationLanguageName, " +
-                               "PublicationDate, Publications.LastModified, Publications.IsDeleted From Publications " +
-                               "inner join Books on Publications.BookId = Books.Id " +
-                               "inner join Languages on Books.OriginalLanguageId = Languages.Id and Publications.PublicationLanguageId = Languages.Id " +
-                               "inner join Categories on Books.CategoryId = Categories.Id Where Publications.Id =@id";
+                               "PublicationDate, Publications.LastModified as PublicationLastModified, Publications.IsDeleted as PublicationIsDeleted From Publications " +
+                               "inner join Files on Publications.BookId = Files.Id " +
+                               "inner join Languages on Files.OriginalLanguageId = Languages.Id and Publications.PublicationLanguageId = Languages.Id " +
+                               "inner join Categories on Files.CategoryId = Categories.Id Where Publications.Id =@id";
             using NpgsqlCommand command = new(cmdString, connection);
-            command.Parameters.AddWithValue("@id");
+            command.Parameters.AddWithValue("@id",id);
             var reader = command.ExecuteReader();
             if(reader.Read())
                 return ReadPublication(reader);
@@ -70,19 +70,43 @@ namespace Library.DataAccess.Implementation.PostgreSql
             using NpgsqlConnection connection = new(_connectionString);
             connection.Open();
             string cmdString = "Select Publications.Id as PublicationId, " +
-                               "Books.Id as BookId,Books.Name as BookName, Categories.Id as CategoryId, " +
-                               "Categories.Name as CategoryName,Languages.Id as BookLanguageId, " +
-                               "Languages.Name as BookLanguageName, " +
-                               "PhotoPath,FilePath,PublisherName,PageNumber, " +
+                               "Files.Id as FileId,Files.Name as FileName, Categories.Id as CategoryId, " +
+                               "Categories.Name as CategoryName,Languages.Id as FileLanguageId, " +
+                               "Languages.Name as FileLanguageName, Files.Lastmodified as FileLastModified, " +
+                               "PhotoPath,FilePath,PublisherName,PageNumber, Files.IsDeleted as FileIsDeleted," +
                                "Languages.Id as PublicationLanguageId, Languages.Name as PublicationLanguageName, " +
-                               "PublicationDate, Publications.LastModified, Publications.IsDeleted From Publications " +
-                               "inner join Books on Publications.BookId = Books.Id " +
-                               "inner join Languages on Books.OriginalLanguageId = Languages.Id and Publications.PublicationLanguageId = Languages.Id " +
-                               "inner join Categories on Books.CategoryId = Categories.Id ";
+                               "PublicationDate, Publications.LastModified as PublicationLastModified, Publications.IsDeleted as PublicationIsDeleted From Publications " +
+                               "inner join Files on Publications.BookId = Files.Id " +
+                               "inner join Languages on Files.OriginalLanguageId = Languages.Id and Publications.PublicationLanguageId = Languages.Id " +
+                               "inner join Categories on Files.CategoryId = Categories.Id ";
             using NpgsqlCommand command = new(cmdString, connection);
             var reader = command.ExecuteReader();
             while (reader.Read())
                  list.Add(ReadPublication(reader));
+            return list;
+        }
+
+        public List<Publication> GetNewAdded(int count)
+        {
+            List<Publication> list = new List<Publication>();
+            using NpgsqlConnection connection = new(_connectionString);
+            connection.Open();
+            string cmdString = "Select Publications.Id as PublicationId, " +
+                               "Files.Id as fileid,Files.Name as Filename, Categories.Id as CategoryId, " +
+                               "Categories.Name as CategoryName,Languages.Id as fileLanguageId, " +
+                               "Languages.Name as fileLanguageName,Files.Lastmodified as FileLastModified, " +
+                               "PhotoPath,FilePath,PublisherName,PageNumber,Files.IsDeleted as FileIsDeleted, " +
+                               "Languages.Id as PublicationLanguageId, Languages.Name as PublicationLanguageName, " +
+                               "PublicationDate, Publications.LastModified as PublicationLastModified, Publications.IsDeleted as PublicationIsDeleted From Publications " +
+                               "inner join Files on Publications.BookId = Files.Id " +
+                               "inner join Languages on Files.OriginalLanguageId = Languages.Id and Publications.PublicationLanguageId = Languages.Id " +
+                               "inner join Categories on Files.CategoryId = Categories.Id  order by Publications.LastModified desc limit @count";
+
+            using NpgsqlCommand command = new(cmdString, connection);
+            command.Parameters.AddWithValue("@count",count);
+            var reader = command.ExecuteReader();
+            while (reader.Read())
+                list.Add(ReadPublication(reader));
             return list;
         }
 
@@ -95,7 +119,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
                 "PublicationLanguageId=@publicationLanguageId,PublicationDate=@publicationDate,LastModified=@lastModified,IsDeleted=@isDeleted Where Publications.Id=@id";
             using NpgsqlCommand command = new(cmdString, connection);
             command.Parameters.AddWithValue("@bookId", value.Book.Id);
-            command.Parameters.AddWithValue("@photoPath", value.PhotoPath);
+            command.Parameters.AddWithValue("@photoPath", value.Photo);
             command.Parameters.AddWithValue("@publisherName", value.PublisherName);
             command.Parameters.AddWithValue("@pageNumber", value.PageNumber);
             command.Parameters.AddWithValue("@publicationLanguageId", value.PublicationLanguage);
@@ -111,25 +135,25 @@ namespace Library.DataAccess.Implementation.PostgreSql
             return new Publication
             {
                 Id = reader.Get<int>("PublicationId"),
-                Book = new Book
+                Book = new Entities.Concrete.File
                 {
-                    Id = reader.Get<int>("BookId"),
+                    Id = reader.Get<int>("FileId"),
                     Category = new Category
                     {
                         Id = reader.Get<int>("CategoryId"),
                         Name = reader.Get<string>("CategoryName"),
                     },
-                    Name = reader.Get<string>("BookName"),
+                    Name = reader.Get<string>("FileName"),
                     OriginalLanguage = new Language
                     {
-                        Id = reader.Get<int>("LanguageId"),
-                        Name = reader.Get<string>("LanguageName")
+                        Id = reader.Get<int>("FileLanguageId"),
+                        Name = reader.Get<string>("FileLanguageName")
                     },
-                    LastModified = reader.Get<DateTime>("BookLastModified"),
-                    IsDeleted = reader.Get<bool>("BookIsDeleted"),
+                    LastModified = reader.Get<DateTime>("FileLastModified"),
+                    IsDeleted = reader.Get<bool>("FileIsDeleted"),
                 },
-                FilePath = reader.Get<string>("FilePath"),
-                PhotoPath = reader.Get<string>("PhotoPath"),
+                File = reader.Get<string>("FilePath"),
+                Photo = reader.Get<string>("PhotoPath"),
                 IsDeleted = reader.Get<bool>("PublicationIsDeleted"),
                 LastModified = reader.Get<DateTime>("PublicationLastModified"),
                 PageNumber = reader.Get<short>("PageNumber"),

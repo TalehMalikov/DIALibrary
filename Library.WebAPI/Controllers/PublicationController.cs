@@ -7,7 +7,7 @@ namespace Library.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class PublicationController : ControllerBase
     {
         private readonly IPublicationService _publicationService;
@@ -51,6 +51,18 @@ namespace Library.WebAPI.Controllers
                 return Ok(result);
             }
 
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getnewadded/{count:int}")]
+        public IActionResult GetNewAdded(int count)
+        {
+            var result = _publicationService.GetNewAdded(count);
+            if(result.Success)
+            {
+                return Ok(result);
+            }
             return BadRequest(result);
         }
 

@@ -4,9 +4,9 @@ namespace Library.Entities.Concrete
 {
     public class Publication : BaseEntity
     {
-        public Book Book { get; set; }
-        public string PhotoPath { get; set; }
-        public string FilePath { get; set; }
+        public File Book { get; set; }
+        public string Photo { get; set; }
+        public string File { get; set; }
         public string PublisherName { get; set; }
         public short PageNumber { get; set; }
         public Language PublicationLanguage { get; set; }

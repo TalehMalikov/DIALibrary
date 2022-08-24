@@ -5,14 +5,12 @@ using Library.WebUI.Services.Abstract;
 
 namespace Library.WebUI.Services.Concrete
 {
-    public class AuthService : IAuthService
+    public class AuthService : BaseService, IAuthService
     {
-        private const string BaseUrl = "https://localhost:7185/api/Authentication/";
-
         public async Task<DataResult<LoginResponseDto>> Login(AccountLoginDto value)
         {
             using HttpClient client = new HttpClient();
-            var result = await client.PostJsonAsync<DataResult<LoginResponseDto>, AccountLoginDto>(BaseUrl + "login", value);
+            var result = await client.PostJsonAsync<DataResult<LoginResponseDto>, AccountLoginDto>(_baseUrl + "Authentication/login", value);
             return result;
         }
     }

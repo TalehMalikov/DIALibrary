@@ -116,7 +116,7 @@ namespace Library.WebAPI.IdentityServer
 
         public Task AddToRoleAsync(Account user, string roleName, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public Task AddToRolesAsync(Account user, string roleName, CancellationToken cancellationToken)

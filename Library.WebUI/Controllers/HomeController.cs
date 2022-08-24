@@ -9,7 +9,5 @@ namespace Library.WebUI.Controllers
         {
             return View();
         }
-
-        
     }
 }

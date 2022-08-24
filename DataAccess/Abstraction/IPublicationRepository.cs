@@ -4,5 +4,6 @@ namespace Library.DataAccess.Abstraction
 {
     public interface IPublicationRepository : ICrudRepository<Publication>
     {
+        List<Publication> GetNewAdded(int count);
     }
 }

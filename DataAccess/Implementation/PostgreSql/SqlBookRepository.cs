@@ -13,7 +13,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             _connectionString = connectionString;
         }
 
-        public bool Add(Book value)
+        public bool Add(Entities.Concrete.File value)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
@@ -41,7 +41,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             return 1 == command.ExecuteNonQuery();
         }
 
-        public Book Get(int id)
+        public Entities.Concrete.File Get(int id)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
@@ -59,9 +59,9 @@ namespace Library.DataAccess.Implementation.PostgreSql
             return null;
         }
 
-        public List<Book> GetAll()
+        public List<Entities.Concrete.File> GetAll()
         {
-            List<Book> books = new List<Book>();
+            List<Entities.Concrete.File> books = new List<Entities.Concrete.File>();
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Select Categories.Id as CategoryId, Categories.Name as CategoryName,Books.Id as BookId, Books.Name as BookName," + 
@@ -75,7 +75,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             return books;
         }
 
-        public bool Update(Book value)
+        public bool Update(Entities.Concrete.File value)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
@@ -91,9 +91,9 @@ namespace Library.DataAccess.Implementation.PostgreSql
             return 1 == command.ExecuteNonQuery();
         }
 
-        private Book ReadBook(NpgsqlDataReader reader)
+        private Entities.Concrete.File ReadBook(NpgsqlDataReader reader)
         {
-            return new Book
+            return new Entities.Concrete.File
             {
                 Id = reader.Get<int>("BookId"),
                 Category = new Category

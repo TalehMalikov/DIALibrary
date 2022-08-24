@@ -1,0 +1,53 @@
+﻿@model FileUploadViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h4>Start Uploading Files Here</h4>
+<hr />
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success alert-dismissible" style="margin-top:20px">
+        @ViewBag.Message
+    </div>
+}
+<form method="post" enctype="multipart/form-data">
+    <input type="file" name="files" multiple required />
+    <input type="text" autocomplete="off" placeholder="Enter File Description" name="description" required />
+    <button type="submit" class="btn btn-primary" asp-controller="File" asp-action="UploadToFileSystem">Upload to File System</button>
+</form>
+
+<hr />
+<h4>Files on File System</h4>
+@if (Model.Publications.Count == 0)
+{
+    <caption>No Records Found</caption>
+}
+else
+{
+    <caption>List of Files on File System</caption>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Book name</th>
+                <th>Book category name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var publication in Model.Publications)
+            {
+                <tr>
+                    <th>@publication.Id</th>
+                    <td>@publication.Book.Name</td>
+                    <td>@publication.Book.Category.Name</td>
+                    <td>
+                        <a type="button" class="btn btn-primary" asp-controller="File" asp-action="DownloadFileFromFileSystem" asp-route-id="@publication.Id">Download</a>
+                        <a type="button" class="btn btn-danger" asp-controller="File" asp-action="DeleteFileFromFileSystem" asp-route-id="@publication.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
