@@ -21,20 +21,10 @@ namespace Library.WebUI.Controllers
         {
             var result = await _categoryService.GetAll();
             model.CategoryList = result;
-            model.NewAddedBookList = await _categoryService.GetNewAddedBooks(10);
-            //return RedirectToAction("GetNewAddedBooks");
+            model.NewAddedBookList = await _categoryService.GetNewAddedBooks();
             return View(model);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetNewAddedBooks(int count=10)
-        {
-            var result = await _categoryService.GetNewAddedBooks(count);
-            return RedirectToAction("Index");
-
-        }
-
-        
         [HttpGet]
         public IActionResult Picture(string name)
         {
@@ -42,13 +32,13 @@ namespace Library.WebUI.Controllers
             {
                 string fullPath = Path.Combine(SystemDefaults.DefaultBookPhotoPath, name);
 
-                var content = System.IO.File.ReadAllBytes(name);
+                var content = System.IO.File.ReadAllBytes(fullPath);
 
                 return File(content, "img/*");
             }
             catch
             {
-                return Ok();
+                return BadRequest("Not found");
             }
         }
 

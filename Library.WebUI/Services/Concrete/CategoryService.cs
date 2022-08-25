@@ -20,10 +20,10 @@ namespace Library.WebUI.Services.Concrete
             var result = await client.GetJsonAsync<DataResult<List<Category>>>(_baseUrl + "Category/getall");
             return result;
         }
-        public async Task<DataResult<List<Publication>>> GetNewAddedBooks(int count)
+        public async Task<DataResult<List<Publication>>> GetNewAddedBooks()
         {
             using HttpClient client = new HttpClient();
-            var result = await client.GetJsonAsync<DataResult<List<Publication>>>(_baseUrl + "Publication/getnewadded/"+count);
+            var result = await client.GetJsonAsync<DataResult<List<Publication>>>(_baseUrl + "Publication/getnewadded");
             return result;
         }
     }

@@ -8,10 +8,12 @@ namespace Library.WebUI.Controllers
     public class AuthController : Controller
     {
         private readonly IAuthService _authService;
+        private readonly ICategoryService _categoryService;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthService authService, ICategoryService categoryService)
         {
             _authService = authService;
+            _categoryService = categoryService;
         }
 
         [HttpPost]
@@ -28,9 +30,11 @@ namespace Library.WebUI.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            AuthViewModel authViewModel = new AuthViewModel();
+            authViewModel.NewAddedBookList = await _categoryService.GetNewAddedBooks();
+            return View(authViewModel);
         }
     }
 }

@@ -86,7 +86,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             return list;
         }
 
-        public List<Publication> GetNewAdded(int count)
+        public List<Publication> GetNewAdded()
         {
             List<Publication> list = new List<Publication>();
             using NpgsqlConnection connection = new(_connectionString);
@@ -100,10 +100,9 @@ namespace Library.DataAccess.Implementation.PostgreSql
                                "PublicationDate, Publications.LastModified as PublicationLastModified, Publications.IsDeleted as PublicationIsDeleted From Publications " +
                                "inner join Files on Publications.BookId = Files.Id " +
                                "inner join Languages on Files.OriginalLanguageId = Languages.Id and Publications.PublicationLanguageId = Languages.Id " +
-                               "inner join Categories on Files.CategoryId = Categories.Id  order by Publications.LastModified desc limit @count";
+                               "inner join Categories on Files.CategoryId = Categories.Id  order by Publications.LastModified desc limit 10";
 
             using NpgsqlCommand command = new(cmdString, connection);
-            command.Parameters.AddWithValue("@count",count);
             var reader = command.ExecuteReader();
             while (reader.Read())
                 list.Add(ReadPublication(reader));

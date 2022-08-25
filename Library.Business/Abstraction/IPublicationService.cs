@@ -5,6 +5,6 @@ namespace Library.Business.Abstraction
 {
     public interface IPublicationService : IBaseService<Publication>
     {
-        DataResult<List<Publication>> GetNewAdded(int count);
+        DataResult<List<Publication>> GetNewAdded();
     }
 }

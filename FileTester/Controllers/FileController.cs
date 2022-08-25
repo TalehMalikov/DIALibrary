@@ -40,7 +40,16 @@ namespace FileTester.Controllers
                 if (!basePathExists) Directory.CreateDirectory(Defaults.DefaultPhotoPath);
                 var fileName = Path.GetFileNameWithoutExtension(file.FileName);
 
-                var filePath = Path.Combine(Defaults.DefaultPhotoPath, file.FileName);
+                string filePath, contentType;
+
+                if (file.FileName.Contains(".pdf"))
+                {
+                    filePath = Path.Combine(Defaults.DefaultFilePath, file.FileName);
+                }
+                else
+                {
+                    filePath = Path.Combine(Defaults.DefaultPhotoPath, file.FileName);
+                }
 
                 var extension = Path.GetExtension(file.FileName);
                 if (!System.IO.File.Exists(filePath))
@@ -100,35 +109,59 @@ namespace FileTester.Controllers
         public async Task<IActionResult> DownloadFileFromFileSystem(int id)
         {
             var result = await _publicationService.GetAll();
-            var data = result.Data.Where(x => x.Id == id).FirstOrDefault();
-            var filePath = Path.Combine(Defaults.DefaultPhotoPath, data.Photo);
+            var file = result.Data.Where(x => x.Id == id).FirstOrDefault();
 
-            if (data == null) return null;
+            string filePath, contentType,filename;
+
+            if (file.Photo.Contains(".pdf"))
+            {
+                filePath = Path.Combine(Defaults.DefaultFilePath, file.File);
+                contentType = "pdf/*";
+                filename = file.File;
+            }
+            else
+            {
+                filePath = Path.Combine(Defaults.DefaultPhotoPath, file.Photo);
+                contentType = "img/*";
+                filename = file.Photo;
+            }
+
+            if (file == null) return null;
             var memory = new MemoryStream();
             using (var stream = new FileStream(filePath, FileMode.Open))
             {
                 await stream.CopyToAsync(memory);
             }
             memory.Position = 0;
-            return File(memory,"img/*", data.Book.Name + data.Book.Category.Name+".jpg");
+            return File(memory,contentType,filename);
         }
 
         public async Task<IActionResult> DeleteFileFromFileSystem(int id)
         {
 
             var result = await _publicationService.GetAll();
-            var data = result.Data.Where(x => x.Id == id).FirstOrDefault();
+            var file = result.Data.Where(x => x.Id == id).FirstOrDefault();
 
-            var filePath = Path.Combine(Defaults.DefaultPhotoPath, data.Photo);
+            string filePath,fileName;
 
+            if (file.Photo.Contains(".pdf"))
+            {
+                filePath = Path.Combine(Defaults.DefaultFilePath, file.File);
+                fileName = file.File;
+            }
+            else
+            {
+                filePath = Path.Combine(Defaults.DefaultPhotoPath, file.Photo);
+                fileName = file.Photo;
+            }
 
-            if (data == null) return null;
+            if (file == null) return null;
             if (System.IO.File.Exists(filePath))
             {
                 System.IO.File.Delete(filePath);
             }
-            await _publicationService.Delete(data.Id);
-            TempData["Message"] = $"Removed {data.Book.Name + data.Book.Category.Name} successfully from File System.";
+            await _publicationService.Delete(file.Id);
+            TempData["Message"] = $"Removed {fileName} successfully from File System.";
             return RedirectToAction("Index");
         }
 
@@ -148,6 +181,7 @@ namespace FileTester.Controllers
                 return Ok();
             }
         }
+
 
     }
 }

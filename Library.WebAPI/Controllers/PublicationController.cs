@@ -55,10 +55,10 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpGet]
-        [Route("getnewadded/{count:int}")]
-        public IActionResult GetNewAdded(int count)
+        [Route("getnewadded")]
+        public IActionResult GetNewAdded()
         {
-            var result = _publicationService.GetNewAdded(count);
+            var result = _publicationService.GetNewAdded();
             if(result.Success)
             {
                 return Ok(result);
