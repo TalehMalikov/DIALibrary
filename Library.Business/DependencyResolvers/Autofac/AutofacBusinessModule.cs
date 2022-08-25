@@ -37,6 +37,7 @@ namespace Library.Business.DependencyResolvers.Autofac
             builder.RegisterType<StudentManager>().As<IStudentService>().SingleInstance();
             builder.RegisterType<UserManager>().As<IUserService>().SingleInstance();
             builder.RegisterType<ActivityManager>().As<IActivityService>().SingleInstance();
+            builder.RegisterType<EducationalProgramManager>().As<IEducationalProgramService>().SingleInstance();
             #endregion
 
             #region DataAccess
@@ -69,6 +70,8 @@ namespace Library.Business.DependencyResolvers.Autofac
             builder.RegisterType<SqlFileTypeRepository>().As<IFileTypeRepository>()
                 .WithParameter("connectionString", _connectionString).SingleInstance();
             builder.RegisterType<SqlActivityRepository>().As<IActivityRepository>()
+                .WithParameter("connectionString", _connectionString).SingleInstance();
+            builder.RegisterType<SqlEducationalProgramRepository>().As<IEducationalProgramRepository>()
                 .WithParameter("connectionString", _connectionString).SingleInstance();
             #endregion
 
