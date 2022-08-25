@@ -4,3 +4,4 @@
 6. Description for roles and in the permissions section, note it next to roles
 7. Last modified by when
 8. Last modified by whom (optional)
+9. Dependecy injection(Web UI services)

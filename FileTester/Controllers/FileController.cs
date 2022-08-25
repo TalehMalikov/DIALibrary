@@ -19,7 +19,7 @@ namespace FileTester.Controllers
         {
             var viewModel = new FileUploadViewModel();
             var result = await _publicationService.GetAll();
-            viewModel.Publications =  result.Data;
+            viewModel.Publications = result.Data;
             return viewModel;
         }
 
@@ -58,7 +58,7 @@ namespace FileTester.Controllers
                     {
                         await file.CopyToAsync(stream);
                     }
-                    
+
                     var publication = new Publication()
                     {
                         Id = 0,
@@ -111,20 +111,11 @@ namespace FileTester.Controllers
             var result = await _publicationService.GetAll();
             var file = result.Data.Where(x => x.Id == id).FirstOrDefault();
 
-            string filePath, contentType,filename;
+            string filePath, contentType, filename;
 
-            if (file.Photo.Contains(".pdf"))
-            {
-                filePath = Path.Combine(Defaults.DefaultFilePath, file.File);
-                contentType = "pdf/*";
-                filename = file.File;
-            }
-            else
-            {
-                filePath = Path.Combine(Defaults.DefaultPhotoPath, file.Photo);
-                contentType = "img/*";
-                filename = file.Photo;
-            }
+            filePath = Path.Combine(Defaults.DefaultFilePath, file.File);
+            contentType = "pdf/*";
+            filename = file.File;
 
             if (file == null) return null;
             var memory = new MemoryStream();
@@ -133,7 +124,7 @@ namespace FileTester.Controllers
                 await stream.CopyToAsync(memory);
             }
             memory.Position = 0;
-            return File(memory,contentType,filename);
+            return File(memory, contentType, filename);
         }
 
         public async Task<IActionResult> DeleteFileFromFileSystem(int id)
@@ -142,7 +133,7 @@ namespace FileTester.Controllers
             var result = await _publicationService.GetAll();
             var file = result.Data.Where(x => x.Id == id).FirstOrDefault();
 
-            string filePath,fileName;
+            string filePath, fileName;
 
             if (file.Photo.Contains(".pdf"))
             {
