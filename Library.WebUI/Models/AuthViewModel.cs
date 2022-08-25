@@ -1,6 +1,5 @@
 ﻿using Library.Core.Domain.Dtos;
 using Library.Core.Result.Concrete;
-using Library.Entities.Concrete;
 
 namespace Library.WebUI.Models
 {

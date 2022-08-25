@@ -1,5 +1,4 @@
 ﻿using Library.Core.Result.Concrete;
-using Library.Entities.Concrete;
 
 namespace FileTester.Services.Abstract
 {

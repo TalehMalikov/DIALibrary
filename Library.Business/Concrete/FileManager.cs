@@ -5,7 +5,6 @@ using Library.Core.Aspects.Autofac.Validation;
 using Library.Core.Result.Concrete;
 using Library.Core.Utils;
 using Library.DataAccess.Abstraction;
-using Library.Entities.Concrete;
 using File = Library.Entities.Concrete.File;
 
 namespace Library.Business.Concrete
