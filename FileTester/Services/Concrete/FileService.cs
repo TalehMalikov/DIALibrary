@@ -5,46 +5,41 @@ using File = Library.Entities.Concrete.File;
 
 namespace FileTester.Services.Concrete
 {
-    public class PublicationService : BaseService,IFileService
+    public class FileService : BaseService,IFileService
     {
         public async Task<DataResult<File>> Get(int id)
         {
             using HttpClient client = new HttpClient();
-            var result = await client.GetJsonAsync<DataResult<File>>(BaseUrl + "Publication/get/" + id);
+            var result = await client.GetJsonAsync<DataResult<File>>(BaseUrl + "File/get/" + id);
             return result;
         }
 
-        public async Task<Result> Add(File publication)
+        public async Task<Result> Add(File file)
         {
             using HttpClient client = new HttpClient();
 
-            var result = await client.GetJsonAsync<Result>(BaseUrl + "Publicaion/add/" + publication);
+            var result = await client.GetJsonAsync<Result>(BaseUrl + "File/add/" + file);
             return result;
         }
 
         public async Task<DataResult<List<File>>> GetAll()
         {
             using HttpClient client = new HttpClient();
-            var result = await client.GetJsonAsync<DataResult<List<File>>>(BaseUrl + "Publication/getall");
+            var result = await client.GetJsonAsync<DataResult<List<File>>>(BaseUrl + "File/getall");
             return result;
         }
-        public async Task<DataResult<List<File>>> GetNewAddedBooks(int count)
+        public async Task<DataResult<List<File>>> GetNewAddedBooks()
         {
             using HttpClient client = new HttpClient();
-            var result = await client.GetJsonAsync<DataResult<List<File>>>(BaseUrl + "Publication/getnewadded/" + count);
+            var result = await client.GetJsonAsync<DataResult<List<File>>>(BaseUrl + "File/getnewadded");
             return result;
         }
 
         public async Task<Result> Delete(int id)
         {
             using HttpClient client = new HttpClient();
-            var result = await client.GetJsonAsync<Result>(BaseUrl + "Publication/delete/" + id);
+            var result = await client.GetJsonAsync<Result>(BaseUrl + "File/delete/" + id);
             return result;
-        }
-
-        public Task<DataResult<List<File>>> GetNewAddedBooks()
-        {
-            throw new NotImplementedException();
         }
     }
 }

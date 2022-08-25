@@ -1,25 +1,25 @@
 ﻿using FileTester.Models;
 using FileTester.MySystem;
 using FileTester.Services.Abstract;
-using Library.Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
 using File = Library.Entities.Concrete.File;
 
 namespace FileTester.Controllers
 {
     public class FileController : Controller
     {
-        private readonly IFileService _publicationService;
+        private readonly IFileService _fileService;
 
-        public FileController(IFileService publicationService)
+        public FileController(IFileService fileService)
         {
-            _publicationService = publicationService;
+            _fileService = fileService;
         }
 
         private async Task<FileUploadViewModel> LoadAllFiles()
         {
             var viewModel = new FileUploadViewModel();
-            var result = await _publicationService.GetAll();
+            var result = await _fileService.GetAll();
             viewModel.Files = result.Data;
             return viewModel;
         }
@@ -36,12 +36,11 @@ namespace FileTester.Controllers
         {
             foreach (var file in files)
             {
-                //var basePath = Path.Combine(Directory.GetCurrentDirectory() + "\\Files\\");
                 bool basePathExists = System.IO.Directory.Exists(Defaults.DefaultPhotoPath);
                 if (!basePathExists) Directory.CreateDirectory(Defaults.DefaultPhotoPath);
                 var fileName = Path.GetFileNameWithoutExtension(file.FileName);
 
-                string filePath, contentType;
+                string filePath;
 
                 if (file.FileName.Contains(".pdf"))
                 {
@@ -53,6 +52,7 @@ namespace FileTester.Controllers
                 }
 
                 var extension = Path.GetExtension(file.FileName);
+
                 if (!System.IO.File.Exists(filePath))
                 {
                     using (var stream = new FileStream(filePath, FileMode.Create))
@@ -60,46 +60,9 @@ namespace FileTester.Controllers
                         await file.CopyToAsync(stream);
                     }
 
-                    /*var publication = new Publication()
-                    {
-                        Id = 0,
-                        Book = new Library.Entities.Concrete.File()
-                        {
-                            Id = 0,
-                            Name = "Anonymous book",
-                            Category = new Category()
-                            {
-                                Id = 1,
-                                Name = "Tarix"
-                            },
-                            OriginalLanguage = new Language()
-                            {
-                                Id = 1,
-                                Name = "Azərbaycan"
-                            },
-                            LastModified = DateTime.Now,
-                            IsDeleted = false,
-                            Status = false,
-                            Type = new FileType()
-                            {
-                                Id = 1,
-                                Name = "Kitab"
-                            }
-                        },
-                        PublisherName = "xxxx",
-                        PublicationLanguage = new Language()
-                        {
-                            Id = 1,
-                            Name = "Azərbaycan"
-                        },
-                        PublicationDate = DateTime.Now,
-                        PageNumber = 200,
-                        LastModified = DateTime.Now,
-                        IsDeleted = false,
-                        Photo = filePath,
-                        File = ""
-                    };*/
-                    //await _publicationService.Add(publication);
+                    var mustBeAddedFile = new File();
+
+                    await _fileService.Add(mustBeAddedFile);
                 }
             }
 
@@ -109,7 +72,7 @@ namespace FileTester.Controllers
 
         public async Task<IActionResult> DownloadFileFromFileSystem(int id)
         {
-            var result = await _publicationService.GetAll();
+            var result = await _fileService.GetAll();
             var file = result.Data.Where(x => x.Id == id).FirstOrDefault();
 
             string filePath, contentType, filename;
@@ -131,28 +94,31 @@ namespace FileTester.Controllers
         public async Task<IActionResult> DeleteFileFromFileSystem(int id)
         {
 
-            var result = await _publicationService.GetAll();
+            var result = await _fileService.GetAll();
             var file = result.Data.Where(x => x.Id == id).FirstOrDefault();
 
-            string filePath, fileName;
+            string filePath, photoPath;
 
-            if (file.PhotoPath.Contains(".pdf"))
-            {
-                filePath = Path.Combine(Defaults.DefaultFilePath, file.FilePath);
-                fileName = file.PhotoPath;
-            }
-            else
-            {
-                filePath = Path.Combine(Defaults.DefaultPhotoPath, file.PhotoPath);
-                fileName = file.PhotoPath;
-            }
+
+            filePath = Path.Combine(Defaults.DefaultFilePath, file.FilePath);
+            photoPath = Path.Combine(Defaults.DefaultPhotoPath, file.PhotoPath);
+
+            StringBuilder fileName = new StringBuilder(file.PhotoPath);
+            fileName.Append(" and ");
+            fileName.Append(file.FilePath);
 
             if (file == null) return null;
+
+            if (System.IO.File.Exists(photoPath))
+            {
+                System.IO.File.Delete(photoPath);
+            }
             if (System.IO.File.Exists(filePath))
             {
                 System.IO.File.Delete(filePath);
             }
-            await _publicationService.Delete(file.Id);
+
+            await _fileService.Delete(file.Id);
             TempData["Message"] = $"Removed {fileName} successfully from File System.";
             return RedirectToAction("Index");
         }

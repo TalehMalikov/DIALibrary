@@ -31,8 +31,8 @@ else
             <tr>
                 <th>#</th>
                 <th>Name</th>
-                <th>Book name</th>
-                <th>Book category name</th>
+                <th>Description</th>
+                <th>Category name</th>
             </tr>
         </thead>
         <tbody>
@@ -40,8 +40,9 @@ else
             {
                 <tr>
                     <th>@publication.Id</th>
-                    <td>@publication.Book.Name</td>
-                    <td>@publication.Book.Category.Name</td>
+                    <td>@publication.Name</td>
+                    <td>@publication.Description</td>
+                    <td>@publication.Category.Name</td>
                     <td>
                         <a type="button" class="btn btn-primary" asp-controller="File" asp-action="DownloadFileFromFileSystem" asp-route-id="@publication.Id">Download</a>
                         <a type="button" class="btn btn-danger" asp-controller="File" asp-action="DeleteFileFromFileSystem" asp-route-id="@publication.Id">Delete</a>
