@@ -27,7 +27,7 @@ namespace Library.Business.DependencyResolvers.Autofac
             builder.RegisterType<AccountRoleManager>().As<IAccountRoleService>().SingleInstance();
             builder.RegisterType<AuthorManager>().As<IAuthorService>().SingleInstance();
             builder.RegisterType<BookAuthorManager>().As<IBookAuthorService>().SingleInstance();
-            builder.RegisterType<BookManager>().As<IBookService>().SingleInstance();
+            builder.RegisterType<FileManager>().As<IFileService>().SingleInstance();
             builder.RegisterType<CategoryManager>().As<ICategoryService>().SingleInstance();
             builder.RegisterType<FacultyManager>().As<IFacultyService>().SingleInstance();
             builder.RegisterType<GroupManager>().As<IGroupService>().SingleInstance();

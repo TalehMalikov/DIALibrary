@@ -10,8 +10,8 @@ namespace Library.WebAPI.Controllers
     [Authorize]
     public class BookController : ControllerBase
     {
-        private readonly IBookService _bookService;
-        public BookController(IBookService bookService)
+        private readonly IFileService _bookService;
+        public BookController(IFileService bookService)
         {
             _bookService = bookService;
         }
