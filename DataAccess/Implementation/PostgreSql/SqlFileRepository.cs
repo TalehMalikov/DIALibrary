@@ -73,7 +73,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             using NpgsqlCommand command = new(cmdString, connection);
             var reader = command.ExecuteReader();
             while(reader.Read())
-                books.Add(ReadBook(reader));
+                books.Add(ReadFile(reader));
             return books;
 
         }
@@ -157,7 +157,6 @@ namespace Library.DataAccess.Implementation.PostgreSql
         }
 
         private File ReadFile(NpgsqlDataReader reader)
-        private File ReadBook(NpgsqlDataReader reader)
         {
             return new File
             {
@@ -180,15 +179,11 @@ namespace Library.DataAccess.Implementation.PostgreSql
                     Name=reader.Get<string>("FileTypeName")
                 },
                 PublicationLanguage=new Language
-                LastModified = reader.Get<DateTime>("LastModified"),
-                Name = reader.Get<string>("BookName"),
-                Status = reader.Get<bool>("BookStatus"),
-                Type = new FileType
                 {
                     Id = reader.Get<int>("PublicationLanguageId"),
                     Name = reader.Get<string>("PublicationLanguageName")
                 },
-                PublicationDate=reader.Get<DateTime>("PublicationDate"),
+                PublicationDate =reader.Get<DateTime>("PublicationDate"),
                 Description=reader.Get<string>("Description"),
                 PhotoPath= reader.Get<string>("PhotoPath"),
                 FilePath = reader.Get<string>("FilePath"),
