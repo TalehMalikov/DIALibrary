@@ -9,15 +9,15 @@ using Library.Entities.Concrete;
 
 namespace Library.Business.Concrete
 {
-    public class BookManager : IBookService
+    public class FileManager : IFileService
     {
         private readonly IFileRepository _bookRepository;
-        public BookManager(IFileRepository bookRepository)
+        public FileManager(IFileRepository bookRepository)
         {
             _bookRepository = bookRepository;
         }
 
-        [CacheRemoveAspect(nameof(Library.Business.Abstraction.IBookService.Get))]
+        [CacheRemoveAspect(nameof(Library.Business.Abstraction.IFileService.Get))]
         [ValidationAspect(typeof(BookValidator))]
         public Result Add(Entities.Concrete.File value)
         {
@@ -25,7 +25,7 @@ namespace Library.Business.Concrete
             return new SuccessResult(StatusMessagesUtil.AddSuccessMessage);
         }
 
-        [CacheRemoveAspect(nameof(Library.Business.Abstraction.IBookService.Get))]
+        [CacheRemoveAspect(nameof(Library.Business.Abstraction.IFileService.Get))]
         public Result Delete(int id)
         {
             if(_bookRepository.Delete(id))
@@ -51,7 +51,12 @@ namespace Library.Business.Concrete
             return new SuccessDataResult<List<Entities.Concrete.File>>(result);
         }
 
-        [CacheRemoveAspect(nameof(Library.Business.Abstraction.IBookService.Get))]
+        public DataResult<List<Entities.Concrete.File>> GetNewAdded()
+        {
+            throw new NotImplementedException();
+        }
+
+        [CacheRemoveAspect(nameof(Library.Business.Abstraction.IFileService.Get))]
         [ValidationAspect(typeof(BookValidator))]
         public Result Update(Entities.Concrete.File value)
         {
