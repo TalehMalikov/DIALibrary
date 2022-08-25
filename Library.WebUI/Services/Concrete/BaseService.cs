@@ -2,6 +2,6 @@
 {
     public abstract class BaseService
     {
-        public const string _baseUrl = "https://localhost:44361/api/";
+        public const string _baseUrl = "https://localhost:7185/api/";
     }
 }

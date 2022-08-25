@@ -1,9 +1,9 @@
-﻿namespace Library.WebUI.Services.Abstract
+﻿using Library.Core.Result.Concrete;
+
+namespace Library.WebUI.Services.Abstract
 {
-    public interface IFileService
+    public interface IFileService 
     {
-        //string SecureSaveFile(byte[] content, string extension, string path);
-        public string GetFileBase64(string name, string path);
-        public byte[] GetFile(string name, string path);
+        Task<DataResult<List<File>>>
     }
 }
