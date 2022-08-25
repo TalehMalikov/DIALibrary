@@ -1,5 +1,4 @@
 ﻿using Library.Business.Abstraction;
-using Library.Core.Result.Concrete;
 using Library.Entities.Concrete;
 using Microsoft.AspNetCore.Identity;
 
@@ -9,10 +8,10 @@ namespace Library.WebAPI.IdentityServer
                              IUserPasswordStore<Account>,
                              IUserRoleStore<Account>
     {
-        private readonly IAccountService db;
+        private readonly IAccountService _db;
         public AccountStore(IAccountService accountdb)
         {
-            this.db = accountdb;
+            this._db = accountdb;
         }
 
         #region IUserStore implementation
@@ -33,14 +32,14 @@ namespace Library.WebAPI.IdentityServer
 
         public Task<Account> FindByIdAsync(string userId, CancellationToken cancellationToken)
         {
-            var user = db.Get(int.Parse(userId)).Data;
+            var user = _db.Get(int.Parse(userId)).Data;
             return Task.FromResult(user);
 
         }
 
         public Task<Account> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
         {
-            var user = db.GetByEmail(normalizedUserName).Data;
+            var user = _db.GetByEmail(normalizedUserName).Data;
 
             return Task.FromResult(user);
         }
@@ -127,7 +126,7 @@ namespace Library.WebAPI.IdentityServer
         public Task<IList<string>> GetRolesAsync(Account user, CancellationToken cancellationToken)
         {
             IList<string> roles = new List<string>();
-            foreach (var role in db.GetRoles(user).Data)
+            foreach (var role in _db.GetRoles(user).Data)
             {
                 roles.Add(role.Name);
             }
@@ -141,7 +140,7 @@ namespace Library.WebAPI.IdentityServer
 
         public Task<bool> IsInRoleAsync(Account user, string roleName, CancellationToken cancellationToken)
         {
-             var x = db.GetRoles(user).Data.FirstOrDefault(x => x.Name == roleName);
+             var x = _db.GetRoles(user).Data.FirstOrDefault(x => x.Name == roleName);
              return x!=null ? Task.FromResult(true) : Task.FromResult(false);
         }
 

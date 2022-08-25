@@ -10,8 +10,8 @@ namespace Library.Business.CrossCuttingConcerns.Validation.FluentValidation
             RuleFor(x => string.IsNullOrWhiteSpace(x.AccountName)).NotEqual(true);
             RuleFor(account => account.AccountName).NotEmpty()
                 .Length(10, 50)
-                .Must((account, AccountName) => AccountName.Contains(account.User.FirstName))
-                .Must((account, AccountName) => AccountName.Contains(account.User.LastName));
+                .Must((account, accountName) => accountName.Contains(account.User.FirstName))
+                .Must((account, accountName) => accountName.Contains(account.User.LastName));
 
             RuleFor(x => x.Email).EmailAddress();
         }

@@ -1,6 +1,5 @@
 ﻿using Library.Business.Abstraction;
 using Library.Entities.Concrete;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.WebAPI.Controllers

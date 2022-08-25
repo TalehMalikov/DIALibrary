@@ -10,7 +10,7 @@ namespace Library.WebUI.Services.Concrete
         public async Task<DataResult<LoginResponseDto>> Login(AccountLoginDto value)
         {
             using HttpClient client = new HttpClient();
-            var result = await client.PostJsonAsync<DataResult<LoginResponseDto>, AccountLoginDto>(_baseUrl + "Authentication/login", value);
+            var result = await client.PostJsonAsync<DataResult<LoginResponseDto>, AccountLoginDto>(BaseUrl + "Authentication/login", value);
             return result;
         }
     }

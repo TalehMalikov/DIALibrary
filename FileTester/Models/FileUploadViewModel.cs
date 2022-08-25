@@ -1,6 +1,4 @@
-﻿using Library.Entities.Concrete;
-
-namespace FileTester.Models
+﻿namespace FileTester.Models
 {
     public class FileUploadViewModel
     {
