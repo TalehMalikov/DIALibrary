@@ -20,8 +20,8 @@ namespace Library.Business.CrossCuttingConcerns.Validation.FluentValidation
                 .LessThan(DateTime.Now);
 
             #region File&Foto -- Dusunurem hele
-            RuleFor(x => string.IsNullOrWhiteSpace(x.PhotoPath)).NotEqual(true);
-            RuleFor(x => string.IsNullOrWhiteSpace(x.FilePath)).NotEqual(true);
+            RuleFor(x => string.IsNullOrWhiteSpace(x.Photo)).NotEqual(true);
+            RuleFor(x => string.IsNullOrWhiteSpace(x.File)).NotEqual(true);
             #endregion
 
         }

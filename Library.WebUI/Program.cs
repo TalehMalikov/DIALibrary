@@ -1,7 +1,18 @@
+using Library.WebUI.Services.Abstract;
+using Library.WebUI.Services.Concrete;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton<IAuthService, AuthService>();
+builder.Services.AddSingleton<ICategoryService, CategoryService>();
+builder.Services.AddSingleton<IFileService, FileService>();
+
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AddPageRoute("/Contact", "Category/GetNewAddedBooks/{id?}");
+});
 
 var app = builder.Build();
 

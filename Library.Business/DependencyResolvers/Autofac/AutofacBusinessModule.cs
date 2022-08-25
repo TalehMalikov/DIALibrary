@@ -7,7 +7,6 @@ using Library.Core.Interceptors;
 using Library.DataAccess.Abstraction;
 using Library.DataAccess.Implementation.PostgreSql;
 using System.Reflection;
-using Library.DataAccess.Implementation;
 using Module = Autofac.Module;
 
 namespace Library.Business.DependencyResolvers.Autofac
@@ -28,7 +27,7 @@ namespace Library.Business.DependencyResolvers.Autofac
             builder.RegisterType<AccountRoleManager>().As<IAccountRoleService>().SingleInstance();
             builder.RegisterType<AuthorManager>().As<IAuthorService>().SingleInstance();
             builder.RegisterType<BookAuthorManager>().As<IBookAuthorService>().SingleInstance();
-            builder.RegisterType<BookManager>().As<IBookService>().SingleInstance();
+            builder.RegisterType<FileManager>().As<IFileService>().SingleInstance();
             builder.RegisterType<CategoryManager>().As<ICategoryService>().SingleInstance();
             builder.RegisterType<FacultyManager>().As<IFacultyService>().SingleInstance();
             builder.RegisterType<GroupManager>().As<IGroupService>().SingleInstance();
@@ -50,7 +49,7 @@ namespace Library.Business.DependencyResolvers.Autofac
                 .WithParameter("connectionString", _connectionString).SingleInstance();
             builder.RegisterType<SqlBookAuthorRepository>().As<IBookAuthorRepository>()
                 .WithParameter("connectionString", _connectionString).SingleInstance();
-            builder.RegisterType<SqlBookRepository>().As<IBookRepository>()
+            builder.RegisterType<SqlFileRepository>().As<IFileRepository>()
                 .WithParameter("connectionString", _connectionString).SingleInstance();
             builder.RegisterType<SqlCategoryRepository>().As<ICategoryRepository>()
                 .WithParameter("connectionString", _connectionString).SingleInstance();

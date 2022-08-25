@@ -3,7 +3,7 @@ using Library.Entities.Concrete;
 
 namespace Library.Business.CrossCuttingConcerns.Validation.FluentValidation
 {
-    public class BookValidator : AbstractValidator<Book>
+    public class BookValidator : AbstractValidator<Entities.Concrete.File>
     {
         public BookValidator()
         {

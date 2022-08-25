@@ -101,7 +101,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
                     LastName = reader.Get<string>("LastName"),
                     Gender = reader.Get<bool>("Gender")
                 },
-                Book = new Book
+                Book = new Entities.Concrete.File
                 {
                     Id = reader.Get<int>("BookId"),
                     Name = reader.Get<string>("BookName"),
