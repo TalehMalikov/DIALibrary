@@ -69,7 +69,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
                                "inner join languages as ol on originallanguageid = ol.id " +
                                "inner join languages as pl on publicationlanguageid = pl.id " +
                                "inner join filetypes on filetypeid = filetypes.id " +
-                               "where files.id=@id order by files.lastmodified desc limit 10";
+                               "order by files.lastmodified desc limit 10";
             using NpgsqlCommand command = new(cmdString, connection);
             var reader = command.ExecuteReader();
             while(reader.Read())

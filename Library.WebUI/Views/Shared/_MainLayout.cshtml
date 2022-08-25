@@ -100,10 +100,10 @@
                 {
                     <div class="swiper-slide">
                         <a href="#" class="card-book d-flex flex-column align-items-center">
-                            <img width="150" height="200" src="@Url.Action("Picture","Category" ,new { name = result[k].Photo })">
+                            <img width="150" height="200" src="@Url.Action("Picture","Category" ,new { name = result[k].PhotoPath })">
 
                             <span class="book-comment">
-                                @result[k].PublisherName
+                                @result[k].Description
                             </span>
                         </a>
                     </div>
