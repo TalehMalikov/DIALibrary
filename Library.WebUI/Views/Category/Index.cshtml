@@ -32,13 +32,13 @@
                 @{
                     int count = Model.CategoryList.Data.Count;
                     int i = 0;
-                    for (; i < (count / 8); i++)
+                    for (; i < (count / 6); i++)
                     {
                         <div class="category-row">
 
                             <ul class="list">
 
-                                @for (int j = i * 8; j < (i + 1) * 8; j++)
+                                @for (int j = i * 6; j < (i + 1) * 6; j++)
                                 {
                                     <li>
                                         <a href="#" class="category-link">@Model.CategoryList.Data[j].Name</a>
@@ -47,10 +47,10 @@
                             </ul>
                         </div>
                     }
-                    @if ((count - i * 8) > 0)
+                    @if ((count - i * 6) > 0)
                     {
                         <ul class="list">
-                            @for (int j = i * 8; j < count; j++)
+                            @for (int j = i * 6; j < count; j++)
                             {
                                 <li>
                                     <a href="#" class="category-link">@Model.CategoryList.Data[j].Name</a>
