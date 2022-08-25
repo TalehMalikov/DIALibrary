@@ -1,5 +1,4 @@
 ﻿using Library.Business.Abstraction;
-using Library.Entities.Concrete;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,19 +7,19 @@ namespace Library.WebAPI.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class BookController : ControllerBase
+    public class FileController : ControllerBase
     {
-        private readonly IFileService _bookService;
-        public BookController(IFileService bookService)
+        private readonly IFileService _fileService;
+        public FileController(IFileService fileService)
         {
-            _bookService = bookService;
+            _fileService = fileService;
         }
 
         [HttpPost]
         [Route("add")]
-        public IActionResult Add(Entities.Concrete.File book)
+        public IActionResult Add(Entities.Concrete.File file)
         {
-            var result = _bookService.Add(book);
+            var result = _fileService.Add(file);
             if (result.Success)
             {
                 return Ok(result);
@@ -30,9 +29,9 @@ namespace Library.WebAPI.Controllers
 
         [HttpPut]
         [Route("update")]
-        public IActionResult Update(Entities.Concrete.File book)
+        public IActionResult Update(Entities.Concrete.File file)
         {
-            var result = _bookService.Update(book);
+            var result = _fileService.Update(file);
             if (result.Success)
             {
                 return Ok(result);
@@ -44,7 +43,19 @@ namespace Library.WebAPI.Controllers
         [Route("getall")]
         public IActionResult GetAll()
         {
-            var result = _bookService.GetAll();
+            var result = _fileService.GetAll();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("getnewadded")]
+        public IActionResult GetNewAdded()
+        {
+            var result = _fileService.GetNewAdded();
             if (result.Success)
             {
                 return Ok(result);
@@ -55,7 +66,7 @@ namespace Library.WebAPI.Controllers
         [HttpGet("getbyid/{id:int}")]
         public IActionResult Get(int id)
         {
-            var result = _bookService.Get(id);
+            var result = _fileService.Get(id);
             if (result.Success)
             {
                 return Ok(result);
@@ -66,7 +77,7 @@ namespace Library.WebAPI.Controllers
         [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {
-            var result = _bookService.Delete(id);
+            var result = _fileService.Delete(id);
             if (result.Success)
             {
                 return Ok(result);
