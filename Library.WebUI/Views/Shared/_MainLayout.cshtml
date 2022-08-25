@@ -49,10 +49,14 @@
 
             <li class="nav-item mx-md-1">
                 <div class="lang">
-                    <img src="images/flag.png" class="flag">
-                    <span>Azerbaycan</span>
+                    <select class="form-select-sm text-bold p-1">
+                        <option class="text-bold" selected>Azerbaycan</option>
+                        <option class="text-bold">Русский</option>
+                        <option class="text-bold">English</option>
+                      </select>
                 </div>
-            </li>
+             </li>
+
             </ul>
             </nav>
             </div>
@@ -94,8 +98,6 @@
 
                 @for (int k = 0; k < result.Count; k++)
                 {
-                    //string fullPath = System.IO.Path.Combine(SystemDefaults.DefaultBookPhotoPath, result[k].Photo);
-
                     <div class="swiper-slide">
                         <a href="#" class="card-book d-flex flex-column align-items-center">
                             <img width="150" height="200" src="@Url.Action("Picture","Category" ,new { name = result[k].Photo })">
