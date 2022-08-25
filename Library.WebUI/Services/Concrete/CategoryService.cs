@@ -11,7 +11,7 @@ namespace Library.WebUI.Services.Concrete
         public async Task<DataResult<File>> Get(int id)
         {
             using HttpClient client = new HttpClient();
-            var result = await client.GetJsonAsync<DataResult<File>>(BaseUrl + "Publication/get/" + id);
+            var result = await client.GetJsonAsync<DataResult<File>>(BaseUrl + "File/get/" + id);
             return result;
         }
 
@@ -24,18 +24,8 @@ namespace Library.WebUI.Services.Concrete
         public async Task<DataResult<List<File>>> GetNewAddedBooks()
         {
             using HttpClient client = new HttpClient();
-            var result = await client.GetJsonAsync<DataResult<List<File>>>(BaseUrl + "Publication/getnewadded");
+            var result = await client.GetJsonAsync<DataResult<List<File>>>(BaseUrl + "File/getnewadded");
             return result;
-        }
-
-        Task<DataResult<File>> ICategoryService.Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<DataResult<List<File>>> ICategoryService.GetNewAddedBooks()
-        {
-            throw new NotImplementedException();
         }
     }
 }

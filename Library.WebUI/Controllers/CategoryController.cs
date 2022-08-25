@@ -58,31 +58,5 @@ namespace Library.WebUI.Controllers
                 return Ok();
             }
         }
-
-        /*[HttpGet]
-        public IActionResult PhotoModal(int bookId)
-        {
-            string name = _categoryService.Get(bookId).Result.Data.Photo;
-            return PartialView("PhotoModal", "Picture?name=" + name);
-        }*/
-
-        /*private byte[] GetBytes(IFormFile file)
-        {
-            using var memorystream = new MemoryStream();
-            file.CopyTo(memorystream);
-
-            return memorystream.ToArray();
-        }
-*/
-
-        /* private string Photo()
-         {
-             if (Request.Form.Files.Count <= 0)
-                 return null;
-
-             var file = Request.Form.Files[0];
-             byte[] content = GetBytes(file);
-             return _fileService.SecureSaveFile(content, "jpg", SystemDefaults.DefaultBookPhotoPath);
-         }*/
     }
 }

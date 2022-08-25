@@ -8,7 +8,7 @@ namespace FileTester.Services.Abstract
         Task<DataResult<List<File>>> GetAll();
         Task<DataResult<List<File>>> GetNewAddedBooks();
         Task<DataResult<File>> Get(int id);
-        Task<Result> Add(File publication);
+        Task<Result> Add(File file);
         Task<Result> Delete(int id);
     }
 }
