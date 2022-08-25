@@ -18,6 +18,5 @@ namespace Library.Entities.Concrete
         public int PageNumber { get; set; }
         public string Description { get; set; }
         public DateTime LastModified { get; set; }
-        public bool IsDeleted { get; set; }
     }
 }
