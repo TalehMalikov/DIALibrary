@@ -1,7 +1,9 @@
-﻿namespace FileTester.Models
+﻿using File = Library.Entities.Concrete.File;
+
+namespace FileTester.Models
 {
     public class FileUploadViewModel
     {
-        public List<Publication> Publications { get; set; }
+        public List<File> Files { get; set; }
     }
 }

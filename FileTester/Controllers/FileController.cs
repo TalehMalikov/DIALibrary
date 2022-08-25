@@ -3,14 +3,15 @@ using FileTester.MySystem;
 using FileTester.Services.Abstract;
 using Library.Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
+using File = Library.Entities.Concrete.File;
 
 namespace FileTester.Controllers
 {
     public class FileController : Controller
     {
-        private readonly IPublicationService _publicationService;
+        private readonly IFileService _publicationService;
 
-        public FileController(IPublicationService publicationService)
+        public FileController(IFileService publicationService)
         {
             _publicationService = publicationService;
         }
@@ -19,7 +20,7 @@ namespace FileTester.Controllers
         {
             var viewModel = new FileUploadViewModel();
             var result = await _publicationService.GetAll();
-            viewModel.Publications = result.Data;
+            viewModel.Files = result.Data;
             return viewModel;
         }
 
@@ -59,7 +60,7 @@ namespace FileTester.Controllers
                         await file.CopyToAsync(stream);
                     }
 
-                    var publication = new Publication()
+                    /*var publication = new Publication()
                     {
                         Id = 0,
                         Book = new Library.Entities.Concrete.File()
@@ -97,8 +98,8 @@ namespace FileTester.Controllers
                         IsDeleted = false,
                         Photo = filePath,
                         File = ""
-                    };
-                    await _publicationService.Add(publication);
+                    };*/
+                    //await _publicationService.Add(publication);
                 }
             }
 
@@ -113,9 +114,9 @@ namespace FileTester.Controllers
 
             string filePath, contentType, filename;
 
-            filePath = Path.Combine(Defaults.DefaultFilePath, file.File);
+            filePath = Path.Combine(Defaults.DefaultFilePath, file.FilePath);
             contentType = "pdf/*";
-            filename = file.File;
+            filename = file.FilePath;
 
             if (file == null) return null;
             var memory = new MemoryStream();
@@ -135,15 +136,15 @@ namespace FileTester.Controllers
 
             string filePath, fileName;
 
-            if (file.Photo.Contains(".pdf"))
+            if (file.PhotoPath.Contains(".pdf"))
             {
-                filePath = Path.Combine(Defaults.DefaultFilePath, file.File);
-                fileName = file.File;
+                filePath = Path.Combine(Defaults.DefaultFilePath, file.FilePath);
+                fileName = file.PhotoPath;
             }
             else
             {
-                filePath = Path.Combine(Defaults.DefaultPhotoPath, file.Photo);
-                fileName = file.Photo;
+                filePath = Path.Combine(Defaults.DefaultPhotoPath, file.PhotoPath);
+                fileName = file.PhotoPath;
             }
 
             if (file == null) return null;

@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<IAuthService, AuthService>();
 builder.Services.AddSingleton<ICategoryService, CategoryService>();
-builder.Services.AddSingleton<IFileService, FileService>();
+//builder.Services.AddSingleton<IFileService, FileService>();
 
 builder.Services.AddRazorPages(options =>
 {

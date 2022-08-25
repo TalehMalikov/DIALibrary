@@ -110,7 +110,6 @@ namespace Library.DataAccess.Implementation.PostgreSql
                         Id = reader.Get<int>("CategoryId"),
                         Name = reader.Get<string>("CategoryName")
                     },
-                    IsDeleted = reader.Get<bool>("IsDeleted"),
                     LastModified = reader.Get<DateTime>("LastModified"),
                     OriginalLanguage = new Language
                     {

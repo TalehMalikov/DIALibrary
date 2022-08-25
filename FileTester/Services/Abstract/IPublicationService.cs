@@ -1,13 +1,14 @@
 ﻿using Library.Core.Result.Concrete;
+using File = Library.Entities.Concrete.File;
 
 namespace FileTester.Services.Abstract
 {
-    public interface IPublicationService
+    public interface IFileService
     {
-        Task<DataResult<List<Publication>>> GetAll();
-        Task<DataResult<List<Publication>>> GetNewAddedBooks(int count);
-        Task<DataResult<Publication>> Get(int id);
-        Task<Result> Add(Publication publication);
+        Task<DataResult<List<File>>> GetAll();
+        Task<DataResult<List<File>>> GetNewAddedBooks();
+        Task<DataResult<File>> Get(int id);
+        Task<Result> Add(File publication);
         Task<Result> Delete(int id);
     }
 }

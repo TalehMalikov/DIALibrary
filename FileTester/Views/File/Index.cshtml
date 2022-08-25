@@ -19,7 +19,7 @@
 
 <hr />
 <h4>Files on File System</h4>
-@if (Model.Publications.Count == 0)
+@if (Model.Files.Count == 0)
 {
     <caption>No Records Found</caption>
 }
@@ -36,7 +36,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var publication in Model.Publications)
+            @foreach (var publication in Model.Files)
             {
                 <tr>
                     <th>@publication.Id</th>

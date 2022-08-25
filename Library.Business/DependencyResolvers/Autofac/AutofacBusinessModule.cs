@@ -32,7 +32,6 @@ namespace Library.Business.DependencyResolvers.Autofac
             builder.RegisterType<FacultyManager>().As<IFacultyService>().SingleInstance();
             builder.RegisterType<GroupManager>().As<IGroupService>().SingleInstance();
             builder.RegisterType<LanguageManager>().As<ILanguageService>().SingleInstance();
-            builder.RegisterType<PublicationManager>().As<IPublicationService>().SingleInstance();
             builder.RegisterType<SectorManager>().As<ISectorService>().SingleInstance();
             builder.RegisterType<SpecialtyManager>().As<ISpecialtyService>().SingleInstance();
             builder.RegisterType<StudentManager>().As<IStudentService>().SingleInstance();
@@ -58,8 +57,6 @@ namespace Library.Business.DependencyResolvers.Autofac
             builder.RegisterType<SqlGroupRepository>().As<IGroupRepository>()
                 .WithParameter("connectionString", _connectionString).SingleInstance();
             builder.RegisterType<SqlLanguageRepository>().As<ILanguageRepository>()
-                .WithParameter("connectionString", _connectionString).SingleInstance();
-            builder.RegisterType<SqlPublicationRepository>().As<IPublicationRepository>()
                 .WithParameter("connectionString", _connectionString).SingleInstance();
             builder.RegisterType<SqlSectorRepository>().As<ISectorRepository>()
                 .WithParameter("connectionString", _connectionString).SingleInstance();

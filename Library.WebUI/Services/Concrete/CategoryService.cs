@@ -2,15 +2,16 @@
 using Library.Core.Result.Concrete;
 using Library.Entities.Concrete;
 using Library.WebUI.Services.Abstract;
+using File = Library.Entities.Concrete.File;
 
 namespace Library.WebUI.Services.Concrete
 {
     public class CategoryService : BaseService,ICategoryService
     {
-        public async Task<DataResult<Publication>> Get(int id)
+        public async Task<DataResult<File>> Get(int id)
         {
             using HttpClient client = new HttpClient();
-            var result = await client.GetJsonAsync<DataResult<Publication>>(BaseUrl + "Publication/get/" + id);
+            var result = await client.GetJsonAsync<DataResult<File>>(BaseUrl + "Publication/get/" + id);
             return result;
         }
 
@@ -20,11 +21,21 @@ namespace Library.WebUI.Services.Concrete
             var result = await client.GetJsonAsync<DataResult<List<Category>>>(BaseUrl + "Category/getall");
             return result;
         }
-        public async Task<DataResult<List<Publication>>> GetNewAddedBooks()
+        public async Task<DataResult<List<File>>> GetNewAddedBooks()
         {
             using HttpClient client = new HttpClient();
-            var result = await client.GetJsonAsync<DataResult<List<Publication>>>(BaseUrl + "Publication/getnewadded");
+            var result = await client.GetJsonAsync<DataResult<List<File>>>(BaseUrl + "Publication/getnewadded");
             return result;
+        }
+
+        Task<DataResult<File>> ICategoryService.Get(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<DataResult<List<File>>> ICategoryService.GetNewAddedBooks()
+        {
+            throw new NotImplementedException();
         }
     }
 }
