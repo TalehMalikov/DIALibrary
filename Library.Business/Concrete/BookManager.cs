@@ -11,8 +11,8 @@ namespace Library.Business.Concrete
 {
     public class BookManager : IBookService
     {
-        private readonly IBookRepository _bookRepository;
-        public BookManager(IBookRepository bookRepository)
+        private readonly IFileRepository _bookRepository;
+        public BookManager(IFileRepository bookRepository)
         {
             _bookRepository = bookRepository;
         }

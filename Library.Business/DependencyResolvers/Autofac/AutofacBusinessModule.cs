@@ -49,7 +49,7 @@ namespace Library.Business.DependencyResolvers.Autofac
                 .WithParameter("connectionString", _connectionString).SingleInstance();
             builder.RegisterType<SqlBookAuthorRepository>().As<IBookAuthorRepository>()
                 .WithParameter("connectionString", _connectionString).SingleInstance();
-            builder.RegisterType<SqlBookRepository>().As<IBookRepository>()
+            builder.RegisterType<SqlFileRepository>().As<IFileRepository>()
                 .WithParameter("connectionString", _connectionString).SingleInstance();
             builder.RegisterType<SqlCategoryRepository>().As<ICategoryRepository>()
                 .WithParameter("connectionString", _connectionString).SingleInstance();

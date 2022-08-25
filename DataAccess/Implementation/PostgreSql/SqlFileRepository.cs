@@ -2,31 +2,44 @@
 using Library.DataAccess.Abstraction;
 using Library.Entities.Concrete;
 using Npgsql;
+using File = Library.Entities.Concrete.File;
 
 namespace Library.DataAccess.Implementation.PostgreSql
 {
-    public class SqlBookRepository : IBookRepository
+    public class SqlFileRepository : IFileRepository
     {
         private readonly string _connectionString;
-        public SqlBookRepository(string connectionString)
+        public SqlFileRepository(string connectionString)
         {
             _connectionString = connectionString;
         }
 
-        public bool Add(Entities.Concrete.File value)
+        public bool Add(File value)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
-            string cmdString = "Insert Into Books(Name,CategoryId,OriginalLanguageId,LastModified,IsDeleted,Status,FileTypeId)" +
-                               " Values(@name,@categoryId,@originalCategoryId,@lastModified,@isDeleted,@status,@fileTypeId)";
+            string cmdString = "Insert Into Books(Name,CategoryId,OriginalLanguageId,LastModified,IsDeleted,ExistingStatus," +
+                               "FileTypeId,EditionStatus,PublicationLanguageId,Description,PublisherName,PublicationDate," +
+                               "PhotoPath,FilePath,PageNumber)" +
+                               " Values(@name,@categoryId,@originalCategoryId,@lastModified,@isDeleted,@status,@fileTypeId," +
+                               "@editionStatus,@publicationLanguageId,@description,@publisherName,@publicationDate,@photoPath," +
+                               "@filePath,@pageNumber)";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             command.Parameters.AddWithValue("@name", value.Name);
             command.Parameters.AddWithValue("@categoryId", value.Category.Id);
             command.Parameters.AddWithValue("@originalLanguageId", value.OriginalLanguage.Id);
             command.Parameters.AddWithValue("@lastModified", value.LastModified);
             command.Parameters.AddWithValue("@isDeleted", false);
-            command.Parameters.AddWithValue("@status", value.Status);
-            command.Parameters.AddWithValue("@fileTypeId", value.Type.Id);
+            command.Parameters.AddWithValue("@existingStatus", value.ExistingStatus);
+            command.Parameters.AddWithValue("@fileTypeId", value.FileType.Id);
+            command.Parameters.AddWithValue("@editionStatus", value.EditionStatus);
+            command.Parameters.AddWithValue("@publicationLanguageId", value.PublicationLanguage.Id);
+            command.Parameters.AddWithValue("@description", value.Description);
+            command.Parameters.AddWithValue("@publisherName", value.PublisherName);
+            command.Parameters.AddWithValue("@publicationDate", value.PublicationDate);
+            command.Parameters.AddWithValue("@photoPath", value.PhotoPath);
+            command.Parameters.AddWithValue("@filePath", value.FilePath);
+            command.Parameters.AddWithValue("@pageNumber", value.PageNumber);
             return 1 == command.ExecuteNonQuery();
         }
 
@@ -34,11 +47,15 @@ namespace Library.DataAccess.Implementation.PostgreSql
         {
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
-            string cmdString = "Update Books Set IsDeleted=@isDeleted Where Id=@id";
+            string cmdString = "delete from Files Where Id=@id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             command.Parameters.AddWithValue("@id", id);
-            command.Parameters.AddWithValue("@isDeleted", true);
             return 1 == command.ExecuteNonQuery();
+        }
+
+        public List<File> GetNewAdded()
+        {
+            throw new NotImplementedException();
         }
 
         public Entities.Concrete.File Get(int id)
