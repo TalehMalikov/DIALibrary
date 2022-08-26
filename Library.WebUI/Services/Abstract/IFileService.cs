@@ -1,7 +1,13 @@
-﻿namespace Library.WebUI.Services.Abstract
+﻿using Library.Core.Result.Concrete;
+using File = Library.Entities.Concrete.File;
+
+namespace Library.WebUI.Services.Abstract
 {
-    public interface IFileService 
+    public interface IFileService
     {
+        Task<DataResult<List<File>>> GetAllFilesByCategoryId(int id);
+        Task<DataResult<List<File>>> GetAllFiles();
+        Task<DataResult<File>> GetFileById(int id);
 
     }
 }

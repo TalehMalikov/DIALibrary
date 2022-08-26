@@ -1,4 +1,4 @@
-﻿@model AuthViewModel
+﻿@model CategoryViewModel
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,11 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DIA</title>
-    <link rel="icon" href="images/logo.png">
+    <link rel="icon" href="@Href("~/images/logo.png")">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous" />
     <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet" />
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="@Href("~/css/style.css")" />
     <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css"
           integrity="sha512-UTNP5BXLIptsaj5WdKFrkFov94lDx+eBvbKyoe1YAfjeRPC+gT5kyZ10kOHCfNZqEui1sxmqvodNUx3KbuYI/A=="
@@ -20,15 +20,21 @@
           integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-</head>
 
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+    <script type="text/javascript" src="~/DataTables/datatables.min.js"></script>
+
+</head>
 <body>
+
     <header>
         <section id="navtop">
             <div class="container-lg">
                 <nav class="navbar">
-                    <a class="logo" href="index.html">
-                        <img src="images/logo.png" width="100rem" class="d-inline-block">
+                    <a class="logo" asp-action="Index" asp-controller="Home">
+                        <img src="@Href("~/images/logo.png")" width="100rem" class="d-inline-block">
                         <span class="logo-text">
                             Azərbaycan Respublikası Prezidenti yanında Dövlət İdarəçilik Akademiyası
                             Elektron Kitabxanası
@@ -45,132 +51,86 @@
                         <li class="nav-item mx-md-3">
                             <i class="far fa-phone-alt"></i><a href="tel:+994124926529" class="text-dark">(+994 12 ) 492 65 29</a>
                         </li>
-
             </div>
 
             <li class="nav-item mx-md-1">
                 <div class="lang">
-                    <select class="form-select-sm text-bold p-1">
-                        <option class="text-bold" selected>Azərbaycan</option>
-                        <option class="text-bold">Русский</option>
-                        <option class="text-bold">English</option>
-                    </select>
+
+                    <img src="@Href("~/images/flag.png")" class="flag">
+                    <span>Azərbaycan</span>
                 </div>
             </li>
-
             </ul>
             </nav>
             </div>
         </section>
-        @RenderBody();
+        <section id="navbottom">
+
+            <div class="container-lg">
+                <nav class="navbar-down justify-content-between align-items-center">
+                    <a class="btn btn-menu red" href="#">
+                        E-Kitablar
+                    </a>
+                    <div class="input-area ">
+                        <input type="text" class="input-nav" placeholder="Kitab Axtar">
+                        <button class="fas fa-search"></button>
+
+                    </div>
+                </nav>
+            </div>
+        </section>
     </header>
+<main>
+    <section id="category" class="my-5">
+        <div class="container-lg">
+            <div class="category-div">
+                <div class="category-title"><button class="p-2">Katiqoriyalar</button></div>
+                <div class="category d-flex p-2 justify-content-between">
+                    @{
+                        int count = Model.CategoryList.Data.Count;
+                        int i = 0;
+                        for (; i < (count / 6); i++)
+                        {
+                            <div class="category-row">
 
-    <main>
+                                <ul class="list">
 
-        <section id="main-photo" class="pt-2 pb-5">
-            <div class="container-lg">
-                <div class="image-area">
-                    <img src="images/academy.jpg" width="100%">
-                </div>
-            </div>
-        </section>
-
-        <section id="books">
-            <div class="container-lg">
-                <div class="title d-flex justify-content-between">
-                    <div class="left">
-                        <span class="text-bold">Yeni kitablar</span>
-                        <a asp-action="GetAll" asp-controller="File" class="text-italic">-bütün kitablar</a>
-                    </div>
-                    <div class="right">
-                        <button class="prev-btn">
-                            <i class="fas fa-angle-left"></i>
-                        </button>
-                        <button class="next-btn">
-                            <i class="fas fa-angle-right"></i>
-                        </button>
-                    </div>
-
-                </div>
-                <div class="swiper">
-                    <div class="swiper-wrapper">
-                        @{
-                            var result = Model.NewAddedBookList.Data;
-
-                            @for (int k = 0; k < result.Count; k++)
-                            {
-                                <div class="swiper-slide">
-                                    <a href="#" class="card-book d-flex flex-column align-items-center">
-                                        <img width="140" height="180" src="@Url.Action("Picture","Category" ,new { name = result[k].PhotoPath })">
-                                    </a>
-                                </div>
-                            }
+                                    @for (int j = i * 6; j < (i + 1) * 6; j++)
+                                    {
+                                        <li>
+                                            <a asp-action="GetFileByCategoryId" asp-controller="File" asp-route-id="@Model.CategoryList.Data[j].Id"  class="category-link">@Model.CategoryList.Data[j].Name</a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
                         }
-
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <section id="sign" class="py-2 mb-4">
-            <div class="container-lg">
-                <div class="text-box">
-                    <span class="fw-bold pb-2">Qeydiyyat</span>
-
-                    <span class="text">
-                        1.Kitabxanaya yazılmaq üçün şəxsiyyəti təsdiq edən sənəd və bir ədəd 3X4 ölçülü
-                        şəkil təqdim olunmalıdır.
-                    </span>
-                    <span class="text-">
-                        2.Kitabxananın Oxu zallarından istənilən oxucu şəxsiyyəti təsdiq edən sənəd
-                        təqdim edərək istifadə edə bilər.
-                    </span>
-                    <span class="text-">
-                        3.Abonementdən Azərbaycan Respublikası Prezidentinin Administrasiyasının və
-                        İşlər İdarəsinin əməkdaşları istifadə edə bilərlər.
-                    </span>
-
-                    <span class="fw-bold mx-md-5 my-2 pt-2">Əlaqə nömrələri:</span>
-                    <span class="mx-md-5 px-md-5 px-3 fw-bold">Oxu zalı: (+99412) 492-65-29</span>
-                    <span class="mx-md-5 px-md-5 px-3 fw-bold mb-3">Abonement: (+99450) 582-28-31 </span>
+                        @if ((count - i * 6) > 0)
+                        {
+                            <ul class="list">
+                                @for (int j = i * 6; j < count; j++)
+                                {
+                                    <li>
+                                        <a href="#" class="category-link">@Model.CategoryList.Data[j].Name</a>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                    }
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="carousel">
-            <div class="container-lg">
-                <div class="carousel my-5">
-                    <div class="owl-carousel owl-theme">
-                        <div class="item">
-                            <a href="https://heydaraliyevcenter.az/"><img src="images/HeydarAliyevCenter.jpg"></a>
-                        </div>
+    @RenderBody();
 
-                        <div class="item">
-                            <a href="https://president.az/"><img src="images/PresidentAz.gif"></a>
-                        </div>
-
-                        <div class="item">
-                            <a href="https://heydar-aliyev-foundation.org/az"><img src="images/HeydarAliyevFoundation.png"></a>
-                        </div>
-
-                        <div class="item">
-                            <a href="http://www.millikitabxana.az/"><img src="images/libraries_anl.png"></a>
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
-        </section>
-    </main>
+</main>
     <footer>
         <div class="footer pt-5 ">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-4 align-items-center">
                         <div class="icon-div text-center">
-                            <img src="images/logo.png">
+                            <img src="@Href("~/images/logo.png")">
                             <div class="icons">
                                 <i class="fab fa-instagram"></i>
                                 <i class="fab fa-youtube"></i>
@@ -217,7 +177,6 @@
 
                 <div class="row">
                     <div class="col">
-
                         <div class="line-footer mt-5 mb-2"></div>
                         <span class="copyright fw-light">
                             Copyright © 2022 Elektron Kitabxana. Bütün hüquqlar qorunur.
@@ -228,33 +187,20 @@
             </div>
         </div>
     </footer>
-    <!-- MODAL LOGIN! -->
-    <div class="modal-bg">
-        <div class="login-page py-4">
-            <form asp-action="Login" asp-controller="Auth">
-                <img src="images/logo.png">
-                <h3 class="pb-2">Şəxsi kabinet</h3>
-                <input type="text" class="login-input mb-2" placeholder="EMAIL" asp-for="LoginModel.Email">
-                <input type="text" class="login-input mb-2" placeholder="ŞIFRƏ" asp-for="LoginModel.Password">
-                <a href="#">Şifrəmi Unuttum?</a>
-                <button type="submit" class="btn btn-primary m-2">Daxil Ol </button>
-                <input type="button" class="btn btn-secondary mb-2 close" value="Geri">
-            </form>
-        </div>
-    </div>
-
     <div class="modalbackdrop"></div>
     <!-- Button ScrollTop -->
+
     <div class="top-btn">
         <i class="fas fa-arrow-alt-up"></i>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+
     <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/modal.js"></script>
+    <script src="js/e-books.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous">
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

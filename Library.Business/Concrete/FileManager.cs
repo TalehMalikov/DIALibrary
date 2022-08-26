@@ -51,11 +51,21 @@ namespace Library.Business.Concrete
             return new SuccessDataResult<List<File>>(result);
         }
 
+        [CacheAspect]
         public DataResult<List<File>> GetNewAdded()
         {
             var result = _fileRepository.GetNewAdded();
             if (result.Count == 0)
                 return new ErrorDataResult<List<File>>(result,StatusMessagesUtil.NotFoundMessage);
+            return new SuccessDataResult<List<File>>(result);
+        }
+
+        [CacheAspect]
+        public DataResult<List<File>> GetAllFilesByCategoryId(int id)
+        {
+            var result = _fileRepository.GetAllFilesByCategoryId(id);
+            if (result.Count == 0)
+                return new ErrorDataResult<List<File>>(result, StatusMessagesUtil.NotFoundMessage);
             return new SuccessDataResult<List<File>>(result);
         }
 

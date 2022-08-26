@@ -6,6 +6,7 @@ namespace Library.Business.Abstraction
     public interface IFileService : IBaseService<File>
     {
         DataResult<List<File>> GetNewAdded();
+        DataResult<List<File>> GetAllFilesByCategoryId(int id);
 
     }
 }
