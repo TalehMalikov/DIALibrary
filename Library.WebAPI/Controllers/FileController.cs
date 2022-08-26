@@ -6,7 +6,6 @@ namespace Library.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
     public class FileController : ControllerBase
     {
         private readonly IFileService _fileService;
@@ -40,6 +39,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("getall")]
         public IActionResult GetAll()
         {

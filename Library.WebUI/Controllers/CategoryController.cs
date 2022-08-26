@@ -42,22 +42,13 @@ namespace Library.WebUI.Controllers
                 return BadRequest("Not found");
             }
         }
-
+      
         [HttpGet]
-        public IActionResult File(string name)
+        public async Task<IActionResult> GetAllFiles()
         {
-            try
-            {
-                string fullPath = Path.Combine(SystemDefaults.DefaultBookPhotoPath, name);
-
-                var content = System.IO.File.ReadAllBytes(fullPath);
-
-                return File(content, "pdf/*");
-            }
-            catch
-            {
-                return Ok();
-            }
+            var token = HttpContext.Session.GetString("AccessToken");
+            var result = await _fileService.GetAll(token);
+            return View();
         }
     }
 }

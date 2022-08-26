@@ -1,9 +1,10 @@
 ﻿using Library.Core.Domain.Dtos;
-using Library.Entities.Concrete;
 using Library.WebUI.Models;
 using Library.WebUI.Services.Abstract;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Net.Http.Headers;
 
 namespace Library.WebUI.Controllers
 {
@@ -28,9 +29,9 @@ namespace Library.WebUI.Controllers
             });
             if (result.Success)
             {
-                //Session["AccesToken"] = result.Data.Token;
+                HttpContext.Session.SetString("AccessToken",result.Data.Token);
 
-                return RedirectToAction("Index", "Auth");
+                return RedirectToAction("Index", "Authentication");
             }
             return RedirectToAction("Index", "Home");
         }
@@ -41,6 +42,29 @@ namespace Library.WebUI.Controllers
             AuthenticationViewModel authViewModel = new AuthenticationViewModel();
             authViewModel.NewAddedBookList = await _categoryService.GetNewAddedBooks();
             return View(authViewModel);
+        }
+
+
+        //***********************************
+
+        public async Task<IActionResult> GetAllPlayers()
+        {
+            var strToken = HttpContext.Session.GetString("AccessToken");
+
+            var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:42045/api/player");
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", strToken);
+
+            using HttpClient client = new HttpClient();
+
+            HttpResponseMessage response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+            
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                var apiString = await response.Content.ReadAsStringAsync();
+                //players = JsonConvert.DeserializeObject<List<Player>>(apiString);
+
+            }
+            return View(/*players*/);
         }
     }
 }

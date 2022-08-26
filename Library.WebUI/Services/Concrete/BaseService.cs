@@ -1,4 +1,6 @@
-﻿namespace Library.WebUI.Services.Concrete
+﻿using System.Net.Http.Headers;
+
+namespace Library.WebUI.Services.Concrete
 {
     public abstract class BaseService
     {
