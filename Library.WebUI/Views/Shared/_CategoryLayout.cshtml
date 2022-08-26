@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model CategoryViewModel
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -8,9 +9,9 @@
     <title>DIA</title>
     <link rel="icon" href="@Href("~/images/logo.png")">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous"/>
-    <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet"/>
-   <link rel="stylesheet" href="@Href("~/css/style.css")"/>
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous" />
+    <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet" />
+    <link rel="stylesheet" href="@Href("~/css/style.css")" />
     <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css"
           integrity="sha512-UTNP5BXLIptsaj5WdKFrkFov94lDx+eBvbKyoe1YAfjeRPC+gT5kyZ10kOHCfNZqEui1sxmqvodNUx3KbuYI/A=="
@@ -20,6 +21,10 @@
           crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+    <script type="text/javascript" src="~/DataTables/datatables.min.js"></script>
 
 </head>
 <body>
@@ -50,20 +55,23 @@
 
             <li class="nav-item mx-md-1">
                 <div class="lang">
-              
+
                     <img src="@Href("~/images/flag.png")" class="flag">
-                    <span>Azerbaycan</span>
+                    <span>Azərbaycan</span>
                 </div>
             </li>
             </ul>
             </nav>
             </div>
         </section>
-        @await RenderSectionAsync("navbar_bottom")
+        
     </header>
-    <main>
-        @RenderBody();
-    </main>
+<main>
+   
+
+    @RenderBody();
+
+</main>
     <footer>
         <div class="footer pt-5 ">
             <div class="container-fluid">
@@ -117,7 +125,6 @@
 
                 <div class="row">
                     <div class="col">
-
                         <div class="line-footer mt-5 mb-2"></div>
                         <span class="copyright fw-light">
                             Copyright © 2022 Elektron Kitabxana. Bütün hüquqlar qorunur.

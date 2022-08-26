@@ -74,6 +74,18 @@ namespace Library.WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpGet("getallfilesbycategoryid/{id:int}")]
+        public IActionResult GetFilesByCategoryId(int id)
+        {
+            var result = _fileService.GetAllFilesByCategoryId(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
         [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {

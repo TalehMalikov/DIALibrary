@@ -78,6 +78,31 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         }
 
+        public List<File> GetAllFilesByCategoryId(int id)
+        {
+            List<File> books = new List<File>();
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
+            connection.Open();
+            string cmdString = "select files.id as fileid, files.name as FileName,categoryid," +
+                               "categories.name as categoryname," +
+                               "originallanguageid,ol.name as originallanguagename," +
+                               "files.lastmodified as filelastmodified,editionstatus," +
+                               "filetypeid,filetypes.name as filetypename," +
+                               "photopath,publishername,pagenumber," +
+                               "publicationlanguageid, pl.name as publicationlanguagename," +
+                               "publicationdate, description,filepath,existingstatus from files " +
+                               "inner join categories on categories.id = categoryid " +
+                               "inner join languages as ol on originallanguageid = ol.id " +
+                               "inner join languages as pl on publicationlanguageid = pl.id " +
+                               "inner join filetypes on filetypeid = filetypes.id Where Categories.Id=@id";
+            using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
+            command.Parameters.AddWithValue("@id", id);
+            var reader = command.ExecuteReader();
+            while (reader.Read())
+                books.Add(ReadFile(reader));
+            return books;
+        }
+
         public File Get(int id)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
