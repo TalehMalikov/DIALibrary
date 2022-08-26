@@ -43,12 +43,12 @@ namespace Library.WebUI.Controllers
             }
         }
       
-        [HttpGet]
+        /*[HttpGet]
         public async Task<IActionResult> GetAllFiles()
         {
             var token = HttpContext.Session.GetString("AccessToken");
             var result = await _fileService.GetAll(token);
             return View();
-        }
+        }*/
     }
 }
