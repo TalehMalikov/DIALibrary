@@ -7,26 +7,35 @@ namespace Library.WebUI.Controllers
     public class FileController : Controller
     {
         private readonly IFileService _fileService;
+        private readonly ICategoryService _categoryService;
 
-        public FileController(IFileService fileService)
+        public FileController(IFileService fileService, ICategoryService categoryService)
         {
             _fileService = fileService;
+            _categoryService = categoryService;
         }
 
         public async Task<IActionResult> GetAll()
         {
             FileViewModel model = new FileViewModel
             {
-                Files = await _fileService.GetAllFiles() 
+                Files = await _fileService.GetAllFiles()
             };
             return View(model);
         }
 
-        public async Task<IActionResult> GetFileByCategoryId(int id)
+        public async Task<IActionResult> GetAllFilesByCategoryId(int id)
         {
-            FileViewModel model = new FileViewModel
+            CategoryFileViewModel model = new CategoryFileViewModel
             {
-                Files = await _fileService.GetAllFilesByCategoryId(id)
+                FileModel = new FileViewModel
+                {
+                    Files = await _fileService.GetAllFilesByCategoryId(id)
+                },
+                CategoryModel = new CategoryViewModel
+                {
+                    CategoryList = await _categoryService.GetAll()
+                }
             };
 
             return View(model);

@@ -18,14 +18,14 @@ namespace Library.WebUI.Services.Concrete
         public async Task<DataResult<List<File>>> GetAllFiles()
         {
             using HttpClient client = new HttpClient();
-            var result = await client.GetJsonAsync<DataResult<List<File>>>(BaseUrl + "Files/getall");
+            var result = await client.GetJsonAsync<DataResult<List<File>>>(BaseUrl + "File/getall");
             return result;
         }
 
         public async Task<DataResult<File>> GetFileById(int id)
         {
             using HttpClient client = new HttpClient();
-            var result = await client.GetJsonAsync<DataResult<File>>(BaseUrl + "get/" + id);
+            var result = await client.GetJsonAsync<DataResult<File>>(BaseUrl + "File/getbyid/" + id);
             return result;
         }
     }

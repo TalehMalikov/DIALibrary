@@ -2,6 +2,7 @@
 using Library.WebUI.Services.Abstract;
 using Library.WebUI.Systems;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.AccessControl;
 
 namespace Library.WebUI.Controllers
 {
@@ -17,12 +18,12 @@ namespace Library.WebUI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(CategoryViewModel model)
+        public async Task<IActionResult> Index()
         {
-            var result = await _categoryService.GetAll();
-            model.CategoryList = result;
-            model.NewAddedBookList = await _categoryService.GetNewAddedBooks();
-            return View(model);
+            CategoryFileViewModel categoryFileViewModel = new CategoryFileViewModel();
+            categoryFileViewModel.CategoryModel.CategoryList = await _categoryService.GetAll();
+            categoryFileViewModel.CategoryModel.NewAddedBookList = await _categoryService.GetNewAddedBooks();
+            return View(categoryFileViewModel);
         }
 
         [HttpGet]

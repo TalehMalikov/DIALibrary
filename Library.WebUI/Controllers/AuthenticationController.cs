@@ -28,7 +28,7 @@ namespace Library.WebUI.Controllers
             });
             if (result.Success)
             {
-                Session["AccesToken"] = result.Data.Token;
+                //Session["AccesToken"] = result.Data.Token;
 
                 return RedirectToAction("Index", "Auth");
             }

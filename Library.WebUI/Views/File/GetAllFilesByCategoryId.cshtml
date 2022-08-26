@@ -1,9 +1,8 @@
 ﻿@model CategoryFileViewModel
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"]= "DIA";
     Layout = "~/Views/Shared/_CommonLayout.cshtml";
 }
-
 @section navbar_bottom{
     <section id="navbottom">
 
@@ -13,8 +12,10 @@
                     E-Kitablar
                 </a>
                 <div class="input-area ">
-                    <input type="text" class="input-nav" placeholder="Kitab Axtar">
-                    <button class="fas fa-search" type="submit"></button>
+                    <form asp-action="SearchByName" asp-controller="File">
+                        <input type="text" class="input-nav" placeholder="Kitab Axtar">
+                        <button class="fas fa-search" type="submit"></button>
+                    </form>
 
                 </div>
             </nav>
@@ -27,6 +28,7 @@
             <div class="category-title"><button class="p-2">Katiqoriyalar</button></div>
             <div class="category d-flex p-2 justify-content-between">
                 @{
+                    var categories = Model.CategoryModel.CategoryList.Data;
                     int count = Model.CategoryModel.CategoryList.Data.Count;
                     int i = 0;
                     for (; i < (count / 6); i++)
@@ -38,7 +40,7 @@
                                 @for (int j = i * 6; j < (i + 1) * 6; j++)
                                 {
                                     <li>
-                                        <a asp-action="GetAllFilesByCategoryId" asp-controller="File" asp-route-id="@Model.CategoryModel.CategoryList.Data[j].Id" class="category-link">@Model.CategoryModel.CategoryList.Data[j].Name</a>
+                                        <a asp-action="GetAllFilesByCategoryId" asp-controller="File" asp-route-id="@categories[j].Id" class="category-link">@categories[j].Name</a>
                                     </li>
                                 }
                             </ul>
@@ -50,7 +52,7 @@
                             @for (int j = i * 6; j < count; j++)
                             {
                                 <li>
-                                    <a href="#" class="category-link">@Model.CategoryModel.CategoryList.Data[j].Name</a>
+                                    <a asp-action="GetAllFilesByCategoryId" asp-controller="File" asp-route-id="@categories[j].Id" class="category-link">@categories[j].Name</a>
                                 </li>
                             }
                         </ul>
@@ -60,47 +62,21 @@
         </div>
     </div>
 </section>
-
-<section id="newbooks" class="my-4">
-        <div class="container-lg">
-            <div class="title d-flex justify-content-between">
-                <div class="left">
-                    <span class="text-bold">Yeni əlavə olunanlar</span>
-                </div>
-                <div class="right">
-                    <button class="prev-btn">
-                        <i class="fas fa-angle-left"></i>
-                    </button>
-                    <button class="next-btn">
-                        <i class="fas fa-angle-right"></i>
-                    </button>
-                </div>
-            </div>
-            <hr>
-        </div>
-    </section>
-
-    <div class="swiper">
-        <div class="swiper-wrapper">
+<section id="book" class="py-3">
+    <hr/>
+    <div class="container-lg">
+        <div class="row">
             @{
-                var result = Model.CategoryModel.NewAddedBookList.Data;
-
-                @for (int k = 0; k < result.Count; k++)
+                var files = Model.FileModel.Files.Data;
+                @for (int k = 0; k < files.Count; k++)
                 {
-                    //string fullPath = System.IO.Path.Combine(SystemDefaults.DefaultBookPhotoPath, result[k].Photo);
-
-                    <div class="swiper-slide">
-                        <a asp-action="GetById" asp-controller="File" asp-route-id ="@result[k].Id" class="card-book d-flex flex-column align-items-center">
-                            <img width="150" height="200" src="@Url.Action("Picture", new { name = result[k].PhotoPath })">
+                    <div class="col-lg-3 col-md-6 col-sm-12 py-3">
+                        <a  class="book" asp-route-id="@files[k].Id"asp-controller="File" asp-action="GetById">
+                            <img src="@Url.Action("Picture","Category",new{name = files[k].PhotoPath})" width="200" height="250">
                         </a>
                     </div>
                 }
             }
-
         </div>
     </div>
-
-
-
-
-
+</section>

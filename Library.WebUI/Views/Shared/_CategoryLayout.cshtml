@@ -64,62 +64,10 @@
             </nav>
             </div>
         </section>
-        <section id="navbottom">
-
-            <div class="container-lg">
-                <nav class="navbar-down justify-content-between align-items-center">
-                    <a class="btn btn-menu red" href="#">
-                        E-Kitablar
-                    </a>
-                    <div class="input-area ">
-                        <input type="text" class="input-nav" placeholder="Kitab Axtar">
-                        <button class="fas fa-search"></button>
-
-                    </div>
-                </nav>
-            </div>
-        </section>
+        
     </header>
 <main>
-    <section id="category" class="my-5">
-        <div class="container-lg">
-            <div class="category-div">
-                <div class="category-title"><button class="p-2">Katiqoriyalar</button></div>
-                <div class="category d-flex p-2 justify-content-between">
-                    @{
-                        int count = Model.CategoryList.Data.Count;
-                        int i = 0;
-                        for (; i < (count / 6); i++)
-                        {
-                            <div class="category-row">
-
-                                <ul class="list">
-
-                                    @for (int j = i * 6; j < (i + 1) * 6; j++)
-                                    {
-                                        <li>
-                                            <a asp-action="GetFileByCategoryId" asp-controller="File" asp-route-id="@Model.CategoryList.Data[j].Id"  class="category-link">@Model.CategoryList.Data[j].Name</a>
-                                        </li>
-                                    }
-                                </ul>
-                            </div>
-                        }
-                        @if ((count - i * 6) > 0)
-                        {
-                            <ul class="list">
-                                @for (int j = i * 6; j < count; j++)
-                                {
-                                    <li>
-                                        <a href="#" class="category-link">@Model.CategoryList.Data[j].Name</a>
-                                    </li>
-                                }
-                            </ul>
-                        }
-                    }
-                </div>
-            </div>
-        </div>
-    </section>
+   
 
     @RenderBody();
 
