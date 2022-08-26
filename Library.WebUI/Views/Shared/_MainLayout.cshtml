@@ -27,13 +27,13 @@
         <section id="navtop">
             <div class="container-lg">
                 <nav class="navbar">
-                    <a class="logo" href="index.html">
-                        <img src="images/logo.png" width="100rem" class="d-inline-block">
-                        <span class="logo-text">
-                            Azərbaycan Respublikası Prezidenti yanında Dövlət İdarəçilik Akademiyası
-                            Elektron Kitabxanası
-                        </span>
-                    </a>
+                            <a class="logo" asp-action="Index" asp-controller="Home">
+                                <img src="images/logo.png" width="100rem" class="d-inline-block">
+                                <span class="logo-text">
+                                    Azərbaycan Respublikası Prezidenti yanında Dövlət İdarəçilik Akademiyası
+                                    Elektron Kitabxanası
+                                </span>
+                            </a>
 
                     <ul class="navbar-top">
                         <div class="li-bottom d-flex">
@@ -41,28 +41,25 @@
                             <i class="far fa-envelope"></i><a href="mailto:info@dia.edu.az"
                                                               class="text-dark">info@dia.edu.az</a>
                         </li>
-
                         <li class="nav-item mx-md-3">
                             <i class="far fa-phone-alt"></i><a href="tel:+994124926529" class="text-dark">(+994 12 ) 492 65 29</a>
                         </li>
-
-            </div>
-
-            <li class="nav-item mx-md-1">
-                <div class="lang">
-                    <select class="form-select-sm text-bold p-1">
-                        <option class="text-bold" selected>Azərbaycan</option>
-                        <option class="text-bold">Русский</option>
-                        <option class="text-bold">English</option>
-                    </select>
-                </div>
-            </li>
-
-            </ul>
-            </nav>
+                        <li class="nav-item mx-md-1">
+                            <div class="lang">
+                                <select class="form-select-sm text-bold p-1">
+                                    <option class="text-bold" selected>Azərbaycan</option>
+                                    <option class="text-bold">Русский</option>
+                                    <option class="text-bold">English</option>
+                                </select>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </section>
+
         @RenderBody();
+
     </header>
 
     <main>
@@ -70,7 +67,7 @@
         <section id="main-photo" class="pt-2 pb-5">
             <div class="container-lg">
                 <div class="image-area">
-                    <img src="images/academy.jpg" width="100%">
+                    <img src="~/images/mainbg.png"width="100%" height="600px">
                 </div>
             </div>
         </section>
@@ -79,7 +76,7 @@
             <div class="container-lg">
                 <div class="title d-flex justify-content-between">
                     <div class="left">
-                        <span class="text-bold">Yeni kitablar</span>
+                        <span class="text-bold">Yeni əlavə olunanlar</span>
                         <a asp-action="GetAll" asp-controller="File" class="text-italic">-bütün kitablar</a>
                     </div>
                     <div class="right">
@@ -90,8 +87,11 @@
                             <i class="fas fa-angle-right"></i>
                         </button>
                     </div>
-
                 </div>
+                <hr>
+            </div>
+        </section>
+
                 <div class="swiper">
                     <div class="swiper-wrapper">
                         @{
@@ -101,7 +101,7 @@
                             {
                                 <div class="swiper-slide">
                                     <a href="#" class="card-book d-flex flex-column align-items-center">
-                                        <img width="140" height="180" src="@Url.Action("Picture","Category" ,new { name = result[k].PhotoPath })">
+                                        <img width="140" height="180" src="@Url.Action("Picture","Resources" ,new { name = result[k].PhotoPath })">
                                     </a>
                                 </div>
                             }
@@ -109,9 +109,6 @@
 
                     </div>
                 </div>
-
-            </div>
-        </section>
 
         <section id="sign" class="py-2 mb-4">
             <div class="container-lg">
@@ -163,6 +160,7 @@
                 </div>
             </div>
         </section>
+    
     </main>
     <footer>
         <div class="footer pt-5 ">

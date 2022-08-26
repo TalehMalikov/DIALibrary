@@ -28,5 +28,12 @@ namespace Library.WebUI.Services.Concrete
             var result = await client.GetJsonAsync<DataResult<File>>(BaseUrl + "File/getbyid/" + id);
             return result;
         }
+
+        public async Task<Result> Delete(int id)
+        {
+            using HttpClient client = new HttpClient();
+            var result = await client.DeleteJsonAsync<Result>(BaseUrl + "File/delete/" + id);
+            return result;
+        }
     }
 }

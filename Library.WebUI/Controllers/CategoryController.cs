@@ -1,8 +1,6 @@
 ﻿using Library.WebUI.Models;
 using Library.WebUI.Services.Abstract;
-using Library.WebUI.Systems;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.AccessControl;
 
 namespace Library.WebUI.Controllers
 {
@@ -24,23 +22,6 @@ namespace Library.WebUI.Controllers
             categoryFileViewModel.CategoryModel.CategoryList = await _categoryService.GetAll();
             categoryFileViewModel.CategoryModel.NewAddedBookList = await _categoryService.GetNewAddedBooks();
             return View(categoryFileViewModel);
-        }
-
-        [HttpGet]
-        public IActionResult Picture(string name)
-        {
-            try
-            {
-                string fullPath = Path.Combine(SystemDefaults.DefaultBookPhotoPath, name);
-
-                var content = System.IO.File.ReadAllBytes(fullPath);
-
-                return File(content, "img/*");
-            }
-            catch
-            {
-                return BadRequest("Not found");
-            }
         }
       
         /*[HttpGet]

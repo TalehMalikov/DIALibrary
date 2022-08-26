@@ -1,11 +1,12 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_CommonLayout.cshtml";
 }
 
 
 <body>
-    
     @section navbar_bottom{
     <section id="navbottom">
             
@@ -17,18 +18,18 @@
                </a>
 
                <div class="dropdown">
-                   <a class="btn btn-menu dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                   data-bs-toggle="dropdown" aria-expanded="false">
-                   Bizim kitabxana
-                   </a>
+                    <a class="btn btn-menu dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Bizim kitabxana
+                    </a>
 
-               <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                   <li><a class="dropdown-item" href="@Url.Action("MoreInfo","OurLibrary")">Ümumi məlumat</a></li>
-                   <li><a class="dropdown-item" href="otherlib.html">Digər kitabxanalar</a></li>
-                   <li><a class="dropdown-item" href="news.html">Yeniliklər</a></li>
-               </ul>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li><a class="dropdown-item" href="@Url.Action("MoreInfo","OurLibrary")">Ümumi məlumat</a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("ExternalSource","OurLibrary")">Digər kitabxanalar</a></li>
+                        <li><a class="dropdown-item" href="news.html">Yeniliklər</a></li>
+                    </ul>
             
-           </div>
+               </div>
             
          <div class="dropdown">
             
@@ -58,12 +59,22 @@
          </div>
 
             
-       <a class="btn btn-menu modal-btn" href="#">
-           Giriş
-       </a>
-           </nav>
-            
-           </div>
+            @{
+                if(!string.IsNullOrEmpty(HttpContextAccessor?.HttpContext?.Session.GetString("AccessToken")))
+                {
+                    <a class="btn btn-menu modal-btn" href="#">
+                        Şəxsi kabinet
+                    </a>
+                }
+                else
+                {
+                    <a class="btn btn-menu modal-btn" href="#">
+                        Giriş
+                    </a>
+                }
+              }
+          </nav>
+       </div>
     </section>
     }
 
@@ -76,7 +87,6 @@
         </div>
     </section>
     
-    </>
     <!-- MODAL LOGIN! -->
     <div class="modal-bg">
         <div class="login-page py-4">
@@ -91,8 +101,6 @@
 
                 <input type="button" class="btn btn-secondary mb-2 close" value="Geri">
             </form>
-
-
         </div>
     </div>
 
