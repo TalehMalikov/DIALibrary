@@ -8,10 +8,20 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<IAuthService, AuthService>();
 builder.Services.AddSingleton<ICategoryService, CategoryService>();
 builder.Services.AddSingleton<IFileService, FileService>();
+builder.Services.AddSingleton<IExternalSourceService, ExternalSourceService>();
 
 builder.Services.AddRazorPages(options =>
 {
     options.Conventions.AddPageRoute("/Contact", "Category/GetNewAddedBooks/{id?}");
+});
+
+builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddSession(sessions =>
+{
+    sessions.IdleTimeout = TimeSpan.FromHours(1);
+    sessions.Cookie.IsEssential = true;
+    sessions.Cookie.HttpOnly = true;
 });
 
 var app = builder.Build();
@@ -24,12 +34,15 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

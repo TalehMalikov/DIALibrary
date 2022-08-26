@@ -16,7 +16,7 @@ namespace Library.WebUI.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            AuthViewModel authViewModel = new AuthViewModel();
+            AuthenticationViewModel authViewModel = new AuthenticationViewModel();
             authViewModel.NewAddedBookList = await _categoryService.GetNewAddedBooks();
             return View(authViewModel);
         }

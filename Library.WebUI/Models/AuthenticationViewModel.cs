@@ -4,7 +4,7 @@ using File = Library.Entities.Concrete.File;
 
 namespace Library.WebUI.Models
 {
-    public class AuthViewModel
+    public class AuthenticationViewModel
     {
         public AccountLoginDto LoginModel { get; set; }
 
