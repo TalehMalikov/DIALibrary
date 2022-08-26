@@ -69,36 +69,5 @@ namespace Library.WebUI.Controllers
             memory.Position = 0;
             return File(memory, contentType, filename);
         }
-
-        public async Task<IActionResult> DeleteFileFromFileSystem(int id)
-        {
-            var result = await _fileService.GetFileById(id);
-            var file = result.Data;
-
-            string filePath, photoPath;
-
-            filePath = Path.Combine(SystemDefaults.DefaultFilePath, file.FilePath);
-            photoPath = Path.Combine(SystemDefaults.DefaultPhotoPath, file.PhotoPath);
-
-            StringBuilder fileName = new StringBuilder(file.PhotoPath);
-            fileName.Append(" and ");
-            fileName.Append(file.FilePath);
-
-            if (file == null) return null;
-
-            if (System.IO.File.Exists(photoPath))
-            {
-                System.IO.File.Delete(photoPath);
-            }
-            if (System.IO.File.Exists(filePath))
-            {
-                System.IO.File.Delete(filePath);
-            }
-
-            await _fileService.Delete(file.Id);
-            TempData["Message"] = $"Removed {fileName} successfully from File System.";
-            return RedirectToAction("GetById","File",new {id=id});
-        }
-
     }
 }
