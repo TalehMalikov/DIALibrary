@@ -29,6 +29,7 @@ namespace Library.Business.DependencyResolvers.Autofac
             builder.RegisterType<BookAuthorManager>().As<IBookAuthorService>().SingleInstance();
             builder.RegisterType<FileManager>().As<IFileService>().SingleInstance();
             builder.RegisterType<CategoryManager>().As<ICategoryService>().SingleInstance();
+            builder.RegisterType<ExternalSourceManager>().As<IExternalSourceService>().SingleInstance();
             builder.RegisterType<FacultyManager>().As<IFacultyService>().SingleInstance();
             builder.RegisterType<GroupManager>().As<IGroupService>().SingleInstance();
             builder.RegisterType<LanguageManager>().As<ILanguageService>().SingleInstance();
@@ -51,6 +52,8 @@ namespace Library.Business.DependencyResolvers.Autofac
             builder.RegisterType<SqlFileRepository>().As<IFileRepository>()
                 .WithParameter("connectionString", _connectionString).SingleInstance();
             builder.RegisterType<SqlCategoryRepository>().As<ICategoryRepository>()
+                .WithParameter("connectionString", _connectionString).SingleInstance();
+            builder.RegisterType<SqlExternalSourceRepository>().As<IExternalSourceRepository>()
                 .WithParameter("connectionString", _connectionString).SingleInstance();
             builder.RegisterType<SqlFacultyRepository>().As<IFacultyRepository>()
                 .WithParameter("connectionString", _connectionString).SingleInstance();
