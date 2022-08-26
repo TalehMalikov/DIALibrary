@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
     Layout = "_MainLayout";
 }
 
@@ -46,10 +48,21 @@
 
             </div>
 
-            <a class="btn btn-menu modal-btn" href="#">
-                Giriş
-            </a>
+            @{
+                if(!string.IsNullOrEmpty(HttpContextAccessor?.HttpContext?.Session.GetString("AccessToken")))
+                {
+                    <a class="btn btn-menu modal-btn" href="#">
+                        Şəxsi kabinet
+                    </a>
+                }
+                else
+                {
+                    <a class="btn btn-menu modal-btn" href="#">
+                        Giriş
+                    </a>
+                }
 
+            }
         </nav>
     </div>
 </section>

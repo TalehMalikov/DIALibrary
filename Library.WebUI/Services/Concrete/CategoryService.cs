@@ -2,6 +2,7 @@
 using Library.Core.Result.Concrete;
 using Library.Entities.Concrete;
 using Library.WebUI.Services.Abstract;
+using System.Net.Http.Headers;
 using File = Library.Entities.Concrete.File;
 
 namespace Library.WebUI.Services.Concrete
