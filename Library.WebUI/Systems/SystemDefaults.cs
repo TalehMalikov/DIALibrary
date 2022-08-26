@@ -2,6 +2,7 @@
 {
     public class SystemDefaults
     {
-        public const string DefaultBookPhotoPath = @"C:\DIALibrary\BookPhotos\";
+        public const string DefaultPhotoPath = @"C:\DIALibrary\BookPhotos\";
+        public const string DefaultFilePath = @"C:\DIALibrary\BookFiles\";
     }
 }

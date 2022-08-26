@@ -78,7 +78,7 @@
             </div>
             <hr>
         </div>
-    </section>
+</section>
 
     <div class="swiper">
         <div class="swiper-wrapper">
@@ -87,16 +87,13 @@
 
                 @for (int k = 0; k < result.Count; k++)
                 {
-                    //string fullPath = System.IO.Path.Combine(SystemDefaults.DefaultBookPhotoPath, result[k].Photo);
-
                     <div class="swiper-slide">
                         <a asp-action="GetById" asp-controller="File" asp-route-id ="@result[k].Id" class="card-book d-flex flex-column align-items-center">
-                            <img width="150" height="200" src="@Url.Action("Picture", new { name = result[k].PhotoPath })">
+                            <img width="150" height="200" src="@Url.Action("Picture","Resources", new { name = result[k].PhotoPath })">
                         </a>
                     </div>
                 }
             }
-
         </div>
     </div>
 
