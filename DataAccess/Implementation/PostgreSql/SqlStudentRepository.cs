@@ -41,21 +41,54 @@ namespace Library.DataAccess.Implementation.PostgreSql
         {
             using NpgsqlConnection connection = new(_connectionString);
             connection.Open();
+            string cmdString =  "select Students.Id as StudentId," +
+                                "Users.Id as UserId, Users.FirstName,Users.LastName,Users.FatherName,Users.Birthdate,Users.Gender," +
+                                "Users.IsDeleted as UserIsDeleted, Users.LastModified as UserLastModified,Students.AcceptanceDate," +
+                                "studentsspecialties.Id as StudentSpecialtyId,studentsspecialties.Name as StudentSpecialtyName," +
+                                "groupspecialtiefaculties.Id as GroupSpecialtyFacultyId, groupspecialtiefaculties.Name as GroupSpecialtyFacultyName," +
+                                "studentsspecialtiefaculties.Id as StudentSpecialtyFacultyId, studentsspecialtiefaculties.Name as StudentSpecialtyFacultyName," +
+                                "Groups.Id as GroupId, Groups.Name as GroupName," +
+                                "Sectors.Id as SectorId, Sectors.Name as SectorName," +
+                                "groupspecialties.Id as GroupSpecialtyId,groupspecialties.Name as GroupSpecialtyName from Students " +
+                                "inner join Groups on Students.GroupId = Groups.Id " +
+                                "inner join Users on Students.UserId = Users.Id " +
+                                "inner join Specialties as studentsspecialties on Students.SpecialtyId = studentsspecialties.Id " +
+                                "inner join Specialties as groupspecialties on Groups.SpecialtyId = groupspecialties.Id " +
+                                "inner join Sectors on Groups.SectorId = Sectors.Id " +
+                                "inner join Faculties as groupspecialtiefaculties  on groupspecialties.FacultyId = groupspecialtiefaculties.Id " +
+                                "inner join Faculties as studentsspecialtiefaculties on studentsspecialties.FacultyId = studentsspecialtiefaculties.Id  where Users.IsDeleted=false and Students.Id = @id";
+
+            using NpgsqlCommand command = new(cmdString,connection);
+            command.Parameters.AddWithValue("@id", id);
+            var reader = command.ExecuteReader();
+            if (reader.Read())
+                return ReadStudent(reader);
+            return null;
+        }
+
+        public Student GetByUserId(int id)
+        {
+            using NpgsqlConnection connection = new(_connectionString);
+            connection.Open();
             string cmdString =
                 "select Students.Id as StudentId," +
                 "Users.Id as UserId, Users.FirstName,Users.LastName,Users.FatherName,Users.Birthdate,Users.Gender," +
                 "Users.IsDeleted as UserIsDeleted, Users.LastModified as UserLastModified,Students.AcceptanceDate," +
-                "Specialties.Id as SpecialtyId,Specialties.Name as SpecialtyName," +
-                "Faculties.Id as FacultyId, Faculties.Name as FacultyName," +
+                "studentsspecialties.Id as StudentSpecialtyId,studentsspecialties.Name as StudentSpecialtyName," +
+                "groupspecialtiefaculties.Id as GroupSpecialtyFacultyId, groupspecialtiefaculties.Name as GroupSpecialtyFacultyName," +
+                "studentsspecialtiefaculties.Id as StudentSpecialtyFacultyId, studentsspecialtiefaculties.Name as StudentSpecialtyFacultyName," +
                 "Groups.Id as GroupId, Groups.Name as GroupName," +
                 "Sectors.Id as SectorId, Sectors.Name as SectorName," +
-                "Specialties.Id as GroupSpecialtyId,Specialties.Name as GroupSpecialtyName from Students" +
+                "groupspecialties.Id as GroupSpecialtyId,groupspecialties.Name as GroupSpecialtyName from Students " +
                 "inner join Groups on Students.GroupId = Groups.Id " +
                 "inner join Users on Students.UserId = Users.Id " +
-                "inner join Specialties on Students.SpecialtyId = Specialties.Id and Groups.SpecialtyId = Specialties.Id " +
+                "inner join Specialties as studentsspecialties on Students.SpecialtyId = studentsspecialties.Id " +
+                "inner join Specialties as groupspecialties on Groups.SpecialtyId = groupspecialties.Id " +
                 "inner join Sectors on Groups.SectorId = Sectors.Id " +
-                "inner join Faculties on Specialties.FacultyId = Faculties.Id  where Students.Id = @id";
-            using NpgsqlCommand command = new(cmdString,connection);
+                "inner join Faculties as groupspecialtiefaculties  on groupspecialties.FacultyId = groupspecialtiefaculties.Id " +
+                "inner join Faculties as studentsspecialtiefaculties on studentsspecialties.FacultyId = studentsspecialtiefaculties.Id  where Users.IsDeleted=false and Users.Id = @id";
+
+            using NpgsqlCommand command = new(cmdString, connection);
             command.Parameters.AddWithValue("@id", id);
             var reader = command.ExecuteReader();
             if (reader.Read())
@@ -72,16 +105,20 @@ namespace Library.DataAccess.Implementation.PostgreSql
                 "select Students.Id as StudentId," +
                 "Users.Id as UserId, Users.FirstName,Users.LastName,Users.FatherName,Users.Birthdate,Users.Gender," +
                 "Users.IsDeleted as UserIsDeleted, Users.LastModified as UserLastModified,Students.AcceptanceDate," +
-                "Specialties.Id as SpecialtyId,Specialties.Name as SpecialtyName," +
-                "Faculties.Id as FacultyId, Faculties.Name as FacultyName," +
+                "studentsspecialties.Id as StudentSpecialtyId,studentsspecialties.Name as StudentSpecialtyName," +
+                "groupspecialtiefaculties.Id as GroupSpecialtyFacultyId, groupspecialtiefaculties.Name as GroupSpecialtyFacultyName," +
+                "studentsspecialtiefaculties.Id as StudentSpecialtyFacultyId, studentsspecialtiefaculties.Name as StudentSpecialtyFacultyName," +
                 "Groups.Id as GroupId, Groups.Name as GroupName," +
                 "Sectors.Id as SectorId, Sectors.Name as SectorName," +
-                "Specialties.Id as GroupSpecialtyId,Specialties.Name as GroupSpecialtyName from Students" +
+                "groupspecialties.Id as GroupSpecialtyId,groupspecialties.Name as GroupSpecialtyName from Students " +
                 "inner join Groups on Students.GroupId = Groups.Id " +
                 "inner join Users on Students.UserId = Users.Id " +
-                "inner join Specialties on Students.SpecialtyId = Specialties.Id and Groups.SpecialtyId = Specialties.Id " +
+                "inner join Specialties as studentsspecialties on Students.SpecialtyId = studentsspecialties.Id " +
+                "inner join Specialties as groupspecialties on Groups.SpecialtyId = groupspecialties.Id " +
                 "inner join Sectors on Groups.SectorId = Sectors.Id " +
-                "inner join Faculties on Specialties.FacultyId = Faculties.Id";
+                "inner join Faculties as groupspecialtiefaculties  on groupspecialties.FacultyId = groupspecialtiefaculties.Id " +
+                "inner join Faculties as studentsspecialtiefaculties on studentsspecialties.FacultyId = studentsspecialtiefaculties.Id where Users.IsDeleted=false";
+
             using NpgsqlCommand command = new(cmdString, connection);
             var reader = command.ExecuteReader();
             while (reader.Read())
@@ -121,23 +158,23 @@ namespace Library.DataAccess.Implementation.PostgreSql
                     },
                     Speciality = new Specialty
                     {
-                        Id = reader.Get<int>("SpecialtyId"),
-                        Name = reader.Get<string>("SpecialtyName"),
+                        Id = reader.Get<int>("GroupSpecialtyId"),
+                        Name = reader.Get<string>("GroupSpecialtyName"),
                         Faculty = new Faculty
                         {
-                            Id = reader.Get<int>("FacultyId"),
-                            Name = reader.Get<string>("FacultyName")
+                            Id = reader.Get<int>("GroupSpecialtyFacultyId"),
+                            Name = reader.Get<string>("GroupSpecialtyFacultyName")
                         }
                     }
                 },
                 Specialty = new Specialty
                 {
-                    Id = reader.Get<int>("StudentSpecialtyName"),
+                    Id = reader.Get<int>("StudentSpecialtyId"),
                     Name = reader.Get<string>("StudentSpecialtyName"),
                     Faculty = new Faculty
                     {
                         Id = reader.Get<int>("StudentSpecialtyFacultyId"),
-                        Name = reader.Get<string>("StudentSpecialtyName")
+                        Name = reader.Get<string>("StudentSpecialtyFacultyName")
                     }
                 },
                 User = new User

@@ -62,7 +62,7 @@
             @{
                 if(!string.IsNullOrEmpty(HttpContextAccessor?.HttpContext?.Session.GetString("AccessToken")))
                 {
-                    <a class="btn btn-menu modal-btn" href="#">
+                    <a class="btn btn-menu modal-btn" asp-action="Index" asp-controller="PrivateOffice">
                         Şəxsi kabinet
                     </a>
                 }
@@ -94,9 +94,9 @@
             <form action="">
                 <img src="img/logo.png">
                 <h3 class="pb-2">Şəxsi kabinet</h3>
-                <input type="text" class="login-input mb-2" placeholder="EMAIL">
-                <input type="text" class="login-input mb-2" placeholder="ŞIFRƏ">
-                <a href="#">Şifrəmi Unuttum?</a>
+                <input type="text" class="login-input mb-2" placeholder="Email">
+                <input type="text" class="login-input mb-2" placeholder="Şifrə">
+                <a href="#">Şifrəni unutmusan?</a>
                 <a href="account.html"><input type="button" class="btn btn-primary m-2" value="Daxil Ol"></a>
 
                 <input type="button" class="btn btn-secondary mb-2 close" value="Geri">

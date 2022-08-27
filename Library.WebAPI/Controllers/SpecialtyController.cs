@@ -7,7 +7,6 @@ namespace Library.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class SpecialtyController : ControllerBase
     {
         private readonly ISpecialtyService _specialtyService;
@@ -18,6 +17,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPost]
         [Route("add")]
+        [Authorize("SuperAdmin,Admin")]
         public IActionResult Add(Specialty specialty)
         {
             var result = _specialtyService.Add(specialty);
@@ -30,6 +30,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPut]
         [Route("update")]
+        [Authorize("SuperAdmin,Admin")]
         public IActionResult Update(Specialty specialty)
         {
             var result = _specialtyService.Update(specialty);
@@ -43,6 +44,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpGet]
         [Route("getall")]
+        //[Authorize]
         public IActionResult GetAll()
         {
             var result = _specialtyService.GetAll();
@@ -55,6 +57,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpGet("getbyid/{id:int}")]
+        [Authorize]
         public IActionResult Get(int id)
         {
             var result = _specialtyService.Get(id);
@@ -67,6 +70,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize("SuperAdmin,Admin")]
         public IActionResult Delete(int id)
         {
             var result = _specialtyService.Delete(id);

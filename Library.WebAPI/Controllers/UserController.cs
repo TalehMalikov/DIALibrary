@@ -7,7 +7,6 @@ namespace Library.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -18,6 +17,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPost]
         [Route("add")]
+        [Authorize("SuperAdmin,Admin,GroupAdmin")]
         public IActionResult Add(User user)
         {
             var result = _userService.Add(user);
@@ -30,6 +30,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPut]
         [Route("update")]
+        [Authorize("SuperAdmin,Admin,GroupAdmin")]
         public IActionResult Update(User user)
         {
             var result = _userService.Update(user);
@@ -43,6 +44,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpGet]
         [Route("getall")]
+        [Authorize]
         public IActionResult GetAll()
         {
             var result = _userService.GetAll();
@@ -55,6 +57,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpGet("getbyid/{id:int}")]
+        [Authorize]
         public IActionResult Get(int id)
         {
             var result = _userService.Get(id);
@@ -67,6 +70,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize("SuperAdmin,Admin,GroupAdmin")]
         public IActionResult Delete(int id)
         {
             var result = _userService.Delete(id);

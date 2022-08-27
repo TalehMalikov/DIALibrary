@@ -7,7 +7,6 @@ namespace Library.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class StudentController : ControllerBase
     {
         private readonly IStudentService _studentService;
@@ -18,6 +17,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPost]
         [Route("add")]
+        [Authorize("SuperAdmin,Admin,GroupAdmin")]
         public IActionResult Add(Student student)
         {
             var result = _studentService.Add(student);
@@ -30,6 +30,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPut]
         [Route("update")]
+        //[Authorize]
         public IActionResult Update(Student student)
         {
             var result = _studentService.Update(student);
@@ -43,6 +44,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpGet]
         [Route("getall")]
+        //[Authorize]
         public IActionResult GetAll()
         {
             var result = _studentService.GetAll();
@@ -55,6 +57,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpGet("getbyid/{id:int}")]
+        //[Authorize]
         public IActionResult Get(int id)
         {
             var result = _studentService.Get(id);
@@ -66,7 +69,21 @@ namespace Library.WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpGet("getbyuserid/{id:int}")]
+        //[Authorize]
+        public IActionResult GetByUserId(int id)
+        {
+            var result = _studentService.GetByUserId(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
         [HttpDelete("{id:int}")]
+        [Authorize("SuperAdmin,Admin,GroupAdmin")]
         public IActionResult Delete(int id)
         {
             var result = _studentService.Delete(id);

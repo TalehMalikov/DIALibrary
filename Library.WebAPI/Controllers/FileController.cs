@@ -16,6 +16,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPost]
         [Route("add")]
+        [Authorize("SuperAdmin,Admin,ResourceAdmin")]
         public IActionResult Add(Entities.Concrete.File file)
         {
             var result = _fileService.Add(file);
@@ -28,6 +29,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPut]
         [Route("update")]
+        [Authorize("SuperAdmin,Admin,ResourceAdmin")]
         public IActionResult Update(Entities.Concrete.File file)
         {
             var result = _fileService.Update(file);
@@ -39,7 +41,6 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         [Route("getall")]
         public IActionResult GetAll()
         {
@@ -87,6 +88,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize("SuperAdmin,Admin,ResourceAdmin")]
         public IActionResult Delete(int id)
         {
             var result = _fileService.Delete(id);

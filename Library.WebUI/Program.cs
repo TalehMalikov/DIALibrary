@@ -10,6 +10,12 @@ builder.Services.AddSingleton<ICategoryService, CategoryService>();
 builder.Services.AddSingleton<IFileService, FileService>();
 builder.Services.AddSingleton<IExternalSourceService, ExternalSourceService>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddSingleton<IAccountService, AccountService>();
+builder.Services.AddSingleton<IStudentService, StudentService>();
+builder.Services.AddSingleton<IFacultyService, FacultyService>();
+builder.Services.AddSingleton<ISectorService, SectorService>();
+builder.Services.AddSingleton<ISpecialtyService, SpecialtyService>();
+
 
 builder.Services.AddRazorPages(options =>
 {
@@ -20,7 +26,7 @@ builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddSession(sessions =>
 {
-    sessions.IdleTimeout = TimeSpan.FromMinutes(2);
+    sessions.IdleTimeout = TimeSpan.FromHours(1);
     sessions.Cookie.IsEssential = true;
     sessions.Cookie.HttpOnly = true;
 });

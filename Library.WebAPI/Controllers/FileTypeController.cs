@@ -7,7 +7,6 @@ namespace Library.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class FileTypeController : ControllerBase
     {
         private readonly IFileTypeService _fileTypeService;
@@ -18,6 +17,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPost]
         [Route("add")]
+        [Authorize("SuperAdmin,Admin,ResourceAdmin")]
         public IActionResult Add(FileType fileType)
         {
             var result = _fileTypeService.Add(fileType);
@@ -30,6 +30,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPut]
         [Route("update")]
+        [Authorize("SuperAdmin,Admin,ResourceAdmin")]
         public IActionResult Update(FileType fileType)
         {
             var result = _fileTypeService.Update(fileType);
@@ -42,6 +43,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpDelete("delete/{id:int}")]
+        [Authorize("SuperAdmin,Admin,ResourceAdmin")]
         public IActionResult Delete(int id)
         {
             var result = _fileTypeService.Delete(id);

@@ -7,7 +7,6 @@ namespace Library.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class SectorController : ControllerBase
     {
         private readonly ISectorService _sectorService;
@@ -18,6 +17,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPost]
         [Route("add")]
+        [Authorize("SuperAdmin,Admin")]
         public IActionResult Add(Sector sector)
         {
             var result = _sectorService.Add(sector);
@@ -30,6 +30,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPut]
         [Route("update")]
+        [Authorize("SuperAdmin,Admin")]
         public IActionResult Update(Sector sector)
         {
             var result = _sectorService.Update(sector);
@@ -43,6 +44,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpGet]
         [Route("getall")]
+        //[Authorize]
         public IActionResult GetAll()
         {
             var result = _sectorService.GetAll();
@@ -55,6 +57,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpGet("getbyid/{id:int}")]
+        [Authorize]
         public IActionResult Get(int id)
         {
             var result = _sectorService.Get(id);
@@ -67,6 +70,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize("SuperAdmin,Admin")]
         public IActionResult Delete(int id)
         {
             var result = _sectorService.Delete(id);

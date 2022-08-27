@@ -4,5 +4,6 @@ namespace Library.DataAccess.Abstraction
 {
     public interface IStudentRepository : ICrudRepository<Student>
     {
+        Student GetByUserId(int id);
     }
 }

@@ -30,7 +30,7 @@ namespace Library.WebUI.Controllers
             if (result.Success)
             {
                 HttpContext.Session.SetString("AccessToken",result.Data.Token);
-
+                HttpContext.Session.SetString("Email",loginViewModel.LoginModel.Email);
                 return RedirectToAction("Index", "Authentication");
             }
             return RedirectToAction("Index", "Home");
@@ -39,9 +39,9 @@ namespace Library.WebUI.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            AuthenticationViewModel authViewModel = new AuthenticationViewModel();
-            authViewModel.NewAddedBookList = await _categoryService.GetNewAddedBooks();
-            return View(authViewModel);
+            AuthenticationViewModel viewModel = new AuthenticationViewModel();
+            viewModel.NewAddedBookList = await _categoryService.GetNewAddedBooks();
+            return View(viewModel);
         }
 
 

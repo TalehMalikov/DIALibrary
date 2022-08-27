@@ -7,7 +7,6 @@ namespace Library.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles ="SA,A")]
     public class AccountController : ControllerBase
     {
         private readonly IAccountService _accountService;
@@ -18,6 +17,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPut]
         [Route("update")]
+        //[Authorize]
         public IActionResult Update(Account account)
         {
             var result = _accountService.Update(account);
@@ -29,6 +29,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpGet]
         [Route("getall")]
+        [Authorize]
         public IActionResult GetAll()
         {
             var result = _accountService.GetAll();
@@ -39,6 +40,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpGet("getbyid/{id:int}")]
+        [Authorize]
         public IActionResult Get(int id)
         {
             var result = _accountService.Get(id);
@@ -48,7 +50,18 @@ namespace Library.WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpGet("getbyemail")]
+        public IActionResult GetByEmail(string name)
+        {
+            var result = _accountService.GetByEmail(name);
+
+            if (result.Success)
+                return Ok(result);
+            return BadRequest(result);
+        }
+
         [HttpDelete("{id:int}")]
+        [Authorize("SuperAdmin,Admin,GroupAdmin")]
         public IActionResult Delete(int id)
         {
             var result = _accountService.Delete(id);

@@ -48,6 +48,14 @@ namespace Library.Business.Concrete
             return new SuccessDataResult<List<Student>>(result);
         }
 
+        public DataResult<Student> GetByUserId(int id)
+        {
+            var result = _studentRepository.GetByUserId(id);
+            if (result == null)
+                return new ErrorDataResult<Student>(result, StatusMessagesUtil.NotFoundMessageGivenId);
+            return new SuccessDataResult<Student>(result);
+        }
+
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IStudentService.Get))]
         public Result Update(Student value)
         {

@@ -62,7 +62,7 @@
                 @{
                       if(!string.IsNullOrEmpty(HttpContextAccessor?.HttpContext?.Session.GetString("AccessToken")))
                       {
-                          <a class="btn btn-menu modal-btn" href="#">
+                          <a class="btn btn-menu modal-btn" asp-action="Index" asp-controller="PrivateOffice">
                               Şəxsi kabinet
                           </a>
                       }

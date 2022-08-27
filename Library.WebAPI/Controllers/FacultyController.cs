@@ -7,7 +7,6 @@ namespace Library.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class FacultyController : ControllerBase
     {
         private readonly IFacultyService _facultyService;
@@ -18,6 +17,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPost]
         [Route("add")]
+        [Authorize("SuperAdmin,Admin")]
         public IActionResult Add(Faculty faculty)
         {
             var result = _facultyService.Add(faculty);
@@ -30,6 +30,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPut]
         [Route("update")]
+        [Authorize("SuperAdmin,Admin")]
         public IActionResult Update(Faculty faculty)
         {
             var result = _facultyService.Update(faculty);
@@ -42,6 +43,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpGet]
         [Route("getall")]
+        //[Authorize]
         public IActionResult GetAll()
         {
             var result = _facultyService.GetAll();
@@ -53,7 +55,8 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpGet("getbyid/{id:int}")]
-        public IActionResult Update(int id)
+        [Authorize]
+        public IActionResult Get(int id)
         {
             var result = _facultyService.Get(id);
             if (result.Success)
@@ -64,6 +67,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize("SuperAdmin,Admin")]
         public IActionResult Delete(int id)
         {
             var result = _facultyService.Delete(id);
