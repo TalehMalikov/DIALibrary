@@ -5,6 +5,6 @@ namespace Library.WebUI.Services.Abstract
 {
     public interface ISectorService
     {
-        Task<DataResult<List<Sector>>> GetAllSectors();
+        Task<DataResult<List<Sector>>> GetAllSectors(string accessToken);
     }
 }

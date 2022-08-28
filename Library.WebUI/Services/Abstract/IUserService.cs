@@ -3,8 +3,8 @@ using Library.Entities.Concrete;
 
 namespace Library.WebUI.Services.Abstract
 {
-    public interface IFacultyService
+    public interface IUserService
     {
-        Task<DataResult<List<Faculty>>> GetAllFaculties(string accessToken);
+        Task<Result> Update(string accessToken, User user);
     }
 }

@@ -8,6 +8,5 @@ namespace Library.WebUI.Services.Abstract
         Task<DataResult<List<File>>> GetAllFilesByCategoryId(int id);
         Task<DataResult<List<File>>> GetAllFiles();
         Task<DataResult<File>> GetFileById(int id);
-        Task<Result> Delete(int id);
     }
 }

@@ -5,6 +5,6 @@ namespace Library.WebUI.Services.Abstract
 {
     public interface ISpecialtyService
     {
-        Task<DataResult<List<Specialty>>> GetAllSpecialties();
+        Task<DataResult<List<Specialty>>> GetAllSpecialties(string accessToken);
     }
 }

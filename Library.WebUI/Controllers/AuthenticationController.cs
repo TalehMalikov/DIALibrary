@@ -43,28 +43,5 @@ namespace Library.WebUI.Controllers
             viewModel.NewAddedBookList = await _categoryService.GetNewAddedBooks();
             return View(viewModel);
         }
-
-
-        //***********************************
-
-        public async Task<IActionResult> GetAllPlayers()
-        {
-            var strToken = HttpContext.Session.GetString("AccessToken");
-
-            var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:42045/api/player");
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", strToken);
-
-            using HttpClient client = new HttpClient();
-
-            HttpResponseMessage response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
-            
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                var apiString = await response.Content.ReadAsStringAsync();
-                //players = JsonConvert.DeserializeObject<List<Player>>(apiString);
-
-            }
-            return View(/*players*/);
-        }
     }
 }

@@ -5,7 +5,8 @@ const list = document.querySelectorAll('.list');
 const rList = document.querySelector('.r-list');
 const rDrop = document.querySelector('.r-drop');
 const account = document.querySelector('#account');
-
+const btnAcnt = document.querySelector('.profile');
+const accountDrop = document.querySelector('.account-drop');
 
 btn.addEventListener('click', () => {
     header.classList.toggle('pad');
@@ -23,3 +24,6 @@ rList.addEventListener('click', () => {
     rDrop.classList.toggle('height')
 })
 
+btnAcnt.addEventListener('click', () => {
+    accountDrop.classList.toggle('opacity')
+})

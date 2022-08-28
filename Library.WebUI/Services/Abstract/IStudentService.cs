@@ -5,7 +5,7 @@ namespace Library.WebUI.Services.Abstract
 {
     public interface IStudentService
     {
-        Task<DataResult<Student>> GetUserById(int id);
-        Task<Result> Update(Student student);
+        Task<DataResult<Student>> GetUserById(string accessToken, int id);
+        Task<Result> Update(string accessToken, Student student);
     }
 }

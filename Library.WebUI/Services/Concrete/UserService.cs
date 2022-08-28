@@ -6,13 +6,13 @@ using System.Net.Http.Headers;
 
 namespace Library.WebUI.Services.Concrete
 {
-    public class SpecialtyService : BaseService, ISpecialtyService
+    public class UserService : BaseService, IUserService
     {
-        public async Task<DataResult<List<Specialty>>> GetAllSpecialties(string accessToken)
+        public async Task<Result> Update(string accessToken, User user)
         {
             using HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            var result = await client.GetJsonAsync<DataResult<List<Specialty>>>(BaseUrl + "Specialty/getall");
+            var result = await client.PutJsonAsync<Result, User>(BaseUrl + "User/update", user);
             return result;
         }
     }

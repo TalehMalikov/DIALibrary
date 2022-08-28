@@ -597,7 +597,37 @@
     font-weight: 200;
 }
 
+.book-result .book-div {
+    display: flex;
+    flex-direction: row;
+}
+
+    .book-result .book-div img {
+        width: 150px;
+    }
+
+    .book-result .book-div h6 {
+        font-weight: 400;
+    }
+
 @media (max-width: 568px) {
+    #navtop {
+        padding: 0;
+    }
+
+    .text-bold {
+        font-size: 18px !important;
+    }
+
+    .lang .text-bold {
+        font-size: 14px !important;
+        font-weight: 400;
+    }
+
+    .container-lg {
+        --bs-gutter-x: .5rem;
+    }
+
     .input-area .input-nav {
         width: 200px;
     }
@@ -642,7 +672,7 @@
         }
 
         .other-lib .other-lib-div .lib-txt .lib-url {
-            font-size: 12px !important;
+            font-size: 16px !important;
         }
 
     .book-comment {
@@ -673,6 +703,20 @@
     .main-image {
         height: auto;
     }
+
+    .book-div {
+        flex-direction: column !important;
+        align-items: center;
+        text-align: center;
+    }
+
+        .book-div h6 {
+            font-size: 16px;
+        }
+
+            .book-div h6 span {
+                font-size: 16px !important;
+            }
 }
 
 /*# sourceMappingURL=style.css.map */

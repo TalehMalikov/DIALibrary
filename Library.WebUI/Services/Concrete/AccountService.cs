@@ -2,22 +2,25 @@
 using Library.Core.Result.Concrete;
 using Library.Entities.Concrete;
 using Library.WebUI.Services.Abstract;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
 namespace Library.WebUI.Services.Concrete
 {
     public class AccountService : BaseService, IAccountService
     {
-        public async Task<DataResult<Account>> GetByEmail(string name)
+        public async Task<DataResult<Account>> GetByEmail(string accessToken , string name)
         {
             using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             var result = await client.GetJsonAsync<DataResult<Account>>(BaseUrl + "Account/getbyemail?name=" + name);
             return result;
         }
 
-        public async Task<Result> Update(Account account)
+        public async Task<Result> Update(string accessToken, Account account)
         {
             using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             var result = await client.PutJsonAsync<Result,Account>(BaseUrl + "Account/update", account);
             return result;
         }

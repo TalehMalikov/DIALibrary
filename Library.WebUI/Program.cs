@@ -16,6 +16,7 @@ builder.Services.AddSingleton<IStudentService, StudentService>();
 builder.Services.AddSingleton<IFacultyService, FacultyService>();
 builder.Services.AddSingleton<ISectorService, SectorService>();
 builder.Services.AddSingleton<ISpecialtyService, SpecialtyService>();
+builder.Services.AddSingleton<IUserService, UserService>();
 
 builder.Services.AddSingleton<IActivityService, ActivityService>();
 

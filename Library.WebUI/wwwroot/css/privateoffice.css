@@ -249,4 +249,44 @@ a {
 .passwd {
     background-image: url(../img/background_library.jpg);
     background-size: cover;
+    background-position: center center;
+}
+
+.account-drop {
+    position: absolute;
+    background-color: #ffffff;
+    right: 10px;
+    top: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    opacity: 0;
+    transition: all .2s;
+}
+
+.opacity {
+    opacity: 1;
+}
+
+.account-drop i, .account-drop a {
+    font-size: 14px;
+    padding: 7px 5px;
+    color: #000;
+    font-weight: 400;
+    text-decoration: none;
+}
+
+    .account-drop a:hover {
+        background: #d1d3e2;
+        color: #000;
+    }
+
+@media (max-width:768px) {
+    .text-forgot {
+        font-size: 14px;
+    }
+
+    .title-forgot {
+        font-size: 24px !important;
+    }
 }

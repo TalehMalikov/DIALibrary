@@ -13,51 +13,50 @@ namespace Library.WebUI.Controllers
         private readonly IFacultyService _faultyService;
         private readonly ISpecialtyService _specialtyService;
         private readonly ISectorService _sectorService;
-        private string _email;
+        private readonly IUserService _userService;
 
         public PrivateOfficeController(IAccountService accountService,IStudentService studentService,IFacultyService facultyService,ISectorService sectorService,
-                                        ISpecialtyService specialtyService)
+                                        ISpecialtyService specialtyService, IUserService userService)
         {
             _accountService = accountService;
             _studentService = studentService;
             _faultyService = facultyService;
             _sectorService = sectorService;
             _specialtyService = specialtyService;
+            _userService = userService;
         }
 
         public async Task<IActionResult> Index()
         {
-            _email = HttpContext.Session.GetString("Email");
+            var email = HttpContext.Session.GetString("Email");
             AccountViewModel viewModel = new AccountViewModel();
-            var account = await _accountService.GetByEmail(_email);
+
+            var accessToken = HttpContext.Session.GetString("AccessToken");
+
+            var account = await _accountService.GetByEmail(accessToken , email);
             viewModel.Account = account.Data;
 
-            var student = await _studentService.GetUserById(account.Data.User.Id);
+
+            var student = await _studentService.GetUserById(accessToken,account.Data.User.Id);
             if(student.Success)
             {
                 viewModel.Student = student.Data;
             }
-            var faculties = await _faultyService.GetAllFaculties();
-            viewModel.FacultySelectList = new SelectList(faculties.Data, "Id", "Name");
-
-            var sectors = await _sectorService.GetAllSectors();
-            viewModel.SectorSelectList = new SelectList(sectors.Data, "Id", "Name");
-
-            var specialties = await _specialtyService.GetAllSpecialties();
-            viewModel.SpecialtySelectList = new SelectList(specialties.Data, "Id", "Name");
-
             return View(viewModel);
         }
 
         public async Task<IActionResult> UpdateDetails(AccountViewModel model)
         {
-            var result = await _accountService.Update(model.Account);
-            // user update;
+            var accessToken = HttpContext.Session.GetString("AccessToken");
+
+            var updateAccount = await _accountService.Update(accessToken , model.Account);
+
+            var updateUser = await _userService.Update(accessToken , model.Account.User);
+
             if(model.Student!=null)
             {
-                _studentService.Update(model.Student);
+                _studentService?.Update(accessToken , model.Student);
             }
-
             return RedirectToAction("Index", "PrivateOffice");
         }
     }

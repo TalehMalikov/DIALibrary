@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DIA Library</title>
     <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/privateoffice.css">
+    <link rel="stylesheet" href="@Href("~/css/privateoffice.css")">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
         <link rel = "icon" href = "img/logo.png">
@@ -24,12 +24,12 @@
         <div class="toggle">
             <i class="far fa-bars"></i>
         </div>
-        <a href="#" class="profile mx-2 text-dark d-flex align-items-center text-decoration-none">
+        <div class="profile mx-2 text-dark d-flex align-items-center text-decoration-none">
             <span class="mx-2">@Model.Account.User.FirstName @Model.Account.User.LastName</span>
-            <div class="account-img">
-                <img src="~/images/user.png" alt="" srcset="">
-            </div>
-        </a>
+             <a href="#">
+                <i  class="fas fa-sign-out fa-2x text-primary"></i>
+             </a>
+        </div>
     </header>
 
     <div class="left-nav">
@@ -88,12 +88,12 @@
         </nav>
     </div>
 
-    <section id="account" class="py-2">
+    <section id="account" class="py-2 d-flex">
         <div class="container-lg">
             <h1 class="text-gray-900 h4">Şəxsi Kabinet</h1>
 
 
-            <div class="row py-2">
+            <div class="row py-2 px-lg-4 flex-lg-nowrap">
                 <div class="col-sm-12 col-lg-4">
                     <div class="img-user w-100 text-center">
                         <img src="~/images/user.png">

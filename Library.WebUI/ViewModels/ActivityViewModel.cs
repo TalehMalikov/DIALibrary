@@ -1,7 +1,7 @@
 ﻿using Library.Core.Result.Concrete;
 using Library.Entities.Concrete;
 
-namespace Library.WebUI.Models
+namespace Library.WebUI.ViewModels
 {
     public class ActivityViewModel
     {

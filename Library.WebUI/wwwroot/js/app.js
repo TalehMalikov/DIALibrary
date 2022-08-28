@@ -37,25 +37,25 @@ btnTop.addEventListener('click',()=>{
 
 //Carousel Library
 $('.owl-carousel').owlCarousel({
-    responsive:{
-        0:{
-            items:1
+    responsive: {
+        0: {
+            items: 1
         },
 
-        600:{
-            items:2
+        600: {
+            items: 2
         },
 
-        1200:{
-            items:4
+        1200: {
+            items: 4
         }
     },
-    loop:true,
-    margin:10,
-    autoplay:true,
-    autoplayTimeout:1000,
-    autoplayHoverPause:false,
-    
+    loop: true,
+    margin: 10,
+    autoplay: true,
+    autoplayTimeout: 2000,
+    autoplaySpeed: 2000,
+    autoplayHoverPause: false,
 });
 
 
