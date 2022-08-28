@@ -25,10 +25,10 @@ namespace Library.DataAccess.Implementation.PostgreSql
             cmd.Parameters.AddWithValue("@firstName", value.FirstName);
             cmd.Parameters.AddWithValue("@lastName", value.LastName);
             cmd.Parameters.AddWithValue("@fatherName", value.FatherName);
-            cmd.Parameters.AddWithValue("@birthDate", value.BirthDate);
+            cmd.Parameters.AddWithValue("@birthDate", value.BirthDate.ToString("d"));
             cmd.Parameters.AddWithValue("@gender", value.Gender);
             cmd.Parameters.AddWithValue("@isDeleted", false);
-            cmd.Parameters.AddWithValue("@lastModified", value.LastModified);
+            cmd.Parameters.AddWithValue("@lastModified", value.LastModified.ToString("d"));
             return 1 == cmd.ExecuteNonQuery();
         }
 

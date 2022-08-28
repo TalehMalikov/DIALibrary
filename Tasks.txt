@@ -1,8 +1,5 @@
-3. Log check
-4. Localization
-5. Notification(Optional)
-6. Description for roles and in the permissions section, note it next to roles
-7. Last modified by when
-8. Last modified by whom (optional)
-9. Dependecy injection(Web UI services)
-10. 
+1. Log check
+2. Localization
+3. Notification(Optional)
+4. Last modified by when
+5. Last modified by whom (optional)

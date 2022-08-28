@@ -18,12 +18,12 @@ namespace Library.WebAPI.IdentityServer
 
         public Task<IdentityResult> CreateAsync(Account user, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return null; 
         }
 
         public Task<IdentityResult> DeleteAsync(Account user, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public void Dispose()
@@ -46,7 +46,7 @@ namespace Library.WebAPI.IdentityServer
 
         public Task<string> GetNormalizedUserNameAsync(Account user, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public Task<string> GetUserIdAsync(Account user, CancellationToken cancellationToken)
@@ -62,8 +62,7 @@ namespace Library.WebAPI.IdentityServer
         public Task SetNormalizedUserNameAsync(Account user, string normalizedName, CancellationToken cancellationToken = default(CancellationToken))
         {
             cancellationToken.ThrowIfCancellationRequested();
-            //ThrowIfDisposed();
-
+            
             if (user == null)
             {
                 throw new ArgumentNullException(nameof(user));
@@ -81,13 +80,12 @@ namespace Library.WebAPI.IdentityServer
 
         public Task SetUserNameAsync(Account user, string userName, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public Task<IdentityResult> UpdateAsync(Account user, CancellationToken cancellationToken)
         {
             return null;
-            // basin burax, bos seydir. Continue et))
         }
 
         #endregion
@@ -101,12 +99,12 @@ namespace Library.WebAPI.IdentityServer
 
         public Task<bool> HasPasswordAsync(Account user, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public Task SetPasswordHashAsync(Account user, string passwordHash, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         #endregion
@@ -120,7 +118,7 @@ namespace Library.WebAPI.IdentityServer
 
         public Task AddToRolesAsync(Account user, string roleName, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public Task<IList<string>> GetRolesAsync(Account user, CancellationToken cancellationToken)
@@ -135,7 +133,7 @@ namespace Library.WebAPI.IdentityServer
 
         public Task<IList<Account>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public Task<bool> IsInRoleAsync(Account user, string roleName, CancellationToken cancellationToken)
@@ -146,7 +144,7 @@ namespace Library.WebAPI.IdentityServer
 
         public Task RemoveFromRoleAsync(Account user, string roleName, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         #endregion

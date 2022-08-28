@@ -15,17 +15,9 @@
             {
                 await _next(context);
             }
-            catch (DivideByZeroException ex)
-            {
-                // Do something
-            }
-            catch (IndexOutOfRangeException ex)
-            {
-                // Do something
-            }
             catch (Exception ex)
             {
-
+                ////
             }
         }
     }

@@ -9,6 +9,8 @@ namespace Library.WebUI.ViewModels
         public Account Account { get; set; }
         public Student Student { get; set; }
 
+        public bool SelectedGender { get; set; }
+
 /*        public Faculty SelectedFaculty { get; set; }
 
         public SelectList FacultySelectList { get; set; }*/

@@ -26,7 +26,7 @@
         </div>
         <div class="profile mx-2 text-dark d-flex align-items-center text-decoration-none">
             <span class="mx-2">@Model.Account.User.FirstName @Model.Account.User.LastName</span>
-             <a href="#">
+             <a asp-controller="PrivateOffice" asp-action="LogOut">
                 <i  class="fas fa-sign-out fa-2x text-primary"></i>
              </a>
         </div>
@@ -165,22 +165,20 @@
                         <div class="col-lg-6">
                             <div class="input-group py-2">
                                 <span class="input-group-text text-bold">Doğum tarixi</span>
-                                <input type="date" aria-label="BirthDate" class="form-control" asp-for="Account.User.BirthDate.Date">
+                                <input type="date" aria-label="BirthDate" class="form-control" asp-for="Account.User.BirthDate">
                             </div>
                         </div>
 
 
                         <div class="col-6 col-lg-3">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                    id="flexRadioDefault1" checked>
+                                @Html.RadioButtonFor(m => m.SelectedGender,false)
                                 <label class="form-check-label" for="flexRadioDefault1">
                                     Kişi
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                    id="flexRadioDefault2">
+                                @Html.RadioButtonFor(m => m.SelectedGender,true)
                                 <label class="form-check-label" for="flexRadioDefault2">
                                     Qadın
                                 </label>

@@ -15,9 +15,6 @@ namespace Library.Business.CrossCuttingConcerns.Validation.FluentValidation
             RuleFor(x => x.LastName).Length(3,255);
             RuleFor(x => x.FatherName).Length(3,255);
 
-            RuleFor(x => x.BirthDate).Empty();
-            //RuleFor(x => x.BirthDate.Year).GreaterThan(1990);
-            //RuleFor(x => x.BirthDate).LessThan(DateTime.Now);
             RuleFor(x => x.BirthDate).Must(BeOver18);
         }
         protected bool BeOver18(DateTime date)

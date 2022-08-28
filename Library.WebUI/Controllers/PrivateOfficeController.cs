@@ -3,6 +3,7 @@ using Library.WebUI.Services.Abstract;
 using Library.WebUI.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Net;
 
 namespace Library.WebUI.Controllers
 {
@@ -30,12 +31,13 @@ namespace Library.WebUI.Controllers
         {
             var email = HttpContext.Session.GetString("Email");
             AccountViewModel viewModel = new AccountViewModel();
-
+            
             var accessToken = HttpContext.Session.GetString("AccessToken");
 
             var account = await _accountService.GetByEmail(accessToken , email);
             viewModel.Account = account.Data;
 
+            viewModel.SelectedGender = viewModel.Account.User.Gender;
 
             var student = await _studentService.GetUserById(accessToken,account.Data.User.Id);
             if(student.Success)
@@ -49,15 +51,29 @@ namespace Library.WebUI.Controllers
         {
             var accessToken = HttpContext.Session.GetString("AccessToken");
 
-            var updateAccount = await _accountService.Update(accessToken , model.Account);
+            model.Account.LastModified = DateTime.Now;
+            model.Account.User.LastModified = DateTime.Now;
+            model.Account.User.Gender = model.SelectedGender;
+            await _accountService.Update(accessToken , model.Account);
 
-            var updateUser = await _userService.Update(accessToken , model.Account.User);
+            await _userService.Update(accessToken , model.Account.User);
 
             if(model.Student!=null)
             {
-                _studentService?.Update(accessToken , model.Student);
+                await _studentService.Update(accessToken , model.Student);
             }
             return RedirectToAction("Index", "PrivateOffice");
+        }
+
+        public async Task<IActionResult> LogOut()
+        {
+            HttpContext.Session.Clear();
+
+            Response.Clear();
+
+            Response.Cookies.Delete(".AspNetCore.Session");
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
