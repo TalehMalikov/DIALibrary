@@ -123,7 +123,7 @@
 
                     <div class="input-group py-2">
                         <span class="input-group-text text-bold">Hesab adı</span>
-                        <input type="text" aria-label="AccountName" class="form-control" asp-for="Account.AccountName">
+                        <input type="text" readonly aria-label="AccountName" class="form-control" asp-for="Account.AccountName">
                     </div>
 
                     <div class="input-group py-2">
@@ -134,31 +134,30 @@
                     @if(@Model.Student!=null)
                        {
                            <input hidden asp-for="Student.Id"/>
-                           <input hidden asp-for="Student.SpecialtyId"/>
                            <input hidden asp-for="Student.Specialty.Id"/>
                            <input hidden asp-for="Student.GroupId"/>
-                           <input hidden asp-for="Student.Group.SectorId"/>
                            <input hidden asp-for="Student.Group.Sector.Id"/>
 
                            <div class="input-group py-2">
                                 <span class="input-group-text text-bold">İxtisas</span>
-                                @Html.DropDownListFor(s=> s.SelectedSpecialty.Id, Model.SpecialtySelectList,new {@class="custom-select form-control"})
+                                <input type="text" readonly aria-label="SpecialtyName" class="form-control" asp-for="Student.Specialty.Name">
+                                @*@Html.DropDownListFor(s=> s.SelectedSpecialty.Id, Model.SpecialtySelectList,new {@class="custom-select form-control"})*@
                             </div>
 
                            <div class="input-group py-2">
                                 <span class="input-group-text text-bold">Fakültə</span>
-                                @Html.DropDownListFor(f=> f.SelectedFaculty.Id,Model.FacultySelectList, new {@class="form-control input-sm"})
+                                <input type="text" readonly aria-label="FacultyName" class="form-control" asp-for="Student.Specialty.Faculty.Name">
                            
                             </div>
 
                            <div class="input-group py-2">
                                 <span class="input-group-text text-bold">Sektor</span>
-                                @Html.DropDownListFor(s=> s.SelectedSector.Id,Model.SectorSelectList, new {@class="form-control input-sm"})
+                                <input type="text" readonly aria-label="SectorName" class="form-control" asp-for="Student.Group.Sector.Name">
                            </div>
                            
                            <div class="input-group py-2">
                                 <span class="input-group-text text-bold">Qrup</span>
-                                <input type="text" aria-label="GroupName" class="form-control" asp-for="Student.Group.Name">
+                                <input type="text" readonly aria-label="GroupName" class="form-control" asp-for="Student.Group.Name">
                            </div>
                        }
 
@@ -194,7 +193,6 @@
                     </div>
                 </div>
                 </form>
-                
             </div>
         </div>
     </section>

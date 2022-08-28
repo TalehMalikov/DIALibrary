@@ -52,22 +52,9 @@ namespace Library.WebUI.Controllers
         public async Task<IActionResult> UpdateDetails(AccountViewModel model)
         {
             var result = await _accountService.Update(model.Account);
-
+            // user update;
             if(model.Student!=null)
             {
-                //var specialty = await _specialtyService.GetById(model.SelectedSpecialty.Id);
-                //model.Student.Specialty = specialty.Data;
-
-
-                /*var group = await _groupService.GetById(model.SelectedGroup.Id);
-                model.Student.Group = group.Data;*/
-
-                /*var faculty = await _faultyService.GetById(model.SelectedFaculty.Id);
-                model.Student.Specialty.Faculty = faculty.Data;*/
-
-                /*var sector = await _sectorService.GetById(model.SelectedSector.Id);
-                model.Student.Group.Sector = sector.Data;*/
-
                 _studentService.Update(model.Student);
             }
 
