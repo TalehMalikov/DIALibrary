@@ -8,7 +8,7 @@
 
         <div class="container-lg">
             <nav class="navbar-down justify-content-between align-items-center">
-                <a class="btn btn-menu red" href="#">
+                <a class="btn btn-menu red" asp-controller="Category" asp-action="Index">
                     E-Kitablar
                 </a>
                 <div class="input-area ">
@@ -63,16 +63,22 @@
     </div>
 </section>
 <section id="book" class="py-3">
-    <hr/>
+    
     <div class="container-lg">
+        <div class="title d-flex">
+            <p>
+                <span class="text-bold">@Model.FileModel.Files.Data[0].Category.Name</span> [kitab sayı: @Model.FileModel.Files.Data.Count]</p>
+        </div>
+        
+        <hr/>
         <div class="row">
             @{
                 var files = Model.FileModel.Files.Data;
                 @for (int k = 0; k < files.Count; k++)
                 {
                     <div class="col-lg-3 col-md-6 col-sm-12 py-3">
-                        <a  class="book" asp-route-id="@files[k].Id"asp-controller="File" asp-action="GetById">
-                            <img src="@Url.Action("Picture","Resources",new{name = files[k].PhotoPath})" width="200" height="250">
+                        <a class="book" asp-route-id="@files[k].Id"asp-controller="File" asp-action="ShowFileInfo">
+                            <img src="@Url.Action("Picture", "Resources", new {name = files[k].PhotoPath})" width="200" height="250">
                         </a>
                     </div>
                 }

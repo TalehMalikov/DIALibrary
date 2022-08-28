@@ -10,6 +10,7 @@ builder.Services.AddSingleton<ICategoryService, CategoryService>();
 builder.Services.AddSingleton<IFileService, FileService>();
 builder.Services.AddSingleton<IExternalSourceService, ExternalSourceService>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddSingleton<IActivityService, ActivityService>();
 
 builder.Services.AddRazorPages(options =>
 {
@@ -20,7 +21,7 @@ builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddSession(sessions =>
 {
-    sessions.IdleTimeout = TimeSpan.FromMinutes(2);
+    sessions.IdleTimeout = TimeSpan.FromHours(1);
     sessions.Cookie.IsEssential = true;
     sessions.Cookie.HttpOnly = true;
 });
@@ -37,6 +38,7 @@ if (!app.Environment.IsDevelopment())
 
 
 app.UseHttpsRedirection();
+
 app.UseStaticFiles();
 
 app.UseRouting();

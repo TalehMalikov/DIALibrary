@@ -1,0 +1,42 @@
+﻿@model ActivityViewModel
+@{
+    ViewData["Title"] = "Show";
+    Layout = "~/Views/Shared/_CommonLayout.cshtml";
+}
+
+@section navbar_bottom{
+    <section id="navbottom">
+
+        <div class="container-lg">
+            <nav class="navbar-down justify-content-start align-items-center">
+                <a class="btn btn-menu red" asp-controller="Home" asp-action="Index">
+                    Ana səhifə
+                </a>
+                <a class="btn btn-menu" asp-controller="Activity" asp-action="Index">
+                    Yeniliklər
+                </a>
+            </nav>
+        </div>
+    </section>
+}
+
+<section id="news-read" class="py-4">
+
+        @{
+            var data = @Model.Activity.Data;
+            <div class="container">
+                 <h1 class="title text-center h3">
+                      @data.Title
+                 </h1>
+                 <div class="news-image py-3">
+                    <img src="@Url.Action("Picture", "Resources", new {name = data.PhotoPath})" width="100%">
+                 </div>
+
+                <p class="content">
+                     @data.Content
+                </p>
+
+             </div>
+    }
+
+</section>

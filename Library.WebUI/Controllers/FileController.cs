@@ -15,7 +15,7 @@ namespace Library.WebUI.Controllers
             _categoryService = categoryService;
         }
 
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> ShowAllFiles()
         {
             FileViewModel model = new FileViewModel
             {
@@ -41,7 +41,7 @@ namespace Library.WebUI.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> ShowFileInfo(int id)
         {
             FileViewModel model = new FileViewModel
             {
@@ -51,5 +51,9 @@ namespace Library.WebUI.Controllers
             return View(model);
         }
 
+        public IActionResult SearchByName(string name)
+        {
+            return View();
+        }
     }
 }

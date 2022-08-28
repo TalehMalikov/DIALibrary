@@ -35,6 +35,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             connection.Open();
             string cmdString = "Select * From Activities Where Id=@id and IsDeleted=false";
             using NpgsqlCommand command = new(cmdString, connection);
+            command.Parameters.AddWithValue("@id", id);
             var reader = command.ExecuteReader();
             if (reader.Read())
                 return ReadActivity(reader);

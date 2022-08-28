@@ -21,7 +21,7 @@
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                     <li><a class="dropdown-item" href="@Url.Action("MoreInfo","OurLibrary")" >Ümumi məlumat</a></li>
                     <li><a class="dropdown-item" href="@Url.Action("ExternalSource","OurLibrary")">Digər kitabxanalar</a></li>
-                    <li><a class="dropdown-item" href="news.html">Yeniliklər</a></li>
+                    <li><a class="dropdown-item" asp-controller="Activity" asp-action="Index">Yeniliklər</a></li>
                 </ul>
             </div>
 
@@ -51,13 +51,13 @@
             @{
                 if(!string.IsNullOrEmpty(HttpContextAccessor?.HttpContext?.Session.GetString("AccessToken")))
                 {
-                    <a class="btn btn-menu modal-btn" href="#">
+                    <a class="btn btn-menu">
                         Şəxsi kabinet
                     </a>
                 }
                 else
                 {
-                    <a class="btn btn-menu modal-btn" href="#">
+                    <a class="btn btn-menu modal-btn">
                         Giriş
                     </a>
                 }
