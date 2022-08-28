@@ -30,7 +30,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPut]
         [Route("update")]
-        //[Authorize]
+        [Authorize]
         public IActionResult Update(Student student)
         {
             var result = _studentService.Update(student);
@@ -44,7 +44,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpGet]
         [Route("getall")]
-        //[Authorize]
+        [Authorize]
         public IActionResult GetAll()
         {
             var result = _studentService.GetAll();
@@ -57,7 +57,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpGet("getbyid/{id:int}")]
-        //[Authorize]
+        [Authorize]
         public IActionResult Get(int id)
         {
             var result = _studentService.Get(id);
@@ -70,7 +70,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpGet("getbyuserid/{id:int}")]
-        //[Authorize]
+        [Authorize]
         public IActionResult GetByUserId(int id)
         {
             var result = _studentService.GetByUserId(id);

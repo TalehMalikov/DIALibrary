@@ -7,7 +7,6 @@ namespace Library.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class AccountRoleController : ControllerBase
     {
         private readonly IAccountRoleService _accountRoleService;
@@ -18,6 +17,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPost]
         [Route("add")]
+        [Authorize("SuperAdmin")]
         public IActionResult Add(AccountRole accountRole)
         {
             var result = _accountRoleService.Add(accountRole);
@@ -30,6 +30,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPut]
         [Route("update")]
+        [Authorize("SuperAdmin")]
         public IActionResult Update(AccountRole accountRole)
         {
             var result = _accountRoleService.Update(accountRole);
@@ -43,6 +44,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpGet]
         [Route("getall")]
+        [Authorize]
         public IActionResult GetAll()
         {
             var result = _accountRoleService.GetAll();
@@ -55,6 +57,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpGet("getbyid/{id:int}")]
+        [Authorize]
         public IActionResult Get(int id)
         {
             var result = _accountRoleService.Get(id);
@@ -67,6 +70,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize("SuperAdmin")]
         public IActionResult Delete(int id)
         {
             var result = _accountRoleService.Delete(id);

@@ -44,7 +44,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpGet]
         [Route("getall")]
-        //[Authorize]
+        [Authorize]
         public IActionResult GetAll()
         {
             var result = _specialtyService.GetAll();

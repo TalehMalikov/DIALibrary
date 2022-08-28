@@ -17,7 +17,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPut]
         [Route("update")]
-        //[Authorize]
+        [Authorize]
         public IActionResult Update(Account account)
         {
             var result = _accountService.Update(account);
@@ -51,6 +51,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpGet("getbyemail")]
+        [Authorize]
         public IActionResult GetByEmail(string name)
         {
             var result = _accountService.GetByEmail(name);

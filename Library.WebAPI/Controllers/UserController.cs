@@ -30,7 +30,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPut]
         [Route("update")]
-        [Authorize("SuperAdmin,Admin,GroupAdmin")]
+        [Authorize]
         public IActionResult Update(User user)
         {
             var result = _userService.Update(user);

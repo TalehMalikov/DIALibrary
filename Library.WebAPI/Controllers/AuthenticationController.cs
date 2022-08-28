@@ -7,6 +7,7 @@ using Library.Core.Result.Concrete;
 using Library.Core.Utils;
 using Library.Entities.Concrete;
 using Library.WebAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -65,6 +66,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPost]
         [Route("register")]
+        [Authorize("SuperAdmin,Admin,GroupAdmin")]
         public IActionResult Register(RegisterRequestModel model)
         {
             var user = _userService.Get(model.UserId);
