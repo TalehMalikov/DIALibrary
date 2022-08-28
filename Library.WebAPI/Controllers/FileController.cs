@@ -15,6 +15,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [Route("add")]
         [Authorize("SuperAdmin,Admin,ResourceAdmin")]
         public IActionResult Add(Entities.Concrete.File file)
@@ -28,6 +29,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         [Route("update")]
         [Authorize("SuperAdmin,Admin,ResourceAdmin")]
         public IActionResult Update(Entities.Concrete.File file)
@@ -76,7 +78,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpGet("getallfilesbycategoryid/{id:int}")]
-        public IActionResult GetFilesByCategoryId(int id)
+        public IActionResult GetAllFilesByCategoryId(int id)
         {
             var result = _fileService.GetAllFilesByCategoryId(id);
             if (result.Success)
@@ -87,6 +89,7 @@ namespace Library.WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [Authorize]
         [HttpDelete("{id:int}")]
         [Authorize("SuperAdmin,Admin,ResourceAdmin")]
         public IActionResult Delete(int id)

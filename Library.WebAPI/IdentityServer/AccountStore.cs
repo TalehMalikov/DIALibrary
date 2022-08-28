@@ -86,7 +86,7 @@ namespace Library.WebAPI.IdentityServer
 
         public Task<IdentityResult> UpdateAsync(Account user, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return null;
             // basin burax, bos seydir. Continue et))
         }
 

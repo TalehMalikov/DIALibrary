@@ -9,7 +9,7 @@
 
         <div class="container-lg">
             <nav class="navbar-down justify-content-between align-items-center">
-                <a class="btn btn-menu red" href="#">
+                <a class="btn btn-menu red" asp-controller="Category" asp-action="Index">
                     E-Kitablar
                 </a>
                 <div class="input-area ">
@@ -88,7 +88,7 @@
                 @for (int k = 0; k < result.Count; k++)
                 {
                     <div class="swiper-slide">
-                        <a asp-action="GetById" asp-controller="File" asp-route-id ="@result[k].Id" class="card-book d-flex flex-column align-items-center">
+                        <a asp-action="ShowFileInfo" asp-controller="File" asp-route-id ="@result[k].Id" class="card-book d-flex flex-column align-items-center">
                             <img width="150" height="200" src="@Url.Action("Picture","Resources", new { name = result[k].PhotoPath })">
                         </a>
                     </div>

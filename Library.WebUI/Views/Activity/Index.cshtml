@@ -1,0 +1,56 @@
+﻿@model ActivityViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_CommonLayout.cshtml";
+}
+@section navbar_bottom{
+    <section id="navbottom">
+
+        <div class="container-lg">
+            <nav class="navbar-down justify-content-start align-items-center">
+                <a class="btn btn-menu red" asp-controller="Home" asp-action="Index">
+                    Ana səhifə
+                </a>
+            </nav>
+        </div>
+    </section>
+}
+
+<section id="news" class="py-4">
+    <div class="container">
+        <div class="row">
+            @{
+                @foreach (var data in Model.Activities.Data)
+                {
+                    <div class="col-sm-12 col-md-6 col-lg-4 justify-content-center d-sm-flex">
+                        <div class="news-page border m-2 p-2">
+                            <a asp-controller="Activity" asp-action="Show" asp-route-id="@data.Id">
+                                <div class="news-img">
+                                    <img src="@Url.Action("Picture","Resources",new {name=data.PhotoPath})">
+                                </div>
+                                <h5 class="news-title py-2 px-1">
+                                    @data.Title
+                                </h5>
+                            </a>
+                            <p class="news-content text-muted px-1">
+                                @data.Content.Substring(0,200)
+                                ...
+                            </p>
+                            <hr class="m-0">
+                            <div class="data-time p-1">
+
+                                <span class="data">
+                                    @data.CreatedDate.ToString("dd.mm.yyyy")
+                                </span>
+                                <span class="data float-end">@data.CreatedDate.ToString("H:MM")</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+            }
+
+        </div>
+    </div>
+</section>
