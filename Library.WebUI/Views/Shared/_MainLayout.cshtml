@@ -1,4 +1,12 @@
 ﻿@model AuthenticationViewModel
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@inject IViewLocalizer Localizer
+@{
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+
+}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,8 +38,7 @@
                     <a class="logo" asp-action="Index" asp-controller="Home">
                         <img src="images/logo.png" width="100rem" class="d-inline-block">
                         <span class="logo-text">
-                            Azərbaycan Respublikası Prezidenti yanında Dövlət İdarəçilik Akademiyası
-                            Elektron Kitabxanası
+                            @ViewData["Azərbaycan Respublikası Prezidenti yanında Dövlət İdarəçilik Akademiyası Elektron Kitabxanası"]
                         </span>
                     </a>
 
@@ -47,10 +54,10 @@
                         </div>
                         <li class="nav-item mx-md-1">
                             <div>
-                                <select class="form-select-sm text-bold p-1">
-                                    <option class="text-bold" selected>Azərbaycan</option>
-                                    <option class="text-bold">Русский</option>
-                                    <option class="text-bold">English</option>
+                                <select class="form-select-sm text-bold p-1" onchange="SetCulture(this.value)" asp-for="@requestCulture.RequestCulture.UICulture.Name">
+                                    <option class="text-bold" value="az-Latn-AZ"selected>Azərbaycan</option>
+                                    <option class="text-bold" value="ru-RU">Русский</option>
+                                    <option class="text-bold" value="en-US">English</option>
                                 </select>
                             </div>
                         </li>
@@ -258,6 +265,7 @@
     <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
     <script src="js/app.js"></script>
     <script src="js/modal.js"></script>
+    <script src="js/localization.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
