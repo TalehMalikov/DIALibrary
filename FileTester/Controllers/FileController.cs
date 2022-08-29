@@ -1,7 +1,9 @@
 ﻿using FileTester.Models;
 using FileTester.MySystem;
 using FileTester.Services.Abstract;
+using IronBarCode;
 using Microsoft.AspNetCore.Mvc;
+using System.Drawing;
 using System.Text;
 using File = Library.Entities.Concrete.File;
 
@@ -140,6 +142,16 @@ namespace FileTester.Controllers
             }
         }
 
+        public IActionResult QrCodeGenerator()
+        {
+            //Generate normal QrCode
+            //QRCodeWriter.CreateQrCode("Ehmed başına daş. Geberrr", 500, QRCodeWriter.QrErrorCorrectionLevel.Medium).SaveAsPng("MyQR.png");
+
+            // With logo
+            var MyQRWithLogo = QRCodeWriter.CreateQrCodeWithLogo("Hello Taleh", @"D:\Acer\Visual Studio Projets\repos\DIALibrary\FileTester\wwwroot\logo.png", 500).SaveAsPng("MyQRWithLogo.png");
+
+            return RedirectToAction("Index", "File");
+        }
 
     }
 }

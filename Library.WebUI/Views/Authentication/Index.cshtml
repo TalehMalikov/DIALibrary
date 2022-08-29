@@ -19,7 +19,7 @@
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                         <li><a class="dropdown-item" href="@Url.Action("MoreInfo","OurLibrary")" >Ümumi məlumat</a></li>
                         <li><a class="dropdown-item" href="@Url.Action("ExternalSource","OurLibrary")">Digər kitabxanalar</a></li>
-                        <li><a class="dropdown-item" href="news.html">Yeniliklər</a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("Index","Activity")">Yeniliklər</a></li>
                     </ul>
                 </div>
 
@@ -30,20 +30,18 @@
                     </a>
 
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <li><a class="dropdown-item" href="category.html">E-Kataloq</a></li>
+                        <li><a class="dropdown-item" href="#">E-Kataloq</a></li>
                         <li><a class="dropdown-item" asp-action="Index" asp-controller="Category">E-Kitablar</a></li>
                         <li class="sub"><a class="dropdown-item" href="#">E-Resurslar ></a></li>
 
                         <ul class="submenu">
-                            <li><a class="dropdown-item" href="#">Kitablar</a></li>
+                            <li><a class="dropdown-item" asp-controller="Category" asp-action="Index" >Kitablar</a></li>
                             <li><a class="dropdown-item" href="#">Məqalələr</a></li>
                             <li><a class="dropdown-item" href="#">Avtoreferatlar</a></li>
                             <li><a class="dropdown-item" href="#">Jurnallar</a></li>
                             <li><a class="dropdown-item" href="#">Dərsliklər</a></li>
                         </ul>
                     </ul>
-
-
                 </div>
 
                 <a asp-action="Index" asp-controller="PrivateOffice" class="btn btn-menu ">
