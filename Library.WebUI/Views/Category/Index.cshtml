@@ -13,8 +13,10 @@
                     E-Kitablar
                 </a>
                 <div class="input-area ">
-                    <input type="text" class="input-nav" placeholder="Kitab Axtar">
-                    <button class="fas fa-search" type="submit"></button>
+                    <form asp-action="SearchByName" asp-controller="File">
+                        <input type="text" class="input-nav" placeholder="Kitab Axtar" asp-for="FileModel.Name">
+                        <button class="fas fa-search" type="submit"></button>
+                    </form>
 
                 </div>
             </nav>
