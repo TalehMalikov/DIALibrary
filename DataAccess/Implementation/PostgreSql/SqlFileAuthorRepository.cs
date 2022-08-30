@@ -5,10 +5,10 @@ using Npgsql;
 
 namespace Library.DataAccess.Implementation.PostgreSql
 {
-    public class SqlBookAuthorRepository : IBookAuthorRepository
+    public class SqlFileAuthorRepository : IFileAuthorRepository
     {
         private readonly string _connectionString;
-        public SqlBookAuthorRepository(string connectionString)
+        public SqlFileAuthorRepository(string connectionString)
         {
             _connectionString = connectionString;
         }
