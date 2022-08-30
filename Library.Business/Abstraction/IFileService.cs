@@ -1,4 +1,5 @@
 ﻿using Library.Core.Result.Concrete;
+using Library.Entities.Dtos;
 using File = Library.Entities.Concrete.File;
 
 namespace Library.Business.Abstraction
@@ -7,6 +8,7 @@ namespace Library.Business.Abstraction
     {
         DataResult<List<File>> GetNewAdded();
         DataResult<List<File>> GetAllFilesByCategoryId(int id);
+        DataResult<FileAuthorDto> GetFileWithAuthors(int fileId);
 
     }
 }

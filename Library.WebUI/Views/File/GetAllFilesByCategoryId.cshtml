@@ -5,13 +5,12 @@
 }
 @section navbar_bottom{
     <section id="navbottom">
-
         <div class="container-lg">
             <nav class="navbar-down justify-content-between align-items-center">
                 <a class="btn btn-menu red" asp-controller="Category" asp-action="Index">
                     E-Kitablar
                 </a>
-                <div class="input-area ">
+                <div class="input-area">
                     <form asp-action="SearchByName" asp-controller="File">
                         <input type="text" class="input-nav" placeholder="Kitab Axtar">
                         <button class="fas fa-search" type="submit"></button>
@@ -25,7 +24,7 @@
 <section id="category" class="my-5">
     <div class="container-lg">
         <div class="category-div">
-            <div class="category-title"><button class="p-2">Katiqoriyalar</button></div>
+            <div class="category-title"><button class="p-2">Kateqoriyalar</button></div>
             <div class="category d-flex p-2 justify-content-between">
                 @{
                     var categories = Model.CategoryModel.CategoryList.Data;
@@ -66,8 +65,9 @@
     
     <div class="container-lg">
         <div class="title d-flex">
-            <p>
-                <span class="text-bold">@Model.FileModel.Files.Data[0].Category.Name</span> [kitab sayı: @Model.FileModel.Files.Data.Count]</p>
+            
+            <h3 class="text-bold">@Model.FileModel.Files.Data[0].Category.Name <span class="text-secondary">[kitab sayı: @Model.FileModel.Files.Data.Count]</span></h3>
+            
         </div>
         
         <hr/>

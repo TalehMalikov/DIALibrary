@@ -45,15 +45,18 @@ namespace Library.WebUI.Controllers
         {
             FileViewModel model = new FileViewModel
             {
-                File = await _fileService.GetFileById(id)
+                File = await _fileService.GetFileWithAuthors(id)
             };
 
             return View(model);
         }
 
-        public IActionResult SearchByName(string name)
+
+        public async Task<IActionResult> SearchByName(FileViewModel model)
         {
-            return View();
+            var result = await _fileService.GetAllFiles();
+            var filteredData = result.Data.Where(p => p.Name.ToLower().Contains(model.Name.ToLower())).ToList();
+            return View(filteredData);
         }
     }
 }

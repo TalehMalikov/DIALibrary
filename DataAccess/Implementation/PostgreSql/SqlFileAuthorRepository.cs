@@ -1,7 +1,9 @@
 ﻿using Library.Core.Extensions;
 using Library.DataAccess.Abstraction;
 using Library.Entities.Concrete;
+using Library.Entities.Dtos;
 using Npgsql;
+using File = Library.Entities.Concrete.File;
 
 namespace Library.DataAccess.Implementation.PostgreSql
 {
@@ -15,11 +17,11 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         public bool Add(BookAuthor value)
         {
-            using NpgsqlConnection  connection = new NpgsqlConnection(_connectionString);
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Insert Into BookAuthors(BookId,AuthorId) Values(@bookId,@authorId)";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
-            command.Parameters.AddWithValue("@bookId", value.Book.Id);
+            command.Parameters.AddWithValue("@bookId", value.File.Id);
             command.Parameters.AddWithValue("@authorId", value.Author.Id);
             return 1 == command.ExecuteNonQuery();
         }
@@ -29,10 +31,12 @@ namespace Library.DataAccess.Implementation.PostgreSql
             using NpgsqlConnection connection = new(_connectionString);
             connection.Open();
             string cmdString = "Delete From BookAuthors Where Id=@id";
-            using NpgsqlCommand command = new(cmdString,connection);
+            using NpgsqlCommand command = new(cmdString, connection);
             command.Parameters.AddWithValue("@id", id);
-            return 1 == command. ExecuteNonQuery();
+            return 1 == command.ExecuteNonQuery();
         }
+
+        
 
         public BookAuthor Get(int id)
         {
@@ -81,10 +85,41 @@ namespace Library.DataAccess.Implementation.PostgreSql
             connection.Open();
             string cmdString = "Update BookAuthors Set BookId=@bookId, AuthorId=@authorId Where Id=@id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
-            command.Parameters.AddWithValue("@bookId", value.Book.Id);
+            command.Parameters.AddWithValue("@bookId", value.File.Id);
             command.Parameters.AddWithValue("@authorId", value.Author.Id);
             command.Parameters.AddWithValue("@id", value.Id);
             return 1 == command.ExecuteNonQuery();
+        }
+
+        public FileAuthorDto GetFileWithAuthors(int fileId)
+        {
+            var dto = new FileAuthorDto
+            {
+                Authors = new List<Author>()
+            };
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
+            connection.Open();
+            string query = "select authors.id as authorid,authors.firstname,authors.lastname,authors.fathername,authors.gender,authors.bookcount from fileauthors " +
+                           " inner join authors ON fileauthors.authorid = authors.id where fileauthors.fileid=@fileId";
+            using NpgsqlCommand command = new NpgsqlCommand(query, connection);
+            command.Parameters.AddWithValue("@fileId", fileId);
+            var reader = command.ExecuteReader();
+            while (reader.Read())
+                dto.Authors.Add(ReadAuthor(reader));
+            return dto;
+        }
+
+        private Author ReadAuthor(NpgsqlDataReader reader)
+        {
+            return new Author
+            {
+                Id = reader.Get<int>("AuthorId"),
+                BookCount = reader.Get<short>("BookCount"),
+                FatherName = reader.Get<string>("FatherName"),
+                FirstName = reader.Get<string>("FirstName"),
+                LastName = reader.Get<string>("LastName"),
+                Gender = reader.Get<bool>("Gender")
+            };
         }
 
         private BookAuthor ReadBookAuthor(NpgsqlDataReader reader)
@@ -101,7 +136,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
                     LastName = reader.Get<string>("LastName"),
                     Gender = reader.Get<bool>("Gender")
                 },
-                Book = new Entities.Concrete.File
+                File = new File
                 {
                     Id = reader.Get<int>("BookId"),
                     Name = reader.Get<string>("BookName"),
