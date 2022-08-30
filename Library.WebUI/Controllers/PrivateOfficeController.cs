@@ -15,9 +15,10 @@ namespace Library.WebUI.Controllers
         private readonly ISpecialtyService _specialtyService;
         private readonly ISectorService _sectorService;
         private readonly IUserService _userService;
+        private readonly IFileTypeService _fileTypeService;
 
         public PrivateOfficeController(IAccountService accountService,IStudentService studentService,IFacultyService facultyService,ISectorService sectorService,
-                                        ISpecialtyService specialtyService, IUserService userService)
+                                        ISpecialtyService specialtyService, IUserService userService,IFileTypeService fileTypeService)
         {
             _accountService = accountService;
             _studentService = studentService;
@@ -25,6 +26,7 @@ namespace Library.WebUI.Controllers
             _sectorService = sectorService;
             _specialtyService = specialtyService;
             _userService = userService;
+            _fileTypeService = fileTypeService;
         }
 
         public async Task<IActionResult> Index()
@@ -37,6 +39,9 @@ namespace Library.WebUI.Controllers
 
             var account = await _accountService.GetByEmail(accessToken , email);
             viewModel.Account = account.Data;
+
+            var allFileTypes = await _fileTypeService.GetAllFileTypes();
+            ViewBag.AllFileTypes = allFileTypes.Data;
 
             viewModel.SelectedGender = viewModel.Account.User.Gender;
 

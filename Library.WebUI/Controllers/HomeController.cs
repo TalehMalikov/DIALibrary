@@ -38,6 +38,7 @@ namespace Library.WebUI.Controllers
             ViewData["E-Resurslar"] = _stringLocalizer["E-Resurslar"].Value;
             ViewData["E-Kataloq"] = _stringLocalizer["E-Kataloq"].Value;
             ViewData["Giriş"] = _stringLocalizer["Giriş"].Value;
+            ViewData["Şəxsi kabinet"] = _stringLocalizer["Şəxsi kabinet"].Value;
             #endregion
 
             AuthenticationViewModel authViewModel = new AuthenticationViewModel
@@ -45,7 +46,6 @@ namespace Library.WebUI.Controllers
                 NewAddedBookList = await _categoryService.GetNewAddedBooks()
             };
             var filetypes = await _fileTypeService.GetAllFileTypes();
-            authViewModel.AllFileTypes = await _fileTypeService.GetAllFileTypes();
             ViewBag.AllFileTypes = filetypes.Data;
 
             return View(authViewModel);

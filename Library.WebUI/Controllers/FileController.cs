@@ -8,11 +8,13 @@ namespace Library.WebUI.Controllers
     {
         private readonly IFileService _fileService;
         private readonly ICategoryService _categoryService;
+        private readonly IFileTypeService _fileTypeService;
 
-        public FileController(IFileService fileService, ICategoryService categoryService)
+        public FileController(IFileService fileService, ICategoryService categoryService,IFileTypeService fileTypeService)
         {
             _fileService = fileService;
             _categoryService = categoryService;
+            _fileTypeService = fileTypeService;
         }
 
         public async Task<IActionResult> ShowAllFiles()
@@ -58,5 +60,28 @@ namespace Library.WebUI.Controllers
             var filteredData = result.Data.Where(p => p.Name.ToLower().Contains(model.Name.ToLower())).ToList();
             return View(filteredData);
         }
+
+        public async Task<IActionResult> ShowFileteredFiles(int id)
+        {
+            FileViewModel viewModel = new FileViewModel();
+
+            viewModel.Files = await _fileService.GetFilesByFileTypeId(id);
+            var fileTypes = await _fileTypeService.GetAllFileTypes();
+
+            ViewBag.AllFileTypes = fileTypes.Data;
+
+            return View(viewModel);
+        }
+
+        public async Task<IActionResult> ShowFileInfoFileType(int id)
+        {
+            FileViewModel model = new FileViewModel
+            {
+                FileAuthor = await _fileService.GetFileWithAuthors(id)
+            };
+
+            return View(model);
+        }
+
     }
 }

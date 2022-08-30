@@ -10,7 +10,5 @@ namespace Library.WebUI.Models
         public AccountLoginDto LoginModel { get; set; }
 
         public DataResult<List<File>> NewAddedBookList { get; set; }
-
-        public DataResult<List<FileType>> AllFileTypes { get; set; }
     }
 }

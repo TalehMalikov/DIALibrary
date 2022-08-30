@@ -39,12 +39,10 @@
                     <ul class="submenu">
                         @foreach(var item in @ViewBag.AllFileTypes)
                         {
-                            <li><a asp-controller="ShowFilesByFileType" asp-action="Index" asp-route-id="@item.Id" class="dropdown-item">@item.Name</a></li>
+                            <li><a asp-controller="File" asp-action="ShowFileteredFiles" asp-route-id="@item.Id" class="dropdown-item">@item.Name</a></li>
                         }
                     </ul>
                 </ul>
-
-
             </div>
 
             @{

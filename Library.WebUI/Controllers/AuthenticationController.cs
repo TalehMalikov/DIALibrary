@@ -33,18 +33,8 @@ namespace Library.WebUI.Controllers
             {
                 HttpContext.Session.SetString("AccessToken",result.Data.Token);
                 HttpContext.Session.SetString("Email",loginViewModel.LoginModel.Email);
-                return RedirectToAction("Index", "Authentication");
             }
             return RedirectToAction("Index", "Home");
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Index()
-        {
-            AuthenticationViewModel viewModel = new AuthenticationViewModel();
-            viewModel.NewAddedBookList = await _categoryService.GetNewAddedBooks();
-            viewModel.AllFileTypes = await _fileTypeService.GetAllFileTypes();
-            return View(viewModel);
         }
     }
 }

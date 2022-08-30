@@ -72,11 +72,10 @@
                             <li class="drop-name r-list">E-Resurslar</li>
 
                             <ul class="drop r-drop">
-                                <li class="drop-name"><a asp-controller="Category" asp-action="Index" class="drop-name">Kitablar</a></li>
-                                <li class="drop-name"><a href="" class="drop-name">Meqaleler</a></li>
-                                <li class="drop-name"><a href="" class="drop-name">Avtoreferatlar</a> </li>
-                                <li class="drop-name"><a href="" class="drop-name">Jurnallar</a> </li>
-                                <li class="drop-name"><a href="" class="drop-name">Derslikler</a> </li>
+                                @foreach (var item in @ViewBag.AllFileTypes)
+                                {
+                                     <li><a asp-controller="File" asp-action="ShowFileteredFiles" asp-route-id="@item.Id" class="dropdown-item">@item.Name</a></li>
+                                }
                             </ul>
                         </ul>
                     </span>
