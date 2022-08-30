@@ -7,10 +7,12 @@ namespace Library.WebUI.Controllers
     public class HomeController : Controller
     {
         private readonly ICategoryService _categoryService;
+        private readonly IFileTypeService _fileTypeService;
 
-        public HomeController(ICategoryService categoryService)
+        public HomeController(ICategoryService categoryService,IFileTypeService fileTypeService)
         {
             _categoryService = categoryService;
+            _fileTypeService = fileTypeService;
         }
 
         [HttpGet]
@@ -18,6 +20,10 @@ namespace Library.WebUI.Controllers
         {
             AuthenticationViewModel authViewModel = new AuthenticationViewModel();
             authViewModel.NewAddedBookList = await _categoryService.GetNewAddedBooks();
+            var filetypes = await _fileTypeService.GetAllFileTypes();
+            authViewModel.AllFileTypes = await _fileTypeService.GetAllFileTypes();
+            ViewBag.AllFileTypes = filetypes.Data;
+
             return View(authViewModel);
         }
     }

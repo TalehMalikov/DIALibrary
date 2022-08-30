@@ -98,9 +98,12 @@
                             @for (int k = 0; k < result.Count; k++)
                             {
                                 <div class="swiper-slide">
-                                    <a href="#" class="card-book d-flex flex-column align-items-center">
+                                    <a href="#" class="card-book ">
                                         <img width="140" height="180" src="@Url.Action("Picture","Resources" ,new { name = result[k].PhotoPath })">
                                     </a>
+                                    <div class="hover-content shadow-sm">
+                                        <h6><span class="text-bold">Məhəmmədoğlu Yusif.</span> İsmayıllının Zəfər Şəhidləri.- Bakı, 2021.- 224 s.</h6>
+                                    </div>
                                 </div>
                             }
                         }

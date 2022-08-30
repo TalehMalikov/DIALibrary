@@ -37,11 +37,10 @@
                     <li class="sub"><a class="dropdown-item" href="#">E-Resurslar ></a></li>
 
                     <ul class="submenu">
-                        <li><a class="dropdown-item" href="#">Kitablar</a></li>
-                        <li><a class="dropdown-item" href="#">Məqalələr</a></li>
-                        <li><a class="dropdown-item" href="#">Avtoreferatlar</a></li>
-                        <li><a class="dropdown-item" href="#">Jurnallar</a></li>
-                        <li><a class="dropdown-item" href="#">Dərsliklər</a></li>
+                        @foreach(var item in @ViewBag.AllFileTypes)
+                        {
+                            <li><a asp-controller="ShowFilesByFileType" asp-action="Index" asp-route-id="@item.Id" class="dropdown-item">@item.Name</a></li>
+                        }
                     </ul>
                 </ul>
 

@@ -12,11 +12,13 @@ namespace Library.WebUI.Controllers
     {
         private readonly IAuthService _authService;
         private readonly ICategoryService _categoryService;
+        private readonly IFileTypeService _fileTypeService;
 
-        public AuthenticationController(IAuthService authService, ICategoryService categoryService)
+        public AuthenticationController(IAuthService authService, ICategoryService categoryService,IFileTypeService fileTypeService)
         {
             _authService = authService;
             _categoryService = categoryService;
+            _fileTypeService = fileTypeService;
         }
 
         [HttpPost]
@@ -41,6 +43,7 @@ namespace Library.WebUI.Controllers
         {
             AuthenticationViewModel viewModel = new AuthenticationViewModel();
             viewModel.NewAddedBookList = await _categoryService.GetNewAddedBooks();
+            viewModel.AllFileTypes = await _fileTypeService.GetAllFileTypes();
             return View(viewModel);
         }
     }

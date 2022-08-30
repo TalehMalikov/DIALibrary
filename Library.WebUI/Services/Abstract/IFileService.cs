@@ -6,6 +6,7 @@ namespace Library.WebUI.Services.Abstract
     public interface IFileService
     {
         Task<DataResult<List<File>>> GetAllFilesByCategoryId(int id);
+        Task<DataResult<List<File>>> GetFilesByFileTypeId(int fileTypeId);
         Task<DataResult<List<File>>> GetAllFiles();
         Task<DataResult<File>> GetFileById(int id);
     }
