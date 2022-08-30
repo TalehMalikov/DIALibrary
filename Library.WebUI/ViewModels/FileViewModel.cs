@@ -7,7 +7,7 @@ namespace Library.WebUI.Models
     public class FileViewModel
     {
         public DataResult<List<File>> Files { get; set; }
-        public DataResult<FileAuthorDto> File { get; set; }
+        public DataResult<FileAuthorDto> FileAuthor { get; set; }
         public string Name { get; set; }
     }
 }

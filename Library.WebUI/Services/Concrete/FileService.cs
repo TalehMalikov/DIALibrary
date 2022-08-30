@@ -12,21 +12,21 @@ namespace Library.WebUI.Services.Concrete
         {
             using HttpClient client = new HttpClient();
             var result =
-                await client.GetJsonAsync<DataResult<List<File>>>(BaseUrl + "File/getallfilesbycategoryid/" + id);
+                await client.GetJsonAsync<DataResult<List<File>>>(BaseUrl + "FileAuthor/getallfilesbycategoryid/" + id);
             return result;
         }
 
         public async Task<DataResult<List<File>>> GetAllFiles()
         {
             using HttpClient client = new HttpClient();
-            var result = await client.GetJsonAsync<DataResult<List<File>>>(BaseUrl + "File/getall");
+            var result = await client.GetJsonAsync<DataResult<List<File>>>(BaseUrl + "FileAuthor/getall");
             return result;
         }
 
         public async Task<DataResult<File>> GetFileById(int id)
         {
             using HttpClient client = new HttpClient();
-            var result = await client.GetJsonAsync<DataResult<File>>(BaseUrl + "File/getbyid/" + id);
+            var result = await client.GetJsonAsync<DataResult<File>>(BaseUrl + "FileAuthor/getbyid/" + id);
             return result;
         }
 
@@ -34,7 +34,7 @@ namespace Library.WebUI.Services.Concrete
         {
             using HttpClient client = new HttpClient();
             var result =
-                await client.GetJsonAsync<DataResult<FileAuthorDto>>(BaseUrl + "File/getfilewithauthors/"+fileId);
+                await client.GetJsonAsync<DataResult<FileAuthorDto>>(BaseUrl + "FileAuthor/getfilewithauthors/"+fileId);
             return result;
         }
 
