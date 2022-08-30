@@ -9,23 +9,23 @@ namespace Library.Business.Concrete
 {
     public class BookAuthorManager : IBookAuthorService
     {
-        private readonly IBookAuthorRepository _bookAuthorRepository;
-        public BookAuthorManager(IBookAuthorRepository bookAuthorRepository)
+        private readonly IFileAuthorRepository _fileAuthorRepository;
+        public BookAuthorManager(IFileAuthorRepository fileAuthorRepository)
         {
-             _bookAuthorRepository = bookAuthorRepository;
+             _fileAuthorRepository = fileAuthorRepository;
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IBookAuthorService.Get))]
         public Result Add(BookAuthor value)
         {
-            _bookAuthorRepository.Add(value);
+            _fileAuthorRepository.Add(value);
             return new SuccessResult(StatusMessagesUtil.AddSuccessMessage);
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IBookAuthorService.Get))]
         public Result Delete(int id)
         {
-            if(_bookAuthorRepository.Delete(id))
+            if(_fileAuthorRepository.Delete(id))
                 return new SuccessResult(StatusMessagesUtil.DeleteSuccessMessage);
             return new ErrorResult(StatusMessagesUtil.NotFoundMessageGivenId);
         }
@@ -33,7 +33,7 @@ namespace Library.Business.Concrete
         [CacheAspect]
         public DataResult<BookAuthor> Get(int id)
         {
-            var result = _bookAuthorRepository.Get(id);
+            var result = _fileAuthorRepository.Get(id);
             if (result == null)
                 return new ErrorDataResult<BookAuthor>(result, StatusMessagesUtil.NotFoundMessageGivenId);
             return new SuccessDataResult<BookAuthor>(result);
@@ -42,7 +42,7 @@ namespace Library.Business.Concrete
         [CacheAspect]
         public DataResult<List<BookAuthor>> GetAll()
         {
-            var result = _bookAuthorRepository.GetAll();
+            var result = _fileAuthorRepository.GetAll();
             if (result.Count == 0)
                 return new ErrorDataResult<List<BookAuthor>>(result, StatusMessagesUtil.NotFoundMessage);
             return new SuccessDataResult<List<BookAuthor>>(result);
@@ -51,7 +51,7 @@ namespace Library.Business.Concrete
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IBookAuthorService.Get))]
         public Result Update(BookAuthor value)
         {
-            if(_bookAuthorRepository.Update(value))
+            if(_fileAuthorRepository.Update(value))
                 return new SuccessResult(StatusMessagesUtil.UpdateSuccessMessage);
             return new ErrorResult(StatusMessagesUtil.NotFoundMessageGivenId);
         }
