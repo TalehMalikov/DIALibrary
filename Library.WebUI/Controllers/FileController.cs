@@ -51,10 +51,12 @@ namespace Library.WebUI.Controllers
             return View(model);
         }
 
-        public IActionResult SearchByName(string name)
+
+        public async Task<IActionResult> SearchByName(FileViewModel model)
         {
-           // var result
-            return View();
+            var result = await _fileService.GetAllFiles();
+            var filteredData = result.Data.Where(p => p.Name.ToLower().Contains(model.Name.ToLower())).ToList();
+            return View(filteredData);
         }
     }
 }
