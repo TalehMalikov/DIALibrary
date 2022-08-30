@@ -11,8 +11,7 @@ namespace Library.WebUI.Controllers
         private readonly IStringLocalizer<HomeController> _stringLocalizer;
         private readonly IFileTypeService _fileTypeService;
 
-        public HomeController(ICategoryService categoryService, IStringLocalizer<HomeController> stringLocalizer)
-        public HomeController(ICategoryService categoryService,IFileTypeService fileTypeService)
+        public HomeController(ICategoryService categoryService,IFileTypeService fileTypeService, IStringLocalizer<HomeController> stringLocalizer)
         {
             _categoryService = categoryService;
             _stringLocalizer = stringLocalizer;
@@ -45,8 +44,6 @@ namespace Library.WebUI.Controllers
             {
                 NewAddedBookList = await _categoryService.GetNewAddedBooks()
             };
-            AuthenticationViewModel authViewModel = new AuthenticationViewModel();
-            authViewModel.NewAddedBookList = await _categoryService.GetNewAddedBooks();
             var filetypes = await _fileTypeService.GetAllFileTypes();
             authViewModel.AllFileTypes = await _fileTypeService.GetAllFileTypes();
             ViewBag.AllFileTypes = filetypes.Data;

@@ -23,13 +23,5 @@ namespace Library.WebUI.Controllers
             categoryFileViewModel.CategoryModel.NewAddedBookList = await _categoryService.GetNewAddedBooks();
             return View(categoryFileViewModel);
         }
-      
-        /*[HttpGet]
-        public async Task<IActionResult> GetAllFiles()
-        {
-            var token = HttpContext.Session.GetString("AccessToken");
-            var result = await _fileService.GetAll(token);
-            return View();
-        }*/
     }
 }
