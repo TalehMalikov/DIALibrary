@@ -24,24 +24,6 @@ builder.Services.AddSingleton<ISectorService, SectorService>();
 builder.Services.AddSingleton<ISpecialtyService, SpecialtyService>();
 builder.Services.AddSingleton<IActivityService, ActivityService>();
 builder.Services.AddSingleton<IUserService, UserService>();
-#endregion
-
-builder.Services.AddLocalization(p => { p.ResourcesPath = "Resources"; });
-builder.Services.AddControllersWithViews().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
-    .AddDataAnnotationsLocalization();
-builder.Services.Configure<RequestLocalizationOptions>(options =>
-{
-    var supportedCultures = new[]
-    {
-        new CultureInfo("az-Latn-AZ"),
-        new CultureInfo("en-US"),
-        new CultureInfo("ru-RU")
-    };
-    options.DefaultRequestCulture = new RequestCulture(culture: "az-Latn-AZ", uiCulture: "az-Latn-AZ");
-    options.SupportedCultures = supportedCultures;
-    options.SupportedUICultures = supportedCultures;
-});
-builder.Services.AddSingleton<IFileTypeService, FileTypeService>();
 
 
 builder.Services.AddRazorPages(options =>
