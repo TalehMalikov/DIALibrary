@@ -45,7 +45,7 @@ namespace Library.WebUI.Controllers
         {
             FileViewModel model = new FileViewModel
             {
-                File = await _fileService.GetFileById(id)
+                File = await _fileService.GetFileWithAuthors(id)
             };
 
             return View(model);
@@ -53,6 +53,7 @@ namespace Library.WebUI.Controllers
 
         public IActionResult SearchByName(string name)
         {
+           // var result
             return View();
         }
     }

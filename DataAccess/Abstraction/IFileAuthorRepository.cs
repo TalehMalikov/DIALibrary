@@ -6,6 +6,6 @@ namespace Library.DataAccess.Abstraction
 {
     public interface IFileAuthorRepository : ICrudRepository<BookAuthor>
     {
-        List<FileAuthorDto> GetAllFilesWithAuthors(List<File> files);
+        FileAuthorDto GetFileWithAuthors(int fileId);
     }
 }

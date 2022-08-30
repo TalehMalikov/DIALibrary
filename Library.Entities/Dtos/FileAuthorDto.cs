@@ -7,6 +7,6 @@ namespace Library.Entities.Dtos
     public class FileAuthorDto 
     {
         public File File { get; set; }
-        public List<Author> Authors { get; set; }
+        public List<Author> Authors { get; set; } 
     }
 }

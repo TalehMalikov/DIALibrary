@@ -66,7 +66,7 @@ namespace Library.WebUI.Controllers
             return RedirectToAction("Index", "PrivateOffice");
         }
 
-        public async Task<IActionResult> LogOut()
+        public IActionResult LogOut()
         {
             HttpContext.Session.Clear();
 

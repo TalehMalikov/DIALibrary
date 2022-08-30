@@ -23,6 +23,7 @@ builder.Services.AddSingleton<IFacultyService, FacultyService>();
 builder.Services.AddSingleton<ISectorService, SectorService>();
 builder.Services.AddSingleton<ISpecialtyService, SpecialtyService>();
 builder.Services.AddSingleton<IActivityService, ActivityService>();
+builder.Services.AddSingleton<IUserService, UserService>();
 #endregion
 
 builder.Services.AddLocalization(p => { p.ResourcesPath = "Resources"; });

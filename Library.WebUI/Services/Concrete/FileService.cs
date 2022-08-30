@@ -1,5 +1,6 @@
 ﻿using Library.Core.Extensions;
 using Library.Core.Result.Concrete;
+using Library.Entities.Dtos;
 using Library.WebUI.Services.Abstract;
 using File = Library.Entities.Concrete.File;
 
@@ -26,6 +27,14 @@ namespace Library.WebUI.Services.Concrete
         {
             using HttpClient client = new HttpClient();
             var result = await client.GetJsonAsync<DataResult<File>>(BaseUrl + "File/getbyid/" + id);
+            return result;
+        }
+
+        public async Task<DataResult<FileAuthorDto>> GetFileWithAuthors(int fileId)
+        {
+            using HttpClient client = new HttpClient();
+            var result =
+                await client.GetJsonAsync<DataResult<FileAuthorDto>>(BaseUrl + "File/getfilewithauthors/"+fileId);
             return result;
         }
     }
