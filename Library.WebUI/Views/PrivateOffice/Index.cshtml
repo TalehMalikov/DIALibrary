@@ -74,7 +74,7 @@
                             <ul class="drop r-drop">
                                 @foreach (var item in @ViewBag.AllFileTypes)
                                 {
-                                     <li><a asp-controller="File" asp-action="ShowFileteredFiles" asp-route-id="@item.Id" class="dropdown-item">@item.Name</a></li>
+                                     <li class="drop-name"><a asp-controller="File" asp-action="ShowFileteredFiles" asp-route-id="@item.Id" class="drop-name">@item.Name</a></li>
                                 }
                             </ul>
                         </ul>

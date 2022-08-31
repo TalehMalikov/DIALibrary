@@ -1,0 +1,36 @@
+﻿@using Library.WebUI.ViewModels
+@model ECatalogViewModel
+@{
+    Layout = "_ECatalogLayout";
+}
+
+    <section id="bookResult" class="my-5 px-lg-3">
+        <div class="container-fluid">
+            <div class="book-result d-flex flex-column">
+                @foreach (var item in @Model.FilteredFileList)
+                {
+                    <div class="book-div py-4">
+                        <a asp-controller="File" asp-action="ShowFileInfo" asp-route-id="@item.Id">
+                            <img src="@Url.Action("Picture","Resources",new {name = @item.PhotoPath})" class="result-img">
+                        </a>
+                        <div class="book-info d-flex flex-column px-4 ">
+                            <h6 class="h6"><span class="text-bold">Kitab Adı:</span>@item.Name</h6>
+                            <h6 class="h6"><span class="text-bold">Müəllif:</span>Mustafayeva Səmayə , Cavadova Zərifə , Hüseynli Raminə</h6>
+                            <h6 class="h6"><span class="text-bold">Sehife:</span>@item.PageNumber</h6>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </section>
+
+    <div class="top-btn">
+        <i class="fas fa-arrow-alt-up"></i>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous">
+    </script>
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+    
