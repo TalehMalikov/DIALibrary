@@ -161,11 +161,20 @@ namespace Library.WebUI.Controllers
                     filteredFiles = filteredFiles.Where(f => f.Category.Id == viewModel.SelectedCategoryId).ToList();
                 }
             }
-            // saxladım
             if (viewModel.AuthorFilter != null)
             {
-                if(!isFiltered)
+                var result = await _fileService.GetAllFilesWithAuthors();
+                filteredFiles = new List<File>();
+                foreach (var fileAuthor in result.Data)
                 {
+                    foreach (var author in fileAuthor.Authors)
+                    {
+                        if(author.FirstName.Contains(viewModel.AuthorFilter) || author.LastName.Contains(viewModel.AuthorFilter))
+                        {
+                            filteredFiles.Add(fileAuthor.File);
+                            break;
+                        }
+                    }
                 }
             }
             if(viewModel.BookFilter != null)
