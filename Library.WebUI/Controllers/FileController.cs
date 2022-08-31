@@ -58,5 +58,10 @@ namespace Library.WebUI.Controllers
             var filteredData = result.Data.Where(p => p.Name.ToLower().Contains(model.Name.ToLower())).ToList();
             return View(filteredData);
         }
+
+        public async  Task<IActionResult> E_Catalog()
+        {
+            return View();
+        }
     }
 }
