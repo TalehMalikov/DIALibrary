@@ -80,6 +80,14 @@ namespace Library.Business.Concrete
                 return new ErrorDataResult<FileAuthorDto>(result, StatusMessagesUtil.NotFoundMessageGivenId);
             return new SuccessDataResult<FileAuthorDto>(result);
         }
+        [CacheAspect]
+        public DataResult<List<FileAuthorDto>> GetAllFilesWithAuthors(List<File> files)
+        {
+            var result = _fileAuthorRepository.GetAllFilesWithAuthors(GetAll().Data);
+            if (result.Count == 0)
+                return new ErrorDataResult<List<FileAuthorDto>>(result,StatusMessagesUtil.NotFoundMessage);
+            return new SuccessDataResult<List<FileAuthorDto>>(result);
+        }
 
         [CacheRemoveAspect(nameof(IFileService.Get))]
         [ValidationAspect(typeof(BookValidator))]

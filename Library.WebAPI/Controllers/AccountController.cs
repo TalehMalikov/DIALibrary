@@ -54,7 +54,7 @@ namespace Library.WebAPI.Controllers
         [Authorize]
         public IActionResult GetByEmail(string name)
         {
-            var result = _accountService.GetByEmail(name);
+            var result = _accountService.GetByEmail(name.ToUpper());
 
             if (result.Success)
                 return Ok(result);
