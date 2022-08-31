@@ -1,6 +1,8 @@
-﻿using Library.WebUI.Models;
+﻿using Library.Core.Result.Concrete;
+using Library.WebUI.Models;
 using Library.WebUI.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
+using File = Library.Entities.Concrete.File;
 
 namespace Library.WebUI.Controllers
 {
@@ -54,11 +56,15 @@ namespace Library.WebUI.Controllers
         }
 
 
-        public async Task<IActionResult> SearchByName(FileViewModel model)
+        public async Task<IActionResult> SearchByName(FileViewModel data)
         {
             var result = await _fileService.GetAllFiles();
-            var filteredData = result.Data.Where(p => p.Name.ToLower().Contains(model.Name.ToLower())).ToList();
-            return View(filteredData);
+            var filteredData = result.Data.Where(p => p.Name.ToLower().Contains(data.Name.ToLower())).ToList();
+            FileViewModel model = new FileViewModel
+            {
+                Files = new SuccessDataResult<List<File>>(filteredData)
+            };
+            return View(model);
         }
 
         public async Task<IActionResult> ShowFileteredFiles(int id)
@@ -80,6 +86,12 @@ namespace Library.WebUI.Controllers
                 FileAuthor = await _fileService.GetFileWithAuthors(id)
             };
 
+            return View(model);
+        }
+
+        public async Task<IActionResult> FilterByCataloq()
+        {
+            var model = new FileViewModel();
             return View(model);
         }
 
