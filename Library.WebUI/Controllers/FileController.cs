@@ -83,5 +83,10 @@ namespace Library.WebUI.Controllers
             return View(model);
         }
 
+
+        public async  Task<IActionResult> E_Catalog()
+        {
+            return View();
+        }
     }
 }
