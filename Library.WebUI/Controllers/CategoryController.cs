@@ -18,9 +18,14 @@ namespace Library.WebUI.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            CategoryFileViewModel categoryFileViewModel = new CategoryFileViewModel();
-            categoryFileViewModel.CategoryModel.CategoryList = await _categoryService.GetAll();
-            categoryFileViewModel.CategoryModel.NewAddedBookList = await _categoryService.GetNewAddedBooks();
+            CategoryFileViewModel categoryFileViewModel = new CategoryFileViewModel
+            {
+                CategoryModel = new CategoryViewModel
+                {
+                    CategoryList = await _categoryService.GetAll(),
+                    NewAddedBookList = await _categoryService.GetNewAddedBooks()
+                }
+            };
             return View(categoryFileViewModel);
         }
     }

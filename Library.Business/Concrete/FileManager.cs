@@ -81,7 +81,7 @@ namespace Library.Business.Concrete
             return new SuccessDataResult<FileAuthorDto>(result);
         }
         [CacheAspect]
-        public DataResult<List<FileAuthorDto>> GetAllFilesWithAuthors(List<File> files)
+        public DataResult<List<FileAuthorDto>> GetAllFilesWithAuthors()
         {
             var result = _fileAuthorRepository.GetAllFilesWithAuthors(GetAll().Data);
             if (result.Count == 0)

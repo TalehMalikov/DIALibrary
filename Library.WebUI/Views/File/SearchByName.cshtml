@@ -1,4 +1,4 @@
-﻿@model FileViewModel
+﻿@model CategoryFileViewModel
 @{
     ViewData["Title"] = "SearchByName";
     Layout = "~/Views/Shared/_CommonLayout.cshtml";
@@ -22,7 +22,7 @@
     <div class="container-fluid">
         <div class="container-lg">
             <div class="book-result d-flex flex-column">
-                @foreach (var item in Model.Files.Data)
+                @foreach (var item in Model.FileModel.Files.Data)
                 {
                     <div class="book-div py-4">
                         <a asp-controller="File" asp-action="ShowFileInfo" asp-route-id="@item.Id">

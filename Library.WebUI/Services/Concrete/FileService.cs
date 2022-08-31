@@ -45,5 +45,11 @@ namespace Library.WebUI.Services.Concrete
             return new DataResult<List<File>>(filteredFiles,true);
         }
 
+        public async Task<DataResult<List<FileAuthorDto>>> GetAllFilesWithAuthors()
+        {
+            using HttpClient client = new HttpClient();
+            var result = await client.GetJsonAsync<DataResult<List<FileAuthorDto>>>(BaseUrl + "File/getallfileswithauthors");
+            return result;
+        }
     }
 }

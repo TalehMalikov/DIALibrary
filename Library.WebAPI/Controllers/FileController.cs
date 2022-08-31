@@ -103,9 +103,21 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpGet("getfilewithauthors/{id:int}")]
-        public IActionResult GetAllFilesWithAuthors(int id)
+        public IActionResult GetFileWithAuthors(int id)
         {
             var result = _fileService.GetFileWithAuthors(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpGet("getallfileswithauthors")]
+        public IActionResult GetAllFilesWithAuthors()
+        {
+            var result = _fileService.GetAllFilesWithAuthors();
             if (result.Success)
             {
                 return Ok(result);
