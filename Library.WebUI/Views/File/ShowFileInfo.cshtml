@@ -27,7 +27,7 @@
                 <hr>
                 <div class="row">
                     <div class="col-lg-4 col-sm-12 text-center py-3">
-                        <img src="@Url.Action("Picture", "Resources", new {name = file.File.PhotoPath})" width="200px">
+                        <img src="@Url.Action("Picture", "Resources", new {name = file.File.PhotoPath})" width="240px">
                     </div>
                     <div class="col-lg-8 col-sm-12 py-3">
                         <table class="table table-bordered table-striped">
@@ -87,7 +87,7 @@
                         </table>
 
                         <div class="buttons float-end py-2">
-                            <a href="@Url.Action("DownloadFileFromFileSystem","Resources",new {id=file.File.Id})" class="btn btn-primary">Oxumaq</a>
+                            <a href="@Url.Action("File","Resources",new {name=file.File.FilePath})" class="btn btn-primary">Oxumaq</a>
                             @if (!String.IsNullOrEmpty(HttpContextAccessor.HttpContext.Session.GetString("AccessToken")))
                             {
                                 <a href="@Url.Action("DownloadFileFromFileSystem","Resources",new {id=file.File.Id})" class="btn btn-danger" download>Yükləmək</a>

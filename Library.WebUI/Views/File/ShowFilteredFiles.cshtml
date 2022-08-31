@@ -1,7 +1,7 @@
 ﻿@using Library.WebUI.Models
 @using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
-@model FileViewModel
+@model CategoryFileViewModel
 @{
     Layout = "_CommonLayout";
 }
@@ -24,7 +24,7 @@
         <div class="container-fluid">
             <div class="container-lg">
                 <div class="book-result d-flex flex-column">
-                    @foreach (var item in Model.Files.Data)
+                    @foreach (var item in Model.FileModel.Files.Data)
                     {
                         <div class="book-div py-4">
                             <a asp-controller="File" asp-action="ShowFileInfoFileType" asp-route-id="@item.Id">

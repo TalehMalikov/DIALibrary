@@ -9,7 +9,7 @@ namespace Library.Business.Abstraction
         DataResult<List<File>> GetNewAdded();
         DataResult<List<File>> GetAllFilesByCategoryId(int id);
         DataResult<FileAuthorDto> GetFileWithAuthors(int fileId);
-        DataResult<List<FileAuthorDto>> GetAllFilesWithAuthors(List<File> files);
+        DataResult<List<FileAuthorDto>> GetAllFilesWithAuthors();
 
     }
 }

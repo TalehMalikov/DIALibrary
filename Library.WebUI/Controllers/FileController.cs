@@ -25,10 +25,15 @@ namespace Library.WebUI.Controllers
 
         public async Task<IActionResult> ShowAllFiles()
         {
-            FileViewModel model = new FileViewModel
+            CategoryFileViewModel model = new CategoryFileViewModel
             {
-                Files = await _fileService.GetAllFiles()
+                FileModel = new FileViewModel
+                {
+                    FileAuthors = await _fileService.GetAllFilesWithAuthors()
+                }
             };
+
+
             return View(model);
         }
 
@@ -42,9 +47,12 @@ namespace Library.WebUI.Controllers
                 },
                 CategoryModel = new CategoryViewModel
                 {
-                    CategoryList = await _categoryService.GetAll()
+                    CategoryList = await _categoryService.GetAll(),
+                    
+
                 }
             };
+            model.CategoryModel.Category =  new SuccessDataResult<Category>(model.CategoryModel.CategoryList.Data.FirstOrDefault(p => p.Id == id));
 
             return View(model);
         }
@@ -60,27 +68,36 @@ namespace Library.WebUI.Controllers
         }
 
 
-        public async Task<IActionResult> SearchByName(FileViewModel data)
+        public async Task<IActionResult> SearchByName(CategoryFileViewModel data)
         {
             var result = await _fileService.GetAllFiles();
-            var filteredData = result.Data.Where(p => p.Name.ToLower().Contains(data.Name.ToLower())).ToList();
-            FileViewModel model = new FileViewModel
+            var filteredData = result.Data.Where(p => p.Name.ToLower().Contains(data.FileModel.Name.ToLower())).ToList();
+          
+            CategoryFileViewModel model = new CategoryFileViewModel
             {
-                Files = new SuccessDataResult<List<File>>(filteredData)
+                FileModel = new FileViewModel
+                {
+                    Files = new SuccessDataResult<List<File>>(filteredData)
+                }
             };
             return View(model);
         }
 
-        public async Task<IActionResult> ShowFileteredFiles(int id)
+        public async Task<IActionResult> ShowFilteredFiles(int id)
         {
-            FileViewModel viewModel = new FileViewModel();
+            CategoryFileViewModel model = new CategoryFileViewModel
+            {
+                FileModel = new FileViewModel
+                {
+                    Files = await _fileService.GetFilesByFileTypeId(id)
+                }
+            };
 
-            viewModel.Files = await _fileService.GetFilesByFileTypeId(id);
             var fileTypes = await _fileTypeService.GetAllFileTypes();
 
             ViewBag.AllFileTypes = fileTypes.Data;
 
-            return View(viewModel);
+            return View(model);
         }
 
         public async Task<IActionResult> ShowFileInfoFileType(int id)

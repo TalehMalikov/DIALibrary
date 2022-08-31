@@ -32,18 +32,6 @@ namespace Library.WebUI.Controllers
                 _stringLocalizer[
                         "Azərbaycan Respublikası Prezidenti yanında Dövlət İdarəçilik Akademiyası Elektron Kitabxanası"]
                     .Value;
-            ViewData["E-Kitabxana"] = _stringLocalizer["E-Kitabxana"].Value;
-            ViewData["Giriş"] = _stringLocalizer["Giriş"].Value;
-            ViewData["E-Kitablar"] = _stringLocalizer["E-Kitablar"].Value;
-            ViewData["Yeniliklər"] = _stringLocalizer["Yeniliklər"].Value;
-            ViewData["Ümumi məlumat"] = _stringLocalizer["Ümumi məlumat"].Value;
-            ViewData["Digər kitabxanalar"] = _stringLocalizer["Digər kitabxanalar"].Value;
-            ViewData["Ana səhifə"] = _stringLocalizer["Ana səhifə"].Value;
-            ViewData["Bizim kitabxana"] = _stringLocalizer["Bizim kitabxana"].Value;
-            ViewData["E-Resurslar"] = _stringLocalizer["E-Resurslar"].Value;
-            ViewData["E-Kataloq"] = _stringLocalizer["E-Kataloq"].Value;
-            ViewData["Giriş"] = _stringLocalizer["Giriş"].Value;
-            ViewData["Şəxsi kabinet"] = _stringLocalizer["Şəxsi kabinet"].Value;
             #endregion
 
             var files = await _categoryService.GetNewAddedBooks();

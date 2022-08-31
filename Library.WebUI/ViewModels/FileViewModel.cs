@@ -8,6 +8,7 @@ namespace Library.WebUI.Models
     {
         public DataResult<List<File>> Files { get; set; }
         public DataResult<FileAuthorDto> FileAuthor { get; set; }
+        public DataResult<List<FileAuthorDto>> FileAuthors { get; set; }
         public string Name { get; set; }
     }
 }
