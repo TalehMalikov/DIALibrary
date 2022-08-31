@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Localization
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Microsoft.AspNetCore.Mvc.TagHelpers
+@using System.Text
 @inject IViewLocalizer Localizer
 @{
     var requestCulture = Context.Features.Get<IRequestCultureFeature>();
@@ -100,21 +101,31 @@
                 <div class="swiper">
                     <div class="swiper-wrapper">
                         @{
-                            var result = Model.NewAddedBookList.Data;
-
-                            @for (int k = 0; k < result.Count; k++)
+                            @foreach (var item in @Model.NewAddedFileAuthorList)
                             {
                                 <div class="swiper-slide">
                                     <a href="#" class="card-book ">
-                                        <img width="140" height="180" src="@Url.Action("Picture","Resources" ,new { name = result[k].PhotoPath })">
+                                        <img width="140" height="180" src="@Url.Action("Picture","Resources" ,new { name = item.File.PhotoPath })">
                                     </a>
                                     <div class="hover-content shadow-sm">
-                                        <h6><span class="text-bold">Məhəmmədoğlu Yusif.</span> İsmayıllının Zəfər Şəhidləri.- Bakı, 2021.- 224 s.</h6>
+                                        <h6>
+                                        <span class="text-bold">
+                                            @{
+                                                var builder = new StringBuilder();
+                                                foreach (var m in item.Authors)
+                                                {
+                                                    builder.Append(m.FirstName);
+                                                    builder.Append(" ");
+                                                    builder.Append(m.LastName);
+                                                    builder.Append(", ");
+                                                    <a>@builder.ToString().Trim().Trim(',')</a>
+                                                }
+                                            }.
+                                        </span> @item.File.Name.- @item.File.PublicationDate.Year. - @item.File.PageNumber s.</h6>
                                     </div>
                                 </div>
                             }
                         }
-
                     </div>
                 </div>
 

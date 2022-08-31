@@ -1,6 +1,6 @@
 ﻿using Library.Core.Domain.Dtos;
 using Library.Core.Result.Concrete;
-using Library.Entities.Concrete;
+using Library.Entities.Dtos;
 using File = Library.Entities.Concrete.File;
 
 namespace Library.WebUI.Models
@@ -9,6 +9,6 @@ namespace Library.WebUI.Models
     {
         public AccountLoginDto LoginModel { get; set; }
 
-        public DataResult<List<File>> NewAddedBookList { get; set; }
+        public List<FileAuthorDto> NewAddedFileAuthorList { get; set; }
     }
 }
