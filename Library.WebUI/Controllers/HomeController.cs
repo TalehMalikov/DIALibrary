@@ -26,13 +26,7 @@ namespace Library.WebUI.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            #region ViewData
-
-            ViewData["Azərbaycan Respublikası Prezidenti yanında Dövlət İdarəçilik Akademiyası Elektron Kitabxanası"] =
-                _stringLocalizer[
-                        "Azərbaycan Respublikası Prezidenti yanında Dövlət İdarəçilik Akademiyası Elektron Kitabxanası"]
-                    .Value;
-            #endregion
+            
 
             var files = await _categoryService.GetNewAddedBooks();
 
