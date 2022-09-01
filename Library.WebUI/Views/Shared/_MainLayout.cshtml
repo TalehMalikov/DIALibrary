@@ -2,11 +2,11 @@
 @using Microsoft.AspNetCore.Localization
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using System.Text
-@inject IViewLocalizer Localizer
+@*@inject IViewLocalizer Localizer
 @{
     var requestCulture = Context.Features.Get<IRequestCultureFeature>();
 
-}
+}*@
 <!DOCTYPE html>
 <html lang="en">
 
@@ -54,7 +54,7 @@
                         </div>
                         <li class="nav-item mx-md-1">
                             <div>
-                                <select class="form-select-sm text-bold p-1" onchange="SetCulture(this.value)" asp-for="@requestCulture.RequestCulture.UICulture.Name">
+                                <select class="form-select-sm text-bold p-1" onchange="SetCulture(this.value)" @*asp-for="@requestCulture.RequestCulture.UICulture.Name"*@>
                                     <option class="text-bold" value="az-Latn-AZ" selected >Azərbaycan</option>
                                     <option class="text-bold" value="ru-RU">Русский</option>
                                     <option class="text-bold" value="en-US">English</option>
