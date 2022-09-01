@@ -141,7 +141,7 @@ namespace Library.WebUI.Controllers
 
         public async Task<IActionResult> ECatalogFilter(ECatalogViewModel viewModel)
         {
-            ool isFiltered = false;
+            bool isFiltered = false;
             var filteredFiles = new List<File>();
             if (viewModel.SelectedFileTypeId != 0 && !isFiltered)
             {
