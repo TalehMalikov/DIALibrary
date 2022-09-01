@@ -51,5 +51,10 @@ namespace Library.WebUI.Controllers
 
             return View(authViewModel);
         }
+
+        public IActionResult NotFound()
+        {
+            return View();
+        }
     }
 }

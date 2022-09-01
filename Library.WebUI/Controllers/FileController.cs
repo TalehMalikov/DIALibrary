@@ -57,7 +57,7 @@ namespace Library.WebUI.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> ShowFileInfo(int id)
+        /*public async Task<IActionResult> ShowFileInfo(int id)
         {
             FileViewModel model = new FileViewModel
             {
@@ -65,8 +65,21 @@ namespace Library.WebUI.Controllers
             };
 
             return View(model);
-        }
+        }*/
 
+        public async Task<IActionResult> ShowFileInfo(string name)
+        {
+            var result = await _fileService.GetFileIdByName(name);
+            if(result!=null)
+            {
+                FileViewModel model = new FileViewModel
+                {
+                    FileAuthor = await _fileService.GetFileWithAuthors(result.Data)
+                };
+                return View(model);
+            }
+            return RedirectToAction("NotFound","Home");
+        }
 
         public async Task<IActionResult> SearchByName(CategoryFileViewModel data)
         {

@@ -113,7 +113,6 @@ namespace Library.WebAPI.Controllers
 
             return BadRequest(result);
         }
-
         [HttpGet("getallfileswithauthors")]
         public IActionResult GetAllFilesWithAuthors()
         {

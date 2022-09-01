@@ -51,5 +51,14 @@ namespace Library.WebUI.Services.Concrete
             var result = await client.GetJsonAsync<DataResult<List<FileAuthorDto>>>(BaseUrl + "File/getallfileswithauthors");
             return result;
         }
+
+        public async Task<DataResult<int>> GetFileIdByName(string name)
+        {
+            var files = await GetAllFiles();
+            var result = files.Data.Where(f => f.Name == name).ToList();
+            if (result.Count == 1)
+                return new SuccessDataResult<int>(result[0].Id);
+            return null;
+        }
     }
 }

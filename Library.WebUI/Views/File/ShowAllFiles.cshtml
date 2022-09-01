@@ -39,7 +39,7 @@
                 @for (int k = 0; k < files.Count; k++)
                 {
                     <div class="col-lg-3 col-md-6 col-sm-12 py-3">
-                        <a class="book" asp-route-id="@files[k].File.Id" asp-controller="File" asp-action="ShowFileInfo">
+                        <a class="book" asp-route-name="@files[k].File.Name" asp-controller="File" asp-action="ShowFileInfo">
                             <img src="@Url.Action("Picture","Resources",new{name = files[k].File.PhotoPath})" width="180" height="250">
                         </a>
                     </div>
