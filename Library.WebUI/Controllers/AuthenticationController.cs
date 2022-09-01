@@ -34,6 +34,7 @@ namespace Library.WebUI.Controllers
                 HttpContext.Session.SetString("AccessToken",result.Data.Token);
                 HttpContext.Session.SetString("Email",loginViewModel.LoginModel.Email);
             }
+            // hesab adı və ya parol səhvdir mesajini modala göndər
             return RedirectToAction("Index", "Home");
         }
     }
