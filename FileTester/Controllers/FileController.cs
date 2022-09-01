@@ -155,3 +155,24 @@ namespace FileTester.Controllers
 
     }
 }
+/*
+ * public static string FilePath(IFormFile file,string virtualDirectory)
+        {
+            FileInfo fileInfo = new FileInfo(file.FileName);
+            string fileExtension = fileInfo.Extension;
+
+            string path = Environment.CurrentDirectory + @"\wwwroot";
+            
+
+            string result = $@"{path}\{virtualDirectory.Replace("/",@"\")}";
+            return result;
+        }
+
+        public static string FileVirtualPath(IFormFile file)
+        {
+            FileInfo fileInfo = new FileInfo(file.FileName);
+            string fileExtension = fileInfo.Extension;
+            string fileName = Guid.NewGuid().ToString();
+            return "Uploads/" + fileName+fileExtension;
+        }
+ */

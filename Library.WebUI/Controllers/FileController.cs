@@ -48,11 +48,11 @@ namespace Library.WebUI.Controllers
                 CategoryModel = new CategoryViewModel
                 {
                     CategoryList = await _categoryService.GetAll(),
-                    
+
 
                 }
             };
-            model.CategoryModel.Category =  new SuccessDataResult<Category>(model.CategoryModel.CategoryList.Data.FirstOrDefault(p => p.Id == id));
+            model.CategoryModel.Category = new SuccessDataResult<Category>(model.CategoryModel.CategoryList.Data.FirstOrDefault(p => p.Id == id));
 
             return View(model);
         }
@@ -72,7 +72,7 @@ namespace Library.WebUI.Controllers
         {
             var result = await _fileService.GetAllFiles();
             var filteredData = result.Data.Where(p => p.Name.ToLower().Contains(data.FileModel.Name.ToLower())).ToList();
-          
+
             CategoryFileViewModel model = new CategoryFileViewModel
             {
                 FileModel = new FileViewModel
@@ -115,6 +115,20 @@ namespace Library.WebUI.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> ShowOurPublications()
+        {
+            var data = await _fileService.GetAllFilesWithAuthors();
+            var result = data.Data.Where(p => p.File.EditionStatus == true).ToList();
+            var model = new CategoryFileViewModel
+            {
+                FileModel = new FileViewModel
+                {
+                    FileAuthors = new SuccessDataResult<List<FileAuthorDto>>(result)
+                }
+            };
+            return View(model);
+        }
+
         #region Catalog
         public async Task<IActionResult> ECatalogIndex()
         {
@@ -146,7 +160,7 @@ namespace Library.WebUI.Controllers
             if (viewModel.SelectedFileTypeId != 0 && !isFiltered)
             {
                 var result = await _fileService.GetFilesByFileTypeId(viewModel.SelectedFileTypeId);
-                filteredFiles = result.Data.Where(f=> f.ExistingStatus == true).ToList();
+                filteredFiles = result.Data.Where(f => f.ExistingStatus == true).ToList();
                 isFiltered = true;
             }
             if (viewModel.SelectedCategoryId != 0)
@@ -154,31 +168,31 @@ namespace Library.WebUI.Controllers
                 if (!isFiltered)
                 {
                     var result = await _fileService.GetAllFiles();
-                    filteredFiles = result.Data.Where(f => f.Category.Id == viewModel.SelectedCategoryId && f.ExistingStatus==true).ToList();
+                    filteredFiles = result.Data.Where(f => f.Category.Id == viewModel.SelectedCategoryId && f.ExistingStatus == true).ToList();
                 }
-                else if(filteredFiles!=null)
+                else if (filteredFiles != null)
                 {
                     filteredFiles = filteredFiles.Where(f => f.Category.Id == viewModel.SelectedCategoryId).ToList();
                 }
             }
-            if(viewModel.BookFilter != null)
+            if (viewModel.BookFilter != null)
             {
-                if(!isFiltered)
+                if (!isFiltered)
                 {
                     var result = await _fileService.GetAllFiles();
-                    filteredFiles = result.Data.Where(f => f.Name.Contains(viewModel.BookFilter) && f.ExistingStatus==true).ToList();
+                    filteredFiles = result.Data.Where(f => f.Name.Contains(viewModel.BookFilter) && f.ExistingStatus == true).ToList();
                 }
                 else if (filteredFiles != null)
                 {
                     filteredFiles = filteredFiles.Where(f => f.Name.Contains(viewModel.BookFilter)).ToList();
                 }
             }
-            if(viewModel.PublicationYearMin!=0)
+            if (viewModel.PublicationYearMin != 0)
             {
-                if(!isFiltered)
+                if (!isFiltered)
                 {
                     var result = await _fileService.GetAllFiles();
-                    filteredFiles = result.Data.Where(f=> f.PublicationDate.Year>=viewModel.PublicationYearMin).ToList();
+                    filteredFiles = result.Data.Where(f => f.PublicationDate.Year >= viewModel.PublicationYearMin).ToList();
                 }
                 else if (filteredFiles != null)
                 {
@@ -215,7 +229,7 @@ namespace Library.WebUI.Controllers
                     }
                 }
             }
-            if(filteredFileAuthors.Count==0)
+            if (filteredFileAuthors.Count == 0)
             {
                 var fileAuthor = await _fileService.GetFileWithAuthors(filteredFiles[0].Id);
                 foreach (var file in filteredFiles)
@@ -224,7 +238,7 @@ namespace Library.WebUI.Controllers
                     filteredFileAuthors?.Add(fileAuthor.Data);
                 }
             }
-            
+
             viewModel.FilteredFileAuthors = filteredFileAuthors;
 
             var fileTypeList = await _fileTypeService.GetAllFileTypes();
@@ -256,5 +270,6 @@ namespace Library.WebUI.Controllers
             return View(model);
         }
         #endregion
+
     }
 }
