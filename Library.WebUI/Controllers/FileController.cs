@@ -94,7 +94,6 @@ namespace Library.WebUI.Controllers
             };
 
             var fileTypes = await _fileTypeService.GetAllFileTypes();
-
             ViewBag.AllFileTypes = fileTypes.Data;
 
             return View(model);
@@ -116,6 +115,7 @@ namespace Library.WebUI.Controllers
             return View(model);
         }
 
+        #region Catalog
         public async Task<IActionResult> ECatalogIndex()
         {
             ECatalogViewModel viewModel = new ECatalogViewModel();
@@ -246,6 +246,15 @@ namespace Library.WebUI.Controllers
             return View(viewModel);
         }
 
+        public async Task<IActionResult> ShowFileInfoCatalog(int id)
+        {
+            FileViewModel model = new FileViewModel
+            {
+                FileAuthor = await _fileService.GetFileWithAuthors(id)
+            };
 
+            return View(model);
+        }
+        #endregion
     }
 }

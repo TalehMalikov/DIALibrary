@@ -1,6 +1,7 @@
 ﻿using Library.WebUI.Services.Abstract;
 using Library.WebUI.Systems;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using System.Text;
 
 namespace Library.WebUI.Controllers
@@ -32,7 +33,7 @@ namespace Library.WebUI.Controllers
         }
 
         [HttpGet]
-        public IActionResult File(string name)
+        public IActionResult OpenFile(string name)
         {
             try
             {
@@ -40,7 +41,7 @@ namespace Library.WebUI.Controllers
 
                 var content = System.IO.File.ReadAllBytes(fullPath);
 
-                return File(content, "pdf/*");
+                return File(content, "application/pdf");
             }
             catch
             {
