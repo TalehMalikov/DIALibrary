@@ -15,12 +15,17 @@ namespace Library.WebUI.Controllers
         private readonly IFileService _fileService;
         private readonly ICategoryService _categoryService;
         private readonly IFileTypeService _fileTypeService;
+        private readonly IEducationalProgramService _educationalProgramService;
+        private readonly IAccountService _accountService;
 
-        public FileController(IFileService fileService, ICategoryService categoryService, IFileTypeService fileTypeService)
+        public FileController(IFileService fileService, ICategoryService categoryService, IFileTypeService fileTypeService,
+                                IEducationalProgramService educationalProgramService, IAccountService accountService)
         {
             _fileService = fileService;
             _categoryService = categoryService;
             _fileTypeService = fileTypeService;
+            _educationalProgramService = educationalProgramService;
+            _accountService = accountService;
         }
 
         public async Task<IActionResult> ShowAllFiles()
@@ -32,8 +37,6 @@ namespace Library.WebUI.Controllers
                     FileAuthors = await _fileService.GetAllFilesWithAuthors()
                 }
             };
-
-
             return View(model);
         }
 
@@ -48,28 +51,19 @@ namespace Library.WebUI.Controllers
                 CategoryModel = new CategoryViewModel
                 {
                     CategoryList = await _categoryService.GetAll(),
-
-
                 }
             };
-            model.CategoryModel.Category = new SuccessDataResult<Category>(model.CategoryModel.CategoryList.Data.FirstOrDefault(p => p.Id == id));
-
-            return View(model);
+            if (model.FileModel.Files.Success)
+            {
+                model.CategoryModel.Category = new SuccessDataResult<Category>(model.CategoryModel.CategoryList.Data.FirstOrDefault(p => p.Id == id));
+                return View(model);
+            }
+            return RedirectToAction("NotFound", "Home");
         }
 
-        /*public async Task<IActionResult> ShowFileInfo(int id)
+        public async Task<IActionResult> ShowFileInfo(string guid)
         {
-            FileViewModel model = new FileViewModel
-            {
-                FileAuthor = await _fileService.GetFileWithAuthors(id)
-            };
-
-            return View(model);
-        }*/
-
-        public async Task<IActionResult> ShowFileInfo(string name)
-        {
-            var result = await _fileService.GetFileIdByName(name);
+            var result = await _fileService.GetFileIdByGUID(guid);
             if(result!=null)
             {
                 FileViewModel model = new FileViewModel
@@ -108,18 +102,21 @@ namespace Library.WebUI.Controllers
 
             var fileTypes = await _fileTypeService.GetAllFileTypes();
             ViewBag.AllFileTypes = fileTypes.Data;
-
             return View(model);
         }
 
-        public async Task<IActionResult> ShowFileInfoFileType(int id)
+        public async Task<IActionResult> ShowFileInfoFileType(string guid)
         {
-            FileViewModel model = new FileViewModel
+            var result = await _fileService.GetFileIdByGUID(guid);
+            if (result != null)
             {
-                FileAuthor = await _fileService.GetFileWithAuthors(id)
-            };
-
-            return View(model);
+                FileViewModel model = new FileViewModel
+                {
+                    FileAuthor = await _fileService.GetFileWithAuthors(result.Data)
+                };
+                return View(model);
+            }
+            return RedirectToAction("NotFound", "Home");
         }
 
         public async Task<IActionResult> FilterByCataloq()
@@ -128,6 +125,7 @@ namespace Library.WebUI.Controllers
             return View(model);
         }
 
+        #region Publications
         public async Task<IActionResult> ShowOurPublications()
         {
             var data = await _fileService.GetAllFilesWithAuthors();
@@ -141,6 +139,7 @@ namespace Library.WebUI.Controllers
             };
             return View(model);
         }
+        #endregion
 
         #region Catalog
         public async Task<IActionResult> ECatalogIndex()
@@ -273,14 +272,67 @@ namespace Library.WebUI.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> ShowFileInfoCatalog(int id)
+        public async Task<IActionResult> ShowFileInfoCatalog(string guid)
         {
-            FileViewModel model = new FileViewModel
+            var result = await _fileService.GetFileIdByGUID(guid);
+            if (result != null)
             {
-                FileAuthor = await _fileService.GetFileWithAuthors(id)
-            };
+                FileViewModel model = new FileViewModel
+                {
+                    FileAuthor = await _fileService.GetFileWithAuthors(result.Data)
+                };
+                return View(model);
+            }
+            return RedirectToAction("NotFound", "Home");
+        }
+        #endregion
 
-            return View(model);
+        #region Educational Programs
+        public async Task<IActionResult> EducationalPrograms()
+        {
+            var accessToken = HttpContext.Session.GetString("AccessToken");
+            var email = HttpContext.Session.GetString("Email");
+
+            var educationalPrograms = await _educationalProgramService.GetAll(accessToken);
+
+            var allFileTypes = await _fileTypeService.GetAllFileTypes();
+            ViewBag.AllFileTypes = allFileTypes.Data;
+
+            var account = await _accountService.GetByEmail(accessToken, email);
+            AccountViewModel viewModel = new AccountViewModel()
+            {
+                EducationalProgramViewModel = new EducationalProgramViewModel()
+                {
+                    EducationalPrograms = educationalPrograms.Data
+                },
+                Account =account.Data
+            };
+            return View(viewModel);
+        }
+
+        public async Task<IActionResult> ShowEducationalProgramInfo(string guid)
+        {
+            var accessToken = HttpContext.Session.GetString("AccessToken");
+            var email = HttpContext.Session.GetString("Email");
+            var account = await _accountService.GetByEmail(accessToken, email);
+
+            var allFileTypes = await _fileTypeService.GetAllFileTypes();
+            ViewBag.AllFileTypes = allFileTypes.Data;
+
+            var educationalProgram = await _educationalProgramService.GetByGUID(accessToken , guid);
+            if (educationalProgram != null)
+            {
+                AccountViewModel viewModel = new AccountViewModel()
+                {
+                    EducationalProgramViewModel = new EducationalProgramViewModel()
+                    {
+                        EducationalProgram = educationalProgram.Data
+                    },
+                    Account = account.Data
+                };
+                return View(viewModel);
+            }
+            return RedirectToAction("NotFound", "Home");
         }
         #endregion
 

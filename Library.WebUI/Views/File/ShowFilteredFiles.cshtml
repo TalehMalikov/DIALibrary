@@ -27,7 +27,7 @@
                     @foreach (var item in Model.FileModel.Files.Data)
                     {
                         <div class="book-div py-4">
-                            <a asp-controller="File" asp-action="ShowFileInfoFileType" asp-route-id="@item.Id">
+                            <a asp-controller="File" asp-action="ShowFileInfoFileType" asp-route-guid="@item.GUID">
                                 <img src="@Url.Action("Picture","Resources", new{ name = item.PhotoPath})" class="result-img">
                             </a>
                             <div class="book-info d-flex flex-column px-4 ">

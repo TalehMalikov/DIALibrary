@@ -12,6 +12,7 @@ namespace Library.Entities.Concrete
         public Specialty Specialty { get; set; }
         public DateTime ProgramDate { get; set; }
         public int EducationTime { get; set; }
+        public string GUID { get; set; }
 
     }
 }

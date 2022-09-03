@@ -52,10 +52,10 @@ namespace Library.WebUI.Services.Concrete
             return result;
         }
 
-        public async Task<DataResult<int>> GetFileIdByName(string name)
+        public async Task<DataResult<int>> GetFileIdByGUID(string guid)
         {
             var files = await GetAllFiles();
-            var result = files.Data.Where(f => f.Name == name).ToList();
+            var result = files.Data.Where(f => f.GUID == guid).ToList();
             if (result.Count == 1)
                 return new SuccessDataResult<int>(result[0].Id);
             return null;

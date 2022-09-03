@@ -1,0 +1,74 @@
+﻿@using System.Text
+@using Library.WebUI.ViewModels
+@inject IHttpContextAccessor HttpContextAccessor
+@model AccountViewModel
+@{
+    ViewData["Title"] = "GetById";
+    Layout = "_PrivateOfficeLayout";
+}
+    <section id="bookread" class="py-4">
+        <div class="container-lg">
+            @{
+            var educationalProgram = Model.EducationalProgramViewModel.EducationalProgram;
+            <div class="bookread">
+
+                <h3>@educationalProgram.Name</h3>
+                <hr>
+                <div class="row">
+                    <div class="col-lg-4 col-sm-12 text-center py-3">
+                        <img src="~/images/ep.png" width="240px">
+                    </div>
+                    <div class="col-lg-8 col-sm-12 py-3">
+                        <table class="table table-bordered table-striped">
+
+                            <tbody>
+                                <tr>
+                                    <th class="col text-end">Adı</th>
+                                    <td class="col">@educationalProgram.Name</td>
+                                </tr>
+
+                                <tr>
+                                    <th class="col text-end">Təhsil səviyyəsi</th>
+                                    <td class="col">@educationalProgram.EducationLevel</td>
+                                </tr>
+
+                                <tr>
+                                    <th class="col text-end">Fakültə </th>
+                                    <td class="col">@educationalProgram.Specialty.Faculty.Name</td>
+                                </tr>
+
+                                <tr>
+                                    <th class="col text-end">İxtisas </th>
+                                    <td class="col">@educationalProgram.Specialty.Name</td>
+                                </tr>
+
+                                <tr>
+                                    <th class="col text-end">Tarixi</th>
+                                    <td class="col">"@educationalProgram.ProgramDate.Date</td>
+                                </tr>
+
+                                <tr>
+                                    <th class="col text-end">Müddəti</th>
+                                    <td class="col">@educationalProgram.EducationTime</td>
+                                </tr>
+
+                                <tr>
+                                    <th class="col text-end">QR Code</th>
+                                    <td class="col">
+                                        <img src="~/images/qr.png" alt="">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="buttons float-end py-2">
+                            <a target="_blank" href="@Url.Action("OpenFile","Resources",new {name=educationalProgram.FilePath})" class="btn btn-primary">Oxumaq</a>
+                            <a href="@Url.Action("DownloadFileFromFileSystem","Resources",new {id=educationalProgram.Id})" class="btn btn-danger" download>Yükləmək</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+

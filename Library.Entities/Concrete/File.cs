@@ -17,6 +17,7 @@ namespace Library.Entities.Concrete
         public DateTime PublicationDate { get; set; }
         public int PageNumber { get; set; }
         public string Description { get; set; }
+        public string GUID { get; set; }
         public DateTime LastModified { get; set; }
     }
 }

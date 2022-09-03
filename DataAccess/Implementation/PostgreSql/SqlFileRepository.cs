@@ -20,10 +20,10 @@ namespace Library.DataAccess.Implementation.PostgreSql
             connection.Open();
             string cmdString = "Insert Into Books(Name,CategoryId,OriginalLanguageId,LastModified,IsDeleted,ExistingStatus," +
                                "FileTypeId,EditionStatus,PublicationLanguageId,Description,PublisherName,PublicationDate," +
-                               "PhotoPath,FilePath,PageNumber)" +
+                               "PhotoPath,FilePath,PageNumber,GUID)" +
                                " Values(@name,@categoryId,@originalCategoryId,@lastModified,@isDeleted,@status,@fileTypeId," +
                                "@editionStatus,@publicationLanguageId,@description,@publisherName,@publicationDate,@photoPath," +
-                               "@filePath,@pageNumber)";
+                               "@filePath,@pageNumber,@guid)";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             command.Parameters.AddWithValue("@name", value.Name);
             command.Parameters.AddWithValue("@categoryId", value.Category.Id);
@@ -39,6 +39,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             command.Parameters.AddWithValue("@photoPath", value.PhotoPath);
             command.Parameters.AddWithValue("@filePath", value.FilePath);
             command.Parameters.AddWithValue("@pageNumber", value.PageNumber);
+            command.Parameters.AddWithValue("@guid", UniqueNameGenerator.UniqueFileNameGenerator(value.Name));
             return 1 == command.ExecuteNonQuery();
         }
 
@@ -62,7 +63,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
                                "originallanguageid,ol.name as originallanguagename," +
                                "files.lastmodified as filelastmodified,editionstatus," +
                                "filetypeid,filetypes.name as filetypename," +
-                               "photopath,publishername,pagenumber," +
+                               "photopath,publishername,pagenumber,guid," +
                                "publicationlanguageid, pl.name as publicationlanguagename," +
                                "publicationdate, description,filepath,existingstatus from files " +
                                "inner join categories on categories.id = categoryid " +
@@ -88,7 +89,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
                                "originallanguageid,ol.name as originallanguagename," +
                                "files.lastmodified as filelastmodified,editionstatus," +
                                "filetypeid,filetypes.name as filetypename," +
-                               "photopath,publishername,pagenumber," +
+                               "photopath,publishername,pagenumber,guid," +
                                "publicationlanguageid, pl.name as publicationlanguagename," +
                                "publicationdate, description,filepath,existingstatus from files " +
                                "inner join categories on categories.id = categoryid " +
@@ -112,7 +113,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
                                "originallanguageid,ol.name as originallanguagename," +
                                "files.lastmodified as filelastmodified,editionstatus," +
                                "filetypeid,filetypes.name as filetypename," +
-                               "photopath,publishername,pagenumber," +
+                               "photopath,publishername,pagenumber,guid," +
                                "publicationlanguageid, pl.name as publicationlanguagename," +
                                "publicationdate, description,filepath,existingstatus from files " +
                                "inner join categories on categories.id = categoryid " +
@@ -138,7 +139,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
                                "originallanguageid,ol.name as originallanguagename," +
                                "files.lastmodified as filelastmodified,editionstatus," +
                                "filetypeid,filetypes.name as filetypename," +
-                               "photopath,publishername,pagenumber," +
+                               "photopath,publishername,pagenumber,guid," +
                                "publicationlanguageid, pl.name as publicationlanguagename," +
                                "publicationdate, description,filepath,existingstatus from files " +
                                "inner join categories on categories.id = categoryid " +
@@ -158,7 +159,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             connection.Open();
             string cmdString =
                 "Update Books Set Name=@name,CategoryId=@categoryId," +
-                "OriginalLanguageId=@originalLanguageId,LastModified=@lastModified," +
+                "OriginalLanguageId=@originalLanguageId,LastModified=@lastModified,GUID=@guid," +
                 "ExistingStatus=@existingStatus,FileTypeId=@fileTypeId,EditionStatus=@editionStatus," +
                 "PublicationLanguageId=@publicationLanguageId,Description=@description,PublisherName=@publisherName," +
                 "PublicationDate=@publicationDate,PhotoPath=@photoPath,FilePath=@filePath,PageNumber=@pageNumber where Id=@id";
@@ -178,6 +179,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             command.Parameters.AddWithValue("@photoPath", value.PhotoPath);
             command.Parameters.AddWithValue("@filePath", value.FilePath);
             command.Parameters.AddWithValue("@pageNumber", value.PageNumber);
+            command.Parameters.AddWithValue("@guid", UniqueNameGenerator.UniqueFileNameGenerator(value.Name));
             return 1 == command.ExecuteNonQuery();
         }
 
@@ -215,6 +217,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
                 PublisherName= reader.Get<string>("PublisherName"),
                 PageNumber=reader.Get<int>("PageNumber"),
                 EditionStatus = reader.Get<bool>("EditionStatus"),
+                GUID = reader.Get<string>("GUID"),
                 ExistingStatus=reader.Get<bool>("ExistingStatus"),
                 LastModified = reader.Get<DateTime>("FileLastModified")
             };

@@ -88,7 +88,7 @@
                 @for (int k = 0; k < result.Count; k++)
                 {
                     <div class="swiper-slide">
-                        <a asp-action="ShowFileInfo" asp-controller="File" asp-route-name ="@result[k].Name" class="card-book d-flex flex-column align-items-center">
+                        <a asp-action="ShowFileInfo" asp-controller="File" asp-route-guid ="@result[k].GUID" class="card-book d-flex flex-column align-items-center">
                             <img width="150" height="200" src="@Url.Action("Picture","Resources", new { name = result[k].PhotoPath })">
                         </a>
                     </div>

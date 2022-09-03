@@ -1,6 +1,19 @@
-1. Log check
+﻿1. Log check
 2. Localization
 3. Notification(Optional)
 4. Last modified by when
 5. Last modified by whom (optional)
 6. <<Confirm form resubmission>>
+
+
+Əhməd: Şifrəmi unutdum
+
+1)ex s, oth lib
+2)e-kataloq , validation(client-side)
+3)login olmayanda xeta atmasin-error msj versin
+4)e-resurslara yuxarı say atmaq(opt)
+5)navbar düsün(opt)
+6)qr code
+7) Yüzü ilə qoşulub şəxsi kabinetə baxmaq
+
+Attestat və tibbi arayışın surətini bir pdf-ə əlavə edib göndərin.

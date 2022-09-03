@@ -8,17 +8,21 @@ namespace Library.WebUI.Services.Concrete
 {
     public class EducationalProgramService : BaseService, IEducationalProgramService
     {
-        public async Task<DataResult<List<EducationalProgram>>> GetAll(string token)
+        public async Task<DataResult<List<EducationalProgram>>> GetAll(string accessToken)
         {
             using HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             var result = await client.GetJsonAsync<DataResult<List<EducationalProgram>>>(BaseUrl+"EducationalProgram/getall");
             return result;
         }
 
-        public Task<DataResult<EducationalProgram>> GetById(int id, string token)
+        public async Task<DataResult<EducationalProgram>> GetByGUID(string accessToken, string guid)
         {
-            throw new NotImplementedException();
+            var educationalPrograms = await GetAll(accessToken);
+            var result = educationalPrograms.Data.Where(f => f.GUID == guid).ToList();
+            if (result.Count == 1)
+                return new SuccessDataResult<EducationalProgram>(result[0]);
+            return null;
         }
     }
 }

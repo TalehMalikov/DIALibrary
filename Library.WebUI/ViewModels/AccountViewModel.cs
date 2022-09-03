@@ -11,8 +11,6 @@ namespace Library.WebUI.ViewModels
 
         public bool SelectedGender { get; set; }
 
-/*        public Faculty SelectedFaculty { get; set; }
-
-        public SelectList FacultySelectList { get; set; }*/
+        public EducationalProgramViewModel EducationalProgramViewModel { get; set; }
     }
 }

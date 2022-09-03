@@ -1,4 +1,5 @@
 ﻿using Library.Core.Result.Concrete;
+using Library.Entities.Concrete;
 using Library.Entities.Dtos;
 using File = Library.Entities.Concrete.File;
 

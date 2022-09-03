@@ -11,7 +11,7 @@
                 @foreach (var fileAuthor in @Model.FilteredFileAuthors)
                 {
                     <div class="book-div py-4">
-                        <a asp-controller="File" asp-action="ShowFileInfoCatalog" asp-route-id="@fileAuthor.File.Id">
+                        <a asp-controller="File" asp-action="ShowFileInfoCatalog" asp-route-guid="@fileAuthor.File.GUID">
                             <img src="@Url.Action("Picture","Resources",new {name = @fileAuthor.File.PhotoPath})" class="result-img">
                         </a>
                         <div class="book-info d-flex flex-column px-4 ">

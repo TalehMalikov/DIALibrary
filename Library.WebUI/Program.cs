@@ -25,6 +25,7 @@ builder.Services.AddSingleton<ISpecialtyService, SpecialtyService>();
 builder.Services.AddSingleton<IActivityService, ActivityService>();
 builder.Services.AddSingleton<IUserService, UserService>();
 builder.Services.AddSingleton<IFileTypeService, FileTypeService>();
+builder.Services.AddSingleton<IEducationalProgramService, EducationalProgramService>();
 #endregion
 
 builder.Services.AddLocalization(p => { p.ResourcesPath = "Resources"; });
