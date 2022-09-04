@@ -18,5 +18,12 @@ namespace Library.WebUI.Services.Concrete
             var result = await client.PostJsonAsync<DataResult<LoginResponseDto>, AccountLoginDto>(BaseUrl + "Authentication/login", value);
             return result;
         }
+
+        public async Task<Result> ResetPassword()
+        {
+            //using HttpClient client = new HttpClient();
+            //var result = client.PutJsonAsync().
+            return null;
+        }
     }
 }

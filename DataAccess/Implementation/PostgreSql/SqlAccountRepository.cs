@@ -5,7 +5,7 @@ using Npgsql;
 
 namespace Library.DataAccess.Implementation.PostgreSql
 {
-    public class SqlAccountRepository :  IAccountRepository
+    public class SqlAccountRepository : IAccountRepository
     {
         private readonly string _connectionString;
         public SqlAccountRepository(string connectionString)

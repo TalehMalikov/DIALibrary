@@ -6,5 +6,6 @@ namespace Library.WebUI.Services.Abstract
     public interface IAuthService
     {
         Task<DataResult<LoginResponseDto>> Login(AccountLoginDto value);
+        Task<Result> ResetPassword();
     }
 }
