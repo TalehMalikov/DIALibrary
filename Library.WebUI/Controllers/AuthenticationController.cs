@@ -11,14 +11,9 @@ namespace Library.WebUI.Controllers
     public class AuthenticationController : Controller
     {
         private readonly IAuthService _authService;
-        private readonly ICategoryService _categoryService;
-        private readonly IFileTypeService _fileTypeService;
-
-        public AuthenticationController(IAuthService authService, ICategoryService categoryService,IFileTypeService fileTypeService)
+        public AuthenticationController(IAuthService authService)
         {
             _authService = authService;
-            _categoryService = categoryService;
-            _fileTypeService = fileTypeService;
         }
 
         [HttpPost]

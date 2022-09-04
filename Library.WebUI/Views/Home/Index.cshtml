@@ -22,7 +22,7 @@
                     <li><a class="dropdown-item" href="@Url.Action("MoreInfo","OurLibrary")">Ümumi məlumat</a></li>
                     <li><a class="dropdown-item" href="@Url.Action("ExternalSource","OurLibrary")">Digər kitabxanalar</a></li>
                     <li><a class="dropdown-item" asp-controller="Activity" asp-action="Index">Yeniliklər</a></li>
-                    <li><a class="dropdown-item" asp-controller="File" asp-action="ShowOurPublications">Bizim nəşrlərimiz</a></li>
+                    
                 </ul>
             </div>
 
@@ -43,6 +43,7 @@
                             <li><a asp-controller="File" asp-action="ShowFilteredFiles" asp-route-id="@item.Id" class="dropdown-item">@item.Name</a></li>
                         }
                     </ul>
+                    <li><a class="dropdown-item" asp-controller="File" asp-action="ShowOurPublications">Bizim nəşrlərimiz</a></li>
                 </ul>
             </div>
 
