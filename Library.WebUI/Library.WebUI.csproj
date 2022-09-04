@@ -14,7 +14,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\images\qr.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Systems\SystemDefaults.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\images\qr.png" />
   </ItemGroup>
 
   <ItemGroup>

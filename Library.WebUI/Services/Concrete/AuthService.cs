@@ -7,6 +7,11 @@ namespace Library.WebUI.Services.Concrete
 {
     public class AuthService : BaseService, IAuthService
     {
+        private readonly IAccountService _accountService;
+        public AuthService(IAccountService accountService)
+        {
+            _accountService = accountService;
+        }
         public async Task<DataResult<LoginResponseDto>> Login(AccountLoginDto value)
         {
             using HttpClient client = new HttpClient();

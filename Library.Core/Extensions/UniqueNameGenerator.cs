@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Library.Core.Extensions
+﻿namespace Library.Core.Extensions
 {
     public static class UniqueNameGenerator
     {
@@ -16,10 +10,15 @@ namespace Library.Core.Extensions
         }
         /*public static string UniqueFilePathGenerator(IFormFile file)
         {
-            FileInfo fileInfo = new FileInfo(file.FileName);
-            string fileExtension = fileInfo.Extension;
-            string fileName = Guid.NewGuid().ToString();
-            return fileName + fileExtension;
+            string hashCode = String.Format("{0:X}", file.FileName.GetHashCode());
+            string filePath = Guid.NewGuid().ToString();
+            return filePath + "-" + hashCode;
+        }*/
+
+        /*public void QrCodeGenerator(string guid, string qrCodePhotoPath)
+        {
+            var MyQRWithLogo = QRCodeWriter.CreateQrCodeWithLogo(SystemDefaults.DefaultUrlForQRCode + guid,
+                "wwwroot/logo.png", 500).SaveAsPng(SystemDefaults.DefaultQRCodePhotoPath+ qrCodePhotoPath);
         }*/
     }
 }

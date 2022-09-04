@@ -13,12 +13,15 @@ namespace Library.WebUI.Controllers
         private readonly IAuthService _authService;
         private readonly ICategoryService _categoryService;
         private readonly IFileTypeService _fileTypeService;
+        private readonly IAccountService _accountService;
 
-        public AuthenticationController(IAuthService authService, ICategoryService categoryService,IFileTypeService fileTypeService)
+        public AuthenticationController(IAuthService authService, ICategoryService categoryService,IFileTypeService fileTypeService,
+                                        IAccountService accountService)
         {
             _authService = authService;
             _categoryService = categoryService;
             _fileTypeService = fileTypeService;
+            _accountService = accountService;
         }
 
         [HttpPost]
@@ -29,12 +32,15 @@ namespace Library.WebUI.Controllers
                 Email = loginViewModel.LoginModel.Email,
                 Password = loginViewModel.LoginModel.Password
             });
+
+            if(result==null)
+                return RedirectToAction("Index", "Home");
+
             if (result.Success)
             {
                 HttpContext.Session.SetString("AccessToken",result.Data.Token);
                 HttpContext.Session.SetString("Email",loginViewModel.LoginModel.Email);
             }
-            // hesab adı və ya parol səhvdir mesajini modala göndər
             return RedirectToAction("Index", "Home");
         }
     }

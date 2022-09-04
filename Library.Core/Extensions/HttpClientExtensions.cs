@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Library.Core.Domain.Dtos;
+using Library.Core.Result.Concrete;
+using Newtonsoft.Json;
 using System.Text;
 
 namespace Library.Core.Extensions
@@ -42,6 +44,8 @@ namespace Library.Core.Extensions
             };
             var response = await httpClient.SendAsync(request);
             var resultString = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+                return default(TResponse);
             var result = JsonConvert.DeserializeObject<TResponse>(resultString);
             return result;
         }

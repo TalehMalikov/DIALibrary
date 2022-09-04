@@ -37,15 +37,15 @@ namespace Library.WebAPI.Controllers
         {
             var account = _userManager.FindByNameAsync(model.Email).Result;
 
+            if (account == null)
+                return BadRequest("Username or password is incorrect");
+
             var roles = _accountService.GetRoles(account).Data.ToList();
 
             foreach (var role in roles)
             {
                 _roles.Add(role.Name);
             }
-
-            if (account == null)
-                return BadRequest("Username or password is incorrect");
 
             var signInResult = _signInManager.PasswordSignInAsync(account, model.Password, true, false).Result;
 
@@ -62,7 +62,6 @@ namespace Library.WebAPI.Controllers
             }));
             
         }
-
 
         [HttpPost]
         [Route("register")]

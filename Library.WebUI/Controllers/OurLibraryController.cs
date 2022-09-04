@@ -7,21 +7,30 @@ namespace Library.WebUI.Controllers
     public class OurLibraryController : Controller
     {
         private readonly IExternalSourceService _externalSourceService;
+        private readonly IFileTypeService _fileTypeService;
 
-        public OurLibraryController(IExternalSourceService externalSourceService)
+        public OurLibraryController(IExternalSourceService externalSourceService,IFileTypeService fileTypeService)
         {
             _externalSourceService = externalSourceService;
+            _fileTypeService = fileTypeService;
         }
 
-        public IActionResult MoreInfo()
+        public async Task<IActionResult> MoreInfo()
         {
+            var allFileTypes = await _fileTypeService.GetAllFileTypes();
+            ViewBag.AllFileTypes = allFileTypes.Data;
+
             return View();
         }
 
         public async Task<IActionResult>ExternalSource()
         {
+            var allFileTypes = await _fileTypeService.GetAllFileTypes();
+            ViewBag.AllFileTypes = allFileTypes.Data;
+
             ExternalSourceViewModel viewModel = new ExternalSourceViewModel();
             viewModel.ExternalSourceList = await _externalSourceService.GetAll();
+
             return View(viewModel);
         }
     }
