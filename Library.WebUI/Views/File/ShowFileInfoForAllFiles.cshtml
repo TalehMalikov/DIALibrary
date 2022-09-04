@@ -9,9 +9,12 @@
     <section id="navbottom">
 
         <div class="container-lg">
-            <nav class="navbar-down justify-content-between align-items-center">
-                <a class="btn btn-menu red" asp-controller="File" asp-action="ECatalogIndex">
-                    E-Kataloq
+            <nav class="navbar-down justify-content-start align-items-center">
+                <a class="btn btn-menu red" asp-action="Index" asp-controller="Home">
+                    Ana səhifə
+                </a>
+                <a class="btn btn-menu" asp-controller="File" asp-action="ShowAllFiles">
+                    Bütün Kitablar
                 </a>
             </nav>
         </div>
@@ -85,10 +88,20 @@
                                 </tr>
                             </tbody>
                         </table>
+
+                        <div class="buttons float-end py-2">
+                            <a target="_blank" href="@Url.Action("OpenFile","Resources",new {name=file.File.FilePath})" class="btn btn-primary">Oxumaq</a>
+
+                            @if (!String.IsNullOrEmpty(HttpContextAccessor?.HttpContext?.Session.GetString("AccessToken")))
+                            {
+                                <a href="@Url.Action("DownloadFileFromFileSystem","Resources",new {id=file.File.Id})" class="btn btn-danger" download>Yükləmək</a>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
         }
+
     </div>
 </section>
 

@@ -28,18 +28,7 @@ namespace Library.WebUI.Controllers
             _accountService = accountService;
         }
 
-        public async Task<IActionResult> ShowAllFiles()
-        {
-            CategoryFileViewModel model = new CategoryFileViewModel
-            {
-                FileModel = new FileViewModel
-                {
-                    FileAuthors = await _fileService.GetAllFilesWithAuthors()
-                }
-            };
-            return View(model);
-        }
-
+        
         public async Task<IActionResult> GetAllFilesByCategoryId(int id)
         {
             CategoryFileViewModel model = new CategoryFileViewModel
@@ -124,6 +113,50 @@ namespace Library.WebUI.Controllers
             var model = new FileViewModel();
             return View(model);
         }
+
+        #region ShowAllFiles (bütün kitablar)
+        public async Task<IActionResult> ShowFileInfoForAllFiles(string guid)
+        {
+            var result = await _fileService.GetFileIdByGUID(guid);
+            if (result != null)
+            {
+                FileViewModel model = new FileViewModel
+                {
+                    FileAuthor = await _fileService.GetFileWithAuthors(result.Data)
+                };
+                return View(model);
+            }
+            return RedirectToAction("NotFound", "Home");
+        }
+
+        public async Task<IActionResult> SearchByNameForShowAllFiles(CategoryFileViewModel data)
+        {
+            var result = await _fileService.GetAllFiles();
+            var filteredData = result.Data.Where(p => p.Name.ToLower().Contains(data.FileModel.Name.ToLower())).ToList();
+
+            CategoryFileViewModel model = new CategoryFileViewModel
+            {
+                FileModel = new FileViewModel
+                {
+                    Files = new SuccessDataResult<List<File>>(filteredData)
+                }
+            };
+            return View(model);
+        }
+
+        public async Task<IActionResult> ShowAllFiles()
+        {
+            CategoryFileViewModel model = new CategoryFileViewModel
+            {
+                FileModel = new FileViewModel
+                {
+                    FileAuthors = await _fileService.GetAllFilesWithAuthors()
+                }
+            };
+            return View(model);
+        }
+
+        #endregion
 
         #region Publications
         public async Task<IActionResult> ShowOurPublications()

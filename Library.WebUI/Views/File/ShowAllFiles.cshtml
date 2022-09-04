@@ -10,16 +10,13 @@
         <div class="container-lg">
             <nav class="navbar-down justify-content-between align-items-center">
                 <div class="justify-content-start align-items-center ">
-                    <a class="btn btn-menu red" asp-controller="Category" asp-action="Index">
-                        E-Kitablar
-                    </a>
-                    <a class="btn btn-menu" asp-controller="Home" asp-action="Index">
+                    <a class="btn btn-menu red" asp-controller="Home" asp-action="Index">
                         Ana səhifə
                     </a>
                 </div>
                 
                 <div class="input-area ">
-                    <form asp-action="SearchByName" asp-controller="File">
+                    <form asp-action="SearchByNameForShowAllFiles" asp-controller="File">
                         <input type="text" class="input-nav" placeholder="Kitab Axtar" asp-for="@Model.FileModel.Name">
                         <button class="fas fa-search" type="submit"></button>
                     </form>
@@ -31,15 +28,15 @@
 }
    
 <section id="book" class="py-3">
-    <hr />
     <div class="container-lg">
+        <hr />
         <div class="row">
             @{
                 var files = Model.FileModel.FileAuthors.Data;
                 @for (int k = 0; k < files.Count; k++)
                 {
                     <div class="col-lg-3 col-md-6 col-sm-12 py-3">
-                        <a class="book" asp-route-guid="@files[k].File.GUID" asp-controller="File" asp-action="ShowFileInfo">
+                        <a class="book" asp-route-guid="@files[k].File.GUID" asp-controller="File" asp-action="ShowFileInfoForAllFiles">
                             <img src="@Url.Action("Picture","Resources",new{name = files[k].File.PhotoPath})" width="180" height="250">
                         </a>
                     </div>

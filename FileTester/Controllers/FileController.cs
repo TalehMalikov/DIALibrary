@@ -149,9 +149,9 @@ namespace FileTester.Controllers
 
             string filename = Guid.NewGuid().ToString();
 
-            var MyQRWithLogo = QRCodeWriter.CreateQrCodeWithLogo(Defaults.DefaultUrlForQRCode+guid,
+            /*var MyQRWithLogo = QRCodeWriter.CreateQrCodeWithLogo(Defaults.DefaultUrlForQRCode+guid,
                 "wwwroot/logo.png", 500).SaveAsPng(Defaults.DefaultPhotoPath + photopath);
-
+*/
             return RedirectToAction("Index", "File");
         }
     }

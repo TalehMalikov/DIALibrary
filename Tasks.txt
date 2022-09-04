@@ -1,4 +1,5 @@
-﻿1. Log check
+﻿Common problems:
+1. Log check
 2. Localization
 3. Notification(Optional)
 4. Last modified by when
@@ -6,9 +7,24 @@
 6. <<Confirm form resubmission>>
 7. Navbar-giriş
 
-Əhməd: Şifrəmi unutdum
-Yüzəmmədə veriləcək tasklar :
+Əhməd: Şifrəmi unutdum			+
+
+Yüzəmmədə:
 1. Şəxsi kabinet
-2. Girişdəki passwordbox-a show,hide functionality
- 
+2. 1 2 3 >>   səhifənin altında (E-Kataloq,Bütün kitablar,E-Kitablar=> demək olar hər yerdə)
+3. Girişdəki passwordbox-a show,hide functionality				     |Forgot Password üçün|
+4. Balaca modal göndərilən təsdiq kodu üçün							 |Forgot Password üçün|
+5. Yeni password və yeni passwordu təktarla(2 label) olan səhifə	 |Forgot Password üçün|
+
+Mən:
+1. Open Pdf																			- 
+2. Confirm Resubmission																- 
+3. ShowCatalogFileInfo for Catalog UI												+
+4. Little name for Under from ShowAllFiles (bütün kitablar)							+
+5. Bütün kitablar hissəsinə bir də bax												+
+6. Resurs hissəssindəki xətanı düzəlt												+
+7. Holder for NewAddedBooks in E-Kitablar											+
+8. Qeydiyyat hissəsi, footer hissəsi, ümumi məlumat hissəsinə baxış, ;-düzəlt		-
+9. Localization																		-
+
 Attestat və tibbi arayışın surətini bir pdf-ə əlavə edib göndərin.

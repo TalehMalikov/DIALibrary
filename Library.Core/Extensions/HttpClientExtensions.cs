@@ -44,8 +44,6 @@ namespace Library.Core.Extensions
             };
             var response = await httpClient.SendAsync(request);
             var resultString = await response.Content.ReadAsStringAsync();
-            if (!response.IsSuccessStatusCode)
-                return default(TResponse);
             var result = JsonConvert.DeserializeObject<TResponse>(resultString);
             return result;
         }

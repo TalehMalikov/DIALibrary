@@ -1,4 +1,5 @@
-﻿using Library.WebUI.Models;
+﻿using Library.Entities.Dtos;
+using Library.WebUI.Models;
 using Library.WebUI.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,9 +24,22 @@ namespace Library.WebUI.Controllers
                 CategoryModel = new CategoryViewModel
                 {
                     CategoryList = await _categoryService.GetAll(),
-                    NewAddedBookList = await _categoryService.GetNewAddedBooks()
                 }
             };
+            var newAddedFiles = await _categoryService.GetNewAddedBooks();
+            var newAddedFileAuthors = new List<FileAuthorDto>();
+
+            var fileAuthor = await _fileService.GetFileWithAuthors(newAddedFiles.Data[0].Id);
+            foreach (var item in newAddedFiles.Data)
+            {
+                fileAuthor = await _fileService.GetFileWithAuthors(item.Id);
+                newAddedFileAuthors.Add(fileAuthor.Data);
+            }
+            categoryFileViewModel.FileModel = new FileViewModel()
+            {
+                NewAddedFileAuthorList = newAddedFileAuthors
+            };
+
             return View(categoryFileViewModel);
         }
     }
