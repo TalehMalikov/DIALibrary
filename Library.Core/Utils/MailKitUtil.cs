@@ -15,7 +15,7 @@ namespace Library.Core.Utils
         public static int GenerateVerificationCode()
         {
             Random random = new Random();
-            int code = random.Next(100000,1000000);
+            int code = random.Next(100000,999999);
             return code;
         }
         public static void SendMail(string emailTo, string subject, string content)

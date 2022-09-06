@@ -6,17 +6,17 @@
     ViewData["Title"] = "GetById";
     Layout = "_PrivateOfficeLayout";
 }
-    <section id="bookread" class="py-4">
+    <section id="account">
         <div class="container-lg">
             @{
             var educationalProgram = Model.EducationalProgramViewModel.EducationalProgram;
-            <div class="bookread">
+            <div>
 
                 <h3>@educationalProgram.Name</h3>
                 <hr>
                 <div class="row">
                     <div class="col-lg-4 col-sm-12 text-center py-3">
-                        <img src="~/images/ep.png" width="240px">
+                        <img src="~/images/ep.png" width="140px">
                     </div>
                     <div class="col-lg-8 col-sm-12 py-3">
                         <table class="table table-bordered table-striped">
@@ -55,7 +55,7 @@
                                 <tr>
                                     <th class="col text-end">QR Code</th>
                                     <td class="col">
-                                        <img src="~/images/qr.png" alt="">
+                                        <img width="130" height="130" src="~/images/qr.png" alt="">
                                     </td>
                                 </tr>
                             </tbody>
@@ -71,4 +71,3 @@
             }
         </div>
     </section>
-

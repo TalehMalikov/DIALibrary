@@ -108,7 +108,8 @@
 .swiper-slide {
     text-align: center;
     font-size: 18px;
-    background: #fff;*/
+    background: #fff;
+    flex-direction: column;*/
     /* Center slide text vertically */
     /*display: -webkit-box;
     display: -ms-flexbox;
@@ -575,7 +576,7 @@
     background-color: #1A3454;
     padding: 0;
     width: 150px;
-    bottom: -150px;
+    bottom: -120px;
     display: none;
 }
 
@@ -608,7 +609,28 @@
 
     .book-result .book-div h6 {
         font-weight: 400;
+        margin-bottom: 20px;
     }
+
+.hover-content {
+    background: #f4f4f4;
+    top: 105%;
+    left: 0;
+    z-index: 9999;
+    opacity: 0;
+    transition: 0.3s ease-in;
+    padding: 10px 20px;
+}
+
+    .hover-content h6 {
+        font-weight: 400;
+        font-size: 14px !important;
+        text-align: start;
+    }
+
+.card-book:hover ~ .hover-content {
+    opacity: 1;
+}
 
 @media (max-width: 568px) {
     #navtop {
@@ -682,7 +704,7 @@
     .submenu {
         width: 100px;
         right: -100px;
-        bottom: -110px;
+        bottom: -90px;
         display: block !important;
     }
 }
@@ -700,18 +722,19 @@
         height: auto;
     }
 
-    .main-image {
-        height: auto;
-    }
-
     .book-div {
         flex-direction: column !important;
         align-items: center;
         text-align: center;
     }
 
+        .book-div .book-info {
+            margin-top: 10px;
+        }
+
         .book-div h6 {
             font-size: 16px;
+            margin-bottom: 10px !important;
         }
 
             .book-div h6 span {
@@ -1307,11 +1330,6 @@
         display: block;
     }
 
-#book .row {
-    height: 100vh;
-    overflow-y: scroll;
-}
-
 #book .book {
     display: flex;
     flex-direction: column;
@@ -1355,6 +1373,17 @@
     opacity: 1;
 }
 
+.group {
+    position: relative;
+}
+
+    .group .fas {
+        position: absolute;
+        right: 5px;
+        top: 25%;
+        cursor: pointer;
+    }
+
 @media (max-width: 568px) {
     #navtop {
         padding: 0;
@@ -1362,6 +1391,10 @@
 
     .text-bold {
         font-size: 18px !important;
+    }
+
+    .hover-content .text-bold {
+        font-size: 14px !important;
     }
 
     .lang .text-bold {
@@ -1465,4 +1498,39 @@
             }
 }
 
+.hidden {
+    display: none;
+}
+
+.pagination-container {
+    display: flex;
+    align-items: center;
+    bottom: 0;
+    padding: 1rem 0;
+    justify-content: center;
+}
+
+.pagination-number,
+.pagination-button {
+    font-size: 1.1rem;
+    background-color: transparent;
+    border: none;
+    margin: 0.25rem 0.25rem;
+    cursor: pointer;
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: .2rem;
+}
+
+    .pagination-number:hover,
+    .pagination-button:not(.disabled):hover {
+        background: #fff;
+    }
+
+    .pagination-number.active {
+        color: #fff;
+        background: #0085b6;
+    }
+
 /*# sourceMappingURL=style.css.map */
+/*Hello*/

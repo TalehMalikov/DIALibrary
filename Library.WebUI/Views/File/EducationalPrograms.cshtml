@@ -5,12 +5,12 @@
     Layout = "_PrivateOfficeLayout";
 }
 
- <section id="bookResult" class="my-5 px-lg-3">
+ <section id="account" class="my-5">
         <div class="container-fluid">
             <div class="book-result d-flex flex-column">
                 @foreach (var educationalProgram in @Model.EducationalProgramViewModel.EducationalPrograms)
                 {
-                    <div class="book-div py-4">
+                    <div class="book-div d-flex py-4">
                         <a asp-controller="File" asp-action="ShowEducationalProgramInfo" asp-route-guid="@educationalProgram.GUID">
                             <img src="~/images/educationalprogram.png" class="result-img">
                         </a>
@@ -20,6 +20,7 @@
                             <h6 class="h6"><span class="text-bold">İxtisas : </span>@educationalProgram.Specialty.Name</h6>
                         </div>
                     </div>
+                    <hr />
                 }
             </div>
         </div>

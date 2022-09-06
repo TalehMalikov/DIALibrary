@@ -108,7 +108,7 @@ namespace Library.WebUI.Controllers
             return RedirectToAction("NotFound", "Home");
         }
 
-        public async Task<IActionResult> FilterByCataloq()
+        public async Task<IActionResult> FilterByCatalog()
         {
             var model = new FileViewModel();
             return View(model);
@@ -155,7 +155,6 @@ namespace Library.WebUI.Controllers
             };
             return View(model);
         }
-
         #endregion
 
         #region Publications

@@ -26,7 +26,6 @@
                         <li><a class="dropdown-item" href="@Url.Action("MoreInfo","OurLibrary")">Ümumi məlumat</a></li>
                         <li><a class="dropdown-item" href="@Url.Action("ExternalSource","OurLibrary")">Digər kitabxanalar</a></li>
                         <li><a class="dropdown-item" asp-controller="Activity" asp-action="Index">Yeniliklər</a></li>
-                        <li><a class="dropdown-item" asp-controller="File" asp-action="ShowOurPublications">Bizim nəşrlərimiz</a></li>
                     </ul>
                 </div>
                 
@@ -46,7 +45,9 @@
                             {
                                 <li><a asp-controller="File" asp-action="ShowFilteredFiles" asp-route-id="@item.Id" class="dropdown-item">@item.Name</a></li>
                             }
+
                         </ul>
+                        <li><a class="dropdown-item" asp-controller="File" asp-action="ShowOurPublications">Bizim nəşrlərimiz</a></li>
                     </ul>
                 </div>
                 
@@ -99,8 +100,8 @@
     <div class="top-btn">
         <i class="fas fa-arrow-alt-up"></i>
     </div>
-    <script src="js/modal.js"></script>
-    <script src="js/e-books.js"></script>
+    <script src="~/js/modal.js"></script>
+    <script src="~/js/e-books.js"></script>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
