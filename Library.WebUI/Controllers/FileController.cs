@@ -81,14 +81,21 @@ namespace Library.WebUI.Controllers
 
         public async Task<IActionResult> ShowFilteredFiles(int id)
         {
+            var files = await _fileService.GetFilesByFileTypeId(id);
+            var fileAuthors = new List<FileAuthorDto>();
+            foreach (var file in files.Data)
+            {
+                var fileAuthor = await _fileService.GetFileWithAuthors(file.Id);
+                if (fileAuthor != null)
+                    fileAuthors.Add(fileAuthor.Data);
+            }
             CategoryFileViewModel model = new CategoryFileViewModel
             {
                 FileModel = new FileViewModel
                 {
-                    Files = await _fileService.GetFilesByFileTypeId(id)
+                    FileAuthors = new SuccessDataResult<List<FileAuthorDto>>(fileAuthors)
                 }
             };
-
             var fileTypes = await _fileTypeService.GetAllFileTypes();
             ViewBag.AllFileTypes = fileTypes.Data;
             return View(model);

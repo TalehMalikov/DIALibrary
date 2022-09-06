@@ -27,22 +27,35 @@
     </section>
 }
    
-<section id="book" class="py-3">
+<section id="book" class="py-3 position-relative">
     <div class="container-lg">
         <hr />
-        <div class="row">
+        <div class="row paginated-list" id="paginated-list" data-current-page="1" aria-live="polite">
             @{
                 var files = Model.FileModel.FileAuthors.Data;
                 @for (int k = 0; k < files.Count; k++)
                 {
-                    <div class="col-lg-3 col-md-6 col-sm-12 py-3">
-                        <a class="book" asp-route-guid="@files[k].File.GUID" asp-controller="File" asp-action="ShowFileInfoForAllFiles">
+                    <div class="col-lg-3 col-md-6 col-sm-12 py-3  pagination-image">
+                        <a class="book card-book" asp-route-guid="@files[k].File.GUID" asp-controller="File" asp-action="ShowFileInfoForAllFiles">
                             <img src="@Url.Action("Picture","Resources",new{name = files[k].File.PhotoPath})" width="180" height="250">
                              <span class="text-bold">@files[k].File.Name</span>
                         </a>
                     </div>
                 }
             }
+            <nav class="pagination-container">
+                <button class="pagination-button" id="prev-button" aria-label="Previous page" title="Previous page">
+                    &lt;
+                </button>
+
+                <div id="pagination-numbers">
+
+                </div>
+
+                <button class="pagination-button" id="next-button" aria-label="Next page" title="Next page">
+                    &gt;
+                </button>
+            </nav>
         </div>
     </div>
 </section>

@@ -1,5 +1,6 @@
 ﻿@using Library.WebUI.Models
 @using Microsoft.AspNetCore.Http
+@using System.Text
 @inject IHttpContextAccessor HttpContextAccessor
 @model CategoryFileViewModel
 @{
@@ -71,32 +72,57 @@
 <body>
     <section id="bookResult" class="my-5 px-lg-3">
         <div class="container-fluid">
-            <div class="container-lg">
-                <div class="book-result d-flex flex-column">
-                    @if(@Model.FileModel.Files.Data.Count>0)
+                <div class="book-result d-flex flex-column" data-current-page="1" aria-live="polite" id="paginated-list">
+                    @if(@Model.FileModel.FileAuthors.Data.Count>0)
                     {
                         <div class="title d-flex">
-                            <h3 class="text-bold">@Model.FileModel.Files.Data[0].FileType.Name<span class="text-secondary">  [sayı: @Model.FileModel.Files.Data.Count]</span></h3>
+                            <h3 class="text-bold">@Model.FileModel.FileAuthors.Data[0].File.FileType.Name<span class="text-secondary">  [sayı: @Model.FileModel.FileAuthors.Data.Count]</span></h3>
                         </div>
                         <hr/>
 
-                        @foreach (var item in Model.FileModel.Files.Data)
+                        @foreach (var item in Model.FileModel.FileAuthors.Data)
                         {
-                            <div class="book-div py-4">
-                                <a asp-controller="File" asp-action="ShowFileInfoFileType" asp-route-guid="@item.GUID">
-                                    <img src="@Url.Action("Picture","Resources", new{ name = item.PhotoPath})" class="result-img">
-                                </a>
-                                <div class="book-info d-flex flex-column px-4 ">
-                                    <h6 class="h6"><span class="text-bold">Kitab Adı: </span>@item.Name</h6>
-                                    <h6 class="h6"><span class="text-bold">Müəllif: </span>Mustafayeva Səmayə , Cavadova Zərifə , Hüseynli Raminə</h6>
-                                    <h6 class="h6"><span class="text-bold">Səhife: </span>@item.PageNumber</h6>
-                               </div>
+                            <div class="pagination-image">
+                                <div class="book-div py-4">
+                                    <a asp-controller="File" asp-action="ShowFileInfoFileType" asp-route-guid="@item.File.GUID">
+                                        <img src="@Url.Action("Picture","Resources", new{ name = item.File.PhotoPath})" class="result-img">
+                                    </a>
+                                    <div class="book-info d-flex flex-column px-4 ">
+                                        <h6 class="h6"><span class="text-bold">Kitab Adı: </span>@item.File.Name</h6>
+                                        <h6 class="h6"><span class="text-bold">Müəllif:</span>
+                                        @{
+                                                var builder = new StringBuilder();
+                                                foreach (var m in item.Authors)
+                                                {
+                                                    builder.Append(m.FirstName);
+                                                    builder.Append(" ");
+                                                    builder.Append(m.LastName);
+                                                    builder.Append(", ");
+                                                    <a>@builder.ToString().Trim().Trim(',')</a>
+                                                }
+                                          }    
+                                        </h6>
+                                        <h6 class="h6"><span class="text-bold">Səhife: </span>@item.File.PageNumber</h6>
+                                    </div>
+                                </div>
+                                <hr>
                             </div>
-                            <hr>
                         }
                     }
                 </div>
-            </div>
+                <nav class="pagination-container">
+                    <button class="pagination-button" id="prev-button" aria-label="Previous page" title="Previous page">
+                        &lt;
+                    </button>
+
+                    <div id="pagination-numbers">
+
+                    </div>
+
+                    <button class="pagination-button" id="next-button" aria-label="Next page" title="Next page">
+                        &gt;
+                    </button>
+                </nav>
         </div>
     </section>
 </body>

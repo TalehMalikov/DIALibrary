@@ -8,10 +8,10 @@
 7. Navbar-giriş
 
 Yüzəmməd:
-2. 1 2 3 >>   səhifənin altında (E-Kataloq,Bütün kitablar,E-Kitablar=> demək olar hər yerdə)
-3. Girişdəki passwordbox-a show,hide functionality				     |Forgot Password üçün|
-4. Balaca modal göndərilən təsdiq kodu üçün							 |Forgot Password üçün|
-5. Yeni password və yeni passwordu təktarla(2 label) olan səhifə	 |Forgot Password üçün|
+1. Girişdəki passwordbox-a show,hide functionality				     |Forgot Password üçün|
+2. Educational programs  
+3. Activities
+4. Other libraries
 
 Mən:
 1. Open Pdf																			- 
@@ -20,6 +20,4 @@ Mən:
 8. Qeydiyyat hissəsi, ümumi məlumat hissəsinə baxış, ;-düzəlt						- 
 9. Localization																		-  
 
-E-Kataloq  ->
-
-
+ShowFilteredFiles = author

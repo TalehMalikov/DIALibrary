@@ -7,35 +7,49 @@
 
     <section id="bookResult" class="my-5 px-lg-3">
         <div class="container-fluid">
-            <div class="book-result d-flex flex-column">
+            <div class="book-result d-flex flex-column" data-current-page="1" aria-live="polite" id="paginated-list">
                 @foreach (var fileAuthor in @Model.FilteredFileAuthors)
                 {
-                    <div class="book-div py-4">
-                        <a asp-controller="File" asp-action="ShowFileInfoCatalog" asp-route-guid="@fileAuthor.File.GUID">
-                            <img src="@Url.Action("Picture","Resources",new {name = @fileAuthor.File.PhotoPath})" class="result-img">
-                        </a>
-                        <div class="book-info d-flex flex-column px-4 ">
-                            <h6 class="h6"><span class="text-bold">Kitab Adı:</span>@fileAuthor.File.Name</h6>
-                            <h6 class="h6"><span class="text-bold">Müəllif:</span>
-                            @{
-                                            var builder = new StringBuilder();
-                                            foreach (var m in fileAuthor.Authors)
-                                            {
-                                                builder.Append(m.FirstName);
-                                                builder.Append(" ");
-                                                builder.Append(m.LastName);
-                                                builder.Append(", ");
-                                                <a>@builder.ToString().Trim().Trim(',')</a>
-                                            }
-                                        }    
-                            </h6>
-                            <h6 class="h6"><span class="text-bold">Sehife:</span>@fileAuthor.File.PageNumber</h6>
+                   <div class="pagination-image">
+                        <div class="book-div py-4">
+                            <a asp-controller="File" asp-action="ShowFileInfoCatalog" asp-route-guid="@fileAuthor.File.GUID">
+                                <img src="@Url.Action("Picture","Resources",new {name = @fileAuthor.File.PhotoPath})" class="result-img">
+                            </a>
+                            <div class="book-info d-flex flex-column px-4 ">
+                                <h6 class="h6"><span class="text-bold">Kitab Adı:</span>@fileAuthor.File.Name</h6>
+                                <h6 class="h6"><span class="text-bold">Müəllif:</span>
+                                @{
+                                                var builder = new StringBuilder();
+                                                foreach (var m in fileAuthor.Authors)
+                                                {
+                                                    builder.Append(m.FirstName);
+                                                    builder.Append(" ");
+                                                    builder.Append(m.LastName);
+                                                    builder.Append(", ");
+                                                    <a>@builder.ToString().Trim().Trim(',')</a>
+                                                }
+                                            }    
+                                </h6>
+                                <h6 class="h6"><span class="text-bold">Sehife:</span>@fileAuthor.File.PageNumber</h6>
+                            </div>
                         </div>
-                    </div>
+                   </div>
                 }
             </div>
-        </div>
+             <nav class="pagination-container">
+                 <button class="pagination-button" id="prev-button" aria-label="Previous page" title="Previous page">
+                     &lt;
+                 </button>
 
+                 <div id="pagination-numbers">
+
+                 </div>
+
+                 <button class="pagination-button" id="next-button" aria-label="Next page" title="Next page">
+                     &gt;
+                 </button>
+             </nav>
+        </div>
     </section>
 
      <div class="top-btn">
