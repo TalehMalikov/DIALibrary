@@ -51,7 +51,6 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpGet("getbyemail")]
-        [Authorize]
         public IActionResult GetByEmail(string name)
         {
             var result = _accountService.GetByEmail(name);
@@ -69,6 +68,18 @@ namespace Library.WebAPI.Controllers
 
             if (result.Success)
                 return Ok(result);
+            return BadRequest(result);
+        }
+
+        [HttpPut("resetpassword")]
+        public IActionResult ResetPassword(Account account)
+        {
+            var result = _accountService.Update(account);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
             return BadRequest(result);
         }
     }

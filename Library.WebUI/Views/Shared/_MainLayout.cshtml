@@ -259,7 +259,7 @@
                 <h3 class="pb-2">Şəxsi kabinet</h3>
                 <input type="text" class="login-input mb-2" placeholder="Email" asp-for="LoginModel.Email">
                 <input type="text" class="login-input mb-2" placeholder="Şifrə" asp-for="LoginModel.Password">
-                <a asp-controller="ForgotPassword" asp-action="Index" >Şifrənizi unutmusuz?</a>
+                <a asp-controller="Authentication" asp-action="ForgotPassword" >Şifrənizi unutmusuz?</a>
                 <button type="submit" class="btn btn-primary m-2">Daxil Ol </button>
                 <input type="button" class="btn btn-secondary mb-2 close" value="Geri">
             </form>

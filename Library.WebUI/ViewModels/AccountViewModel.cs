@@ -1,12 +1,11 @@
 ﻿using Library.Entities.Concrete;
-using Library.WebUI.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Library.WebUI.ViewModels
 {
     public class AccountViewModel
     {
-        public Account Account { get; set; }
+        public Account Account { get; set; } = new Account();
         public Student Student { get; set; }
 
         public bool SelectedGender { get; set; }

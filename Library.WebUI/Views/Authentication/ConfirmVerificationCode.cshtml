@@ -1,0 +1,29 @@
+﻿@model PasswordViewModel
+@{
+    Layout = "_ForgotPasswordLayout";
+}
+
+<div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="p-5">
+                    <div class="text-center">
+                        <h1 class="h4 text-gray-900 mb-2 title-forgot">Emaili Tesdiqleyin</h1>
+                        <p class="mb-4 text-forgot">E-Poçt unvanınıza gelmiş 8 reqemli kodu daxil edin</p>
+                    </div>
+                    <form class="user" asp-action="ConfirmVerificationCode" asp-controller="Authentication" >
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-user"
+                                   placeholder="Kodu daxil edin..." asp-for="VerificationCode">
+                        </div>
+                        <button type="submit"  class="btn btn-primary btn-user btn-block">
+                            Parolu sıfırla
+                        </button>
+                    </form>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

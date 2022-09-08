@@ -1,7 +1,6 @@
 ﻿using Library.Core.Result.Concrete;
 using Library.Entities.Concrete;
 using Library.Entities.Dtos;
-using Library.WebUI.Models;
 using Library.WebUI.Services.Abstract;
 using Library.WebUI.ViewModels;
 using Microsoft.AspNetCore.Mvc;

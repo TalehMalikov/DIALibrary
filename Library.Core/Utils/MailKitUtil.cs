@@ -1,21 +1,16 @@
 ﻿using MailKit.Security;
 using MimeKit.Text;
 using MimeKit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 
 namespace Library.Core.Utils
 {
     public static class MailKitUtil
     {
-        public static int GenerateVerificationCode()
+        public static string GenerateVerificationCode()
         {
             Random random = new Random();
-            int code = random.Next(100000,1000000);
+            string code = random.Next(100000,1000000).ToString();
             return code;
         }
         public static void SendMail(string emailTo, string subject, string content)
