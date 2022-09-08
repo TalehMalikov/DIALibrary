@@ -395,7 +395,8 @@ namespace Library.WebUI.Controllers
             var allFileTypes = await _fileTypeService.GetAllFileTypes();
             ViewBag.AllFileTypes = allFileTypes.Data;
 
-            var account = await _accountService.GetByEmail(accessToken, email);
+            //var account = await _accountService.GetByEmail(accessToken, email);
+            var account = await _accountService.GetByEmail(email);
             AccountViewModel viewModel = new AccountViewModel()
             {
                 EducationalProgramViewModel = new EducationalProgramViewModel()
@@ -411,7 +412,7 @@ namespace Library.WebUI.Controllers
         {
             var accessToken = HttpContext.Session.GetString("AccessToken");
             var email = HttpContext.Session.GetString("Email");
-            var account = await _accountService.GetByEmail(accessToken, email);
+            var account = await _accountService.GetByEmail(/*accessToken,*/ email);
 
             var allFileTypes = await _fileTypeService.GetAllFileTypes();
             ViewBag.AllFileTypes = allFileTypes.Data;

@@ -13,10 +13,8 @@ namespace Library.WebUI.Controllers
     {
         private readonly IAuthService _authService;
         private readonly IAccountService _accountService;
-        public AuthenticationController(IAuthService authService, IAccountService accountService)
         private readonly ICategoryService _categoryService;
         private readonly IFileTypeService _fileTypeService;
-        private readonly IAccountService _accountService;
 
         public AuthenticationController(IAuthService authService, ICategoryService categoryService,IFileTypeService fileTypeService,
                                         IAccountService accountService)
@@ -25,7 +23,6 @@ namespace Library.WebUI.Controllers
             _accountService = accountService;
             _categoryService = categoryService;
             _fileTypeService = fileTypeService;
-            _accountService = accountService;
         }
 
         [HttpPost]
