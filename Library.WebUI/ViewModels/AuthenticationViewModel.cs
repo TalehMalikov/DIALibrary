@@ -1,9 +1,7 @@
 ﻿using Library.Core.Domain.Dtos;
-using Library.Core.Result.Concrete;
 using Library.Entities.Dtos;
-using File = Library.Entities.Concrete.File;
 
-namespace Library.WebUI.Models
+namespace Library.WebUI.ViewModels
 {
     public class AuthenticationViewModel
     {

@@ -3,7 +3,7 @@ using Library.Entities.Concrete;
 using Library.Entities.Dtos;
 using File = Library.Entities.Concrete.File;
 
-namespace Library.WebUI.Models
+namespace Library.WebUI.ViewModels
 {
     public class FileViewModel
     {

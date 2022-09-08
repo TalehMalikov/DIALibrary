@@ -1,6 +1,6 @@
 ﻿using Library.Core.Result.Concrete;
 using Library.Entities.Dtos;
-using Library.WebUI.Models;
+using Library.WebUI.ViewModels;
 using Library.WebUI.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;

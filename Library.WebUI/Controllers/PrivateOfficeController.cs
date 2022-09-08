@@ -1,5 +1,4 @@
-﻿using Library.WebUI.Models;
-using Library.WebUI.Services.Abstract;
+﻿using Library.WebUI.Services.Abstract;
 using Library.WebUI.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -37,7 +36,7 @@ namespace Library.WebUI.Controllers
             var accessToken = HttpContext.Session.GetString("AccessToken");
 
 
-            var account = await _accountService.GetByEmail(accessToken , email);
+            var account = await _accountService.GetByEmail( email);
             viewModel.Account = account.Data;
 
             var allFileTypes = await _fileTypeService.GetAllFileTypes();
