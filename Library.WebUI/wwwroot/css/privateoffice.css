@@ -185,6 +185,10 @@ a {
 
 
 @media (max-width:768px) {
+    .card.o-hidden.border-0.shadow-lg.my-5{
+        width:auto !important;
+    }
+
     .show {
         width: 100px !important;
     }
@@ -253,7 +257,7 @@ a {
 }
 
 .passwd {
-    background-image: url(../images/background_library.jpg);
+    background-image: url(../images/VIRAL-LIBRARY-superJumbo.jpg);
     background-size: cover;
     background-position: center center;
 }
@@ -317,4 +321,53 @@ a {
 
 .active {
     opacity: 1;
+}
+
+.group {
+    position: relative;
+}
+
+    .group .fas {
+        position: absolute;
+        right: 5px;
+        top: 25%;
+        cursor: pointer;
+    }
+
+.hidden {
+    display: none;
+}
+
+.pagination-container {
+    display: flex;
+    align-items: center;
+    bottom: 0;
+    padding: 1rem 0;
+    justify-content: center;
+}
+
+.pagination-number,
+.pagination-button {
+    font-size: 1.1rem;
+    background-color: transparent;
+    border: none;
+    margin: 0.25rem 0.25rem;
+    cursor: pointer;
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: .2rem;
+}
+
+    .pagination-number:hover,
+    .pagination-button:not(.disabled):hover {
+        background: #fff;
+    }
+
+    .pagination-number.active {
+        color: #fff;
+        background: #0085b6;
+    }
+
+.card.o-hidden.border-0.shadow-lg.my-5{
+    width:50%;
 }

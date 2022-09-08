@@ -253,7 +253,10 @@
                 <img src="images/logo.png">
                 <h3 class="pb-2">Şəxsi kabinet</h3>
                 <input type="text" class="login-input mb-2" placeholder="Email" asp-for="LoginModel.Email">
-                <input type="password" class="login-input mb-2" placeholder="Şifrə" asp-for="LoginModel.Password">
+                <div class="group">
+                    <i class="fas fa-eye-slash eye"></i>
+                    <input type="password" class="login-input mb-2 show-hide" placeholder="Şifrə" asp-for="LoginModel.Password">
+                </div>
                 <a asp-controller="Authentication" asp-action="ForgotPassword" >Şifrənizi unutmusunuz?</a>
                 <button type="submit" class="btn btn-primary m-2">Daxil Ol </button>
                 <input type="button" class="btn btn-secondary mb-2 close" value="Geri">
@@ -276,5 +279,7 @@
     <script src="~/js/app.js"></script>
     <script src="~/js/modal.js"></script>
     <script src="~/js/localization.js"></script>
+    <script src="~/js/password.js"></script>
 </body>
 </html>
+

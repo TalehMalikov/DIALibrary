@@ -101,22 +101,31 @@ namespace Library.WebUI.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult ChangePassword()
+        public async Task<IActionResult> ChangePassword()
         {
-            return View();
+            var email = HttpContext.Session.GetString("Email");
+            AccountViewModel viewModel = new AccountViewModel();
+
+            var account = await _accountService.GetByEmail(email);
+            viewModel.Account = account.Data;
+
+            var allFileTypes = await _fileTypeService.GetAllFileTypes();
+            ViewBag.AllFileTypes = allFileTypes.Data;
+
+            return View(viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> ChangePassword(PasswordViewModel model)
+        public async Task<IActionResult> ChangePassword(AccountViewModel model)
         {
             string? token = HttpContext.Session.GetString("AccessToken");
             string? email = HttpContext.Session.GetString("Email");
             var account = await _accountService.GetByEmail(email);
-            if (SecurityUtil.ComputeSha256Hash(model.OldPassword) != account.Data.PasswordHash)
+            if (SecurityUtil.ComputeSha256Hash(model.ChangePassword.OldPassword) != account.Data.PasswordHash)
                 return View();
-            if (model.Password != model.RepeatPassword)
+            if (model.ChangePassword.Password != model.ChangePassword.RepeatPassword)
                 return View();
-            account.Data.PasswordHash = SecurityUtil.ComputeSha256Hash(model.Password);
+            account.Data.PasswordHash = SecurityUtil.ComputeSha256Hash(model.ChangePassword.Password);
             await _accountService.Update(token, account.Data);
             return RedirectToAction("Index","PrivateOffice");
         }

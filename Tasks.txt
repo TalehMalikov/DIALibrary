@@ -8,10 +8,12 @@
 7. Navbar-giriş
 
 Yüzəmməd:
-1. Girişdəki passwordbox-a show,hide functionality				     |Forgot Password üçün|
-2. Educational programs  
 3. Activities
 4. Other libraries
+Ümumi məlumat, dig kit -  -->
+
+kohne parol uymur (xeta msji)
+
 
 Mən:
 1. Open Pdf																			- 
