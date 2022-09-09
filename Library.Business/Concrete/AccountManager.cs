@@ -20,7 +20,10 @@ namespace Library.Business.Concrete
         [CacheAspect]
         public DataResult<Account> GetByEmail(string email)
         {
-            return new SuccessDataResult<Account>(_accountRepository.GetByEmail(email));
+            var result = _accountRepository.GetByEmail(email);
+            if (result == null)
+                return new ErrorDataResult<Account>(result, StatusMessagesUtil.NotFoundMessage);
+            return new SuccessDataResult<Account>(result);
         }
 
         [CacheAspect]
