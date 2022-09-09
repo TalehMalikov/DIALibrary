@@ -36,27 +36,5 @@ namespace Library.Core.Utils
             smtp.Disconnect(true);
         }
 
-        //public static void SendMail(string emailTo, string subject, string content)
-        //{
-        //    try
-        //    {
-        //        MailMessage message = new MailMessage();
-        //        SmtpClient smtp = new SmtpClient();
-        //        message.From = new MailAddress("talehmalikov@yahoo.com");
-        //        message.To.Add(new MailAddress(emailTo));
-        //        message.Subject = "Verification code";
-        //       // message.IsBodyHtml = true; //to make message body as html  
-        //        message.Body = "Verification code: " + content;
-        //        smtp.Port = 465;
-        //        smtp.Host = "smtp.mail.yahoo.com"; //for gmail host  
-        //        smtp.EnableSsl = true;
-        //        smtp.UseDefaultCredentials = false;
-        //        smtp.Credentials = new NetworkCredential("talehmalikov@yahoo.com", "Mtt2906@");
-        //        smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-        //        smtp.Send(message);
-        //    }
-        //    catch { }
-        //}
-
     }
 }
