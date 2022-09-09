@@ -15,10 +15,10 @@
                     <form class="user" asp-action="ConfirmVerificationCode" asp-controller="Authentication" >
                         <div class="form-group">
                             <input type="text" class="form-control form-control-user"
-                                   placeholder="Kodu daxil edin..." asp-for="VerificationCode">
+                                   placeholder="Kodu daxil edin..." asp-for="@Model.VerificationCode">
                         </div>
                         <button type="submit"  class="btn btn-primary btn-user btn-block">
-                            Parolu sıfırla
+                            Təsdiqlə
                         </button>
                     </form>
                     <hr>

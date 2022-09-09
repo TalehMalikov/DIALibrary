@@ -47,6 +47,8 @@ namespace Library.WebUI.Controllers
             var result = await _accountService.GetByEmail(model.Email);
             string email = result.Data.Email; 
             if (result.Success & model.Password == email)
+            string email = result.Data.Email;
+            if (result.Success & model.Email == email)
             {
                 string code = MailKitUtil.GenerateVerificationCode();
                 HttpContext.Session.SetString("EmailToResetPassword",email);
@@ -69,6 +71,8 @@ namespace Library.WebUI.Controllers
             if (code == model.VerificationCode)
             {    
                 RedirectToAction("ResetPassword");
+            {
+               return RedirectToAction("ResetPassword");
             }
             return View();
         }
