@@ -20,7 +20,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             connection.Open();
             string cmdString =
                 "Insert Into EducationalPrograms(Name,EducationLevel,FilePath,IsActive,LastModified,SpecialtyId,ProgramDate,EducationTime)" +
-                " Values(@name,@educationLevel,@filePath,@isActive,@lastModified,@specialtyId,@programDate,@educationTime)";
+                " Values(@name,@educationLevel,@filePath,@isActive,@lastModified,@specialtyId,@programDate,@educationTime,@guid)";
             using NpgsqlCommand command = new(cmdString, connection);
             command.Parameters.AddWithValue("@name", value.Name);
             command.Parameters.AddWithValue("@educationLevel", value.EducationLevel);
@@ -30,6 +30,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             command.Parameters.AddWithValue("@specialtyId", value.Specialty.Id);
             command.Parameters.AddWithValue("@programDate", value.ProgramDate);
             command.Parameters.AddWithValue("@educationTime", value.EducationTime);
+            command.Parameters.AddWithValue("@guid", value.GUID);
             return 1 == command.ExecuteNonQuery();
         }
 
@@ -38,12 +39,12 @@ namespace Library.DataAccess.Implementation.PostgreSql
             using NpgsqlConnection connection = new(_connectionString);
             connection.Open();
             string cmdString =
-                "Select EducationalPrograms.Name as ProgramName,EducationalPrograms.EducationLevel,EducationalPrograms.FilePath,EducationalPrograms.IsActive," +
+                "Select EducationalPrograms.Id as ProgramId, EducationalPrograms.Name as ProgramName,EducationalPrograms.EducationLevel,EducationalPrograms.FilePath,EducationalPrograms.IsActive," +
                 "EducationalPrograms.LastModified,EducationalPrograms.ProgramDate,EducationalPrograms.EducationTime," +
-                "Specialties.Id as SpecialtyId, Specialties.Name as SpecialtyName," +
+                "Specialties.Id as SpecialtyId, Specialties.Name as SpecialtyName,guid," +
                 "Faculties.Id as FacultyId,Faculties.Name as FacultyName from EducationalPrograms " +
                 "inner join Specialties on EducationalPrograms.SpecialtyId=Specialties.Id " +
-                "inner join Faculties on Specialties.FacultyId=Faculties.Id where EducationalPrograms.Id=@id";
+                "inner join Faculties on Specialties.FacultyId=Faculties.Id where EducationalPrograms.Id=@id and IsActive=true";
             using NpgsqlCommand command = new(cmdString, connection);
             command.Parameters.AddWithValue("@id", id);
             var reader = command.ExecuteReader();
@@ -58,12 +59,12 @@ namespace Library.DataAccess.Implementation.PostgreSql
             using NpgsqlConnection connection = new(_connectionString);
             connection.Open();
             string cmdString =
-                "Select EducationalPrograms.Name as ProgramName,EducationalPrograms.EducationLevel,EducationalPrograms.FilePath,EducationalPrograms.IsActive," +
+                "Select EducationalPrograms.Id as ProgramId, EducationalPrograms.Name as ProgramName,EducationalPrograms.EducationLevel,EducationalPrograms.FilePath,EducationalPrograms.IsActive," +
                 "EducationalPrograms.LastModified,EducationalPrograms.ProgramDate,EducationalPrograms.EducationTime," +
-                "Specialties.Id as SpecialtyId, Specialties.Name as SpecialtyName," +
+                "Specialties.Id as SpecialtyId, Specialties.Name as SpecialtyName,guid," +
                 "Faculties.Id as FacultyId,Faculties.Name as FacultyName from EducationalPrograms " +
                 "inner join Specialties on EducationalPrograms.SpecialtyId=Specialties.Id " +
-                "inner join Faculties on Specialties.FacultyId=Faculties.Id";
+                "inner join Faculties on Specialties.FacultyId=Faculties.Id where IsActive=true";
             using NpgsqlCommand command = new(cmdString, connection);
             var reader = command.ExecuteReader();
             while(reader.Read())
@@ -76,7 +77,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             using NpgsqlConnection connection = new(_connectionString);
             connection.Open();
             string cmdString =
-                "Update EducationalPrograms Set Name=@name,EducationLevel=@educationLevel,FilePath=@filePath," +
+                "Update EducationalPrograms Set Name=@name,EducationLevel=@educationLevel,Guid=@guid,FilePath=@filePath," +
                 "IsActive=@isActive,LastModified=@lastModified,SpecialtyId=@specialtyId,ProgramDate=@programDate," +
                 "EducationDate=@educationDate Where Id=@id";
             using NpgsqlCommand command = new(cmdString, connection);
@@ -89,6 +90,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             command.Parameters.AddWithValue("@specialtyId", value.Specialty.Id);
             command.Parameters.AddWithValue("@programDate", value.ProgramDate);
             command.Parameters.AddWithValue("@educationTime", value.EducationTime);
+            command.Parameters.AddWithValue("@guid", value.GUID);
             return 1 == command.ExecuteNonQuery();
         }
 
@@ -96,7 +98,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
         {
             using NpgsqlConnection connection = new(_connectionString);
             connection.Open();
-            string cmdString = "Delete From EducationalPrograms Where Id=@id";
+            string cmdString = "update EducationalPrograms set IsActive=false Where Id=@id";
             using NpgsqlCommand command = new(cmdString, connection);
             command.Parameters.AddWithValue("@id", id);
             return 1 == command.ExecuteNonQuery();
@@ -108,12 +110,12 @@ namespace Library.DataAccess.Implementation.PostgreSql
             using NpgsqlConnection connection = new(_connectionString);
             connection.Open();
             string cmdString =
-                "Select EducationalPrograms.Name as ProgramName,EducationalPrograms.EducationLevel,EducationalPrograms.FilePath,EducationalPrograms.IsActive," +
+                "Select EducationalPrograms.Id as ProgramId, EducationalPrograms.Name as ProgramName,EducationalPrograms.EducationLevel,EducationalPrograms.FilePath,EducationalPrograms.IsActive," +
                 "EducationalPrograms.LastModified,EducationalPrograms.ProgramDate,EducationalPrograms.EducationTime," +
-                "Specialties.Id as SpecialtyId, Specialties.Name as SpecialtyName," +
+                "Specialties.Id as SpecialtyId, Specialties.Name as SpecialtyName,guid," +
                 "Faculties.Id as FacultyId,Faculties.Name as FacultyName from EducationalPrograms " +
                 "inner join Specialties on EducationalPrograms.SpecialtyId=Specialties.Id " +
-                "inner join Faculties on Specialties.FacultyId=Faculties.Id where Specialties.Id=@id";
+                "inner join Faculties on Specialties.FacultyId=Faculties.Id where Specialties.Id=@id and IsActive=true";
             using NpgsqlCommand command = new(cmdString, connection);
             command.Parameters.AddWithValue("@id", id);
             var reader = command.ExecuteReader();
@@ -134,6 +136,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
                 LastModified = reader.Get<DateTime>("LastModified"),
                 Name = reader.Get<string>("ProgramName"),
                 ProgramDate = reader.Get<DateTime>("ProgramDate"),
+                GUID = reader.Get<string>("Guid"),
                 Specialty = new Specialty
                 {
                     Id = reader.Get<int>("SpecialtyId"),

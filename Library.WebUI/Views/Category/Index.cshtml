@@ -1,4 +1,5 @@
-﻿@model CategoryFileViewModel
+﻿@using System.Text
+@model CategoryFileViewModel
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_CommonLayout.cshtml";
@@ -80,23 +81,38 @@
             </div>
             <hr>
 
-          <div class="swiper">
-        <div class="swiper-wrapper">
-            @{
-                var result = Model.CategoryModel.NewAddedBookList.Data;
+            <div class="swiper">
+                <div class="swiper-wrapper">
+                    @{
+                        var fileAuthorList = Model.FileModel.NewAddedFileAuthorList;
 
-                @for (int k = 0; k < result.Count; k++)
-                {
-                    <div class="swiper-slide">
-                        <a asp-action="ShowFileInfo" asp-controller="File" asp-route-name ="@result[k].Name" class="card-book d-flex flex-column align-items-center">
-                            <img width="150" height="200" src="@Url.Action("Picture","Resources", new { name = result[k].PhotoPath })">
-                        </a>
-                    </div>
-                }
-            }
-        </div>
-    </div>
-
+                        @foreach (var item in fileAuthorList)
+                        {
+                            <div class="swiper-slide">
+                                <a class="card-book d-flex flex-column align-items-center">
+                                    <img width="150" height="200" src="@Url.Action("Picture","Resources", new { name = item.File.PhotoPath })">
+                                </a>
+                                <div class="hover-content shadow-sm">
+                                    <h6>
+                                    <span class="text-bold">
+                                        @{
+                                            var builder = new StringBuilder();
+                                            foreach (var m in item.Authors)
+                                            {
+                                                builder.Append(m.FirstName);
+                                                builder.Append(" ");
+                                                builder.Append(m.LastName);
+                                                builder.Append(", ");
+                                                <a>@builder.ToString().Trim().Trim(',')</a>
+                                            }
+                                        }.
+                                    </span> @item.File.Name.- @item.File.PublicationDate.Year. - @item.File.PageNumber s.</h6>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
         </div>
 </section>
 

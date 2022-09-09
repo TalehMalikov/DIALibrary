@@ -20,7 +20,7 @@ namespace Library.Core.Utils
             email.From.Add(MailboxAddress.Parse(emailFrom));
             email.To.Add(MailboxAddress.Parse(emailTo));
             email.Subject = subject;
-            email.Body = new TextPart(TextFormat.Plain) { Text = content };
+            email.Body = new TextPart(TextFormat.Plain) { Text = "Verification code: " + content };
 
             using var smtp = new SmtpClient();
             //smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);

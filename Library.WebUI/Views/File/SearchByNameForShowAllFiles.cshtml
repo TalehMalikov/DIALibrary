@@ -12,6 +12,9 @@
                 <a class="btn btn-menu red" asp-action="Index" asp-controller="Home">
                     Ana səhifə
                 </a>
+                <a class="btn btn-menu " asp-controller="File" asp-action="ShowAllFiles">
+                    Bütün kitablar
+                </a>
             </nav>
         </div>
     </section>
@@ -25,7 +28,7 @@
                 @foreach (var item in Model.FileModel.Files.Data)
                 {
                     <div class="book-div py-4">
-                        <a asp-controller="File" asp-action="ShowFileInfo" asp-route-guid="@item.GUID">
+                        <a asp-controller="File" asp-action="ShowFileInfoForAllFiles" asp-route-guid="@item.GUID">
                             <img src="@Url.Action("Picture","Resources", new{ name = item.PhotoPath})" class="result-img">
                         </a>
                         <div class="book-info d-flex flex-column px-4 ">

@@ -61,7 +61,8 @@
         </div>
     </div>
 </section>
-<section id="book" class="py-3">
+
+<section id="book" class="py-3 position-relative">
     
     <div class="container-lg">
         <div class="title d-flex">
@@ -69,22 +70,33 @@
             <h3 class="text-bold">@Model.CategoryModel.Category.Data.Name <span class="text-secondary">[kitab sayı: @Model.FileModel.Files.Data.Count]</span></h3>
             
         </div>
-        
         <hr/>
-        <div class="row">
+        <div class="row paginated-list" id="paginated-list" data-current-page="1" aria-live="polite">
             @{
                 var files = Model.FileModel.Files.Data;
                 @for (int k = 0; k < files.Count; k++)
                 {
-                    <div class="col-lg-3 col-md-6 col-sm-12 py-3">
-                        <a class="book" asp-route-name="@files[k].Name"asp-controller="File" asp-action="ShowFileInfo">
+                    <div class="col-lg-3 col-md-6 col-sm-12 py-3 pagination-image">
+                        <a class="book card-book" asp-route-guid="@files[k].GUID"asp-controller="File" asp-action="ShowFileInfo">
                             <img src="@Url.Action("Picture", "Resources", new {name = files[k].PhotoPath})" width="200" height="250">
                              <span class="text-bold">@files[k].Name</span>
                         </a>
-                        
                     </div>
                 }
             }
+            <nav class="pagination-container">
+                <button class="pagination-button" id="prev-button" aria-label="Previous page" title="Previous page">
+                    &lt;
+                </button>
+
+                <div id="pagination-numbers">
+
+                </div>
+
+                <button class="pagination-button" id="next-button" aria-label="Next page" title="Next page">
+                    &gt;
+                </button>
+            </nav>
         </div>
     </div>
 </section>

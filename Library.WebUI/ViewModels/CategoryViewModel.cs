@@ -9,6 +9,6 @@ namespace Library.WebUI.ViewModels
         public DataResult<List<Category>> CategoryList { get; set; }
         public  DataResult<Category> Category { get; set; }
 
-        public DataResult<List<File>> NewAddedBookList { get; set; }
+        //public DataResult<List<File>> NewAddedBookList { get; set; }
     }
 }

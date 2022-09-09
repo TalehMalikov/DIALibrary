@@ -13,10 +13,16 @@ namespace Library.WebUI.Controllers
     {
         private readonly IAuthService _authService;
         private readonly IAccountService _accountService;
-        public AuthenticationController(IAuthService authService, IAccountService accountService)
+        private readonly ICategoryService _categoryService;
+        private readonly IFileTypeService _fileTypeService;
+
+        public AuthenticationController(IAuthService authService, ICategoryService categoryService,IFileTypeService fileTypeService,
+                                        IAccountService accountService)
         {
             _authService = authService;
             _accountService = accountService;
+            _categoryService = categoryService;
+            _fileTypeService = fileTypeService;
         }
 
         [HttpPost]
@@ -27,12 +33,15 @@ namespace Library.WebUI.Controllers
                 Email = loginViewModel.LoginModel.Email,
                 Password = loginViewModel.LoginModel.Password
             });
+
+            if(result==null)
+                return RedirectToAction("Index", "Home");
+
             if (result.Success)
             {
                 HttpContext.Session.SetString("AccessToken",result.Data.Token);
                 HttpContext.Session.SetString("Email",loginViewModel.LoginModel.Email);
             }
-            // hesab adı və ya parol səhvdir mesajini modala göndər
             return RedirectToAction("Index", "Home");
         }
 
@@ -92,22 +101,31 @@ namespace Library.WebUI.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult ChangePassword()
+        public async Task<IActionResult> ChangePassword()
         {
-            return View();
+            var email = HttpContext.Session.GetString("Email");
+            AccountViewModel viewModel = new AccountViewModel();
+
+            var account = await _accountService.GetByEmail(email);
+            viewModel.Account = account.Data;
+
+            var allFileTypes = await _fileTypeService.GetAllFileTypes();
+            ViewBag.AllFileTypes = allFileTypes.Data;
+
+            return View(viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> ChangePassword(PasswordViewModel model)
+        public async Task<IActionResult> ChangePassword(AccountViewModel model)
         {
             string? token = HttpContext.Session.GetString("AccessToken");
             string? email = HttpContext.Session.GetString("Email");
             var account = await _accountService.GetByEmail(email);
-            if (SecurityUtil.ComputeSha256Hash(model.OldPassword) != account.Data.PasswordHash)
+            if (SecurityUtil.ComputeSha256Hash(model.ChangePassword.OldPassword) != account.Data.PasswordHash)
                 return View();
-            if (model.Password != model.RepeatPassword)
+            if (model.ChangePassword.Password != model.ChangePassword.RepeatPassword)
                 return View();
-            account.Data.PasswordHash = SecurityUtil.ComputeSha256Hash(model.Password);
+            account.Data.PasswordHash = SecurityUtil.ComputeSha256Hash(model.ChangePassword.Password);
             await _accountService.Update(token, account.Data);
             return RedirectToAction("Index","PrivateOffice");
         }

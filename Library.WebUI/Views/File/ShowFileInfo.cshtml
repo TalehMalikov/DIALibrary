@@ -80,7 +80,7 @@
                                 <tr>
                                     <th class="col text-end">Description</th>
                                     <td class="col">
-                                        <img src="~/images/qr.png" alt="">
+                                        <img width="130" height="130" src="~/images/qr.png" alt="">
                                     </td>
                                 </tr>
                             </tbody>
@@ -89,7 +89,7 @@
                         <div class="buttons float-end py-2">
                             <a target="_blank" href="@Url.Action("OpenFile","Resources",new {name=file.File.FilePath})" class="btn btn-primary">Oxumaq</a>
 
-                            @if (!String.IsNullOrEmpty(HttpContextAccessor.HttpContext.Session.GetString("AccessToken")))
+                            @if (!String.IsNullOrEmpty(HttpContextAccessor?.HttpContext?.Session.GetString("AccessToken")))
                             {
                                 <a href="@Url.Action("DownloadFileFromFileSystem","Resources",new {id=file.File.Id})" class="btn btn-danger" download>Yükləmək</a>
                             }
@@ -98,7 +98,6 @@
                 </div>
             </div>
         }
-
     </div>
 </section>
 

@@ -1,44 +1,127 @@
 ﻿@using Microsoft.AspNetCore.Http
+@using System.Text
 @inject IHttpContextAccessor HttpContextAccessor
 @model CategoryFileViewModel
 @{
     Layout = "_CommonLayout";
 }
 
-@section navbar_bottom{
-    <section id="navbottom">
-
-    <div class="container-lg">
-        <nav class="navbar-down">
-            <a class="btn btn-menu red" asp-action="Index" asp-controller="Home">
-                Ana səhifə
-            </a>
-        </nav>
-    </div>
-</section>
-}
+@section navbar_bottom
+    {
+       <section id="navbottom">
+          <div class="container-lg">
+              <nav class="navbar-down">
+                <a class="btn btn-menu red" asp-action="Index" asp-controller="Home">
+                    Ana səhifə
+                </a>
+                
+                <div class="dropdown">
+                    <a class="btn btn-menu dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Bizim kitabxana
+                    </a>
+                
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li><a class="dropdown-item" href="@Url.Action("MoreInfo","OurLibrary")">Ümumi məlumat</a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("ExternalSource","OurLibrary")">Digər kitabxanalar</a></li>
+                        <li><a class="dropdown-item" asp-controller="Activity" asp-action="Index">Yeniliklər</a></li>
+                    </ul>
+                </div>
+                
+                <div class="dropdown">
+                    <a class="btn btn-menu dropdown-toggle" role="button" id="dropdownMenuLink"
+                       data-bs-toggle="dropdown" aria-expanded="false" asp-action="Index" asp-controller="Category">
+                        E-Kitabxana
+                    </a>
+                
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li><a class="dropdown-item" asp-action="ECatalogIndex" asp-controller="File">E-Kataloq</a></li>
+                        <li><a class="dropdown-item" asp-action="Index" asp-controller="Category">E-Kitablar</a></li>
+                        <li class="sub"><a class="dropdown-item" href="#">E-Resurslar</a></li>
+                
+                        <ul class="submenu">
+                            @foreach(var item in @ViewBag.AllFileTypes)
+                            {
+                                <li><a asp-controller="File" asp-action="ShowFilteredFiles" asp-route-id="@item.Id" class="dropdown-item">@item.Name</a></li>
+                            }
+                        </ul>
+                        <li><a class="dropdown-item" asp-controller="File" asp-action="ShowOurPublications">Bizim nəşrlərimiz</a></li>
+                    </ul>
+                </div>
+                
+               @* @{
+                    if(!string.IsNullOrEmpty(HttpContextAccessor?.HttpContext?.Session.GetString("AccessToken")))
+                    {
+                        <a class="btn btn-menu " asp-action="Index" asp-controller="PrivateOffice" >
+                            Şəxsi kabinet
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-menu modal-btn">
+                            Giriş
+                        </a>
+                    }
+                }*@
+              </nav>
+          </div>
+       </section>
+    }
 
 <body>
     <section id="bookResult" class="my-5 px-lg-3">
         <div class="container-fluid">
-            <div class="container-lg">
-                <div class="book-result d-flex flex-column">
-                    @foreach (var item in Model.FileModel.Files.Data)
+                <div class="book-result d-flex flex-column" data-current-page="1" aria-live="polite" id="paginated-list">
+                    @if(@Model.FileModel.FileAuthors.Data.Count>0)
                     {
-                        <div class="book-div py-4">
-                            <a asp-controller="File" asp-action="ShowFileInfoFileType" asp-route-id="@item.Id">
-                                <img src="@Url.Action("Picture","Resources", new{ name = item.PhotoPath})" class="result-img">
-                            </a>
-                            <div class="book-info d-flex flex-column px-4 ">
-                                <h6 class="h6"><span class="text-bold">Kitab Adı: </span>@item.Name</h6>
-                                <h6 class="h6"><span class="text-bold">Müəllif: </span>Mustafayeva Səmayə , Cavadova Zərifə , Hüseynli Raminə</h6>
-                                <h6 class="h6"><span class="text-bold">Səhife: </span>@item.PageNumber</h6>
-                           </div>
+                        <div class="title d-flex">
+                            <h3 class="text-bold">@Model.FileModel.FileAuthors.Data[0].File.FileType.Name<span class="text-secondary">  [sayı: @Model.FileModel.FileAuthors.Data.Count]</span></h3>
                         </div>
-                        <hr>
+                        <hr/>
+
+                        @foreach (var item in Model.FileModel.FileAuthors.Data)
+                        {
+                            <div class="pagination-image">
+                                <div class="book-div py-4">
+                                    <a asp-controller="File" asp-action="ShowFileInfoFileType" asp-route-guid="@item.File.GUID">
+                                        <img src="@Url.Action("Picture","Resources", new{ name = item.File.PhotoPath})" class="result-img">
+                                    </a>
+                                    <div class="book-info d-flex flex-column px-4 ">
+                                        <h6 class="h6"><span class="text-bold">Kitab Adı: </span>@item.File.Name</h6>
+                                        <h6 class="h6"><span class="text-bold">Müəllif:</span>
+                                        @{
+                                                var builder = new StringBuilder();
+                                                foreach (var m in item.Authors)
+                                                {
+                                                    builder.Append(m.FirstName);
+                                                    builder.Append(" ");
+                                                    builder.Append(m.LastName);
+                                                    builder.Append(", ");
+                                                    <a>@builder.ToString().Trim().Trim(',')</a>
+                                                }
+                                          }    
+                                        </h6>
+                                        <h6 class="h6"><span class="text-bold">Səhife: </span>@item.File.PageNumber</h6>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                        }
                     }
                 </div>
-            </div>
+                <nav class="pagination-container">
+                    <button class="pagination-button" id="prev-button" aria-label="Previous page" title="Previous page">
+                        &lt;
+                    </button>
+
+                    <div id="pagination-numbers">
+
+                    </div>
+
+                    <button class="pagination-button" id="next-button" aria-label="Next page" title="Next page">
+                        &gt;
+                    </button>
+                </nav>
         </div>
     </section>
 </body>

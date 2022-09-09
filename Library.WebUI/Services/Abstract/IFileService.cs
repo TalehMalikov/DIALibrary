@@ -12,6 +12,6 @@ namespace Library.WebUI.Services.Abstract
         Task<DataResult<File>> GetFileById(int id);
         Task<DataResult<FileAuthorDto>> GetFileWithAuthors(int fileId);
         Task<DataResult<List<FileAuthorDto>>> GetAllFilesWithAuthors();
-        Task<DataResult<int>> GetFileIdByName(string name);
+        Task<DataResult<int>> GetFileIdByGUID(string guid);
     }
 }

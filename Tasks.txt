@@ -1,6 +1,25 @@
+﻿Common problems:
 1. Log check
 2. Localization
 3. Notification(Optional)
 4. Last modified by when
 5. Last modified by whom (optional)
 6. <<Confirm form resubmission>>
+7. Navbar-giriş
+
+Yüzəmməd:
+3. Activities
+4. Other libraries
+Ümumi məlumat, dig kit -  -->
+
+kohne parol uymur (xeta msji)
+
+
+Mən:
+1. Open Pdf																			- 
+2. Confirm Resubmission																- 
+3. HTTPS																			- 
+8. Qeydiyyat hissəsi, ümumi məlumat hissəsinə baxış, ;-düzəlt						- 
+9. Localization																		-  
+
+ShowFilteredFiles = author

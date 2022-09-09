@@ -9,9 +9,8 @@ namespace Library.WebUI.ViewModels
         public Student Student { get; set; }
 
         public bool SelectedGender { get; set; }
+        public PasswordViewModel ChangePassword { get; set; }
 
-/*        public Faculty SelectedFaculty { get; set; }
-
-        public SelectList FacultySelectList { get; set; }*/
+        public EducationalProgramViewModel EducationalProgramViewModel { get; set; }
     }
 }

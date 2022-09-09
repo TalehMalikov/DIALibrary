@@ -27,3 +27,16 @@ rList.addEventListener('click', () => {
 btnAcnt.addEventListener('click', () => {
     accountDrop.classList.toggle('opacity')
 })
+
+const btnTop = document.querySelector('.top-btn');
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+        btnTop.classList.add('active')
+    } else {
+        btnTop.classList.remove('active')
+    }
+});
+
+btnTop.addEventListener('click', () => {
+    window.scrollTo(0, 0);
+});

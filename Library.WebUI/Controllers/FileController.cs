@@ -14,28 +14,20 @@ namespace Library.WebUI.Controllers
         private readonly IFileService _fileService;
         private readonly ICategoryService _categoryService;
         private readonly IFileTypeService _fileTypeService;
+        private readonly IEducationalProgramService _educationalProgramService;
+        private readonly IAccountService _accountService;
 
-        public FileController(IFileService fileService, ICategoryService categoryService, IFileTypeService fileTypeService)
+        public FileController(IFileService fileService, ICategoryService categoryService, IFileTypeService fileTypeService,
+                                IEducationalProgramService educationalProgramService, IAccountService accountService)
         {
             _fileService = fileService;
             _categoryService = categoryService;
             _fileTypeService = fileTypeService;
+            _educationalProgramService = educationalProgramService;
+            _accountService = accountService;
         }
 
-        public async Task<IActionResult> ShowAllFiles()
-        {
-            CategoryFileViewModel model = new CategoryFileViewModel
-            {
-                FileModel = new FileViewModel
-                {
-                    FileAuthors = await _fileService.GetAllFilesWithAuthors()
-                }
-            };
-
-
-            return View(model);
-        }
-
+        
         public async Task<IActionResult> GetAllFilesByCategoryId(int id)
         {
             CategoryFileViewModel model = new CategoryFileViewModel
@@ -47,28 +39,19 @@ namespace Library.WebUI.Controllers
                 CategoryModel = new CategoryViewModel
                 {
                     CategoryList = await _categoryService.GetAll(),
-
-
                 }
             };
-            model.CategoryModel.Category = new SuccessDataResult<Category>(model.CategoryModel.CategoryList.Data.FirstOrDefault(p => p.Id == id));
-
-            return View(model);
+            if (model.FileModel.Files.Success)
+            {
+                model.CategoryModel.Category = new SuccessDataResult<Category>(model.CategoryModel.CategoryList.Data.FirstOrDefault(p => p.Id == id));
+                return View(model);
+            }
+            return RedirectToAction("NotFound", "Home");
         }
 
-        /*public async Task<IActionResult> ShowFileInfo(int id)
+        public async Task<IActionResult> ShowFileInfo(string guid)
         {
-            FileViewModel model = new FileViewModel
-            {
-                FileAuthor = await _fileService.GetFileWithAuthors(id)
-            };
-
-            return View(model);
-        }*/
-
-        public async Task<IActionResult> ShowFileInfo(string name)
-        {
-            var result = await _fileService.GetFileIdByName(name);
+            var result = await _fileService.GetFileIdByGUID(guid);
             if(result!=null)
             {
                 FileViewModel model = new FileViewModel
@@ -97,36 +80,90 @@ namespace Library.WebUI.Controllers
 
         public async Task<IActionResult> ShowFilteredFiles(int id)
         {
+            var files = await _fileService.GetFilesByFileTypeId(id);
+            var fileAuthors = new List<FileAuthorDto>();
+            foreach (var file in files.Data)
+            {
+                var fileAuthor = await _fileService.GetFileWithAuthors(file.Id);
+                if (fileAuthor != null)
+                    fileAuthors.Add(fileAuthor.Data);
+            }
             CategoryFileViewModel model = new CategoryFileViewModel
             {
                 FileModel = new FileViewModel
                 {
-                    Files = await _fileService.GetFilesByFileTypeId(id)
+                    FileAuthors = new SuccessDataResult<List<FileAuthorDto>>(fileAuthors)
                 }
             };
-
             var fileTypes = await _fileTypeService.GetAllFileTypes();
             ViewBag.AllFileTypes = fileTypes.Data;
-
             return View(model);
         }
 
-        public async Task<IActionResult> ShowFileInfoFileType(int id)
+        public async Task<IActionResult> ShowFileInfoFileType(string guid)
         {
-            FileViewModel model = new FileViewModel
+            var result = await _fileService.GetFileIdByGUID(guid);
+            if (result != null)
             {
-                FileAuthor = await _fileService.GetFileWithAuthors(id)
-            };
-
-            return View(model);
+                FileViewModel model = new FileViewModel
+                {
+                    FileAuthor = await _fileService.GetFileWithAuthors(result.Data)
+                };
+                return View(model);
+            }
+            return RedirectToAction("NotFound", "Home");
         }
 
-        public async Task<IActionResult> FilterByCataloq()
+        public async Task<IActionResult> FilterByCatalog()
         {
             var model = new FileViewModel();
             return View(model);
         }
 
+        #region ShowAllFiles (bütün kitablar)
+        public async Task<IActionResult> ShowFileInfoForAllFiles(string guid)
+        {
+            var result = await _fileService.GetFileIdByGUID(guid);
+            if (result != null)
+            {
+                FileViewModel model = new FileViewModel
+                {
+                    FileAuthor = await _fileService.GetFileWithAuthors(result.Data)
+                };
+                return View(model);
+            }
+            return RedirectToAction("NotFound", "Home");
+        }
+
+        public async Task<IActionResult> SearchByNameForShowAllFiles(CategoryFileViewModel data)
+        {
+            var result = await _fileService.GetAllFiles();
+            var filteredData = result.Data.Where(p => p.Name.ToLower().Contains(data.FileModel.Name.ToLower())).ToList();
+
+            CategoryFileViewModel model = new CategoryFileViewModel
+            {
+                FileModel = new FileViewModel
+                {
+                    Files = new SuccessDataResult<List<File>>(filteredData)
+                }
+            };
+            return View(model);
+        }
+
+        public async Task<IActionResult> ShowAllFiles()
+        {
+            CategoryFileViewModel model = new CategoryFileViewModel
+            {
+                FileModel = new FileViewModel
+                {
+                    FileAuthors = await _fileService.GetAllFilesWithAuthors()
+                }
+            };
+            return View(model);
+        }
+        #endregion
+
+        #region Publications
         public async Task<IActionResult> ShowOurPublications()
         {
             var data = await _fileService.GetAllFilesWithAuthors();
@@ -140,6 +177,7 @@ namespace Library.WebUI.Controllers
             };
             return View(model);
         }
+        #endregion
 
         #region Catalog
         public async Task<IActionResult> ECatalogIndex()
@@ -169,85 +207,144 @@ namespace Library.WebUI.Controllers
         {
             bool isFiltered = false;
             var filteredFiles = new List<File>();
+
+            //FileTypeFilter
             if (viewModel.SelectedFileTypeId != 0 && !isFiltered)
             {
                 var result = await _fileService.GetFilesByFileTypeId(viewModel.SelectedFileTypeId);
                 filteredFiles = result.Data.Where(f => f.ExistingStatus == true).ToList();
                 isFiltered = true;
             }
+
+            //CategoryFilter
             if (viewModel.SelectedCategoryId != 0)
             {
                 if (!isFiltered)
                 {
                     var result = await _fileService.GetAllFiles();
                     filteredFiles = result.Data.Where(f => f.Category.Id == viewModel.SelectedCategoryId && f.ExistingStatus == true).ToList();
+                    isFiltered = true;
                 }
-                else if (filteredFiles != null)
+                else if (filteredFiles.Count != 0)
                 {
                     filteredFiles = filteredFiles.Where(f => f.Category.Id == viewModel.SelectedCategoryId).ToList();
                 }
             }
+
+            //Author Filter
+            var filteredFileAuthors = new List<FileAuthorDto>();
+            bool isAuthorFiltered = false;
+            if (viewModel.AuthorFilter != null)
+            {
+                if(isFiltered)
+                {
+                    if(filteredFiles?.Count > 0)
+                    {
+                        foreach (var file in filteredFiles)
+                        {
+                            var fileAuthor = await _fileService.GetFileWithAuthors(file.Id);
+                            foreach (var author in fileAuthor.Data.Authors)
+                            {
+                                if (author.FirstName.Contains(viewModel.AuthorFilter) || author.LastName.Contains(viewModel.AuthorFilter))
+                                {
+                                    filteredFileAuthors.Add(fileAuthor.Data);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    isAuthorFiltered = true;
+                }
+                else
+                {
+                    var result = await _fileService.GetAllFilesWithAuthors();
+                    filteredFiles = new List<File>();
+                    foreach (var fileauthor in result.Data)
+                    {
+                        foreach (var author in fileauthor.Authors)
+                        {
+                            if (author.FirstName.Contains(viewModel.AuthorFilter) || author.LastName.Contains(viewModel.AuthorFilter))
+                            {
+                                filteredFileAuthors.Add(fileauthor);
+                                break;
+                            }
+                        }
+                    }
+                    isAuthorFiltered = true;
+                }
+            }
+
+            //BookFilter
             if (viewModel.BookFilter != null)
             {
-                if (!isFiltered)
+                if(isAuthorFiltered)
+                {
+                    foreach (var fileAuhor in filteredFileAuthors)
+                    {
+                        filteredFileAuthors = filteredFileAuthors.Where(fa => fa.File.Name.Contains(viewModel.BookFilter)).ToList();
+                    }
+                }
+                else if (isFiltered)
+                {
+                    if(filteredFiles?.Count != 0)
+                        filteredFiles = filteredFiles.Where(f => f.Name.Contains(viewModel.BookFilter)).ToList();
+                }
+                else
                 {
                     var result = await _fileService.GetAllFiles();
                     filteredFiles = result.Data.Where(f => f.Name.Contains(viewModel.BookFilter) && f.ExistingStatus == true).ToList();
-                }
-                else if (filteredFiles != null)
-                {
-                    filteredFiles = filteredFiles.Where(f => f.Name.Contains(viewModel.BookFilter)).ToList();
+                    isFiltered = true;
                 }
             }
+
+            //PublicationMin/Max Date Filter
             if (viewModel.PublicationYearMin != 0)
             {
-                if (!isFiltered)
+                if(isAuthorFiltered)
+                {
+                    filteredFileAuthors = filteredFileAuthors.Where(fa => fa.File.PublicationDate.Year >= viewModel.PublicationYearMin).ToList();
+                }
+                else if (isFiltered)
+                {
+                    if(filteredFiles?.Count != 0)
+                        filteredFiles = filteredFiles.Where(f => f.PublicationDate.Year >= viewModel.PublicationYearMin).ToList();
+                }
+                else
                 {
                     var result = await _fileService.GetAllFiles();
                     filteredFiles = result.Data.Where(f => f.PublicationDate.Year >= viewModel.PublicationYearMin).ToList();
-                }
-                else if (filteredFiles != null)
-                {
-                    filteredFiles = filteredFiles.Where(f => f.PublicationDate.Year >= viewModel.PublicationYearMin).ToList();
+                    isFiltered = true;
                 }
             }
             if (viewModel.PublicationYearMax != 0)
             {
-                if (!isFiltered)
+                if (isAuthorFiltered)
+                {
+                    filteredFileAuthors = filteredFileAuthors.Where(fa => fa.File.PublicationDate.Year <= viewModel.PublicationYearMax).ToList();
+                }
+                else if (isFiltered)
+                {
+                    if(filteredFiles?.Count != 0)
+                        filteredFiles = filteredFiles.Where(f => f.PublicationDate.Year <= viewModel.PublicationYearMax).ToList();
+                }
+                else
                 {
                     var result = await _fileService.GetAllFiles();
                     filteredFiles = result.Data.Where(f => f.PublicationDate.Year <= viewModel.PublicationYearMax).ToList();
-                }
-                else if (filteredFiles != null)
-                {
-                    filteredFiles = filteredFiles.Where(f => f.PublicationDate.Year <= viewModel.PublicationYearMax).ToList();
+                    isFiltered = true;
                 }
             }
 
-            var filteredFileAuthors = new List<FileAuthorDto>();
-            if (viewModel.AuthorFilter != null)
+            if (!isAuthorFiltered && isFiltered)
             {
-                var result = await _fileService.GetAllFilesWithAuthors();
-                filteredFiles = new List<File>();
-                foreach (var fileauthor in result.Data)
+                if(filteredFiles?.Count>0)
                 {
-                    foreach (var author in fileauthor.Authors)
+                    var fileAuthor = await _fileService.GetFileWithAuthors(filteredFiles[0].Id);
+                    foreach (var file in filteredFiles)
                     {
-                        if (author.FirstName.Contains(viewModel.AuthorFilter) || author.LastName.Contains(viewModel.AuthorFilter))
-                        {
-                            filteredFileAuthors.Add(fileauthor);
-                            break;
-                        }
+                        fileAuthor = await _fileService.GetFileWithAuthors(file.Id);
+                        filteredFileAuthors?.Add(fileAuthor.Data);
                     }
-                }
-            }
-            if (filteredFileAuthors.Count == 0)
-            {
-                var fileAuthor = await _fileService.GetFileWithAuthors(filteredFiles[0].Id);
-                foreach (var file in filteredFiles)
-                {
-                    fileAuthor = await _fileService.GetFileWithAuthors(file.Id);
-                    filteredFileAuthors?.Add(fileAuthor.Data);
                 }
             }
 
@@ -272,16 +369,69 @@ namespace Library.WebUI.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> ShowFileInfoCatalog(int id)
+        public async Task<IActionResult> ShowFileInfoCatalog(string guid)
         {
-            FileViewModel model = new FileViewModel
+            var result = await _fileService.GetFileIdByGUID(guid);
+            if (result != null)
             {
-                FileAuthor = await _fileService.GetFileWithAuthors(id)
-            };
-
-            return View(model);
+                FileViewModel model = new FileViewModel
+                {
+                    FileAuthor = await _fileService.GetFileWithAuthors(result.Data)
+                };
+                return View(model);
+            }
+            return RedirectToAction("NotFound", "Home");
         }
         #endregion
 
+        #region Educational Programs
+        public async Task<IActionResult> EducationalPrograms()
+        {
+            var accessToken = HttpContext.Session.GetString("AccessToken");
+            var email = HttpContext.Session.GetString("Email");
+
+            var educationalPrograms = await _educationalProgramService.GetAll(accessToken);
+
+            var allFileTypes = await _fileTypeService.GetAllFileTypes();
+            ViewBag.AllFileTypes = allFileTypes.Data;
+
+            //var account = await _accountService.GetByEmail(accessToken, email);
+            var account = await _accountService.GetByEmail(email);
+            AccountViewModel viewModel = new AccountViewModel()
+            {
+                EducationalProgramViewModel = new EducationalProgramViewModel()
+                {
+                    EducationalPrograms = educationalPrograms.Data
+                },
+                Account =account.Data
+            };
+            return View(viewModel);
+        }
+
+        public async Task<IActionResult> ShowEducationalProgramInfo(string guid)
+        {
+            var accessToken = HttpContext.Session.GetString("AccessToken");
+            var email = HttpContext.Session.GetString("Email");
+            var account = await _accountService.GetByEmail(/*accessToken,*/ email);
+
+            var allFileTypes = await _fileTypeService.GetAllFileTypes();
+            ViewBag.AllFileTypes = allFileTypes.Data;
+
+            var educationalProgram = await _educationalProgramService.GetByGUID(accessToken , guid);
+            if (educationalProgram != null)
+            {
+                AccountViewModel viewModel = new AccountViewModel()
+                {
+                    EducationalProgramViewModel = new EducationalProgramViewModel()
+                    {
+                        EducationalProgram = educationalProgram.Data
+                    },
+                    Account = account.Data
+                };
+                return View(viewModel);
+            }
+            return RedirectToAction("NotFound", "Home");
+        }
+        #endregion
     }
 }

@@ -1,4 +1,5 @@
 ﻿@using System.Text
+@inject IHttpContextAccessor HttpContextAccessor
 @model FileViewModel
 @{
     ViewData["Title"] = "GetById";
@@ -9,27 +10,27 @@
 
         <div class="container-lg">
             <nav class="navbar-down justify-content-start align-items-center">
-                <a class="btn btn-menu red" asp-controller="Home" asp-action="Index">
+                <a class="btn btn-menu red" asp-action="Index" asp-controller="Home">
                     Ana səhifə
                 </a>
-                <a class="btn btn-menu" asp-controller="File" asp-action="ShowFilteredFiles" asp-route-id="@Model.FileAuthor.Data.File.FileType.Id">
-                    @Model.FileAuthor.Data.File.FileType.Name
+                <a class="btn btn-menu" asp-controller="File" asp-action="ShowAllFiles">
+                    Bütün Kitablar
                 </a>
             </nav>
         </div>
     </section>
 }
-<section id="bookread" class="py-4">
-    <div class="container-lg">
-        @{
-            var fileAuthorData = Model.FileAuthor.Data;
+    <section id="bookread" class="py-4">
+        <div class="container-lg">
+            @{
+            var file = Model.FileAuthor.Data;
             <div class="bookread">
 
-                <h3>@fileAuthorData.File.Name</h3>
+                <h3>@file.File.Name</h3>
                 <hr>
                 <div class="row">
                     <div class="col-lg-4 col-sm-12 text-center py-3">
-                        <img src="@Url.Action("Picture", "Resources", new {name = fileAuthorData.File.PhotoPath})" width="200px">
+                        <img src="@Url.Action("Picture", "Resources", new {name = file.File.PhotoPath})" width="240px">
                     </div>
                     <div class="col-lg-8 col-sm-12 py-3">
                         <table class="table table-bordered table-striped">
@@ -37,7 +38,7 @@
                             <tbody>
                                 <tr>
                                     <th class="col text-end">Kitabın Adı</th>
-                                    <td class="col">@fileAuthorData.File.Name</td>
+                                    <td class="col">@file.File.Name</td>
                                 </tr>
 
                                 <tr>
@@ -45,7 +46,7 @@
                                     <td class="col">
                                         @{
                                             var builder = new StringBuilder();
-                                            foreach (var m in fileAuthorData.Authors)
+                                            foreach (var m in file.Authors)
                                             {
                                                 builder.Append(m.FirstName);
                                                 builder.Append(" ");
@@ -59,23 +60,23 @@
 
                                 <tr>
                                     <th class="col text-end">Nəşriyyat </th>
-                                    <td class="col">@fileAuthorData.File.PublisherName</td>
+                                    <td class="col">@file.File.PublisherName</td>
                                 </tr>
 
                                 <tr>
                                     <th class="col text-end">Nəşr ili</th>
-                                    <td class="col">@fileAuthorData.File.PublicationDate.Year</td>
+                                    <td class="col">@file.File.PublicationDate.Year</td>
                                 </tr>
 
                                 <tr>
                                     <th class="col text-end">Səhifə</th>
-                                    <td class="col">@fileAuthorData.File.PageNumber</td>
+                                    <td class="col">@file.File.PageNumber</td>
                                 </tr>
 
                                 <tr>
                                     <th class="col text-end">Kateqoriya</th>
                                     <td class="col">
-                                        <a asp-controller="File" asp-action="GetAllFilesByCategoryId" asp-route-id="@fileAuthorData.File.Category.Id" class="text-danger">@fileAuthorData.File.Category.Name</a>
+                                        <a asp-controller="File" asp-action="GetAllFilesByCategoryId" asp-route-id="@file.File.Category.Id" class="text-danger">@file.File.Category.Name</a>
                                     </td>
                                 </tr>
 
@@ -89,8 +90,12 @@
                         </table>
 
                         <div class="buttons float-end py-2">
-                            <a href="@Url.Action("OpenFile","Resources",new {name=fileAuthorData.File.FilePath})" class="btn btn-primary">Oxumaq</a>
-                            <a href="@Url.Action("DownloadFileFromFileSystem","Resources",new {name=fileAuthorData.File.Id})" class="btn btn-danger" download>Yükləmək</a>
+                            <a target="_blank" href="@Url.Action("OpenFile","Resources",new {name=file.File.FilePath})" class="btn btn-primary">Oxumaq</a>
+
+                            @if (!String.IsNullOrEmpty(HttpContextAccessor?.HttpContext?.Session.GetString("AccessToken")))
+                            {
+                                <a href="@Url.Action("DownloadFileFromFileSystem","Resources",new {id=file.File.Id})" class="btn btn-danger" download>Yükləmək</a>
+                            }
                         </div>
                     </div>
                 </div>

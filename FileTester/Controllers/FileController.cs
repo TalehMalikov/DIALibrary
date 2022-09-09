@@ -142,37 +142,17 @@ namespace FileTester.Controllers
             }
         }
 
-        public IActionResult QrCodeGenerator()
+        public IActionResult QrCodeGenerator(string guid,string fileName)
         {
             //Generate normal QrCode
             //QRCodeWriter.CreateQrCode("Ehmed başına daş. Geberrr", 500, QRCodeWriter.QrErrorCorrectionLevel.Medium).SaveAsPng("MyQR.png");
 
-            // With logo
-            var MyQRWithLogo = QRCodeWriter.CreateQrCodeWithLogo("Hello Taleh", @"D:\Acer\Visual Studio Projets\repos\DIALibrary\FileTester\wwwroot\logo.png", 500).SaveAsPng("MyQRWithLogo.png");
+            string filename = Guid.NewGuid().ToString();
 
+            /*var MyQRWithLogo = QRCodeWriter.CreateQrCodeWithLogo(Defaults.DefaultUrlForQRCode+guid,
+                "wwwroot/logo.png", 500).SaveAsPng(Defaults.DefaultPhotoPath + photopath);
+*/
             return RedirectToAction("Index", "File");
         }
-
     }
 }
-/*
- * public static string FilePath(IFormFile file,string virtualDirectory)
-        {
-            FileInfo fileInfo = new FileInfo(file.FileName);
-            string fileExtension = fileInfo.Extension;
-
-            string path = Environment.CurrentDirectory + @"\wwwroot";
-            
-
-            string result = $@"{path}\{virtualDirectory.Replace("/",@"\")}";
-            return result;
-        }
-
-        public static string FileVirtualPath(IFormFile file)
-        {
-            FileInfo fileInfo = new FileInfo(file.FileName);
-            string fileExtension = fileInfo.Extension;
-            string fileName = Guid.NewGuid().ToString();
-            return "Uploads/" + fileName+fileExtension;
-        }
- */

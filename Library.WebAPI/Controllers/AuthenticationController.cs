@@ -37,6 +37,9 @@ namespace Library.WebAPI.Controllers
         {
             var account = _userManager.FindByNameAsync(model.Email).Result;
 
+            if (account == null)
+                return BadRequest(new ErrorDataResult<Account>(account));
+
             var roles = _accountService.GetRoles(account).Data.ToList();
 
             foreach (var role in roles)
@@ -44,15 +47,12 @@ namespace Library.WebAPI.Controllers
                 _roles.Add(role.Name);
             }
 
-            if (account == null)
-                return BadRequest("Username or password is incorrect");
-
             var signInResult = _signInManager.PasswordSignInAsync(account, model.Password, true, false).Result;
 
             _userManager.AddToRolesAsync(account, _roles);
 
             if (signInResult.Succeeded == false)
-                return BadRequest("Username or password is incorrect");
+                return BadRequest(new ErrorDataResult<Account>(account));
 
             string token = GenerateJwtToken(account);
             return Ok(new SuccessDataResult<LoginResponseDto>(new LoginResponseDto
@@ -62,7 +62,6 @@ namespace Library.WebAPI.Controllers
             }));
             
         }
-
 
         [HttpPost]
         [Route("register")]
