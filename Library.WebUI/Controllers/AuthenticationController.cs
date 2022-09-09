@@ -45,7 +45,7 @@ namespace Library.WebUI.Controllers
         public async Task<IActionResult> ForgotPassword(PasswordViewModel model)
         {
             var result = await _accountService.GetByEmail(model.Email);
-            string email = result.Data.Email;
+            string email = result.Data.Email; 
             if (result.Success & model.Password == email)
             {
                 string code = MailKitUtil.GenerateVerificationCode();
@@ -67,7 +67,7 @@ namespace Library.WebUI.Controllers
         {
             string? code = HttpContext.Session.GetString("VerificationCode");
             if (code == model.VerificationCode)
-            {
+            {    
                 RedirectToAction("ResetPassword");
             }
             return View();
@@ -82,7 +82,7 @@ namespace Library.WebUI.Controllers
         public async Task<IActionResult> ResetPassword(PasswordViewModel model)
         {
             string? email = HttpContext.Session.GetString("EmailToResetPassword");
-            if (String.IsNullOrEmpty(HttpContext.Session.GetString("VerificationCode")))
+            if (String.IsNullOrWhiteSpace(HttpContext.Session.GetString("VerificationCode")))
                 return RedirectToAction("ForgotPassword");
             if (model.Password != model.RepeatPassword)
                 return View();
