@@ -16,16 +16,16 @@ namespace Library.Core.Utils
         public static void SendMail(string emailTo, string subject, string content)
         {
             using var email = new MimeMessage();
-            email.From.Add(MailboxAddress.Parse("eehmedov17@outlook.com"));
+            email.From.Add(MailboxAddress.Parse("ahmad.ahmadov01@hotmail.com"));
             email.To.Add(MailboxAddress.Parse(emailTo));
             email.Subject = subject;
-            email.Body = new TextPart(TextFormat.Plain) { Text = content };
+            email.Body = new TextPart(TextFormat.Plain) { Text = "Verification code: " + content };
 
             using var smtp = new SmtpClient();
-            smtp.Connect("smtp.office365.com", 587, SecureSocketOptions.StartTls);
-            smtp.Authenticate("eehmedov17@outlook.com", "ehmed123");
+            smtp.Connect("smtp.live.com", 587, SecureSocketOptions.StartTls);
+            //smtp.Connect("smtp.office365.com", 587, SecureSocketOptions.StartTls);
+            smtp.Authenticate("ahmad.ahmadov01@hotmail.com", "ehmed123");
             smtp.Send(email);
-
             smtp.Disconnect(true);
         }
 
