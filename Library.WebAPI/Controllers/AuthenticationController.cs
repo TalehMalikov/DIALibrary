@@ -33,7 +33,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPost]
         [Route("login")]
-        public IActionResult Login(LoginRequestModel model)
+        public IActionResult Login(AccountLoginDto model)
         {
             var account = _userManager.FindByNameAsync(model.Email).Result;
 
