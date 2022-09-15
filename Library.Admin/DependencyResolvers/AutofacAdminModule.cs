@@ -9,6 +9,7 @@ namespace Library.Admin.DependencyResolvers
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<AuthService>().As<IAuthService>().SingleInstance();
+            builder.RegisterType<UserService>().As<IUserService>().SingleInstance();
         }
     }
 }

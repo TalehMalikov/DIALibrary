@@ -17,7 +17,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPost]
         [Route("add")]
-        [Authorize("SuperAdmin,Admin,GroupAdmin")]
+        [Authorize(Roles = "SuperAdmin,Admin,GroupAdmin")]
         public IActionResult Add(User user)
         {
             var result = _userService.Add(user);

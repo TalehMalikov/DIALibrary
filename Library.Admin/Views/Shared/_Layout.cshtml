@@ -11,17 +11,17 @@
     <title>Library Admin Panel</title>
 
     <!-- Custom fonts for this template-->
-
+    <link href="@Href("~/vendor/fontawesome-free/css/all.min.css")" rel="stylesheet" type="text/css">
+    <link href="@Href("~/vendor/fontawesome-free/css/all.css")" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
-
     <!-- Custom styles for this template-->
     <link href="@Href("~/css/sb-admin-2.css")" rel="stylesheet">
     <script src="https://kit.fontawesome.com/e6ad26fe87.js" crossorigin="anonymous"></script>
 </head>
 <body>
-
+    
     <div id="wrapper">
         <!-- Sidebar begin -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
@@ -83,7 +83,7 @@
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <!-- <a class="collapse-item" href="login.html">Login</a> -->
-                        <a class="collapse-item" href="create-user.html">Yeni istifadəçi</a>
+                        <a class="collapse-item" asp-action="NewUser" asp-controller="User">Yeni istifadəçi</a>
                         <a class="collapse-item" href="create-student.html">Yeni tələbə</a>
                         <a class="collapse-item" href="create-account.html">Yeni hesab</a>
                         <a class="collapse-item" href="reset-password.html">Parol sıfırlama</a>
@@ -104,7 +104,7 @@
                             <span class="font-weight-bold">İstifadəçilər</span><i class="fas fa-angle-down"></i>
                         </a>
                         <div class="collapse" id="collapseUser">
-                            <a class="collapse-item" href="users_table.html">Ümumi istifadəçilər</a>
+                            <a class="collapse-item" asp-action="ShowUsers" asp-controller="User">Ümumi istifadəçilər</a>
                             <a class="collapse-item" href="#">Adminlər</a>
                             <a class="collapse-item" href="students_table.html">Tələbələr</a>
                             <a class="collapse-item" href="#">Hesablar</a>
@@ -223,7 +223,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Taleh Məlikov</span>
-                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                                <img class="img-profile rounded-circle" src="@Href("~/img/undraw_profile.svg")">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -253,8 +253,7 @@
                     @RenderBody()
                 </div>
                 <!-- Footer -->
-                <footer class="sticky-foo
-ter bg-white">
+                <footer class="sticky-footer bg-white ">
                     <div class="container my-auto">
                         <div class="copyright text-center my-auto">
                             <span>Copyright &copy; Your Website 2021</span>
@@ -274,27 +273,40 @@ ter bg-white">
 
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Çıxmağa hazırsız?</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">Cari sessiyanızı bitirməyə hazırsınızsa, aşağıda "Çıxış" seçin.</div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Ləğv et</button>
-                <a class="btn btn-primary" href="#">Çıxış</a>
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Çıxmağa hazırsız?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Cari sessiyanızı bitirməyə hazırsınızsa, aşağıda "Çıxış" seçin.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Ləğv et</button>
+                    <a class="btn btn-primary" href="#">Çıxış</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="@Href("~/js/sb-admin-2.js")"></script>
+    <!-- Bootstrap core JavaScript-->
+    <script src="@Href("~/vendor/jquery/jquery.min.js")"></script>
+    <script src="@Href("~/vendor/bootstrap/js/bootstrap.bundle.min.js")"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="@Href("~/vendor/jquery-easing/jquery.easing.min.js")"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="@Href("~/js/sb-admin-2.min.js")"></script>
+
+    <!-- Page level plugins -->
+    <script src="@Href("~/vendor/chart.js/Chart.min.js")"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="@Href("~/js/demo/chart-area-demo.js")"></script>
+    <script src="@Href("~/js/demo/chart-pie-demo.js")"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
