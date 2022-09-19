@@ -13,15 +13,16 @@
     <!-- Custom fonts for this template-->
     <link href="@Href("~/vendor/fontawesome-free/css/all.min.css")" rel="stylesheet" type="text/css">
     <link href="@Href("~/vendor/fontawesome-free/css/all.css")" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
     <!-- Custom styles for this template-->
-    <link href="@Href("~/css/sb-admin-2.css")" rel="stylesheet">
+    <link href="@Href("~/css/sb-admin-2.min.css")" rel="stylesheet">
+    <link href="@Href("~/css/main.css")" rel="stylesheet">
+    <link href="@Href("~/vendor/datatables/dataTables.bootstrap4.min.css")" rel="stylesheet">
     <script src="https://kit.fontawesome.com/e6ad26fe87.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    
+
     <div id="wrapper">
         <!-- Sidebar begin -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
@@ -84,7 +85,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <!-- <a class="collapse-item" href="login.html">Login</a> -->
                         <a class="collapse-item" asp-action="NewUser" asp-controller="User">Yeni istifadəçi</a>
-                        <a class="collapse-item" href="create-student.html">Yeni tələbə</a>
+                        <a class="collapse-item" asp-action="NewStudent" asp-controller="Student">Yeni tələbə</a>
                         <a class="collapse-item" href="create-account.html">Yeni hesab</a>
                         <a class="collapse-item" href="reset-password.html">Parol sıfırlama</a>
                         <div class="collapse-divider"></div>
@@ -285,11 +286,13 @@
                 <div class="modal-body">Cari sessiyanızı bitirməyə hazırsınızsa, aşağıda "Çıxış" seçin.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Ləğv et</button>
-                    <a class="btn btn-primary" href="#">Çıxış</a>
+                    <a class="btn btn-primary" asp-action="Logout" asp-controller="Authentication">Çıxış</a>
                 </div>
             </div>
         </div>
     </div>
+
+    @await RenderSectionAsync("Modals", required: false);
 
     <!-- Bootstrap core JavaScript-->
     <script src="@Href("~/vendor/jquery/jquery.min.js")"></script>

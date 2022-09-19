@@ -1,6 +1,7 @@
 ﻿using Library.Core.Extensions;
 using Library.DataAccess.Abstraction;
 using Library.Entities.Concrete;
+using Newtonsoft.Json.Linq;
 using Npgsql;
 
 namespace Library.DataAccess.Implementation.PostgreSql
@@ -25,10 +26,10 @@ namespace Library.DataAccess.Implementation.PostgreSql
             cmd.Parameters.AddWithValue("@firstName", value.FirstName);
             cmd.Parameters.AddWithValue("@lastName", value.LastName);
             cmd.Parameters.AddWithValue("@fatherName", value.FatherName);
-            cmd.Parameters.AddWithValue("@birthDate", value.BirthDate.ToString("d"));
+            cmd.Parameters.AddWithValue("@birthDate", value.BirthDate.ToString("dd-mm-yyyy"));
             cmd.Parameters.AddWithValue("@gender", value.Gender);
             cmd.Parameters.AddWithValue("@isDeleted", false);
-            cmd.Parameters.AddWithValue("@lastModified", value.LastModified.ToString("d"));
+            cmd.Parameters.AddWithValue("@lastModified", value.LastModified.ToString("dd-mm-yyyy"));
             return 1 == cmd.ExecuteNonQuery();
         }
 
@@ -40,6 +41,24 @@ namespace Library.DataAccess.Implementation.PostgreSql
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             command.Parameters.AddWithValue("@id", id);
             return 1 == command.ExecuteNonQuery();
+        }
+
+        public int AddAsStudent(User student)
+        {
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
+            connection.Open();
+            string cmdString =
+                "Insert Into Users(FirstName,LastName,FatherName,BirthDate,Gender,IsDeleted,LastModified) " +
+                "output inserted.Id Values(@firstName,@lastName,@fatherName,@birthDate,@gender,@isDeleted,@lastModified)";
+            using NpgsqlCommand cmd = new NpgsqlCommand(cmdString, connection);
+            cmd.Parameters.AddWithValue("@firstName", student.FirstName);
+            cmd.Parameters.AddWithValue("@lastName", student.LastName);
+            cmd.Parameters.AddWithValue("@fatherName", student.FatherName);
+            cmd.Parameters.AddWithValue("@birthDate", student.BirthDate.ToString("dd-mm-yyyy"));
+            cmd.Parameters.AddWithValue("@gender", student.Gender);
+            cmd.Parameters.AddWithValue("@isDeleted", false);
+            cmd.Parameters.AddWithValue("@lastModified", student.LastModified.ToString("dd-mm-yyyy"));
+            return Convert.ToInt32(cmd.ExecuteScalar());
         }
 
         public User Get(int id)

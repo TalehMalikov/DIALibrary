@@ -19,11 +19,5 @@ namespace Library.WebUI.Services.Concrete
             return result;
         }
 
-        public async Task<Result> ResetPassword()
-        {
-            //using HttpClient client = new HttpClient();
-            //var result = client.PutJsonAsync().
-            return null;
-        }
     }
 }

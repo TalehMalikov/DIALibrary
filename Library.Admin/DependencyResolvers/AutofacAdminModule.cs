@@ -10,6 +10,7 @@ namespace Library.Admin.DependencyResolvers
         {
             builder.RegisterType<AuthService>().As<IAuthService>().SingleInstance();
             builder.RegisterType<UserService>().As<IUserService>().SingleInstance();
+            builder.RegisterType<StudentService>().As<IStudentService>().SingleInstance();
         }
     }
 }

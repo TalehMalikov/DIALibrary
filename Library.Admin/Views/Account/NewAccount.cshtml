@@ -1,0 +1,64 @@
+﻿@model AccountViewModel
+@{
+    Layout = "_Layout";
+}
+
+<div class="p-5">
+    <div class="text-center">
+        <h1 class="h4 text-gray-900 mb-4">Hesab əlavə et!</h1>
+    </div>
+    <form class="user">
+        <div class="form-group">
+            <select class=" form-select btn-block form-control-register">
+                <option selected>--İstifadəçi seçin--</option>
+                <option data-UserId="1" data-FirstName="Taleh" data-LastName="Məlikov" data-Group="K201">Taleh Məlikov K201</option>
+                <option data-UserId="2" data-FirstName="Əhməd" data-LastName="Əhmədov" data-Group="K201">Əhməd Əhmədov K201</option>
+            </select>
+        </div>
+
+        <!-- Hesab,email -->
+        <div class="form-group row">
+            <div class="col-sm-6 mb-3 mb-sm-0">
+                <input type="accountname" class="form-control form-control-register" id="exampleInputEmail"
+                       placeholder="Hesab adı" asp-for="@Model.Account.AccountName">
+            </div>
+            <div class="col-sm-6">
+                <input type="email" class="form-control form-control-register" id="exampleInputEmail"
+                       placeholder="Email adresi" asp-for="@Model.Account.Email">
+            </div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group row">
+            <div class="col-sm-6 mb-3 mb-sm-0">
+                <input type="password" class="form-control form-control-register"
+                       id="exampleInputPassword" placeholder="Parol" asp-for="@Model.Password">
+            </div>
+            <div class="col-sm-6">
+                <input type="password" class="form-control form-control-register"
+                       id="exampleRepeatPassword" placeholder="Parolu təkrarla" asp-for="@Model.RepeatPassword">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label><h7>Rol :</h7></label><br>
+            <input type="radio" id="role_sa" name="role_sa">
+            <label for="role_sa">Super Admin</label><br>
+
+            <input type="radio" id="role_sa" name="role_sa">
+            <label for="role_sa">User Admin</label><br>
+
+            <input type="radio" id="role_sa" name="role_sa">
+            <label for="role_sa">Book Admin</label><br>
+
+            <input type="radio" id="role_sa" name="role_sa">
+            <label for="role_sa">Standart</label><br>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-user btn-block">
+            Qeydiyyatdan keç
+        </button>
+        <hr>
+
+    </form>
+</div>

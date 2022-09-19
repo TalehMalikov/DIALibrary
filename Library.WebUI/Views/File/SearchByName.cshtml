@@ -1,4 +1,6 @@
-﻿@model CategoryFileViewModel
+﻿@using System.Text
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model CategoryFileViewModel
 @{
     ViewData["Title"] = "SearchByName";
     Layout = "~/Views/Shared/_CommonLayout.cshtml";
@@ -17,28 +19,53 @@
     </section>
 }
 
-<body>
-<section id="bookResult" class="my-5 px-lg-3">
-    <div class="container-fluid">
-        <div class="container-lg">
-            <div class="book-result d-flex flex-column">
-                @foreach (var item in Model.FileModel.Files.Data)
-                {
-                    <div class="book-div py-4">
-                        <a asp-controller="File" asp-action="ShowFileInfo" asp-route-guid="@item.GUID">
-                            <img src="@Url.Action("Picture","Resources", new{ name = item.PhotoPath})" class="result-img">
-                        </a>
-                        <div class="book-info d-flex flex-column px-4 ">
-                            <h6 class="h6"><span class="text-bold">Kitab Adı: </span>@item.Name</h6>
-                            <h6 class="h6"><span class="text-bold">Müəllif: </span>Mustafayeva Səmayə , Cavadova Zərifə , Hüseynli Raminə</h6>
-                            <h6 class="h6"><span class="text-bold">Səhife: </span>@item.PageNumber</h6>
-                        </div>
+    <body>
+        <section id="bookResult" class="my-5 px-lg-3">
+            <div class="container-fluid">
+                <div class="container-lg">
+                    <div class="book-result d-flex flex-column">
+
+                        @{
+                            var data = Model.FileModel.FileAuthors.Data;
+                            @foreach (var item in Model.FileModel.Files.Data)
+                            {
+                                <div class="book-div py-4">
+                                    <a asp-controller="File" asp-action="ShowFileInfo" asp-route-guid="@item.GUID">
+                                        <img src="@Url.Action("Picture", "Resources", new { name = item.PhotoPath })" class="result-img">
+                                    </a>
+                                    <div class="book-info d-flex flex-column px-4 ">
+                                        <h6 class="h6"><span class="text-bold">Kitab Adı: </span>@item.Name</h6>
+                                        <h6 class="h6">
+                                            
+                                            @{
+                                                
+                                                for (int i=0;i<data.Count;i++)
+                                                {
+                                                    foreach (var m in data[i].Authors)
+                                                    {
+                                                        var builder = new StringBuilder();
+                                                        builder.Append(m.FirstName);
+                                                        builder.Append(" ");
+                                                        builder.Append(m.LastName);
+                                                        builder.Append(" ");
+                                                        builder.Append(m.FatherName);
+                                                        builder.Append(", ");
+                                                        <span class="text-bold">Müəllif: @builder.ToString().Trim().Trim(',') </span>
+                                                    }
+
+                                                }
+                                            }
+                                        </h6>
+                                        <h6 class="h6"><span class="text-bold">Səhife: </span>@item.PageNumber</h6>
+                                    </div>
+                                </div>
+                                <hr>
+                            }
+                        }
+
                     </div>
-                    <hr>
-                }
             </div>
         </div>
-    </div>
-</section>
+    </section>
 </body>
 

@@ -8,6 +8,7 @@ namespace Library.Admin.Controllers
         { 
             if (String.IsNullOrWhiteSpace(HttpContext.Session.GetString("AdminAccessToken")))
                 return RedirectToAction("Login", "Authentication");
+
             return View();
         }
     }

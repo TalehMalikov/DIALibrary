@@ -6,13 +6,10 @@
 5. Last modified by whom (optional)
 6. <<Confirm form resubmission>>
 7. Navbar-giriş
+8. Email encrypt decrypt 
 
 Yüzəmməd:
-3. Activities
-4. Other libraries
-Ümumi məlumat, dig kit -  -->
-
-kohne parol uymur (xeta msji)
+Admin panel footer
 
 
 Mən:
