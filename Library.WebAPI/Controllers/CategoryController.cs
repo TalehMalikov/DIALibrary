@@ -17,7 +17,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPost]
         [Route("add")]
-        [Authorize("SuperAdmin,Admin,ResourceAdmin")]
+        [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
         public IActionResult Add(Category category)
         {
             var result = _categoryService.Add(category);
@@ -30,7 +30,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPut]
         [Route("update")]
-        [Authorize("SuperAdmin,Admin,ResourceAdmin")]
+        [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
         public IActionResult Update(Category category)
         {
             var result = _categoryService.Update(category);
@@ -66,7 +66,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        [Authorize("SuperAdmin,Admin,ResourceAdmin")]
+        [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
         public IActionResult Delete(int id)
         {
             var result = _categoryService.Delete(id);

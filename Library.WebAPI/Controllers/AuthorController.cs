@@ -17,7 +17,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPost]
         [Route("add")]
-        [Authorize("SuperAdmin,Admin,ResourceAdmin")]
+        [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
         public IActionResult Add(Author author)
         {
             var result = _authorService.Add(author);
@@ -30,7 +30,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPut]
         [Route("update")]
-        [Authorize("SuperAdmin,Admin,GroupAdmin")]
+        [Authorize(Roles = "SuperAdmin,Admin,GroupAdmin")]
         public IActionResult Update(Author author)
         {
             var result = _authorService.Update(author);
@@ -68,7 +68,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        [Authorize("SuperAdmin,Admin,GroupAdmin")]
+        [Authorize(Roles = "SuperAdmin,Admin,GroupAdmin")]
         public IActionResult Delete(int id)
         {
             var result = _authorService.Delete(id);

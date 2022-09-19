@@ -17,7 +17,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPost]
         [Route("add")]
-        [Authorize("SuperAdmin,Admin,ResourceAdmin")]
+        [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
         public IActionResult Add(FileType fileType)
         {
             var result = _fileTypeService.Add(fileType);
@@ -30,7 +30,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPut]
         [Route("update")]
-        [Authorize("SuperAdmin,Admin,ResourceAdmin")]
+        [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
         public IActionResult Update(FileType fileType)
         {
             var result = _fileTypeService.Update(fileType);
@@ -43,7 +43,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpDelete("delete/{id:int}")]
-        [Authorize("SuperAdmin,Admin,ResourceAdmin")]
+        [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
         public IActionResult Delete(int id)
         {
             var result = _fileTypeService.Delete(id);

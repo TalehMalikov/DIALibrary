@@ -61,7 +61,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        [Authorize("SuperAdmin,Admin,GroupAdmin")]
+        [Authorize(Roles="SuperAdmin,Admin,GroupAdmin")]
         public IActionResult Delete(int id)
         {
             var result = _accountService.Delete(id);

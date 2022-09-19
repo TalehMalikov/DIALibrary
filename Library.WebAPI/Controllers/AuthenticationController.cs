@@ -65,7 +65,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPost]
         [Route("register")]
-        [Authorize("SuperAdmin,Admin,GroupAdmin")]
+        [Authorize(Roles = "SuperAdmin,Admin,GroupAdmin")]
         public IActionResult Register(RegisterRequestModel model)
         {
             var user = _userService.Get(model.UserId);

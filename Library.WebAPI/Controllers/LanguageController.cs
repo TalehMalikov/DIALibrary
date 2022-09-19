@@ -17,7 +17,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPost]
         [Route("add")]
-        [Authorize("SuperAdmin,Admin")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public IActionResult Add(Language language)
         {
             var result = _languageService.Add(language);
@@ -30,7 +30,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPut]
         [Route("update")]
-        [Authorize("SuperAdmin,Admin")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public IActionResult Update(Language language)
         {
             var result = _languageService.Update(language);
@@ -70,7 +70,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        [Authorize("SuperAdmin,Admin")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public IActionResult Delete(int id)
         {
             var result = _languageService.Delete(id);

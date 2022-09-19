@@ -18,7 +18,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPost]
         [Route("add")]
-        [Authorize("SuperAdmin,Admin")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public IActionResult Add(Group group)
         {
             var result = _groupService.Add(group);
@@ -31,7 +31,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPut]
         [Route("update")]
-        [Authorize("SuperAdmin,Admin")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public IActionResult Update(Group group)
         {
             var result = _groupService.Update(group);
@@ -70,7 +70,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        [Authorize("SuperAdmin,Admin")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public IActionResult Delete(int id)
         {
             var result = _groupService.Delete(id);

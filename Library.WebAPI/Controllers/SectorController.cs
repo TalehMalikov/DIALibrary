@@ -17,7 +17,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPost]
         [Route("add")]
-        [Authorize("SuperAdmin,Admin")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public IActionResult Add(Sector sector)
         {
             var result = _sectorService.Add(sector);
@@ -30,7 +30,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPut]
         [Route("update")]
-        [Authorize("SuperAdmin,Admin")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public IActionResult Update(Sector sector)
         {
             var result = _sectorService.Update(sector);
@@ -70,7 +70,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        [Authorize("SuperAdmin,Admin")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public IActionResult Delete(int id)
         {
             var result = _sectorService.Delete(id);

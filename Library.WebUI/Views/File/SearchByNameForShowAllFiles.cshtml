@@ -34,19 +34,22 @@
                         </a>
                         <div class="book-info d-flex flex-column px-4 ">
                             <h6 class="h6"><span class="text-bold">Kitab Adı: </span>@fileAuthor.File.Name</h6>
-                            <h6 class="h6">
+                                <h6 class="h6"><span class="text-bold">Müəllif: </span>
+                                    
                                     @{
-                                        var builder = new StringBuilder();
+                                        string authornames = null;
                                         foreach (var author in fileAuthor.Authors)
                                         {
+                                            var builder = new StringBuilder();
                                             builder.Append(author.FirstName);
                                             builder.Append(" ");
                                             builder.Append(author.LastName);
                                             builder.Append(", ");
-                                        }
-                                        <span class="text-bold" >Müəllif: </span>  @builder.ToString().Trim().Trim(',')
+                                            authornames = builder.ToString().Trim().Trim(',');
 
-                                }
+                                        }
+                                    }
+                                    @authornames
                             </h6>
                             <h6 class="h6"><span class="text-bold">Səhife: </span>@fileAuthor.File.PageNumber</h6>
                         </div>

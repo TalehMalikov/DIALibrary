@@ -17,7 +17,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPost]
         [Route("add")]
-        [Authorize("SuperAdmin,Admin")]
+        [Authorize(Roles="SuperAdmin,Admin")]
         public IActionResult Add(Faculty faculty)
         {
             var result = _facultyService.Add(faculty);
@@ -30,7 +30,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPut]
         [Route("update")]
-        [Authorize("SuperAdmin,Admin")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public IActionResult Update(Faculty faculty)
         {
             var result = _facultyService.Update(faculty);
@@ -43,7 +43,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpGet]
         [Route("getall")]
-        //[Authorize]
+        [Authorize]
         public IActionResult GetAll()
         {
             var result = _facultyService.GetAll();
@@ -67,7 +67,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        [Authorize("SuperAdmin,Admin")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public IActionResult Delete(int id)
         {
             var result = _facultyService.Delete(id);
