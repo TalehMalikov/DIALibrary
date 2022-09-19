@@ -65,14 +65,14 @@ namespace Library.WebUI.Controllers
 
         public async Task<IActionResult> SearchByName(CategoryFileViewModel data)
         {
-            var result = await _fileService.GetAllFiles();
-            var filteredData = result.Data.Where(p => p.Name.ToLower().Contains(data.FileModel.Name.ToLower())).ToList();
+            var result = await _fileService.GetAllFilesWithAuthors();
+            var filteredData = result.Data.Where(p => p.File.Name.ToLower().Contains(data.FileModel.Name.ToLower())).ToList();
 
             CategoryFileViewModel model = new CategoryFileViewModel
             {
                 FileModel = new FileViewModel
                 {
-                    Files = new SuccessDataResult<List<File>>(filteredData)
+                    FileAuthors = new SuccessDataResult<List<FileAuthorDto>>(filteredData)
                 }
             };
             return View(model);
