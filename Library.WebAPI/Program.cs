@@ -63,9 +63,9 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc($"v1", new OpenApiInfo
     {
-        Title = "Our Title",
-        Version = "v1",
-        Description = "Our test swagger client",
+        Title = "Eşq olsun Şəbnəmə",
+        Version = "best",
+        Description = "Şəbnəmin API-ı",
     });
 
     var jwtSecurityScheme = new OpenApiSecurityScheme
