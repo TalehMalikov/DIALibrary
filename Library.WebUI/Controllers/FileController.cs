@@ -114,11 +114,11 @@ namespace Library.WebUI.Controllers
             return RedirectToAction("NotFound", "Home");
         }
 
-        public async Task<IActionResult> FilterByCatalog()
-        {
-            var model = new FileViewModel();
-            return View(model);
-        }
+        //public async Task<IActionResult> FilterByCatalog()
+        //{
+        //    var model = new FileViewModel();
+        //    return View(model);
+        //}
 
         #region ShowAllFiles (bütün kitablar)
         public async Task<IActionResult> ShowFileInfoForAllFiles(string guid)

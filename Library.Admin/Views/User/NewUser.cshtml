@@ -1,0 +1,94 @@
+﻿@model UserViewModel
+@{
+    ViewData["Title"] = "NewUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="p-5">
+    <div class="text-center">
+        <h1 class="h4 text-gray-900 mb-4">İstifadəçi əlavə et!</h1>
+    </div>
+    <div class="form-group row">
+        <div class = "col-sm-2 d-flex justify-content-between">
+            <div>
+                <input type="radio" id="hide" name="section" checked/>
+                <label for="hide">İşçi</label>
+            </div>
+                            
+            <div>
+                <input type="radio" id="show" name="section" />
+                <label for="show">Tələbə</label>
+            </div>
+        </div>
+    </div>
+    <form class="user" asp-action="NewUser" asp-controller="User">
+
+        <!-- Ad,soyad -->
+        <div class="form-group row">
+            <div class="col-sm-6 mb-3 mb-sm-0">
+                <input type="text" class="form-control form-control-register"
+                       id="exampleInputFirstName" placeholder="Ad" asp-for="@Model.User.FirstName" required>
+            </div>
+            <div class="col-sm-6">
+                <input type="text" class="form-control form-control-register"
+                       id="exampleInputLastName" placeholder="Soyad" asp-for="@Model.User.LastName" required>
+            </div>
+        </div>
+
+        <!-- Ata adı,doğum günü -->
+        <div class="form-group row">
+            <div class="col-sm-6 mb-3 mb-sm-0">
+                <input type="text" class="form-control form-control-register" asp-for="@Model.User.FatherName"
+                       id="exampleInputFatherName" placeholder="Ata adı" required>
+            </div>
+            <!-- Placeholder -->
+            <div class="col-sm-6">
+                <input type="text" class="form-control form-control-register"
+                       id="exampleInputBirthdate" placeholder="Doğum tarixi"
+                       onfocus="(this.type='date')" asp-for="@Model.User.BirthDate" required>
+            </div>
+        </div>
+        <div id="studentSection" style="display: none;" class="form-group row">
+            <div class="form-group row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <input type="text" class="form-control form-control-register"
+                           id="exampleInputAcceptanceDate" placeholder="Daxil olma tarixi"
+                           onfocus="(this.type='date')">
+                </div>
+                <select class="col-sm-6 mb-3 mb-sm-0 btn-block form-control-register">
+                    <option selected>--İxtisas seç--</option>
+                    <option data-UserId="1">İnzibati idarəetmə</option>
+                    <option data-UserId="2">Siyasi idarəetmə</option>
+                </select>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12 d-flex justify-content-center">
+                    <select class="form-control-register col-sm-6 mb-3 mb-sm-0">
+                        <option selected>--Qrup seç--</option>
+                        <option data-UserId="1">K201</option>
+                        <option data-UserId="2">K202</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-6 ">
+                @Html.RadioButtonFor(model=>model.User.Gender,false)
+                <label for="gender">Kişi</label><br>
+                
+                @Html.RadioButtonFor(model=>model.User.Gender,true)
+                <label for="gender">Qadın</label>
+            </div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary btn-user btn-block">
+            Qeydiyyatı tamamla
+        </button>
+        <hr>
+
+    </form>
+</div>
+@section Scripts{
+    <script src="@Href("~/js/section.js")"></script>
+}

@@ -1,0 +1,227 @@
+﻿@model UserViewModel
+@{
+    ViewData["Title"] = "ShowUsers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">İstifadəçilər</h1>
+<p class="mp-4">
+    Burdakı istifadəçilər işçi heyəti və hal hazırda akademiyada təhsil alan tələbələrdir.
+    <span class="pull-left">
+        <button type="button" class="btn btn-primary float-right" name="submit" id="submit" data-toggle="modal" data-target="#addUserModal">Əlavə et</button>
+    </span>
+</p>
+<br>
+
+<div class="card shadow mb-4">
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Ad</th>
+                    <th>Soyad</th>
+                    <th>Ata ad;</th>
+                    <th>Doğum tarixi</th>
+                    <th>Sonuncu düzəliş</th>
+                    <th>Yenilə</th>
+                    <th>Sil</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model.Users)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.FirstName</td>
+                        <td>@item.LastName</td>
+                        <td>@item.FatherName</td>
+                        <td>@item.BirthDate.ToString("dd-mm-yyyy")</td>
+                        <td>@item.LastModified.ToString("dd-mm-yyyy")</td>
+                        <td><a class="dropdown-item" href="#" data-toggle="modal" data-target="#updateUserModal"><button type="button" class="btn btn-success" name="submit" id="submit">Yenilə</button></a></td>
+                        <td><a class="dropdown-item" data-toggle="modal" data-target="#deleteModal" asp-action="Delete" asp-controller="User" asp-route-id="@Model.User.Id">Sil</a></td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Modals{
+    <!-- Add User Modal - addUserModal -->
+    <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">İstifadəçi əlavə et!</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="user">
+                        <!-- Ad,soyad -->
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input type="text" class="form-control form-control-register"
+                                   id="exampleInputFirstName" placeholder="Ad">
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control form-control-register"
+                                   id="exampleInputLastName" placeholder="Soyad">
+                            </div>
+                        </div>
+
+                        <!-- Ata adı,doğum günü -->
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input type="text" class="form-control form-control-register"
+                                   id="exampleInputFatherName" placeholder="Ata adı">
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control form-control-register"
+                                   id="exampleInputBirthdate" placeholder="Doğum tarixi"
+                                   onfocus="(this.type='date')">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-6 ">
+                                <input type="radio" id="gender" name="gender_name">
+                                <label for="gender">Kişi</label><br>
+
+                                <input type="radio" id="gender" name="gender_name">
+                                <label for="gender">Qadın</label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Ləğv et</button>
+                    <a class="btn btn-primary" href="#" data-toggle="modal" data-dismiss="modal" data-target="#addStudentModal">Növbəti</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Student Modal - addStudentModal -->
+    <div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Qeydiyyatı tamamla!</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="user">
+                        <div class="form-group row">
+                            <select class="col-sm-6 btn-block form-control-register">
+                                <option selected data-UserId="12">Taleh Məlikov</option>
+                            </select>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control form-control-register"
+                                   id="exampleInputAcceptanceDate" placeholder="Daxil olma tarixi"
+                                   onfocus="(this.type='date')">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <select class="col-sm-6 btn-block form-control-register">
+                                <option selected>--İxtisas seç--</option>
+                                <option data-UserId="1">İnzibati idarəetmə</option>
+                                <option data-UserId="2">Siyasi idarəetmə</option>
+                            </select>
+                            <select class="col-sm-6 form-control-register">
+                                <option selected>--Qrup seç--</option>
+                                <option data-UserId="1">K201</option>
+                                <option data-UserId="2">K202</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Ləğv et</button>
+                    <a class="btn btn-primary" href="#">Qeydiyyatı tamamla</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Update Student Modal - updateUserModal -->
+    <div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Məlumatları yenilə!</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="user">
+                        <!-- Ad,soyad -->
+                        <div class="form-group row">
+                            <select class="col-sm-6 btn-block form-control-register">
+                                <option selected data-UserId="12">Taleh Məlikov</option>
+                            </select>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control form-control-register"
+                                   id="exampleInputAcceptanceDate" placeholder="06/29/2003"
+                                   onfocus="(this.type='date')">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <select class="col-sm-6 btn-block form-control-register">
+                                <option>--İxtisas seç--</option>
+                                <option selected data-UserId="1">İnzibati idarəetmə</option>
+                                <option data-UserId="2">Siyasi idarəetmə</option>
+                            </select>
+                            <select class="col-sm-6 form-control-register">
+                                <option>--Qrup seç--</option>
+                                <option selected data-UserId="1">K201</option>
+                                <option data-UserId="2">K202</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Ləğv et</button>
+                    <a class="btn btn-primary" href="#">Yenilə</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Common Delete Modal - deleteModal-->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Silmək istədiyinizə əminsiz?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Ləğv et</button>
+                    <a class="btn btn-danger" href="#">Təsdiq et</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts{
+    <script src="@Href("~/vendor/datatables/jquery.dataTables.min.js")"></script>
+    <script src="@Href("~/vendor/datatables/dataTables.bootstrap4.min.js")"></script>
+    <script src="@Href("~/js/demo/datatables-demo.js")"></script>
+}

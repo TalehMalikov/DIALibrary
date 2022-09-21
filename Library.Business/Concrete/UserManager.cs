@@ -53,6 +53,16 @@ namespace Library.Business.Concrete
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IUserService.Get))]
         [ValidationAspect(typeof(UserValidator))]
+        public DataResult<int> AddAsStudent(User student)
+        {
+            int result = _userRepository.AddAsStudent(student);
+            if (result == 0)
+                return new ErrorDataResult<int>("Error occured!");
+            return new SuccessDataResult<int>(result, StatusMessagesUtil.AddSuccessMessage);
+        }
+
+        [CacheRemoveAspect(nameof(Library.Business.Abstraction.IUserService.Get))]
+        [ValidationAspect(typeof(UserValidator))]
         public Result Update(User value)
         {
             if (_userRepository.Update(value))

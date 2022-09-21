@@ -28,6 +28,19 @@ namespace Library.WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpPost]
+        [Route("addasstudent")]
+        [Authorize(Roles = "SuperAdmin,Admin,GroupAdmin")]
+        public IActionResult AddAsStudent(User user)
+        {
+            var result = _userService.AddAsStudent(user);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
         [HttpPut]
         [Route("update")]
         [Authorize]
