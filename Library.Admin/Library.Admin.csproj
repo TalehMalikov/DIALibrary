@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Student\**" />
+    <Content Remove="Views\Student\**" />
+    <EmbeddedResource Remove="Views\Student\**" />
+    <None Remove="Views\Student\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac" Version="6.4.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
@@ -16,10 +23,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Library.Core\Library.Core.csproj" />
     <ProjectReference Include="..\Library.Entities\Library.Entities.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\Student\" />
   </ItemGroup>
 
 </Project>

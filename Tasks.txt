@@ -7,6 +7,7 @@
 6. <<Confirm form resubmission>>
 7. Navbar-giriş
 8. Email encrypt decrypt 
+9. Private office resurs(model conflict) problem
 
 Yüzəmməd:
 Admin panel footer
