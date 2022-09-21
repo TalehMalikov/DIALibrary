@@ -54,9 +54,9 @@ namespace Library.WebUI.Controllers
         public async Task<IActionResult> ForgotPassword(PasswordViewModel model)
         {
             var result = await _accountService.GetByEmail(model.Email);
-            //string email = result.Data.Email; 
-            string email = "eehmedov17@gmail.com";
-            if (true & model.Email == email)
+            string email = result.Data.Email;
+            //string email = "eehmedov17@gmail.com";
+            if (result.Success & model.Email == email)
             {
                 string code = MailKitUtil.GenerateVerificationCode();
                 HttpContext.Session.SetString("EmailToResetPassword",email);

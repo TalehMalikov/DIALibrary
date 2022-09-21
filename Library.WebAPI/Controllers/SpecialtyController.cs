@@ -17,7 +17,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPost]
         [Route("add")]
-        [Authorize("SuperAdmin,Admin")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public IActionResult Add(Specialty specialty)
         {
             var result = _specialtyService.Add(specialty);
@@ -30,7 +30,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPut]
         [Route("update")]
-        [Authorize("SuperAdmin,Admin")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public IActionResult Update(Specialty specialty)
         {
             var result = _specialtyService.Update(specialty);
@@ -70,7 +70,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        [Authorize("SuperAdmin,Admin")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public IActionResult Delete(int id)
         {
             var result = _specialtyService.Delete(id);

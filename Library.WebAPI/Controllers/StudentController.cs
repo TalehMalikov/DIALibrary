@@ -17,7 +17,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPost]
         [Route("add")]
-        [Authorize("SuperAdmin,Admin,GroupAdmin")]
+        [Authorize(Roles = "SuperAdmin,Admin,GroupAdmin")]
         public IActionResult Add(Student student)
         {
             var result = _studentService.Add(student);
@@ -83,7 +83,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        [Authorize("SuperAdmin,Admin,GroupAdmin")]
+        [Authorize(Roles = "SuperAdmin,Admin,GroupAdmin")]
         public IActionResult Delete(int id)
         {
             var result = _studentService.Delete(id);

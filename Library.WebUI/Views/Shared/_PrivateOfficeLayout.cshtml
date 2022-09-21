@@ -25,7 +25,7 @@
             <i class="far fa-bars"></i>
         </div>
         <div class="profile mx-2 text-dark d-flex align-items-center text-decoration-none">
-            <span class="mx-2">@Model.Account.User.FirstName @Model.Account.User.LastName</span>
+            <span class="mx-2 text-bold">@Model.Account.User.FirstName @Model.Account.User.LastName</span>
              <a asp-controller="PrivateOffice" asp-action="LogOut">
                 <i  class="fas fa-sign-out fa-2x text-primary"></i>
              </a>
@@ -68,7 +68,7 @@
                         <span class="name list">E-Kitabxana</span>
 
                         <ul class="dropdowns">
-                            <li class="drop-name"><a href="#" class="drop-name">E-Kataloq</a> </li>
+                            <li class="drop-name"><a asp-controller="File" asp-action="ECatalogIndex" class="drop-name">E-Kataloq</a> </li>
                             <li class="drop-name"><a asp-controller="Category" asp-action="Index" class="drop-name">E-Kitablar</a></li>
                             <li class="drop-name r-list">E-Resurslar</li>
 

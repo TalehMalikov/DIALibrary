@@ -16,7 +16,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        [Authorize("SuperAdmin,Admin,ResourceAdmin")]
+        [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
         public IActionResult Add(Activity activity)
         {
             var result = _activityService.Add(activity);
@@ -28,7 +28,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpPut("update")]
-        [Authorize("SuperAdmin,Admin,ResourceAdmin")]
+        [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
         public IActionResult Update(Activity activity)
         {
             var result = _activityService.Update(activity);
@@ -41,7 +41,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpDelete("delete/{id:int}")]
-        [Authorize("SuperAdmin,Admin,ResourceAdmin")]
+        [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
         public IActionResult Delete(int id)
         {
             var result = _activityService.Delete(id);

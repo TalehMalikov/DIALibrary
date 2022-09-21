@@ -1,4 +1,5 @@
-﻿@model CategoryFileViewModel
+﻿@using System.Text
+@model CategoryFileViewModel
 @{
     ViewData["Title"] = "SearchByName";
     Layout = "~/Views/Shared/_CommonLayout.cshtml";
@@ -25,16 +26,32 @@
     <div class="container-fluid">
         <div class="container-lg">
             <div class="book-result d-flex flex-column">
-                @foreach (var item in Model.FileModel.Files.Data)
+                @foreach (var fileAuthor in Model.FileModel.FileAuthors.Data)
                 {
                     <div class="book-div py-4">
-                        <a asp-controller="File" asp-action="ShowFileInfoForAllFiles" asp-route-guid="@item.GUID">
-                            <img src="@Url.Action("Picture","Resources", new{ name = item.PhotoPath})" class="result-img">
+                        <a asp-controller="File" asp-action="ShowFileInfoForAllFiles" asp-route-guid="@fileAuthor.File.GUID">
+                            <img src="@Url.Action("Picture","Resources", new{ name = fileAuthor.File.PhotoPath})" class="result-img">
                         </a>
                         <div class="book-info d-flex flex-column px-4 ">
-                            <h6 class="h6"><span class="text-bold">Kitab Adı: </span>@item.Name</h6>
-                            <h6 class="h6"><span class="text-bold">Müəllif: </span>Mustafayeva Səmayə , Cavadova Zərifə , Hüseynli Raminə</h6>
-                            <h6 class="h6"><span class="text-bold">Səhife: </span>@item.PageNumber</h6>
+                            <h6 class="h6"><span class="text-bold">Kitab Adı: </span>@fileAuthor.File.Name</h6>
+                                <h6 class="h6"><span class="text-bold">Müəllif: </span>
+                                    
+                                    @{
+                                        string authornames = null;
+                                        foreach (var author in fileAuthor.Authors)
+                                        {
+                                            var builder = new StringBuilder();
+                                            builder.Append(author.FirstName);
+                                            builder.Append(" ");
+                                            builder.Append(author.LastName);
+                                            builder.Append(", ");
+                                            authornames = builder.ToString().Trim().Trim(',');
+
+                                        }
+                                    }
+                                    @authornames
+                            </h6>
+                            <h6 class="h6"><span class="text-bold">Səhife: </span>@fileAuthor.File.PageNumber</h6>
                         </div>
                     </div>
                     <hr>

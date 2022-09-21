@@ -116,22 +116,16 @@ namespace Library.DataAccess.Implementation.PostgreSql
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string query = "select authors.id as authorid,authors.firstname,authors.lastname,authors.fathername,authors.gender,authors.bookcount from fileauthors " +
-                           " inner join authors ON fileauthors.authorid = authors.id where fileauthors.fileid=@fileId";
+                           " inner join authors ON  authors.id  = fileauthors.authorid where fileauthors.fileid=@fileId";
             using NpgsqlCommand command = new NpgsqlCommand(query, connection);
+
+            string queryAuthor = "select * from authors";
 
             for (int i = 0; i < files.Count; i++)
             {
-                var dto = new FileAuthorDto
-                {
-                    Authors = new List<Author>()
-                };
-                command.Parameters.AddWithValue("@fileId", files[i].Id);
-                var reader = command.ExecuteReader();
-                while (reader.Read())
-                    dto.Authors.Add(ReadAuthor(reader));
-                dto.File = files[i];
-                list.Add(dto);
-                reader.Close();
+                var m = GetFileWithAuthors(files[i].Id);
+                m.File = files[i];
+                list.Add(m);
             }
 
             return list;

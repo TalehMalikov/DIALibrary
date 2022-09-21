@@ -1,5 +1,6 @@
 ﻿using Library.Business.Abstraction;
 using Library.Entities.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.WebAPI.Controllers
@@ -16,6 +17,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpGet("getall")]
+        [Authorize]
         public IActionResult GetAll()
         {
             var result = _educationalProgramService.GetAll();
@@ -27,6 +29,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpGet("getbyid/{id:int}")]
+        [Authorize]
         public IActionResult Get(int id)
         {
             var result = _educationalProgramService.Get(id);
@@ -38,6 +41,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpPost("add")]
+        [Authorize(Roles = "SuperAdmin, Admin, ResourceAdmin")]
         public IActionResult Add(EducationalProgram value)
         {
             var result = _educationalProgramService.Add(value);
@@ -50,6 +54,7 @@ namespace Library.WebAPI.Controllers
 
 
         [HttpPut("update")]
+        [Authorize(Roles = "SuperAdmin, Admin, ResourceAdmin")]
         public IActionResult Update(EducationalProgram value)
         {
             var result = _educationalProgramService.Update(value);
@@ -61,6 +66,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpDelete("delete/{id:int}")]
+        [Authorize(Roles = "SuperAdmin, Admin, ResourceAdmin")]
         public IActionResult Delete(int id)
         {
             var result = _educationalProgramService.Delete(id);
