@@ -123,17 +123,6 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
             for (int i = 0; i < files.Count; i++)
             {
-                //var dto = new FileAuthorDto
-                //{
-                //    Authors = new List<Author>()
-                //};
-                //command.Parameters.AddWithValue("@fileId", files[i].Id);
-                //var reader = command.ExecuteReader();
-                //while (reader.Read())
-                //    dto.Authors.Add(ReadAuthor(reader));
-                //dto.File = files[i];
-                //list.Add(dto);
-                //reader.Close();
                 var m = GetFileWithAuthors(files[i].Id);
                 m.File = files[i];
                 list.Add(m);
