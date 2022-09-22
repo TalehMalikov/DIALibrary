@@ -36,7 +36,7 @@
             <div class="container-lg">
                 <nav class="navbar">
                     <a class="logo" asp-action="Index" asp-controller="Home">
-                        <img src="images/logo.png" width="100rem" class="d-inline-block">
+                        <img src="~/images/logo.png" width="100rem" class="d-inline-block">
                         <span class="logo-text">
                             Azərbaycan Respublikası Prezidenti yanında Dövlət İdarəçilik Akademiyası Elektron Kitabxanası
                         </span>
@@ -53,8 +53,8 @@
                             </li>
                         </div>
                         <li class="nav-item mx-md-1">
-                            <div>
-                                <select class="form-select-sm text-bold p-1" onchange="SetCulture(this.value)" @*asp-for="@requestCulture.RequestCulture.UICulture.Name"*@>
+                            <div class="lang">
+                                <select class="form-select-sm text-bold p-1" @*onchange="SetCulture(this.value)"*@ @*asp-for="@requestCulture.RequestCulture.UICulture.Name"*@>
                                     <option class="text-bold" value="az-Latn-AZ" selected >Azərbaycan</option>
                                     <option class="text-bold" value="ru-RU">Русский</option>
                                     <option class="text-bold" value="en-US">English</option>
