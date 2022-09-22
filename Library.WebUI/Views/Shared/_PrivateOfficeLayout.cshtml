@@ -51,11 +51,11 @@
                     </span>
 
                     <a asp-controller="Home" asp-action="Index" class="nav-links text-decoration-none">
-                        <span class="name">Ana Sehife</span>
+                        <span class="name">Ana səhife</span>
                     </a>
 
                     <span class="nav-links">
-                        <span class="name list">Bizim Kitabxana</span>
+                        <span class="name list">Bizim kitabxana</span>
 
                         <ul class="dropdowns">
                             <li class="drop-name"><a asp-controller="OurLibrary" asp-action="MoreInfo" class="drop-name">Ümumi məlumat</a> </li>
@@ -75,7 +75,7 @@
                             <ul class="drop r-drop">
                                 @foreach (var item in @ViewBag.AllFileTypes)
                                 {
-                                     <li class="drop-name"><a asp-controller="File" asp-action="ShowFileteredFiles" asp-route-id="@item.Id" class="drop-name">@item.Name</a></li>
+                                     <li class="drop-name"><a asp-controller="File" asp-action="ShowFilteredFiles" asp-route-id="@item.Id" class="drop-name">@item.Name</a></li>
                                 }
                                 <li class="drop-name"><a asp-controller="File" asp-action="EducationalPrograms" class="drop-name">Tədris proqramları</a></li>
                             </ul>

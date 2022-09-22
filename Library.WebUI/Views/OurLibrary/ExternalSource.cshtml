@@ -45,7 +45,6 @@
                             {
                                 <li><a asp-controller="File" asp-action="ShowFilteredFiles" asp-route-id="@item.Id" class="dropdown-item">@item.Name</a></li>
                             }
-
                         </ul>
                         <li><a class="dropdown-item" asp-controller="File" asp-action="ShowOurPublications">Bizim nəşrlərimiz</a></li>
                     </ul>
@@ -88,7 +87,7 @@
             
                      <div class="lib-txt mx-3 my-1">
                          <h5 class="text-bold">@item.Name</h5>
-                         <a href="@item.SourceLink" class="lib-url text-danger">@item.SourceLink</a>
+                         <a href="@item.SourceLink" class="lib-url text-danger" target="_blank">@item.SourceLink</a>
                      </div>
                    </div>  
                    <hr>
