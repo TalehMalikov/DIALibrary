@@ -3,9 +3,8 @@ using Library.Entities.Concrete;
 
 namespace Library.Admin.Services.Abstract
 {
-    public interface IStudentService
+    public interface IStudentService : IBaseService<Student>
     {
-        Task<Result> Add(string token,Student student);
         Task<DataResult<List<Student>>> GetAll(string token);
     }
 }

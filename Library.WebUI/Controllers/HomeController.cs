@@ -10,15 +10,13 @@ namespace Library.WebUI.Controllers
     public class HomeController : Controller
     {
         private readonly ICategoryService _categoryService;
-        private readonly IStringLocalizer<HomeController> _stringLocalizer;
         private readonly IFileTypeService _fileTypeService;
         private readonly IFileService _fileService;
 
-        public HomeController(ICategoryService categoryService,IFileTypeService fileTypeService, IStringLocalizer<HomeController> stringLocalizer,
+        public HomeController(ICategoryService categoryService,IFileTypeService fileTypeService,
                               IFileService fileService)
         {
             _categoryService = categoryService;
-            _stringLocalizer = stringLocalizer;
             _fileTypeService = fileTypeService;
             _fileService = fileService;
         }

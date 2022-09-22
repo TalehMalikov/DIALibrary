@@ -1,4 +1,6 @@
-﻿@model UserViewModel
+﻿@using Library.Entities.Concrete
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model UserViewModel
 @{
     ViewData["Title"] = "ShowUsers";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -25,7 +27,7 @@
                     <th>Id</th>
                     <th>Ad</th>
                     <th>Soyad</th>
-                    <th>Ata ad;</th>
+                    <th>Ata adı</th>
                     <th>Doğum tarixi</th>
                     <th>Sonuncu düzəliş</th>
                     <th>Yenilə</th>
@@ -43,7 +45,7 @@
                         <td>@item.BirthDate.ToString("dd-mm-yyyy")</td>
                         <td>@item.LastModified.ToString("dd-mm-yyyy")</td>
                         <td><a class="dropdown-item" href="#" data-toggle="modal" data-target="#updateUserModal"><button type="button" class="btn btn-success" name="submit" id="submit">Yenilə</button></a></td>
-                        <td><a class="dropdown-item" data-toggle="modal" data-target="#deleteModal" asp-action="Delete" asp-controller="User" asp-route-id="@Model.User.Id">Sil</a></td>
+                        <td><a class="dropdown-item" data-toggle="modal" data-target="#deleteModal" asp-action="Delete" asp-controller="User" asp-route-id="@item.Id">Sil</a></td>
                     </tr>
                 }
                 </tbody>
@@ -54,6 +56,9 @@
 
 @section Modals{
     <!-- Add User Modal - addUserModal -->
+    @{
+        User addedUser = new User();
+    }
     <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -112,7 +117,7 @@
 
     <!-- Add Student Modal - addStudentModal -->
     <div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
+         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -129,8 +134,8 @@
                             </select>
                             <div class="col-sm-6">
                                 <input type="text" class="form-control form-control-register"
-                                   id="exampleInputAcceptanceDate" placeholder="Daxil olma tarixi"
-                                   onfocus="(this.type='date')">
+                                       id="exampleInputAcceptanceDate" placeholder="Daxil olma tarixi"
+                                       onfocus="(this.type='date')">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -154,6 +159,7 @@
             </div>
         </div>
     </div>
+
     <!-- Update Student Modal - updateUserModal -->
     <div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">

@@ -1,5 +1,6 @@
 ﻿using Library.Admin.Models;
 using Library.Admin.Services.Abstract;
+using Library.Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.Admin.Controllers
@@ -31,7 +32,7 @@ namespace Library.Admin.Controllers
                 var result = _studentService.Add(token, model.Student);
             }
             else
-                 await _userService.Add(model.User, token);
+                 await _userService.Add(token, model.User);
             return View();
         }
 
@@ -49,7 +50,7 @@ namespace Library.Admin.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-            await _userService.Delete(id, token);
+            await _userService.Delete(token,id);
             return RedirectToAction("ShowUsers");
         }
     }

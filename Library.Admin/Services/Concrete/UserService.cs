@@ -40,5 +40,20 @@ namespace Library.Admin.Services.Concrete
             var result = await client.PostJsonAsync<DataResult<int>, User>(BaseUrl + "User/addasstudent", user);
             return result;
         }
+
+        public Task<Result> Add(string token, User entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Result> Update(string token, User entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Result> Delete(string token, int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

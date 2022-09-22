@@ -16,6 +16,16 @@ namespace Library.Admin.Services.Concrete
             return result;
         }
 
+        public Task<Result> Update(string token, Account entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Result> Delete(string token, int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<DataResult<List<Account>>> GetAll(string token)
         {
             throw new NotImplementedException();

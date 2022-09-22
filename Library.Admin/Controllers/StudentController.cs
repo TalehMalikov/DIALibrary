@@ -14,5 +14,25 @@ namespace Library.Admin.Controllers
             _userService = userService;
         }
 
+        public async Task<IActionResult> ShowStudents()
+        {
+            string token = HttpContext.Session.GetString("AdminAccessToken");
+            var result = await _studentService.GetAll(token);
+            var model = new StudentViewModel
+            {
+                Students = result.Data
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            string token = HttpContext.Session.GetString("AdminAccessToken");
+            var responseStudent = await _studentService.Delete(token,id);
+            var responseUser = await _userService.Delete(token, id);
+            return RedirectToAction("ShowStudents");
+        }
+
     }
 }

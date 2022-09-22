@@ -20,3 +20,21 @@ Mən:
 9. Localization																		-  
 
 ShowFilteredFiles = author
+
+
+
+
+--------------------------------------------
+				Admin Panel Task
+	Taleh
+1. Kitablar
+2. Yeniliklər
+3. Digər resurslar
+
+
+	Əhməd
+1. Hesablar
+2. Fakültə, ixtisas, qrup
+3. Hesabım
+
+

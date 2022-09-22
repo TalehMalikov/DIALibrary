@@ -18,8 +18,4 @@
     <ProjectReference Include="..\Library.Entities\Library.Entities.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Student\" />
-  </ItemGroup>
-
 </Project>

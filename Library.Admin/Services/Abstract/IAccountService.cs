@@ -3,9 +3,8 @@ using Library.Entities.Concrete;
 
 namespace Library.Admin.Services.Abstract
 {
-    public interface IAccountService
+    public interface IAccountService : IBaseService<Account>
     {
-        Task<Result> Add(string token,Account account);
         Task<DataResult<List<Account>>> GetAll(string token);
     }
 }
