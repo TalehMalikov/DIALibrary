@@ -9,8 +9,8 @@
         public const string DefaultQRCodePhotoPath = @"C:\DIALibrary\QRCodeImages\";*/
         #endregion
 
-        public const string DefaultPhotoPath = @"D:\Acer\Visual Studio Projets\repos\DIALibrary\Library.WebUI\wwwroot\images\FakeBookPhotos\";
-        public const string DefaultFilePath = @"D:\Acer\Visual Studio Projets\repos\DIALibrary\Library.WebUI\wwwroot\images\FakeBookFiles\";
+        public const string DefaultPhotoPath = "wwwroot/images/FakeBookPhotos/";
+        public const string DefaultFilePath = "wwwroot/images/FakeBookFiles/";
         //public const string DefaultUrlForQRCode = "https://localhost:7058/File/ShowFileInfo?guid=";
         //public const string DefaultQRCodePhotoPath = @"C:\DIALibrary\QRCodeImages\";
         
