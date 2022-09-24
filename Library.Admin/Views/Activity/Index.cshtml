@@ -1,0 +1,68 @@
+﻿@model ActivityViewModel
+@{
+    ViewData["Title"] = "NewActivity";
+    Layout = "_Layout";
+}
+
+<body id="page-top">
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+        <h1 class="text-gray-900 h4">Yenilik əlavə et</h1>
+        <form class="py-2" asp-controller="Activity" asp-action="AddActivity">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group mb-3">
+                        <label for="titleNews" class="mb-0 text-dark">Başlıq</label>
+                        <input type="text" class="form-control" id="titleNews" placeholder="Yeniliyin başlığı" asp-for="@Model.Activity.Title">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row py-1">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="inputGroupFile02" class="mb-0 text-dark">Şəkil</label>
+                        <div class="custom-file">
+                            @*///////*@
+                            <input type="file" class="custom-file-input" id="inputGroupFile02">
+                            <label class="custom-file-label" for="inputGroupFile02">Yeniliyin şəklini yüklə</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label for="timeNews" class="mb-0 text-dark">Tarix</label>
+                        <input type="datetime-local" class="form-control" id="timeNews" asp-for="@Model.Activity.CreatedDate">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group m-0 activities">
+                        <label for="contentNews" class="m-0 text-dark">Yeniliyin Məzmunu</label>
+                        @*<textarea class="form-control" id="contentNews" rows="2" placeholder="Abzas 1" ></textarea>*@
+                        @Html.TextAreaFor(m => m.Activity.Content, new { @class = "form-control",@id="contentNews" })
+                    </div>
+
+                    <div class="add d-flex justify-content-center">
+                        <span class="add-btn one">+</span>
+                        <span class="add-btn two">-</span>
+                    </div>
+                </div>
+            </div>
+            @{
+                
+            }
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <button type="submit" class="btn btn-primary px-5">Əlavə et</button>
+                </div>
+            </div>
+        </form>
+       
+    </div>
+
+    <script src="~/js/app.js"></script>
+</body>
