@@ -193,7 +193,7 @@ namespace Library.WebUI.Controllers
             var fileTypeList = await _fileTypeService.GetAllFileTypes();
             fileTypeList.Data.Add(new FileType()
             {
-                Name = "Seç",
+                Name = "Hamısı",
                 Id = 0
             });
             viewModel.FileTypeList = new SelectList(fileTypeList.Data, "Id", "Name", "Seç");

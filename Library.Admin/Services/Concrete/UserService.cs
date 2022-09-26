@@ -9,7 +9,7 @@ namespace Library.Admin.Services.Concrete
 {
     public class UserService : BaseService, IUserService
     {
-        public async Task<Result> Add(User user, string token)
+        public async Task<Result> Add(string token,User user)
         {
             using HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -17,11 +17,11 @@ namespace Library.Admin.Services.Concrete
             return result;
         }
 
-        public async Task<Result> Delete(int id, string token)
+        public async Task<Result> Delete(string token,int id)
         {
             using HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var result = await client.PostJsonAsync<Result, int>(BaseUrl + "User/delete/", id);
+            var result = await client.DeleteJsonAsync<Result>(BaseUrl + "User/"+ id);
             return result;
         }
 
@@ -41,19 +41,10 @@ namespace Library.Admin.Services.Concrete
             return result;
         }
 
-        public Task<Result> Add(string token, User entity)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<Result> Update(string token, User entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Result> Delete(string token, int id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

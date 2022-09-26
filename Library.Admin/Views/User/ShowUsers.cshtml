@@ -1,5 +1,4 @@
-﻿@using Library.Entities.Concrete
-@using Microsoft.AspNetCore.Mvc.TagHelpers
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model UserViewModel
 @{
     ViewData["Title"] = "ShowUsers";
@@ -23,31 +22,31 @@
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Ad</th>
-                    <th>Soyad</th>
-                    <th>Ata adı</th>
-                    <th>Doğum tarixi</th>
-                    <th>Sonuncu düzəliş</th>
-                    <th>Yenilə</th>
-                    <th>Sil</th>
-                </tr>
+                    <tr>
+                        <th>Id</th>
+                        <th>Ad</th>
+                        <th>Soyad</th>
+                        <th>Ata adı</th>
+                        <th>Doğum tarixi</th>
+                        <th>Sonuncu düzəliş</th>
+                        <th>Yenilə</th>
+                        <th>Sil</th>
+                    </tr>
                 </thead>
                 <tbody>
-                @foreach (var item in Model.Users)
-                {
-                    <tr>
-                        <td>@item.Id</td>
-                        <td>@item.FirstName</td>
-                        <td>@item.LastName</td>
-                        <td>@item.FatherName</td>
-                        <td>@item.BirthDate.ToString("dd-mm-yyyy")</td>
-                        <td>@item.LastModified.ToString("dd-mm-yyyy")</td>
-                        <td><a class="dropdown-item" href="#" data-toggle="modal" data-target="#updateUserModal"><button type="button" class="btn btn-success" name="submit" id="submit">Yenilə</button></a></td>
-                        <td><a class="dropdown-item" data-toggle="modal" data-target="#deleteModal" asp-action="Delete" asp-controller="User" asp-route-id="@item.Id">Sil</a></td>
-                    </tr>
-                }
+                    @foreach (var item in Model.Users)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.FirstName</td>
+                            <td>@item.LastName</td>
+                            <td>@item.FatherName</td>
+                            <td>@item.BirthDate.ToString("dd-mm-yyyy")</td>
+                            <td>@item.LastModified.ToString("dd-mm-yyyy")</td>
+                            <td><a class="btn btn-secondary" asp-action="EditUser" asp-controller="User">Yenilə</a></td>
+                            <td><a class="btn btn-danger delete" data-id="@item.Id" data-toggle="modal" data-target="#deleteModal" data-controller="User" data-action="Delete" data-redirect-url="/User/ShowUsers">Sil</a></td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
@@ -56,9 +55,6 @@
 
 @section Modals{
     <!-- Add User Modal - addUserModal -->
-    @{
-        User addedUser = new User();
-    }
     <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -117,7 +113,7 @@
 
     <!-- Add Student Modal - addStudentModal -->
     <div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
+     aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -134,8 +130,8 @@
                             </select>
                             <div class="col-sm-6">
                                 <input type="text" class="form-control form-control-register"
-                                       id="exampleInputAcceptanceDate" placeholder="Daxil olma tarixi"
-                                       onfocus="(this.type='date')">
+                                   id="exampleInputAcceptanceDate" placeholder="Daxil olma tarixi"
+                                   onfocus="(this.type='date')">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -207,27 +203,22 @@
     </div>
 
     <!-- Common Delete Modal - deleteModal-->
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Silmək istədiyinizə əminsiz?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Ləğv et</button>
-                    <a class="btn btn-danger" href="#">Təsdiq et</a>
-                </div>
-            </div>
-        </div>
-    </div>
+   
 }
 
-@section Scripts{
+    @section Scripts{
+    @*<script>
+
+        var path_to_delete;
+        var root = location.protocol + "//" + location.host;
+
+        $("#deleteItem").click(function (e) {
+            path_to_delete = $(this).data('path');
+            $('#myform').attr('action', root + path_to_delete);
+        });
+    </script>*@
     <script src="@Href("~/vendor/datatables/jquery.dataTables.min.js")"></script>
     <script src="@Href("~/vendor/datatables/dataTables.bootstrap4.min.js")"></script>
     <script src="@Href("~/js/demo/datatables-demo.js")"></script>
+    <script src="@Href("~/js/section.js")"></script>
 }

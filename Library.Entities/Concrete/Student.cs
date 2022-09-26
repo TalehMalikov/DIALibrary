@@ -4,9 +4,9 @@ namespace Library.Entities.Concrete
 {
     public class Student : BaseEntity
     {
-        public User User { get; set; }
+        public User User { get; set; } = new User();
         public DateTime AcceptanceDate { get; set; }
         public Specialty Specialty { get; set; }
-        public Group Group { get; set; }
+        public Group Group { get; set; } = new Group();
     }
 }

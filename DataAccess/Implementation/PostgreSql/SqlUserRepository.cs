@@ -49,15 +49,15 @@ namespace Library.DataAccess.Implementation.PostgreSql
             connection.Open();
             string cmdString =
                 "Insert Into Users(FirstName,LastName,FatherName,BirthDate,Gender,IsDeleted,LastModified) " +
-                "output inserted.Id Values(@firstName,@lastName,@fatherName,@birthDate,@gender,@isDeleted,@lastModified)";
+                "Values(@firstName,@lastName,@fatherName,@birthDate,@gender,@isDeleted,@lastModified) RETURNING Id";
             using NpgsqlCommand cmd = new NpgsqlCommand(cmdString, connection);
             cmd.Parameters.AddWithValue("@firstName", student.FirstName);
             cmd.Parameters.AddWithValue("@lastName", student.LastName);
             cmd.Parameters.AddWithValue("@fatherName", student.FatherName);
-            cmd.Parameters.AddWithValue("@birthDate", student.BirthDate.ToString("dd-mm-yyyy"));
+            cmd.Parameters.AddWithValue("@birthDate", student.BirthDate);
             cmd.Parameters.AddWithValue("@gender", student.Gender);
             cmd.Parameters.AddWithValue("@isDeleted", false);
-            cmd.Parameters.AddWithValue("@lastModified", student.LastModified.ToString("dd-mm-yyyy"));
+            cmd.Parameters.AddWithValue("@lastModified", student.LastModified);
             return Convert.ToInt32(cmd.ExecuteScalar());
         }
 
