@@ -4,7 +4,7 @@
     <!-- Modal content -->
     <div class="modal-content" id="editDebtModelBody">
         <div style="overflow:auto;" class="modal-body">
-            <form asp-controller="Resource" asp-action="SaveBook" class="form-group">
+            <form asp-controller="Resource" asp-action="SaveBook" class="form-group" enctype = "multipart/form-data">
                 <input hidden asp-for="File.Id"/>
 
                <div class="form-group">
@@ -13,23 +13,20 @@
                     <span asp-validation-for="File.Name" class="text-danger"></span>
                 </div>
 
-                @*<div class="form-group">
+                <div class="form-group">
                     <label for="name" class="mr-sm-2">Kateqoriya:</label>
                      @Html.DropDownListFor(s=> s.CategoryId, Model.CategoryList,new {@class="custom-select form-control"})
-                    <span asp-validation-for="File.Category.Name" class="text-danger"></span>
                 </div>
                 
                 <div class="form-group">
                     <label for="name" class="mr-sm-2">Orjinal dil:</label>
                      @Html.DropDownListFor(s=> s.OriginalLanguageId, Model.LanguageList,new {@class="custom-select form-control"})
-                    <span asp-validation-for="File.OriginalLanguage.Id" class="text-danger"></span>
                 </div>
                 
                 <div class="form-group">
                     <label for="name" class="mr-sm-2">Çap dili:</label>
                     @Html.DropDownListFor(s=> s.PublicationLanguageId, Model.LanguageList,new {@class="custom-select form-control"})
-                    <span asp-validation-for="File.PublicationLanguage.Id" class="text-danger"></span>
-                </div>*@
+                </div>
                 
                 <div class="form-group">
                     <label for="name" class="mr-sm-2">Fayl yüklə:</label>
@@ -39,14 +36,14 @@
 
                 <div class="form-group">
                     <label for="name" class="mr-sm-2">Şəkil yüklə:</label>
-                    <input type="file" asp-for="AddedPicture" class="form-control mb-2 mr-sm-2" id="inputGroupFile02">
+                    <input type="file" asp-for="AddedPicture" class="form-control mb-2 mr-sm-2 fileUpload" id="inputGroupFile02">
                     <span asp-validation-for="AddedPicture" class="text-danger"></span>
                 </div>
 
-                @*<div class="form-group">
+                <div class="form-group">
                     <label for="name" class="mr-sm-2">Nəşrimizdir:</label>
                     @Html.DropDownListFor(s=> s.EditionStatusId, Model.EditionList,new {@class="custom-select form-control"})
-                </div> *@
+                </div> 
 
                 <div class="form-group">
                     <label for="name" class="mr-sm-2">Çap evi:</label>
