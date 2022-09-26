@@ -56,7 +56,7 @@ namespace Library.WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getbyi?{id:int}")]
+        [HttpGet("getbyid/{id:int}")]
         [Authorize]
         public IActionResult Get(int id)
         {

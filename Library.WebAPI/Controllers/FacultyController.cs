@@ -54,8 +54,8 @@ namespace Library.WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getbyid/{id:int}")]
         [Authorize]
+        [HttpGet("getbyid/{id:int}")]
         public IActionResult Get(int id)
         {
             var result = _facultyService.Get(id);
@@ -66,7 +66,7 @@ namespace Library.WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpDelete("{id:int}")]
+        [HttpDelete("delete/{id:int}")]
         [Authorize(Roles = "SuperAdmin,Admin")]
         public IActionResult Delete(int id)
         {
