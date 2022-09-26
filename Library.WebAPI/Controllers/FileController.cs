@@ -90,7 +90,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [Authorize]
-        [HttpDelete("delete/{id:int}")]
+        [HttpDelete("{id:int}")]
         [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
         public IActionResult Delete(int id)
         {

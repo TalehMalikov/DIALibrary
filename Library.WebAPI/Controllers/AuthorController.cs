@@ -67,7 +67,7 @@ namespace Library.WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpDelete("delete/{id:int}")]
+        [HttpDelete("{id:int}")]
         [Authorize(Roles = "SuperAdmin,Admin,GroupAdmin")]
         public IActionResult Delete(int id)
         {
