@@ -79,7 +79,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             List<User> users = new List<User>();
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
-            string cmdString = "Select * From Users";
+            string cmdString = "Select * From Users  where isDeleted=false";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             var reader = command.ExecuteReader();
             while (reader.Read())

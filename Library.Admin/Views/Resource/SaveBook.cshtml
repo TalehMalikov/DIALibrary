@@ -1,0 +1,66 @@
+﻿@model ResourceViewModel
+
+<div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <!-- Modal content -->
+    <div class="modal-content" id="editDebtModelBody">
+        <div style="overflow:auto;" class="modal-body">
+            <form asp-controller="Bank" asp-action="Save" class="form-group">
+                <input hidden asp-for="File.Id"/>
+
+               <div class="form-group">
+                    <label for="name" class="mr-sm-2">Ad:</label>
+                    <input asp-for="File.Name" class="form-control mb-2 mr-sm-2" />
+                    <span asp-validation-for="File.Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="name" class="mr-sm-2">Kateqoriya:</label>
+                    <input asp-for="File.Category.Name" class="form-control mb-2 mr-sm-2" />
+                    <span asp-validation-for="File.Category.Name" class="text-danger"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="name" class="mr-sm-2">Orjinal dil:</label>
+                    <input asp-for="File.OriginalLanguage.Name" class="form-control mb-2 mr-sm-2" />
+                    <span asp-validation-for="File.OriginalLanguage.Name" class="text-danger"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="name" class="mr-sm-2">Çap dili:</label>
+                    <input asp-for="File.PublicationLanguage.Name" class="form-control mb-2 mr-sm-2" />
+                    <span asp-validation-for="File.PublicationLanguage.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="name" class="mr-sm-2">Nəşrimizdir:</label>
+                    <input asp-for="File.EditionStatus" class="form-control mb-2 mr-sm-2" />
+                    <span asp-validation-for="File.EditionStatus" class="text-danger"></span>
+                </div> 
+                <div class="form-group">
+                    <label for="name" class="mr-sm-2">Çap evi:</label>
+                    <input asp-for="File.PublisherName" class="form-control mb-2 mr-sm-2" />
+                    <span asp-validation-for="File.PublisherName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="name" class="mr-sm-2">Çap tarixi:</label>
+                    <input asp-for="File.PublicationDate" class="form-control mb-2 mr-sm-2" />
+                    <span asp-validation-for="File.PublicationDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="name" class="mr-sm-2">Səhifə sayı:</label>
+                    <input asp-for="File.PageNumber" class="form-control mb-2 mr-sm-2" />
+                    <span asp-validation-for="File.PageNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="name" class="mr-sm-2">Description:</label>
+                    <input asp-for="File.Description" class="form-control mb-2 mr-sm-2" />
+                    <span asp-validation-for="File.Description" class="text-danger"></span>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary bgupdate">Yadda saxla</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<partial name="_ValidationScriptsPartial"/>

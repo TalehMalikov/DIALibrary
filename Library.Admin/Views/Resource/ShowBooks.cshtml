@@ -1,0 +1,306 @@
+﻿@model ResourceViewModel
+@{
+    Layout = "_Layout";
+}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Kitablar</h1>
+    <p class="mp-4">
+        .............
+        <span class="pull-left">
+            @*<a class="dropdown-item" href="#" data-toggle="modal" data-target="#addUserModal"><button type="button" class="btn btn-primary float-right" name="submit" id="submit">Əlavə et</button></a>*@
+            <button class="btn btn-primary bgupdate" onclick="ShowSaveModal(this)" data-toggle="modal" data-id="0" id="myBtnAdd"><i class='fas fa-download'></i>Əlavə et</button>
+        </span>
+    </p>
+    <br>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <!-- <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+        </div> -->
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Ad</th>
+                            <th>Kateqoriya</th>
+                            <th>Orjinal dil</th>
+                            <th>Çap dili</th>
+                            <th>Nəşrimizdir?</th>
+                            <th>Şəkil</th>
+                            <th>Fayl</th>
+                            <th>Fayl</th>
+                            <th>Çap evi</th>
+                            <th>Çap tarixi</th>
+                            <th>Səhifə sayı</th>
+                            <th>Description</th>
+                            <th>GUID</th>
+                            <th>Son dəyişilmə tarixi</th>
+                            <th>Yenilə</th>
+                            <th>Sil</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Ad</th>
+                            <th>Kateqoriya</th>
+                            <th>Orjinal dil</th>
+                            <th>Çap dili</th>
+                            <th>Nəşrimizdir?</th>
+                            <th>Şəkil</th>
+                            <th>Fayl</th>
+                            <th>Fayl</th>
+                            <th>Çap evi</th>
+                            <th>Çap tarixi</th>
+                            <th>Səhifə sayı</th>
+                            <th>Description</th>
+                            <th>GUID</th>
+                            <th>Son dəyişilmə tarixi</th>
+                            <th>Yenilə</th>
+                            <th>Sil</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach(var file in Model.Files)
+                        {
+                            <tr>
+                                <td>@file.Name</td>
+                                <td>@file.Category.Name</td>
+                                <td>@file.OriginalLanguage.Name</td>
+                                <td>@file.PublicationLanguage.Name</td>
+                                <td>@file.EditionStatus</td>
+                                <td><a class="dropdown-item" href="#" data-toggle="modal" data-target="#updateUserModal"><button type="button" class="btn btn-info" name="submit" id="submit">Aç</button></a></td>                                          
+                                <td><a class="dropdown-item" href="#" data-toggle="modal" data-target="#updateUserModal"><button type="button" class="btn btn-info" name="submit" id="submit">Aç</button></a></td>                                           
+                                <td><a class="dropdown-item" href="#" data-toggle="modal" data-target="#updateUserModal"><button type="button" class="btn btn-secondary" name="submit" id="submit">Yüklə</button></a></td>                                        
+                                <td>@file.PublisherName</td>
+                                <td>@file.PublicationDate.ToString("dd/MM/yyyy")</td>
+                                <td>@file.PageNumber</td>
+                                <td>@file.Description</td>
+                                <td>@file.GUID</td>
+                                <td>@file.LastModified</td>
+                                <td><button class="btn btn-primary bgupdate" onclick="ShowSaveModal(this)" data-id="@file.Id" id="btnUpdate"><i class='fas fa-download'></i> Update</button></td>
+                                <td><button class="btn btn-danger bgdelete" onclick="ShowDeleteModal(this)" data-toggle="modal" data-id="@file.Id" data-target="#DelModal" id="btnDel"><i class='fas fa-trash-alt'></i> Delete</button></td>@*
+                                <td><a class="dropdown-item" href="#" data-toggle="modal" data-target="#updateUserModal"><button type="button" class="btn btn-success" name="submit" id="submit">Yenilə</button></a></td>                                        
+                                <td><a class="dropdown-item" href="#" data-toggle="modal" data-target="#deleteModal"><button type="button" class="btn btn-danger">Sil</button></a></td>*@
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Add User Modal - addUserModal -->
+<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">İstifadəçi əlavə et!</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="user">
+                    <!-- Ad,soyad -->
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <input type="text" class="form-control form-control-register"
+                                   id="exampleInputFirstName" placeholder="Ad">
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control form-control-register"
+                                   id="exampleInputLastName" placeholder="Soyad">
+                        </div>
+                    </div>
+
+                    <!-- Ata adı,doğum günü -->
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <input type="text" class="form-control form-control-register"
+                                   id="exampleInputFatherName" placeholder="Ata adı">
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control form-control-register"
+                                   id="exampleInputBirthdate" placeholder="Doğum tarixi"
+                                   onfocus="(this.type='date')">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6 ">
+                            <input type="radio" id="gender" name="gender_name">
+                            <label for="gender">Kişi</label><br>
+
+                            <input type="radio" id="gender" name="gender_name">
+                            <label for="gender">Qadın</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Ləğv et</button>
+                <a class="btn btn-primary" href="#">Əlavə et</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Update User Modal - updateUserModal -->
+<div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Məlumatları yenilə!</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="user">
+                    <!-- Ad,soyad -->
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <input type="text" class="form-control form-control-register"
+                                   id="exampleInputFirstName" placeholder="Taleh">
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control form-control-register"
+                                   id="exampleInputLastName" placeholder="Məlikov">
+                        </div>
+                    </div>
+
+                    <!-- Ata adı,doğum günü -->
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <input type="text" class="form-control form-control-register"
+                                   id="exampleInputFatherName" placeholder="Tahir">
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control form-control-register"
+                                   id="exampleInputBirthdate" placeholder="06/29/2003"
+                                   onfocus="(this.type='date')">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-6 ">
+                            <input type="radio" checked id="gender" name="gender_name">
+                            <label for="gender">Kişi</label><br>
+
+                            <input type="radio" id="gender" name="gender_name">
+                            <label for="gender">Qadın</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Ləğv et</button>
+                <a class="btn btn-primary" href="#">Yenilə</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<!-- Common Delete Modal - deleteModal-->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Silmək istədiyinizə əminsiz?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Ləğv et</button>
+                <a class="btn btn-danger" href="#">Təsdiq et</a>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+<div class="modal fade" id="createModal">
+</div>
+
+<div class="modal fade" id="DelModal">
+    <div class="modal-dialog">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Delete row</h4>
+                <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+
+            <div style="overflow-x:auto;" class="modal-body ">
+                <p>Are you sure to delete this row?</p>
+            </div>
+
+            <div class="modal-footer">
+                <form asp-action="Delete" asp-controller="Bank" method="post">
+                    <input asp-for="DeletedBook.Id" class="deletedId" hidden />
+                    <button type="submit" class="btn btn-primary bgupdate">Yes</button>
+                    <button type="button" class="btn btn-danger bgdelete" data-dismiss="modal">No</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="@Href("~/vendor/datatables/jquery.dataTables.min.js")"></script>
+    <script src="@Href("~/vendor/datatables/dataTables.bootstrap4.min.js")"></script>
+    <script src="@Href("~/js/demo/datatables-demo.js")"></script>
+
+    <script>
+        function ShowDeleteModal(elem) {
+            var dataId = $(elem).data("id");
+            $(".deletedId").val(dataId);
+        }
+
+        function ShowSaveModal(elem) {
+            var dataId = $(elem).data("id");
+
+            $.ajax({
+                url: "/Resource/SaveBook?id=" + dataId,
+                success: function (data) {
+                    $('#createModal').html(data);
+                    $("#createModal").modal("show");
+                },
+                error : function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        $(document).ready(function () {
+
+            $('#banksTable tfoot th').each(function () {
+                var title = $(this).text();
+                $(this).html('<input type="text" placeholder="Search" style="width:100%;" />');
+            });
+
+            var table = $('#banksTable').DataTable();
+
+            table.columns().every(function () {
+                var that = this;
+
+                $('input', this.footer()).on('keyup change clear', function () {
+                    if (that.search() !== this.value) {
+                        that.search(this.value).draw();
+                    }
+                });
+            });
+        });
+    </script>
+}
