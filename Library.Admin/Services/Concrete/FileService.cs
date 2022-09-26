@@ -27,7 +27,7 @@ namespace Library.Admin.Services.Concrete
         public async Task<DataResult<File>> Get(int id)
         {
             using HttpClient client = new HttpClient();
-            var result = await client.GetJsonAsync<DataResult<File>>(BaseUrl + $"File/get?id={id}");
+            var result = await client.GetJsonAsync<DataResult<File>>(BaseUrl + $"File/getbyid/{id}");
             return result;
         }
 

@@ -9,7 +9,7 @@
     <h1 class="h3 mb-2 text-gray-800">Kitablar</h1>
     <p class="mp-4">
         .............
-        <span class="pull-left">
+        <span class="pull-right">
             @*<a class="dropdown-item" href="#" data-toggle="modal" data-target="#addUserModal"><button type="button" class="btn btn-primary float-right" name="submit" id="submit">Əlavə et</button></a>*@
             <button class="btn btn-primary bgupdate" onclick="ShowSaveModal(this)" data-toggle="modal" data-id="0" id="myBtnAdd"><i class='fas fa-download'></i>Əlavə et</button>
         </span>
@@ -33,7 +33,6 @@
                             <th>Nəşrimizdir?</th>
                             <th>Şəkil</th>
                             <th>Fayl</th>
-                            <th>Fayl</th>
                             <th>Çap evi</th>
                             <th>Çap tarixi</th>
                             <th>Səhifə sayı</th>
@@ -52,7 +51,6 @@
                             <th>Çap dili</th>
                             <th>Nəşrimizdir?</th>
                             <th>Şəkil</th>
-                            <th>Fayl</th>
                             <th>Fayl</th>
                             <th>Çap evi</th>
                             <th>Çap tarixi</th>
@@ -75,7 +73,6 @@
                                 <td>@file.EditionStatus</td>
                                 <td><a class="dropdown-item" href="#" data-toggle="modal" data-target="#updateUserModal"><button type="button" class="btn btn-info" name="submit" id="submit">Aç</button></a></td>                                          
                                 <td><a class="dropdown-item" href="#" data-toggle="modal" data-target="#updateUserModal"><button type="button" class="btn btn-info" name="submit" id="submit">Aç</button></a></td>                                           
-                                <td><a class="dropdown-item" href="#" data-toggle="modal" data-target="#updateUserModal"><button type="button" class="btn btn-secondary" name="submit" id="submit">Yüklə</button></a></td>                                        
                                 <td>@file.PublisherName</td>
                                 <td>@file.PublicationDate.ToString("dd/MM/yyyy")</td>
                                 <td>@file.PageNumber</td>
@@ -96,8 +93,10 @@
 
 </div>
 
-<!-- Add User Modal - addUserModal -->
-<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+@*
+
+    <!-- Add User Modal - addUserModal -->
+    <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -210,6 +209,7 @@
         </div>
     </div>
 </div>
+*@
 
 @*<!-- Common Delete Modal - deleteModal-->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -247,7 +247,7 @@
             </div>
 
             <div class="modal-footer">
-                <form asp-action="Delete" asp-controller="Bank" method="post">
+                <form asp-action="DeleteBook" asp-controller="Resource" method="post">
                     <input asp-for="DeletedBook.Id" class="deletedId" hidden />
                     <button type="submit" class="btn btn-primary bgupdate">Yes</button>
                     <button type="button" class="btn btn-danger bgdelete" data-dismiss="modal">No</button>
@@ -274,6 +274,7 @@
             $.ajax({
                 url: "/Resource/SaveBook?id=" + dataId,
                 success: function (data) {
+                    console.log(data);
                     $('#createModal').html(data);
                     $("#createModal").modal("show");
                 },
@@ -285,12 +286,12 @@
 
         $(document).ready(function () {
 
-            $('#banksTable tfoot th').each(function () {
+            $('#dataTable tfoot th').each(function () {
                 var title = $(this).text();
                 $(this).html('<input type="text" placeholder="Search" style="width:100%;" />');
             });
 
-            var table = $('#banksTable').DataTable();
+            var table = $('#dataTable').DataTable();
 
             table.columns().every(function () {
                 var that = this;
