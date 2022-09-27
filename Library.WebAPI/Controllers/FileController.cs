@@ -14,8 +14,7 @@ namespace Library.WebAPI.Controllers
             _fileService = fileService;
         }
 
-        [HttpPost]
-        [Authorize]
+        //[HttpPost]
         [Route("add")]
         [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
         public IActionResult Add(Entities.Concrete.File file)
@@ -29,7 +28,6 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpPut]
-        [Authorize]
         [Route("update")]
         [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
         public IActionResult Update(Entities.Concrete.File file)
