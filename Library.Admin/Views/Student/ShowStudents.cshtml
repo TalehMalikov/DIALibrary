@@ -19,39 +19,46 @@
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Ad</th>
-                        <th>Soyad</th>
-                        <th>Ata adı</th>
-                        <th>İxtisas</th>
-                        <th>Qrup</th>
-                        <th>Qəbul tarixi</th>
-                        <th>Doğum tarixi</th>
-                        <th>Sonuncu düzəliş</th>
-                        <th>Yenilə</th>
-                        <th>Sil</th>
-                    </tr>
+                <tr>
+                    <th>Id</th>
+                    <th>Ad</th>
+                    <th>Soyad</th>
+                    <th>Ata adı</th>
+                    <th>İxtisas</th>
+                    <th>Qrup</th>
+                    <th>Qəbul tarixi</th>
+                    <th>Doğum tarixi</th>
+                    <th>Sonuncu düzəliş</th>
+                    <th>Yenilə</th>
+                    <th>Sil</th>
+                </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.Students)
-                    {
-                        <tr>
-                            <td>@item.Id</td>
-                            <td>@item.User.FirstName</td>
-                            <td>@item.User.LastName</td>
-                            <td>@item.User.FatherName</td>
-                            <td>@item.Specialty.Name</td>
-                            <td>@item.Group.Name</td>
-                            <td>@item.AcceptanceDate.ToString("dd-mm-yyyy")</td>
-                            <td>@item.User.BirthDate.ToString("dd-mm-yyyy")</td>
-                            <td>@item.User.LastModified.ToString("dd-mm-yyyy")</td>
-                            <td><a class="dropdown-item" href="#" data-toggle="modal" data-target="#updateUserModal"><button type="button" class="btn btn-success" name="submit" id="submit">Yenilə</button></a></td>
-                            <td><a class="dropdown-item" data-toggle="modal" data-target="#deleteModal" asp-action="Delete" asp-controller="Student" asp-route-id="@item.User.Id">Sil</a></td>
-                        </tr>
-                    }
+                @foreach (var item in Model.Students)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.User.FirstName</td>
+                        <td>@item.User.LastName</td>
+                        <td>@item.User.FatherName</td>
+                        <td>@item.Specialty.Name</td>
+                        <td>@item.Group.Name</td>
+                        <td>@item.AcceptanceDate.ToString("dd-mm-yyyy")</td>
+                        <td>@item.User.BirthDate.ToString("dd-mm-yyyy")</td>
+                        <td>@item.User.LastModified.ToString("dd-mm-yyyy")</td>
+                        <td><a class="dropdown-item btn btn-default" data-toggle="modal" data-target="#updateUserModal">Yenilə</a></td>
+                        <td><a class="dropdown-item btn btn-danger delete" data-toggle="modal" data-target="#deleteModal" data-id="@item.User.Id" data-action="Delete" data-controller="Student">Sil</a></td>
+                    </tr>
+                }
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+@section Scripts{
+    <script src="@Href("~/vendor/datatables/jquery.dataTables.min.js")"></script>
+    <script src="@Href("~/vendor/datatables/dataTables.bootstrap4.min.js")"></script>
+    <script src="@Href("~/js/demo/datatables-demo.js")"></script>
+    <script src="@Href("~/js/section.js")"></script>
+}

@@ -3,7 +3,6 @@ using Library.Admin.Services.Abstract;
 using Library.Core.Extensions;
 using Library.Core.Result.Concrete;
 using Library.Entities.Concrete;
-using NuGet.Common;
 
 namespace Library.Admin.Services.Concrete
 {
@@ -21,7 +20,7 @@ namespace Library.Admin.Services.Concrete
         {
             using HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var result = await client.DeleteJsonAsync<Result>(BaseUrl + "User/"+ id);
+            var result = await client.DeleteJsonAsync<Result>(BaseUrl + "User/delete/"+ id);
             return result;
         }
 
@@ -41,9 +40,12 @@ namespace Library.Admin.Services.Concrete
             return result;
         }
 
-        public Task<Result> Update(string token, User entity)
+        public async Task<Result> Update(string token, User entity)
         {
-            throw new NotImplementedException();
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var result = await client.PutJsonAsync<Result, User>(BaseUrl + "User/update", entity);
+            return result;  
         }
 
     }

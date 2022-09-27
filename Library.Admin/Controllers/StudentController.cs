@@ -25,7 +25,7 @@ namespace Library.Admin.Controllers
             return View(model);
         }
 
-        [HttpPost]
+        [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");

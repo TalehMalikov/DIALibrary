@@ -60,7 +60,7 @@ $((function () {
         $.get(url)
             .done((result) => {
                 if (!redirectUrl) {
-                    return $(target).parent().parent().hide("slow");
+                    return $(target).parent().parent().hide();
                 }
                 window.location.href = redirectUrl;
             })
@@ -68,11 +68,10 @@ $((function () {
                 if (redirectUrl)
                     window.location.href = redirectUrl;
             }).always(() => {
-                $("#deleteModal").modal('hide');
+                $('#deleteModal').modal('toggle');
             });
-        
+        $('#deleteModal').modal('toggle');
     });
-
 
 }()));
 

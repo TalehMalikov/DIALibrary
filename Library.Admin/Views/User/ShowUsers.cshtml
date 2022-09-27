@@ -44,7 +44,7 @@
                             <td>@item.BirthDate.ToString("dd-mm-yyyy")</td>
                             <td>@item.LastModified.ToString("dd-mm-yyyy")</td>
                             <td><a class="btn btn-secondary" asp-action="EditUser" asp-controller="User">Yenilə</a></td>
-                            <td><a class="btn btn-danger delete" data-id="@item.Id" data-toggle="modal" data-target="#deleteModal" data-controller="User" data-action="Delete" data-redirect-url="/User/ShowUsers">Sil</a></td>
+                            <td><a class="btn btn-danger delete" data-id="@item.Id" data-toggle="modal" data-target="#deleteModal" data-controller="User" data-action="Delete">Sil</a></td>
                         </tr>
                     }
                 </tbody>
@@ -202,21 +202,10 @@
         </div>
     </div>
 
-    <!-- Common Delete Modal - deleteModal-->
    
 }
 
     @section Scripts{
-    @*<script>
-
-        var path_to_delete;
-        var root = location.protocol + "//" + location.host;
-
-        $("#deleteItem").click(function (e) {
-            path_to_delete = $(this).data('path');
-            $('#myform').attr('action', root + path_to_delete);
-        });
-    </script>*@
     <script src="@Href("~/vendor/datatables/jquery.dataTables.min.js")"></script>
     <script src="@Href("~/vendor/datatables/dataTables.bootstrap4.min.js")"></script>
     <script src="@Href("~/js/demo/datatables-demo.js")"></script>
