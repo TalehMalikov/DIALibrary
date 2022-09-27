@@ -105,12 +105,20 @@ namespace Library.Admin.Controllers
                     return RedirectToAction("ShowBooks");
                 }*/
 
-                var categories = await _categoryService.GetAll();
-                viewModel.File.Category = categories.Data.FirstOrDefault(c => c.Id == viewModel.CategoryId);
+                /*
+                viewModel.File.Category = new Category()
+                {
+                    Id = viewModel.CategoryId
+                };
+                viewModel.File.OriginalLanguage = new Language()
+                {
+                    Id = viewModel.OriginalLanguageId
+                };
 
-                var languages = await _languageService.GetAll(accessToken);
-                viewModel.File.OriginalLanguage = languages.Data.FirstOrDefault(l => l.Id == viewModel.OriginalLanguageId);
-                viewModel.File.PublicationLanguage = languages.Data.FirstOrDefault(l => l.Id == viewModel.PublicationLanguageId);
+                viewModel.File.PublicationLanguage = new Language()
+                {
+                    Id = viewModel.PublicationLanguageId
+                };*/
 
                 if (viewModel.EditionStatusId == 0)
                     viewModel.File.EditionStatus = false;
@@ -126,23 +134,23 @@ namespace Library.Admin.Controllers
                     var uploadFile = await UploadToFileSystem(viewModel.AddedFile, viewModel.File.FilePath);
                     var uploadPhoto = await UploadToFileSystem(viewModel.AddedPicture, viewModel.File.PhotoPath);
 
-                    if(uploadFile.Success&& uploadPhoto.Success)
+                    if (uploadFile.Success && uploadPhoto.Success)
                     {
                         var result = await _fileService.Add(accessToken, viewModel.File);
 
                         if (!result.Success)
                         {
-                            await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath,viewModel.File.FilePath));
+                            await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, viewModel.File.FilePath));
                             await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultPhotoPath, viewModel.File.PhotoPath));
                         }
                     }
                     else
                     {
-                        if(!uploadFile.Success)
+                        if (!uploadFile.Success)
                         {
                             await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, viewModel.File.FilePath));
                         }
-                        if(!uploadPhoto.Success)
+                        if (!uploadPhoto.Success)
                         {
                             await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultPhotoPath, viewModel.File.PhotoPath));
                         }
@@ -166,6 +174,8 @@ namespace Library.Admin.Controllers
                         {
                             await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, oldFilePath));
                             await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultPhotoPath, oldPhotoPath));
+                            viewModel.File.FilePath = oldFilePath;
+                            viewModel.File.PhotoPath = oldPhotoPath;
                         }
                     }
                     else
@@ -178,6 +188,8 @@ namespace Library.Admin.Controllers
                         {
                             await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultPhotoPath, viewModel.File.PhotoPath));
                         }
+                        viewModel.File.FilePath = oldFilePath;
+                        viewModel.File.PhotoPath = oldPhotoPath;
                         TempData["Message"] = "File isn't upload!";
                     }
 
@@ -200,9 +212,9 @@ namespace Library.Admin.Controllers
             string token = HttpContext.Session.GetString("AdminAccessToken");
             var deletedId = viewModel.DeletedBook.Id;
 
-            var deleteFileFromFileSytem = await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath,viewModel.File.FilePath));
+            var deleteFileFromFileSytem = await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, viewModel.File.FilePath));
             var deletePhotoFromFileSytem = await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultPhotoPath, viewModel.File.PhotoPath));
-            
+
             await _fileService.Delete(token, deletedId);
 
             TempData["Message"] = "Operation successfully";

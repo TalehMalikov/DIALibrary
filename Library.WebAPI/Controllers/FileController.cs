@@ -1,6 +1,7 @@
 ﻿using Library.Business.Abstraction;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using File = Library.Entities.Concrete.File;
 
 namespace Library.WebAPI.Controllers
 {
@@ -14,10 +15,10 @@ namespace Library.WebAPI.Controllers
             _fileService = fileService;
         }
 
-        //[HttpPost]
+        [HttpPost]
         [Route("add")]
         [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
-        public IActionResult Add(Entities.Concrete.File file)
+        public IActionResult Add(File file)
         {
             var result = _fileService.Add(file);
             if (result.Success)

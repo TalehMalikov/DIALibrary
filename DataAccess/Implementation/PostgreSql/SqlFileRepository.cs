@@ -18,10 +18,10 @@ namespace Library.DataAccess.Implementation.PostgreSql
         {
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
-            string cmdString = "Insert Into Books(Name,CategoryId,OriginalLanguageId,LastModified,IsDeleted,ExistingStatus," +
+            string cmdString = "Insert Into Files(Name,CategoryId,OriginalLanguageId,LastModified,ExistingStatus," +
                                "FileTypeId,EditionStatus,PublicationLanguageId,Description,PublisherName,PublicationDate," +
                                "PhotoPath,FilePath,PageNumber,GUID)" +
-                               " Values(@name,@categoryId,@originalCategoryId,@lastModified,@isDeleted,@status,@fileTypeId," +
+                               " Values(@name,@categoryId,@originalLanguageId,@lastModified,@existingStatus,@fileTypeId," +
                                "@editionStatus,@publicationLanguageId,@description,@publisherName,@publicationDate,@photoPath," +
                                "@filePath,@pageNumber,@guid)";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);

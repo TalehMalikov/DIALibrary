@@ -15,17 +15,17 @@
 
                 <div class="form-group">
                     <label for="name" class="mr-sm-2">Kateqoriya:</label>
-                     @Html.DropDownListFor(s=> s.CategoryId, Model.CategoryList,new {@class="custom-select form-control"})
+                     @Html.DropDownListFor(s=> s.File.Category.Id, Model.CategoryList,new {@class="custom-select form-control"})
                 </div>
                 
                 <div class="form-group">
                     <label for="name" class="mr-sm-2">Orjinal dil:</label>
-                     @Html.DropDownListFor(s=> s.OriginalLanguageId, Model.LanguageList,new {@class="custom-select form-control"})
+                     @Html.DropDownListFor(s=> s.File.OriginalLanguage.Id, Model.LanguageList,new {@class="custom-select form-control"})
                 </div>
                 
                 <div class="form-group">
                     <label for="name" class="mr-sm-2">Çap dili:</label>
-                    @Html.DropDownListFor(s=> s.PublicationLanguageId, Model.LanguageList,new {@class="custom-select form-control"})
+                    @Html.DropDownListFor(s=> s.File.PublicationLanguage.Id, Model.LanguageList,new {@class="custom-select form-control"})
                 </div>
                 
                 <div class="form-group">
