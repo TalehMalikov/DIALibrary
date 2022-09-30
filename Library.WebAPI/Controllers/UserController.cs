@@ -94,5 +94,18 @@ namespace Library.WebAPI.Controllers
 
             return BadRequest(result);
         }
+
+        [HttpDelete("deletefromdb/{id:int}")]
+        [Authorize(Roles = "SuperAdmin,Admin,GroupAdmin")]
+        public IActionResult DeleteFromDb(int id)
+        {
+            var result = _userService.DeleteFromDb(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
     }
 }

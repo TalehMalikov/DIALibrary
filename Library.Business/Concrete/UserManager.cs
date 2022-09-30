@@ -56,9 +56,18 @@ namespace Library.Business.Concrete
         public DataResult<int> AddAsStudent(User student)
         {
             int result = _userRepository.AddAsStudent(student);
-            if (result == 0)
+            if (result == 0 || result ==null)
                 return new ErrorDataResult<int>("Error occured!");
             return new SuccessDataResult<int>(result, StatusMessagesUtil.AddSuccessMessage);
+        }
+
+        [CacheRemoveAspect(nameof(Library.Business.Abstraction.IUserService.Get))]
+        public Result DeleteFromDb(int id)
+        {
+            var result = _userRepository.DeleteFromDb(id);
+            if (result)
+                return new SuccessResult();
+            return new ErrorResult(StatusMessagesUtil.NotFoundMessageGivenId);
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IUserService.Get))]

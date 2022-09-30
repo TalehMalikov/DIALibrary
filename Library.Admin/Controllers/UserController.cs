@@ -48,11 +48,11 @@ namespace Library.Admin.Controllers
             {
                 var userId = await _userService.AddAsStudent(model.User,token);
                 model.Student.User = new User { Id = userId.Data };
-                var result = _studentService.Add(token, model.Student);
+                var result = await _studentService.Add(token, model.Student);
+                if (result.Success)
+                    return RedirectToAction("ShowStudents", "Student");
+                await _userService.DeleteFromDb(userId.Data,token);
             }
-            else
-                 await _userService.Add(token, model.User);
-
             return RedirectToAction("NewUser");
         }
 

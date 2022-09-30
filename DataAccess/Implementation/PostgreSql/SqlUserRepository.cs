@@ -43,13 +43,22 @@ namespace Library.DataAccess.Implementation.PostgreSql
             return 1 == command.ExecuteNonQuery();
         }
 
+        public bool DeleteFromDb(int id)
+        {
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
+            connection.Open();
+            string cmdString = "Delete From Users Where Id=@id";
+            using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
+            command.Parameters.AddWithValue("@id", id);
+            return 1 == command.ExecuteNonQuery();
+        }
         public int AddAsStudent(User student)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString =
                 "Insert Into Users(FirstName,LastName,FatherName,BirthDate,Gender,IsDeleted,LastModified) " +
-                "Values(@firstName,@lastName,@fatherName,@birthDate,@gender,@isDeleted,@lastModified) RETURNING Id";
+                "Values(@firstName,@lastName,@fatherName,@birthDate,@gender,@isDeleted,@lastModified) RETURNING Users.Id";
             using NpgsqlCommand cmd = new NpgsqlCommand(cmdString, connection);
             cmd.Parameters.AddWithValue("@firstName", student.FirstName);
             cmd.Parameters.AddWithValue("@lastName", student.LastName);
@@ -57,8 +66,9 @@ namespace Library.DataAccess.Implementation.PostgreSql
             cmd.Parameters.AddWithValue("@birthDate", student.BirthDate);
             cmd.Parameters.AddWithValue("@gender", student.Gender);
             cmd.Parameters.AddWithValue("@isDeleted", false);
-            cmd.Parameters.AddWithValue("@lastModified", student.LastModified);
-            return Convert.ToInt32(cmd.ExecuteScalar());
+            cmd.Parameters.AddWithValue("@lastModified", DateTime.Now);
+            int id = Convert.ToInt32(cmd.ExecuteScalar());
+            return id;
         }
 
         public User Get(int id)

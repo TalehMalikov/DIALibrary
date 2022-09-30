@@ -6,5 +6,6 @@ namespace Library.Business.Abstraction
     public interface IUserService : IBaseService<User>
     {
         DataResult<int> AddAsStudent(User student);
+        Result DeleteFromDb(int id);
     }
 }

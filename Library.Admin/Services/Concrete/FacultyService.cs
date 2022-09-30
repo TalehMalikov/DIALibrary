@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Headers;
+using System.Net.NetworkInformation;
 using Library.Admin.Services.Abstract;
 using Library.Core.Extensions;
 using Library.Core.Result.Concrete;
@@ -8,9 +9,12 @@ namespace Library.Admin.Services.Concrete
 {
     public class FacultyService : BaseService, IFacultyService
     {
-        public Task<Result> Add(string token, Faculty entity)
+        public async Task<Result> Add(string token, Faculty entity)
         {
-            throw new NotImplementedException();
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var result = await client.PostJsonAsync<Result, Faculty>(BaseUrl + "Faculty/add", entity);
+            return result;
         }
 
         public Task<Result> Update(string token, Faculty entity)
@@ -18,9 +22,12 @@ namespace Library.Admin.Services.Concrete
             throw new NotImplementedException();
         }
 
-        public Task<Result> Delete(string token, int id)
+        public async Task<Result> Delete(string token, int id)
         {
-            throw new NotImplementedException();
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var result = await client.DeleteJsonAsync<Result>(BaseUrl + "Faculty/delete/"+id);
+            return result;
         }
 
         public async Task<DataResult<List<Faculty>>> GetAll(string token)

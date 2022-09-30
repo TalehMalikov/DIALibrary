@@ -18,7 +18,9 @@ namespace Library.Business.Concrete
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IStudentService.Get))]
         public Result Add(Student value)
         {
-            _studentRepository.Add(value);
+            var result = _studentRepository.Add(value);
+            if (!result)
+                return new ErrorResult();
             return new SuccessResult(StatusMessagesUtil.AddSuccessMessage);
         }
 

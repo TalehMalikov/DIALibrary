@@ -70,7 +70,6 @@ $((function () {
             }).always(() => {
                 $('#deleteModal').modal('toggle');
             });
-        $('#deleteModal').modal('toggle');
     });
 
 }()));

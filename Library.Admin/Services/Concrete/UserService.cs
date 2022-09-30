@@ -40,6 +40,14 @@ namespace Library.Admin.Services.Concrete
             return result;
         }
 
+        public async Task<Result> DeleteFromDb(int id, string token)
+        {
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var result = await client.DeleteJsonAsync<Result>(BaseUrl + "User/deletefromdb/" + id);
+            return result;
+        }
+
         public async Task<Result> Update(string token, User entity)
         {
             using HttpClient client = new HttpClient();

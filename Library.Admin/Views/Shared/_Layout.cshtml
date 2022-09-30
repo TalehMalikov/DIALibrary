@@ -156,9 +156,9 @@
                             <a class="collapse-item" href="#">Müəlliflər</a>
                             <a class="collapse-item" href="#">Katoqriyalar</a>
                             <a class="collapse-item" href="#">Sektorlar</a>
-                            <a class="collapse-item" href="#">Fakültələr</a>
-                            <a class="collapse-item" href="#">İxtisaslar</a>
-                            <a class="collapse-item" href="#">Qruplar</a>
+                            <a class="collapse-item" asp-action="Index" asp-controller="Faculty">Fakültələr</a>
+                            <a class="collapse-item" asp-action="Index" asp-controller="Specialty">İxtisaslar</a>
+                            <a class="collapse-item" asp-action="Index" asp-controller="Group">Qruplar</a>
                             <a class="collapse-item" href="#">İmtiyazlar</a>
                             <a class="collapse-item" href="#">İcazələr</a>
                         </div>
@@ -255,7 +255,7 @@
                     @RenderBody()
                 </div>
                 <!-- Footer -->
-                <footer class="sticky-footer bg-white ">
+                <footer class="sticky-footer bg-white align-self-end">
                     <div class="container my-auto">
                         <div class="copyright text-center my-auto">
                             <span>Copyright &copy; Your Website 2021</span>
@@ -292,7 +292,7 @@
         </div>
     </div>
 
-    @await RenderSectionAsync("Modals", required: false);
+    @await RenderSectionAsync("Modals", required: false)
 
     <!-- Bootstrap core JavaScript-->
     <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -310,8 +310,11 @@
 
     <!-- Page level custom scripts -->
     <script src="@Href("~/js/demo/chart-area-demo.js")"></script>
-    <script src="@Href("~/js/demo/chart-pie-demo.js")"></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.js"></script>
+    <script src="@Href("~/js/demo/chart-pie-demo.js")"></script>@*
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.js"></script>*@
+    <script src="@Href("~/vendor/datatables/jquery.dataTables.min.js")"></script>
+    <script src="@Href("~/vendor/datatables/dataTables.bootstrap4.min.js")"></script>
+    <script src="@Href("~/js/demo/datatables-demo.js")"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
