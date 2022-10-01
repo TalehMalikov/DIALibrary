@@ -1,4 +1,5 @@
-﻿@{
+﻿@*@model HomeViewModel*@
+@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -17,7 +18,7 @@
                         </div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">5,760</div>
                     </div>
-                    <a class="col-auto" href="users_table.html">
+                    <a class="col-auto" asp-action="ShowUsers" asp-controller="User">
                         <i class="fas fa-user fa-2x "></i>
                     </a>
                 </div>
@@ -59,7 +60,7 @@
                             </div>
                         </div>
                     </div>
-                    <a class="col-auto" href="#">
+                    <a class="col-auto" asp-controller="Student" asp-action="ShowStudents">
                         <i class="fas fa-user-graduate fa-2x"></i>
                     </a>
                 </div>
@@ -281,4 +282,3 @@
 
 
 </div>
-<!-- /.container-fluid -->

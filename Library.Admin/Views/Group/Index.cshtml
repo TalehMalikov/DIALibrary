@@ -1,51 +1,45 @@
-﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
-@model UserViewModel
+﻿@model GroupViewModel
 @{
-    ViewData["Title"] = "ShowUsers";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "_Layout";
 }
 
 
-<!-- Page Heading -->
-<h1 class="h3 mb-2 text-gray-800">İstifadəçilər</h1>
+    <!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Qruplar</h1>
 <p class="mp-4">
-    Burdakı istifadəçilər işçi heyəti və hal hazırda akademiyada təhsil alan tələbələrdir.
     <span class="pull-left">
         <button type="button" class="btn btn-primary float-right" name="submit" id="submit" data-toggle="modal" data-target="#addUserModal">Əlavə et</button>
-        <a class="btn btn-primary float-right mr-2" asp-action="ShowDeactiveUsers" asp-controller="User">Bloklanmış istifadəçilər</a>
     </span>
 </p>
 <br>
 
-<div class="card shadow mb-4">
-
+<div class="card shadow mb-4 w-100">
+   
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Ad</th>
-                        <th>Soyad</th>
-                        <th>Ata adı</th>
-                        <th>Doğum tarixi</th>
-                        <th>Sonuncu düzəliş</th>
+                        <th>Qrup adı</th>
+                        <th>İxtisas</th>
+                        <th>Fakültə</th>
+                        <th>Sektor</th>
                         <th>Yenilə</th>
                         <th>Sil</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.Users)
+                    @foreach (var item in Model.Groups)
                     {
                         <tr>
                             <td>@item.Id</td>
-                            <td>@item.FirstName</td>
-                            <td>@item.LastName</td>
-                            <td>@item.FatherName</td>
-                            <td>@item.BirthDate.ToString("dd-mm-yyyy")</td>
-                            <td>@item.LastModified.ToString("dd-mm-yyyy")</td>
-                            <td class="text-center"><a class="btn btn-secondary px-4 px-sm-4" asp-action="EditUser" asp-controller="User">Yenilə</a></td>
-                            <td class="text-center"><a class="btn btn-danger delete px-4 px-sm-4" data-id="@item.Id" data-toggle="modal" data-target="#deleteModal" data-controller="User" data-action="Delete">Sil</a></td>
+                            <td>@item.Name</td>
+                            <td>@item.Speciality.Name</td>
+                            <td>@item.Speciality.Faculty.Name</td>
+                            <td>@item.Sector.Name</td>
+                            <td class="text-center"><a class="btn btn-secondary px-4" href="#">Yenilə</a></td>
+                            <td class="text-center"><a class="btn btn-danger delete px-4" data-id="@item.Id" data-toggle="modal" data-target="#deleteModal" data-controller="Group" data-action="Delete">Sil</a></td>
                         </tr>
                     }
                 </tbody>
@@ -58,58 +52,31 @@
     <!-- Add User Modal - addUserModal -->
     <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">İstifadəçi əlavə et!</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form class="user">
-                        <!-- Ad,soyad -->
-                        <div class="form-group row">
-                            <div class="col-sm-6 mb-3 mb-sm-0">
+        <form class="user" asp-action="Add" asp-controller="Faculty" asp-antiforgery="false">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Fakültə əlavə et</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group row d-flex justify-content-center">
+                            <div class="col-sm-6 col-sm-10 mb-3 mb-sm-0">
                                 <input type="text" class="form-control form-control-register"
-                                   id="exampleInputFirstName" placeholder="Ad">
-                            </div>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-register"
-                                   id="exampleInputLastName" placeholder="Soyad">
+                                   id="exampleInputFirstName" placeholder="Fakültə adı" asp-for="@Model.Group.Name">
                             </div>
                         </div>
-
-                        <!-- Ata adı,doğum günü -->
-                        <div class="form-group row">
-                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input type="text" class="form-control form-control-register"
-                                   id="exampleInputFatherName" placeholder="Ata adı">
-                            </div>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-register"
-                                   id="exampleInputBirthdate" placeholder="Doğum tarixi"
-                                   onfocus="(this.type='date')">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-sm-6 ">
-                                <input type="radio" id="gender" name="gender_name">
-                                <label for="gender">Kişi</label><br>
-
-                                <input type="radio" id="gender" name="gender_name">
-                                <label for="gender">Qadın</label>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Ləğv et</button>
-                    <a class="btn btn-primary" href="#" data-toggle="modal" data-dismiss="modal" data-target="#addStudentModal">Növbəti</a>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" type="submit" >Təsdiqlə</button>
+                        <button class="btn btn-danger" type="button" data-dismiss="modal">Ləğv et</button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 
     <!-- Add Student Modal - addStudentModal -->
@@ -203,9 +170,9 @@
         </div>
     </div>
 
-   
+
 }
 
-@section Scripts{
-    <script src="@Href("~/js/section.js")"></script>
+    @section Scripts{
+        <script src="@Href("~/js/section.js")"></script>
 }

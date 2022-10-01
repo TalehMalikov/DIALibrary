@@ -1,0 +1,84 @@
+﻿@model SpecialtyViewModel
+@{
+    Layout = "_Layout";
+}
+
+    <!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">İxtisaslar</h1>
+<p class="mp-4">
+    <span class="pull-left">
+        <button type="button" class="btn btn-primary float-right mb-2" name="submit" id="submit" data-toggle="modal" data-target="#addUserModal">Əlavə et</button>
+    </span>
+</p>
+<br>
+
+<div class="card shadow mb-4 w-100">
+   
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>İxtisas adı</th>
+                        <th>Fakültə</th>
+                        <th>Yenilə</th>
+                        <th>Sil</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.SpecialtyList)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.Name</td>
+                            <td>@item.Faculty.Name</td>
+                            <td class="text-center"><a class="btn btn-secondary px-4" href="#">Yenilə</a></td>
+                            <td class="text-center"><a class="btn btn-danger delete px-4" data-id="@item.Id" data-toggle="modal" data-target="#deleteModal" data-controller="Group" data-action="Delete">Sil</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Modals{
+    <!-- Add User Modal - addUserModal -->
+    <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <form class="user" asp-action="Add" asp-controller="Specialty" asp-antiforgery="false">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">İxtisas əlavə et</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group row d-flex justify-content-center">
+                            <div class="col-sm-6 col-sm-10 mb-3 mb-sm-0">
+                                <input type="text" class="form-control form-control-register mb-3"
+                                       id="exampleInputFirstName" placeholder="İxtisas adı" asp-for="@Model.Specialty.Name">
+                                <select class="form-control form-control-register" asp-items="@Model.FacultyList" asp-for="Specialty.Faculty.Id">
+                                    <option selected value="0">Fakültə seçin</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" type="submit">Təsdiqlə</button>
+                        <button class="btn btn-danger" type="button" data-dismiss="modal">Ləğv et</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+}
+
+
+@section Scripts{
+    <script src="@Href("~/js/section.js")"></script>
+}

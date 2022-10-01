@@ -32,5 +32,16 @@ namespace Library.Admin.Controllers
             await _accountService.Add(token,model.Account);
             return View();
         }
+
+        public async Task<IActionResult> Index()
+        {
+            string token = HttpContext.Session.GetString("AdminAccessToken");
+            var result = await _accountService.GetAll(token);
+            var model = new AccountViewModel
+            {
+                Accounts = result.Data
+            };
+            return View(model);
+        }
     }
 }

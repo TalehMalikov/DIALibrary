@@ -7,6 +7,6 @@ namespace Library.Entities.Concrete
         public User User { get; set; } = new User();
         public DateTime AcceptanceDate { get; set; }
         public Specialty Specialty { get; set; }
-        public Group Group { get; set; } = new Group();
+        public Group Group { get; set; }
     }
 }
