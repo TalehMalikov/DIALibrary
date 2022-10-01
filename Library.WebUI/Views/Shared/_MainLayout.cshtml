@@ -36,7 +36,7 @@
             <div class="container-lg">
                 <nav class="navbar">
                     <a class="logo" asp-action="Index" asp-controller="Home">
-                        <img src="images/logo.png" width="100rem" class="d-inline-block">
+                        <img src="~/images/logo.png" width="100rem" class="d-inline-block">
                         <span class="logo-text">
                             Azərbaycan Respublikası Prezidenti yanında Dövlət İdarəçilik Akademiyası Elektron Kitabxanası
                         </span>
@@ -46,15 +46,15 @@
                         <div class="li-bottom d-flex">
                             <li class="nav-item mx-md-3">
                                 <i class="far fa-envelope"></i><a href="mailto:info@dia.edu.az"
-                                                                  class="text-dark">info@dia.edu.az</a>
+                                                                  class="text-dark"> info@dia.edu.az</a>
                             </li>
                             <li class="nav-item mx-md-3">
-                                <i class="far fa-phone-alt"></i><a href="tel:+994124926529" class="text-dark">(+994 12) 492 65 29</a>
+                                <i class="far fa-phone-alt"></i><a href="tel:+994124926529" class="text-dark"> (+994 12)492 65 29</a>
                             </li>
                         </div>
                         <li class="nav-item mx-md-1">
-                            <div>
-                                <select class="form-select-sm text-bold p-1" onchange="SetCulture(this.value)" @*asp-for="@requestCulture.RequestCulture.UICulture.Name"*@>
+                            <div class="lang">
+                                <select class="form-select-sm text-bold p-1" @*onchange="SetCulture(this.value)"*@ @*asp-for="@requestCulture.RequestCulture.UICulture.Name"*@>
                                     <option class="text-bold" value="az-Latn-AZ" selected >Azərbaycan</option>
                                     <option class="text-bold" value="ru-RU">Русский</option>
                                     <option class="text-bold" value="en-US">English</option>
@@ -156,19 +156,19 @@
                 <div class="carousel my-5">
                     <div class="owl-carousel owl-theme">
                         <div class="item">
-                            <a href="https://heydaraliyevcenter.az/"><img src="images/HeydarAliyevCenter.jpg"></a>
+                            <a href="https://heydaraliyevcenter.az/" target="_blank"><img src="images/HeydarAliyevCenter.jpg"></a>
                         </div>
 
                         <div class="item">
-                            <a href="https://president.az/"><img src="images/PresidentAz.gif"></a>
+                            <a href="https://president.az/" target="_blank"><img src="images/PresidentAz.gif"></a>
                         </div>
 
                         <div class="item">
-                            <a href="https://heydar-aliyev-foundation.org/az"><img src="images/HeydarAliyevFoundation.png"></a>
+                            <a href="https://heydar-aliyev-foundation.org/az" target="_blank"><img src="images/HeydarAliyevFoundation.png"></a>
                         </div>
 
                         <div class="item">
-                            <a href="http://www.millikitabxana.az/"><img src="images/libraries_anl.png"></a>
+                            <a href="http://www.millikitabxana.az/" target="_blank"><img src="images/libraries_anl.png"></a>
                         </div>
 
                     </div>
@@ -195,13 +195,13 @@
                         <h5 class="fw-bold mb-3">Faydalı Linklər</h5>
                         <div class="line"></div>
                         <div class="links">
-                            <a href="https://azerbaijan.az/" class="link">azerbijan.az</a>
-                            <a href="http://heydar-aliyev.org/" class="link">heydar-aliyev.org</a>
-                            <a href="https://president.az/" class="link">president.az</a>
-                            <a href="https://edu.gov.az/" class="link">edu.gov.az</a>
-                            <a href="https://science.gov.az/az" class="link">science.az</a>
-                            <a href="https://bsun.org/" class="link">bsun.org</a>
-                            <a href="http://sesremo.eu/" class="link">sesremo.eu</a>
+                            <a href="https://azerbaijan.az/" class="link" target="_blank">azerbijan.az</a>
+                            <a href="http://heydar-aliyev.org/" class="link" target="_blank">heydar-aliyev.org</a>
+                            <a href="https://president.az/" class="link" target="_blank">president.az</a>
+                            <a href="https://edu.gov.az/" class="link" target="_blank">edu.gov.az</a>
+                            <a href="https://science.gov.az/az" class="link" target="_blank">science.az</a>
+                            <a href="https://bsun.org/" class="link" target="_blank">bsun.org</a>
+                            <a href="http://sesremo.eu/" class="link" target="_blank">sesremo.eu</a>
                         </div>
                     </div>
                     <div class="col-md-4 d-flex align-items-md-center flex-column">

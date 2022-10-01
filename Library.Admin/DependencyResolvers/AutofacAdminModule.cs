@@ -11,6 +11,9 @@ namespace Library.Admin.DependencyResolvers
             builder.RegisterType<AuthService>().As<IAuthService>().SingleInstance();
             builder.RegisterType<UserService>().As<IUserService>().SingleInstance();
             builder.RegisterType<StudentService>().As<IStudentService>().SingleInstance();
+            builder.RegisterType<FileService>().As<IFileService>().SingleInstance();
+            builder.RegisterType<CategoryService>().As<ICategoryService>().SingleInstance();
+            builder.RegisterType<LanguageService>().As<ILanguageService>().SingleInstance();
             builder.RegisterType<SpecialtyService>().As<ISpecialtyService>().SingleInstance();
             builder.RegisterType<FacultyService>().As<IFacultyService>().SingleInstance();
             builder.RegisterType<GroupService>().As<IGroupService>().SingleInstance();

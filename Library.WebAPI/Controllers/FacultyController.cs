@@ -54,8 +54,8 @@ namespace Library.WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getbyid/{id:int}")]
         [Authorize]
+        [HttpGet("getbyid/{id:int}")]
         public IActionResult Get(int id)
         {
             var result = _facultyService.Get(id);

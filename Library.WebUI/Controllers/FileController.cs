@@ -109,7 +109,7 @@ namespace Library.WebUI.Controllers
         public async Task<IActionResult> ShowFileInfoFileType(string guid)
         {
             var result = await _fileService.GetFileIdByGUID(guid);
-            if (result != null)
+            if (result.Success)
             {
                 FileViewModel model = new FileViewModel
                 {
@@ -120,17 +120,11 @@ namespace Library.WebUI.Controllers
             return RedirectToAction("NotFound", "Home");
         }
 
-        //public async Task<IActionResult> FilterByCatalog()
-        //{
-        //    var model = new FileViewModel();
-        //    return View(model);
-        //}
-
         #region ShowAllFiles (bütün kitablar)
         public async Task<IActionResult> ShowFileInfoForAllFiles(string guid)
         {
             var result = await _fileService.GetFileIdByGUID(guid);
-            if (result != null)
+            if (result.Success)
             {
                 FileViewModel model = new FileViewModel
                 {
@@ -378,7 +372,7 @@ namespace Library.WebUI.Controllers
         public async Task<IActionResult> ShowFileInfoCatalog(string guid)
         {
             var result = await _fileService.GetFileIdByGUID(guid);
-            if (result != null)
+            if (result.Success)
             {
                 FileViewModel model = new FileViewModel
                 {

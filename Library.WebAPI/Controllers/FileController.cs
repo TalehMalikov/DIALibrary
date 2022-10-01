@@ -1,6 +1,7 @@
 ﻿using Library.Business.Abstraction;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using File = Library.Entities.Concrete.File;
 
 namespace Library.WebAPI.Controllers
 {
@@ -15,10 +16,9 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         [Route("add")]
         [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
-        public IActionResult Add(Entities.Concrete.File file)
+        public IActionResult Add(File file)
         {
             var result = _fileService.Add(file);
             if (result.Success)
@@ -29,7 +29,6 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpPut]
-        [Authorize]
         [Route("update")]
         [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
         public IActionResult Update(Entities.Concrete.File file)
@@ -90,7 +89,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [Authorize]
-        [HttpDelete("{id:int}")]
+        [HttpDelete("delete/{id:int}")]
         [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
         public IActionResult Delete(int id)
         {

@@ -63,9 +63,9 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc($"v1", new OpenApiInfo
     {
-        Title = "Our Title",
-        Version = "v1",
-        Description = "Our test swagger client",
+        Title = "Library API",
+        Version = "first",
+        Description = "Library API belongs to Academy of Public Administration under the Rebuplic of Azerbaijan",
     });
 
     var jwtSecurityScheme = new OpenApiSecurityScheme
