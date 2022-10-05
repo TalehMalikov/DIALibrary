@@ -17,6 +17,7 @@ namespace Library.Admin.DependencyResolvers
             builder.RegisterType<SpecialtyService>().As<ISpecialtyService>().SingleInstance();
             builder.RegisterType<FacultyService>().As<IFacultyService>().SingleInstance();
             builder.RegisterType<GroupService>().As<IGroupService>().SingleInstance();
+            builder.RegisterType<SectorService>().As<ISectorService>().SingleInstance();
         }
     }
 }
