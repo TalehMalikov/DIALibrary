@@ -3,25 +3,33 @@ using Library.Admin.Services.Abstract;
 using Library.Core.Extensions;
 using Library.Core.Result.Concrete;
 using Library.Entities.Concrete;
-using NuGet.Common;
 
 namespace Library.Admin.Services.Concrete
 {
     public class GroupService : BaseService , IGroupService
     {
-        public Task<Result> Add(string token, Group entity)
+        public async Task<Result> Add(string token, Group entity)
         {
-            throw new NotImplementedException();
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var result = await client.PostJsonAsync<Result, Group>(BaseUrl + "Group/add", entity);
+            return result;
         }
 
-        public Task<Result> Update(string token, Group entity)
+        public async Task<Result> Update(string token, Group entity)
         {
-            throw new NotImplementedException();
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var result = await client.PutJsonAsync<Result, Group>(BaseUrl + "Group/update", entity);
+            return result;
         }
 
-        public Task<Result> Delete(string token, int id)
+        public async Task<Result> Delete(string token, int id)
         {
-            throw new NotImplementedException();
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var result = await client.DeleteJsonAsync<Result>(BaseUrl + "Group/delete/"+ id);
+            return result;
         }
 
         public async Task<DataResult<List<Group>>> GetAll(string token)

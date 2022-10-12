@@ -8,27 +8,44 @@ namespace Library.Admin.Services.Concrete
 {
     public class AccountService : BaseService ,IAccountService
     {
-        public Task<Result> Add(string token, Account account)
+        public async Task<Result> Add(string token, Account account)
         {
             using HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var result = client.PostJsonAsync<Result, Account>(BaseUrl + "Account/add", account);
+            var result = await client.PostJsonAsync<Result, Account>(BaseUrl + "Account/add", account);
             return result;
         }
 
-        public Task<Result> Update(string token, Account entity)
+        public async Task<Result> Update(string token, Account entity)
         {
-            throw new NotImplementedException();
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var result = await client.PutJsonAsync<Result, Account>(BaseUrl + "Account/add", entity);
+            return result;
         }
 
-        public Task<Result> Delete(string token, int id)
+        public async Task<Result> Delete(string token, int id)
         {
-            throw new NotImplementedException();
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var result = await client.DeleteJsonAsync<Result>(BaseUrl + "Account/delete/" + id);
+            return result;
         }
 
-        public Task<DataResult<List<Account>>> GetAll(string token)
+        public async Task<DataResult<List<Account>>> GetAll(string token)
         {
-            throw new NotImplementedException();
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var result = await client.GetJsonAsync<DataResult<List<Account>>>(BaseUrl + "Account/getall");
+            return result;
+        }
+
+        public async Task<DataResult<Account>> Get(string token, int id)
+        {
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var result = await client.GetJsonAsync<DataResult<Account>>(BaseUrl + "Account/getbyid/" + id);
+            return result;
         }
     }
 }

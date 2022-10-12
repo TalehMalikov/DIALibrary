@@ -9,12 +9,12 @@
 <h1 class="h3 mb-2 text-gray-800">Fakültələr</h1>
 <p class="mp-4">
     <span class="pull-left">
-        <button type="button" class="btn btn-primary float-right" name="submit" id="submit" data-toggle="modal" data-target="#addUserModal">Əlavə et</button>
+        <button type="button" class="btn btn-primary float-right mb-2" name="submit" id="submit" data-toggle="modal" data-target="#addUserModal">Əlavə et</button>
     </span>
 </p>
 <br>
 
-<div class="card shadow mb-4">
+<div class="card shadow mb-4 w-100">
    
     <div class="card-body">
         <div class="table-responsive">
@@ -22,7 +22,7 @@
                 <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Fakültə adı>
+                        <th>Fakültə adı</th>
                         <th>Yenilə</th>
                         <th>Sil</th>
                     </tr>
@@ -33,8 +33,8 @@
                         <tr>
                             <td>@item.Id</td>
                             <td>@item.Name</td>
-                            <td><a class="btn btn-secondary" href="#">Yenilə</a></td>
-                            <td><a class="btn btn-danger delete" data-id="@item.Id" data-toggle="modal" data-target="#deleteModal" data-controller="Faculty" data-action="Delete">Sil</a></td>
+                            <td class="text-center"><a class="btn btn-primary px-sm-3" href="#">Yenilə</a></td>
+                            <td class="text-center"><a class="btn btn-danger delete px-sm-3" data-id="@item.Id" data-toggle="modal" data-target="#deleteModal" data-controller="Faculty" data-action="Delete">Sil</a></td>
                         </tr>
                     }
                 </tbody>
