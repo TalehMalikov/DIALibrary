@@ -6,6 +6,7 @@ using Library.Core.Result.Concrete;
 using Library.Core.Utils;
 using Library.DataAccess.Abstraction;
 using Library.Entities.Concrete;
+using Library.Entities.Dtos;
 
 namespace Library.Business.Concrete
 {
@@ -18,8 +19,8 @@ namespace Library.Business.Concrete
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IGroupService.Get))]
-        [ValidationAspect(typeof(GroupValidator))]
-        public Result Add(Group value)
+        //[ValidationAspect(typeof(GroupValidator))]
+        public Result Add(GroupDto value)
         {
             _groupRepository.Add(value);
             return new SuccessResult(StatusMessagesUtil.AddSuccessMessage);
@@ -52,8 +53,8 @@ namespace Library.Business.Concrete
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IGroupService.Get))]
-        [ValidationAspect(typeof(GroupValidator))]
-        public Result Update(Group value)
+        //[ValidationAspect(typeof(GroupValidator))]
+        public Result Update(GroupDto value)
         {
             if(_groupRepository.Update(value))
                 return new SuccessResult(StatusMessagesUtil.UpdateSuccessMessage);

@@ -15,14 +15,14 @@ namespace Library.DataAccess.Implementation.PostgreSql
             _connectionString = connectionString;
         }
 
-        public bool Add(BookAuthor value)
+        public bool Add(FileAuthorDtoForCrud value)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Insert Into BookAuthors(BookId,AuthorId) Values(@bookId,@authorId)";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
-            command.Parameters.AddWithValue("@bookId", value.File.Id);
-            command.Parameters.AddWithValue("@authorId", value.Author.Id);
+            command.Parameters.AddWithValue("@bookId", value.FileId);
+            command.Parameters.AddWithValue("@authorId", value.AuthorId);
             return 1 == command.ExecuteNonQuery();
         }
 
@@ -79,14 +79,14 @@ namespace Library.DataAccess.Implementation.PostgreSql
             return bookAuthorList;
         }
 
-        public bool Update(BookAuthor value)
+        public bool Update(FileAuthorDtoForCrud value)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Update BookAuthors Set BookId=@bookId, AuthorId=@authorId Where Id=@id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
-            command.Parameters.AddWithValue("@bookId", value.File.Id);
-            command.Parameters.AddWithValue("@authorId", value.Author.Id);
+            command.Parameters.AddWithValue("@bookId", value.FileId);
+            command.Parameters.AddWithValue("@authorId", value.AuthorId);
             command.Parameters.AddWithValue("@id", value.Id);
             return 1 == command.ExecuteNonQuery();
         }

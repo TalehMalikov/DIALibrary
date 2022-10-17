@@ -1,11 +1,12 @@
 ﻿using Library.Business.Abstraction;
 using Library.Entities.Concrete;
+using Library.Entities.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class EducationalProgramController : ControllerBase
     {
@@ -42,7 +43,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPost("add")]
         [Authorize(Roles = "SuperAdmin, Admin, ResourceAdmin")]
-        public IActionResult Add(EducationalProgram value)
+        public IActionResult Add(EducationalProgramDto value)
         {
             var result = _educationalProgramService.Add(value);
             if (result.Success)
@@ -55,7 +56,7 @@ namespace Library.WebAPI.Controllers
 
         [HttpPut("update")]
         [Authorize(Roles = "SuperAdmin, Admin, ResourceAdmin")]
-        public IActionResult Update(EducationalProgram value)
+        public IActionResult Update(EducationalProgramDto value)
         {
             var result = _educationalProgramService.Update(value);
             if (result.Success)

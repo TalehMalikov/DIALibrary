@@ -20,7 +20,7 @@ namespace Library.Core.Aspects.Autofac.Logging
             _loggerService.Info(GetLogDetail(invocation));
         }
 
-        private object GetLogDetail(IInvocation invocation)
+        private LogDetail GetLogDetail(IInvocation invocation)
         {
             var logParameters = new List<LogParameter>();
 

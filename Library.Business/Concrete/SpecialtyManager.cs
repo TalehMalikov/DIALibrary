@@ -6,6 +6,7 @@ using Library.Core.Result.Concrete;
 using Library.Core.Utils;
 using Library.DataAccess.Abstraction;
 using Library.Entities.Concrete;
+using Library.Entities.Dtos;
 
 namespace Library.Business.Concrete
 {
@@ -19,7 +20,7 @@ namespace Library.Business.Concrete
 
         [ValidationAspect(typeof(SpecialtyValidator))]
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.ISpecialtyService.Get))]
-        public Result Add(Specialty value)
+        public Result Add(SpecialtyDto value)
         {
             _specialtyRepository.Add(value);
             return new SuccessResult(StatusMessagesUtil.AddSuccessMessage);
@@ -53,7 +54,7 @@ namespace Library.Business.Concrete
 
         [ValidationAspect(typeof(SpecialtyValidator))]
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.ISpecialtyService.Get))]
-        public Result Update(Specialty value)
+        public Result Update(SpecialtyDto value)
         {
             if (_specialtyRepository.Update(value))
                 return new SuccessResult(StatusMessagesUtil.UpdateSuccessMessage);

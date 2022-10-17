@@ -1,11 +1,12 @@
 ﻿using Library.Business.Abstraction;
+using Library.Entities.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using File = Library.Entities.Concrete.File;
 
 namespace Library.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class FileController : ControllerBase
     {
@@ -18,7 +19,7 @@ namespace Library.WebAPI.Controllers
         [HttpPost]
         [Route("add")]
         [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
-        public IActionResult Add(File file)
+        public IActionResult Add(FileDto file)
         {
             var result = _fileService.Add(file);
             if (result.Success)
@@ -31,7 +32,7 @@ namespace Library.WebAPI.Controllers
         [HttpPut]
         [Route("update")]
         [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
-        public IActionResult Update(Entities.Concrete.File file)
+        public IActionResult Update(FileDto file)
         {
             var result = _fileService.Update(file);
             if (result.Success)

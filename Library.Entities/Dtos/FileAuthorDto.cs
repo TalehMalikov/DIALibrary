@@ -4,7 +4,7 @@ using File = Library.Entities.Concrete.File;
 
 namespace Library.Entities.Dtos
 {
-    public class FileAuthorDto 
+    public class FileAuthorDto  : BaseDto
     {
         public File File { get; set; }
         public List<Author> Authors { get; set; } 

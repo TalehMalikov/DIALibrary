@@ -3,24 +3,25 @@ using Library.Admin.Services.Abstract;
 using Library.Core.Extensions;
 using Library.Core.Result.Concrete;
 using Library.Entities.Concrete;
+using Library.Entities.Dtos;
 
 namespace Library.Admin.Services.Concrete
 {
     public class GroupService : BaseService , IGroupService
     {
-        public async Task<Result> Add(string token, Group entity)
+        public async Task<Result> Add(string token, GroupDto entity)
         {
             using HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var result = await client.PostJsonAsync<Result, Group>(BaseUrl + "Group/add", entity);
+            var result = await client.PostJsonAsync<Result, GroupDto>(BaseUrl + "Group/add", entity);
             return result;
         }
 
-        public async Task<Result> Update(string token, Group entity)
+        public async Task<Result> Update(string token, GroupDto entity)
         {
             using HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var result = await client.PutJsonAsync<Result, Group>(BaseUrl + "Group/update", entity);
+            var result = await client.PutJsonAsync<Result, GroupDto>(BaseUrl + "Group/update", entity);
             return result;
         }
 

@@ -3,16 +3,17 @@ using Library.Admin.Services.Abstract;
 using Library.Core.Extensions;
 using Library.Core.Result.Concrete;
 using Library.Entities.Concrete;
+using Library.Entities.Dtos;
 
 namespace Library.Admin.Services.Concrete
 {
     public class StudentService : BaseService, IStudentService
     {
-        public async Task<Result> Add(string token, Student student)
+        public async Task<Result> Add(string token, StudentDto student)
         {
             using HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var result = await client.PostJsonAsync<Result, Student>(BaseUrl + "Student/add", student);
+            var result = await client.PostJsonAsync<Result, StudentDto>(BaseUrl + "Student/add", student);
             return result;
         }
 

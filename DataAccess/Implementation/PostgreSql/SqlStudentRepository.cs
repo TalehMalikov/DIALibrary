@@ -1,6 +1,7 @@
 ﻿using Library.Core.Extensions;
 using Library.DataAccess.Abstraction;
 using Library.Entities.Concrete;
+using Library.Entities.Dtos;
 using Npgsql;
 
 namespace Library.DataAccess.Implementation.PostgreSql
@@ -13,17 +14,17 @@ namespace Library.DataAccess.Implementation.PostgreSql
             _connectionString = connectionString;
         }
 
-        public bool Add(Student value)
+        public bool Add(StudentDto value)
         {
             using NpgsqlConnection connection = new(_connectionString);
             connection.Open();
             string cmdString =
                 "Insert Into Students(UserId,AcceptanceDate,SpecialtyId,GroupId) Values(@userId,@acceptanceDate,@specialtyId,@groupId)";
             using NpgsqlCommand command = new(cmdString, connection);
-            command.Parameters.AddWithValue("@userId", value.User.Id);
+            command.Parameters.AddWithValue("@userId", value.UserId);
             command.Parameters.AddWithValue("@acceptanceDate", value.AcceptanceDate);
-            command.Parameters.AddWithValue("@specialtyId", value.Specialty.Id);
-            command.Parameters.AddWithValue("@groupId", value.Group.Id);
+            command.Parameters.AddWithValue("@specialtyId", value.SpecialtyId);
+            command.Parameters.AddWithValue("@groupId", value.GroupId);
             return 1 == command.ExecuteNonQuery();
         }
 
@@ -126,17 +127,17 @@ namespace Library.DataAccess.Implementation.PostgreSql
             return students;
         }
 
-        public bool Update(Student value)
+        public bool Update(StudentDto value)
         {
             using NpgsqlConnection connection = new(_connectionString);
             connection.Open();
             string cmdString =
                 "Update Students Set UserId=@userId,AcceptanceDate=@acceptanceDate,SpecialtyId=@specialtyId,GroupId=@groupId Where Id=@id";
             using NpgsqlCommand command = new(cmdString, connection);
-            command.Parameters.AddWithValue("@userId", value.User.Id);
+            command.Parameters.AddWithValue("@userId", value.UserId);
             command.Parameters.AddWithValue("@acceptanceDate", value.AcceptanceDate);
-            command.Parameters.AddWithValue("@specialtyId", value.Specialty.Id);
-            command.Parameters.AddWithValue("@groupId", value.Group.Id);
+            command.Parameters.AddWithValue("@specialtyId", value.SpecialtyId);
+            command.Parameters.AddWithValue("@groupId", value.GroupId);
             command.Parameters.AddWithValue("@id", value.Id);
             return 1 == command.ExecuteNonQuery();
         }

@@ -3,16 +3,17 @@ using Library.Admin.Services.Abstract;
 using Library.Core.Extensions;
 using Library.Core.Result.Concrete;
 using Library.Entities.Concrete;
+using Library.Entities.Dtos;
 
 namespace Library.Admin.Services.Concrete
 {
     public class AccountService : BaseService ,IAccountService
     {
-        public async Task<Result> Add(string token, Account account)
+        public async Task<Result> Add(string token, AccountDto account)
         {
             using HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var result = await client.PostJsonAsync<Result, Account>(BaseUrl + "Account/add", account);
+            var result = await client.PostJsonAsync<Result, AccountDto>(BaseUrl + "Account/add", account);
             return result;
         }
 

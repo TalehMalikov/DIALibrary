@@ -1,11 +1,12 @@
 ﻿using Library.Business.Abstraction;
 using Library.Entities.Concrete;
+using Library.Entities.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class StudentController : ControllerBase
     {
@@ -18,7 +19,7 @@ namespace Library.WebAPI.Controllers
         [HttpPost]
         [Route("add")]
         [Authorize(Roles = "SuperAdmin,Admin,GroupAdmin")]
-        public IActionResult Add(Student student)
+        public IActionResult Add(StudentDto student)
         {
             var result = _studentService.Add(student);
             if (result.Success)
@@ -31,7 +32,7 @@ namespace Library.WebAPI.Controllers
         [HttpPut]
         [Route("update")]
         [Authorize]
-        public IActionResult Update(Student student)
+        public IActionResult Update(StudentDto student)
         {
             var result = _studentService.Update(student);
             if (result.Success)

@@ -5,6 +5,6 @@ namespace Library.Admin.Services.Abstract
 {
     public interface IActivityService
     {
-        Task<Result> Add(string token, Activity activity);
+        Task<Result> Add(string token, Activity entity);
     }
 }

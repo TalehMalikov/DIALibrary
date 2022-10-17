@@ -65,11 +65,11 @@
                         <div class="form-group row d-flex justify-content-center">
                             <div class="col-sm-6 col-sm-10 mb-3 mb-sm-0">
                                 <input type="text" class="form-control form-control-register mb-2"
-                                       id="exampleInputFirstName" placeholder="Qrup adı" asp-for="@Model.Group.Name">
-                                <select asp-items="@Model.SpecialtyList" asp-for="Group.Speciality.Id" class="form-control form-control-register mb-2">
+                                       id="exampleInputFirstName" placeholder="Qrup adı" asp-for="@Model.GroupDto.Name">
+                                <select asp-items="@Model.SpecialtyList" asp-for="GroupDto.SpecialityId" class="form-control form-control-register mb-2">
                                     <option selected>İxtisas seçin</option>
                                 </select>
-                                <select asp-items="@Model.SectorList" asp-for="Group.Sector.Id" class="form-control form-control-register mb-2">
+                                <select asp-items="@Model.SectorList" asp-for="GroupDto.SectorId" class="form-control form-control-register mb-2">
                                     <option selected value="0">Sektor seçin</option>
                                 </select>
                             </div>

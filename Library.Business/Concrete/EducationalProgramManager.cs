@@ -3,6 +3,7 @@ using Library.Core.Result.Concrete;
 using Library.Core.Utils;
 using Library.DataAccess.Abstraction;
 using Library.Entities.Concrete;
+using Library.Entities.Dtos;
 
 namespace Library.Business.Concrete
 {
@@ -15,13 +16,13 @@ namespace Library.Business.Concrete
             _educationalProgram = educationalProgram;
         }
 
-        public Result Add(EducationalProgram value)
+        public Result Add(EducationalProgramDto value)
         {
             _educationalProgram.Add(value);
             return new SuccessResult();
         }
 
-        public Result Update(EducationalProgram value)
+        public Result Update(EducationalProgramDto value)
         {
             if (_educationalProgram.Update(value))
                 return new SuccessResult(StatusMessagesUtil.UpdateSuccessMessage);

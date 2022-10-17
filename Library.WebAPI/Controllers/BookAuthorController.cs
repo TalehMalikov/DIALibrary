@@ -1,11 +1,12 @@
 ﻿using Library.Business.Abstraction;
 using Library.Entities.Concrete;
+using Library.Entities.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class BookAuthorController : ControllerBase
     {
@@ -18,7 +19,7 @@ namespace Library.WebAPI.Controllers
         [HttpPost]
         [Route("add")]
         [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
-        public IActionResult Add(BookAuthor bookAuthor)
+        public IActionResult Add(FileAuthorDtoForCrud bookAuthor)
 
         {
             var result = _bookAuthorService.Add(bookAuthor);
@@ -33,7 +34,7 @@ namespace Library.WebAPI.Controllers
         [HttpPut]
         [Route("update")]
         [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
-        public IActionResult Update(BookAuthor bookAuthor)
+        public IActionResult Update(FileAuthorDtoForCrud bookAuthor)
 
         {
             var result = _bookAuthorService.Update(bookAuthor);

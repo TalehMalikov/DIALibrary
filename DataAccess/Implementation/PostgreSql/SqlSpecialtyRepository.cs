@@ -1,6 +1,7 @@
 ﻿using Library.Core.Extensions;
 using Library.DataAccess.Abstraction;
 using Library.Entities.Concrete;
+using Library.Entities.Dtos;
 using Npgsql;
 
 namespace Library.DataAccess.Implementation.PostgreSql
@@ -13,13 +14,13 @@ namespace Library.DataAccess.Implementation.PostgreSql
         {
             _connectionString = connectionString;
         }
-        public bool Add(Specialty value)
+        public bool Add(SpecialtyDto value)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Insert Into Specialties(FacultyId,Name) Values(@facultyId,@name)";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
-            command.Parameters.AddWithValue("@facultyId", value.Faculty.Id);
+            command.Parameters.AddWithValue("@facultyId", value.FacultyId);
             command.Parameters.AddWithValue("@name", value.Name);
             return 1 == command.ExecuteNonQuery();
         }
@@ -63,13 +64,13 @@ namespace Library.DataAccess.Implementation.PostgreSql
             return specialties;
         }
 
-        public bool Update(Specialty value)
+        public bool Update(SpecialtyDto value)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Update Specialties Set FacultyId=@facultyName, Name=@name Where Id=@id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
-            command.Parameters.AddWithValue("@facultyId", value.Faculty.Id);
+            command.Parameters.AddWithValue("@facultyId", value.FacultyId);
             command.Parameters.AddWithValue("@name", value.Name);
             command.Parameters.AddWithValue("@id", value.Id);
             return 1 == command.ExecuteNonQuery();

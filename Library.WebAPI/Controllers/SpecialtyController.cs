@@ -1,11 +1,12 @@
 ﻿using Library.Business.Abstraction;
 using Library.Entities.Concrete;
+using Library.Entities.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class SpecialtyController : ControllerBase
     {
@@ -18,7 +19,7 @@ namespace Library.WebAPI.Controllers
         [HttpPost]
         [Route("add")]
         [Authorize(Roles = "SuperAdmin,Admin")]
-        public IActionResult Add(Specialty specialty)
+        public IActionResult Add(SpecialtyDto specialty)
         {
             var result = _specialtyService.Add(specialty);
             if (result.Success)
@@ -31,7 +32,7 @@ namespace Library.WebAPI.Controllers
         [HttpPut]
         [Route("update")]
         [Authorize(Roles = "SuperAdmin,Admin")]
-        public IActionResult Update(Specialty specialty)
+        public IActionResult Update(SpecialtyDto specialty)
         {
             var result = _specialtyService.Update(specialty);
             if (result.Success)

@@ -1,5 +1,4 @@
 ﻿using Library.Entities.Concrete;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Library.Admin.Models
 {

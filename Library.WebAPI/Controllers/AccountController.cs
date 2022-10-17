@@ -1,11 +1,12 @@
 ﻿using Library.Business.Abstraction;
 using Library.Entities.Concrete;
+using Library.Entities.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
     {
@@ -18,7 +19,7 @@ namespace Library.WebAPI.Controllers
         [HttpPut]
         [Route("update")]
         [Authorize]
-        public IActionResult Update(Account account)
+        public IActionResult Update(AccountDto account)
         {
             var result = _accountService.Update(account);
 
@@ -72,7 +73,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpPut("resetpassword")]
-        public IActionResult ResetPassword(Account account)
+        public IActionResult ResetPassword(AccountDto account)
         {
             var result = _accountService.Update(account);
             if (result.Success)
