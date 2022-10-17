@@ -20,7 +20,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             using NpgsqlConnection connection = new(_connectionString);
             connection.Open();
             string cmdString =
-                "Insert Into EducationalPrograms(Name,EducationLevel,FilePath,IsActive,LastModified,SpecialtyId,ProgramDate,EducationTime)" +
+                "Insert Into EducationalPrograms(Name,EducationLevel,FilePath,IsActive,LastModified,SpecialtyId,ProgramDate,EducationTime,GUID)" +
                 " Values(@name,@educationLevel,@filePath,@isActive,@lastModified,@specialtyId,@programDate,@educationTime,@guid)";
             using NpgsqlCommand command = new(cmdString, connection);
             command.Parameters.AddWithValue("@name", value.Name);
@@ -80,7 +80,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             string cmdString =
                 "Update EducationalPrograms Set Name=@name,EducationLevel=@educationLevel,Guid=@guid,FilePath=@filePath," +
                 "IsActive=@isActive,LastModified=@lastModified,SpecialtyId=@specialtyId,ProgramDate=@programDate," +
-                "EducationDate=@educationDate Where Id=@id";
+                "EducationTime=@educationTime Where EducationalPrograms.Id=@id";
             using NpgsqlCommand command = new(cmdString, connection);
             command.Parameters.AddWithValue("@id", value.Id);
             command.Parameters.AddWithValue("@name", value.Name);

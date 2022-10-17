@@ -6,13 +6,12 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Kitablar</h1>
+    <h1 class="h3 mb-2 text-gray-800">Fənn proqramları</h1>
     <p class="mp-4">
-        .............
-        <span class="float-right">
-            @*<a class="dropdown-item" href="#" data-toggle="modal" data-target="#addUserModal"><button type="button" class="btn btn-primary float-right" name="submit" id="submit">Əlavə et</button></a>*@
-            <button class="btn btn-primary bgupdate" onclick="ShowSaveModal(this)" data-toggle="modal" data-id="0" id="myBtnAdd"><i class='fas fa-download'></i>Əlavə et</button>
-        </span>
+        Buradakı fənn proqramları 4 il ərzində bu və ya digər ixtisaslarda tədris ediləcək fənnlərin toplusudur.
+    <span class="float-right">
+        <button class="btn btn-primary bgupdate" onclick="ShowSaveModal(this)" data-toggle="modal" data-id="0" id="myBtnAdd"><i class='fas fa-download'></i>Əlavə et</button>
+    </span>
     </p>
     <br>
 
@@ -27,16 +26,12 @@
                     <thead>
                         <tr>
                             <th>Ad</th>
-                            <th>Kateqoriya</th>
-                            <th>Orjinal dil</th>
-                            <th>Çap dili</th>
-                            <th>Nəşrimizdir?</th>
-                            <th>Şəkil</th>
+                            <th>Təhsil səviyyəsi</th>
+                            <th>İxtisas</th>
+                            <th>Qüvvədədir?</th>
+                            <th>Başlama tarixi</th>
+                            <th>Müddəti</th>
                             <th>Fayl</th>
-                            <th>Çap evi</th>
-                            <th>Çap tarixi</th>
-                            <th>Səhifə sayı</th>
-                            <th>Description</th>
                             <th>GUID</th>
                             <th>Son dəyişilmə tarixi</th>
                             <th>Yenilə</th>
@@ -46,16 +41,12 @@
                     <tfoot>
                         <tr>
                             <th>Ad</th>
-                            <th>Kateqoriya</th>
-                            <th>Orjinal dil</th>
-                            <th>Çap dili</th>
-                            <th>Nəşrimizdir?</th>
-                            <th>Şəkil</th>
+                            <th>Təhsil səviyyəsi</th>
+                            <th>İxtisas</th>
+                            <th>Qüvvədədir?</th>
+                            <th>Başlama tarixi</th>
+                            <th>Müddəti</th>
                             <th>Fayl</th>
-                            <th>Çap evi</th>
-                            <th>Çap tarixi</th>
-                            <th>Səhifə sayı</th>
-                            <th>Description</th>
                             <th>GUID</th>
                             <th>Son dəyişilmə tarixi</th>
                             <th>Yenilə</th>
@@ -63,24 +54,20 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach(var file in Model.Files)
+                        @foreach(var educationalProgram in Model.EducationalPrograms)
                         {
                             <tr>
-                                <td>@file.Name</td>
-                                <td>@file.Category.Name</td>
-                                <td>@file.OriginalLanguage.Name</td>
-                                <td>@file.PublicationLanguage.Name</td>
-                                <td>@file.EditionStatus</td>
-                                <td><a asp-action="ShowPhoto" asp-controller="Resource" asp-route-path="@file.PhotoPath" class="btn btn-info" name="submit" id="submit">Aç</a></td>                                          
-                                <td><a asp-action="OpenFile"  asp-controller="Resource" asp-route-path="@file.FilePath" class="btn btn-info" name="submit" id="submit">Aç</a></td>                                           
-                                <td>@file.PublisherName</td>
-                                <td>@file.PublicationDate.ToString("dd/MM/yyyy")</td>
-                                <td>@file.PageNumber</td>
-                                <td>@file.Description</td>
-                                <td>@file.GUID</td>
-                                <td>@file.LastModified</td>
-                                <td><button class="btn btn-primary bgupdate" onclick="ShowSaveModal(this)" data-id="@file.Id" id="btnUpdate"><i class='fas fa-download'></i> Update</button></td>
-                                <td><button class="btn btn-danger bgdelete" onclick="ShowDeleteModal(this)" data-toggle="modal" data-id="@file.Id" data-target="#DelModal"  id="btnDel"><i class='fas fa-trash-alt'></i> Delete</button></td>
+                                <td>@educationalProgram.Name</td>
+                                <td>@educationalProgram.EducationLevel</td>
+                                <td>@educationalProgram.Specialty.Name</td>
+                                <td>@educationalProgram.IsActive</td>
+                                <td>@educationalProgram.ProgramDate.ToString("dd/MM/yyyy")</td>
+                                <td>@educationalProgram.EducationTime</td>
+                                <td><a target="_blank"  asp-action="OpenFile"  asp-controller="Resource" asp-route-path="@educationalProgram.FilePath" class="btn btn-info" name="submit" id="submit">Aç</a></td>                                           
+                                <td>@educationalProgram.GUID</td>
+                                <td>@educationalProgram.LastModified</td>
+                                <td><button class="btn btn-primary bgupdate" onclick="ShowSaveModal(this)" data-id="@educationalProgram.Id" id="btnUpdate"><i class='fas fa-download'></i> Update</button></td>
+                                <td><button class="btn btn-danger bgdelete" onclick="ShowDeleteModal(this)" data-toggle="modal" data-id="@educationalProgram.Id" data-target="#DelModal"  id="btnDel"><i class='fas fa-trash-alt'></i> Delete</button></td>
                             </tr>
                         }
                     </tbody>
@@ -108,8 +95,8 @@
             </div>
 
             <div class="modal-footer">
-                <form asp-action="DeleteBook" asp-controller="Resource" method="post">
-                    <input asp-for="DeletedBook.Id" class="deletedId" hidden />
+                <form asp-action="DeleteEducationalProgram" asp-controller="Resource" method="post">
+                    <input asp-for="DeletedEducationalProgram.Id" class="deletedId" hidden />
                     <button type="submit" class="btn btn-primary bgupdate">Yes</button>
                     <button type="button" class="btn btn-danger bgdelete" data-dismiss="modal">No</button>
                 </form>
@@ -133,7 +120,7 @@
             var dataId = $(elem).data("id");
 
             $.ajax({
-                url: "/Resource/SaveBook?id=" + dataId,
+                url: "/Resource/SaveEducationalProgram?id=" + dataId,
                 success: function (data) {
                     console.log(data);
                     $('#createModal').html(data);

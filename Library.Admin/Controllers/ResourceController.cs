@@ -4,6 +4,7 @@ using Library.Core.DefaultSystemPath;
 using Library.Core.Extensions;
 using Library.Core.Result.Concrete;
 using Library.Entities.Concrete;
+using Library.Entities.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -18,39 +19,76 @@ namespace Library.Admin.Controllers
         private readonly ILanguageService _languageService;
         private readonly ICategoryService _categoryService;
         private readonly IFileTypeService _fileTypeService;
+        private readonly IEducationalProgramService _educationalProgramService;
+        private readonly ISpecialtyService _specialtyService;
         public ResourceController(IFileService fileService, ILanguageService languageService, ICategoryService categoryService,
-                                    IFileTypeService fileTypeService)
+                                    IFileTypeService fileTypeService,IEducationalProgramService educationalProgramService,
+                                    ISpecialtyService specialtyService)
         {
             _fileService = fileService;
             _languageService = languageService;
             _categoryService = categoryService;
             _fileTypeService = fileTypeService;
+            _educationalProgramService = educationalProgramService;
+            _specialtyService = specialtyService;
         }
 
-        #region Books
+        #region Resources
 
-        public async Task<IActionResult> ShowBooks(int id)
+        [HttpGet]
+        public async Task<IActionResult> ShowResources(int id)
         {
             string accessToken = HttpContext.Session.GetString("AdminAccessToken");
             ResourceViewModel viewModel = new ResourceViewModel();
             var result = await _fileService.GetAll();
+            var fileTypes = await _fileTypeService.GetAll();
             switch (id)
             {
                 case 0:
-                    viewModel.Files = result.Data.Where(f => f.ExistingStatus == false).ToList();
+                    viewModel.File.FileType = fileTypes.Data.FirstOrDefault(ft => ft.Id == 1);
+                    viewModel.Files = result.Data.Where(f => f.ExistingStatus == false && f.FileType.Id == 1).ToList();
                     break;
                 case 1:
-                    viewModel.Files = result.Data.Where(f => f.ExistingStatus == true).ToList();
+                    viewModel.File.FileType = fileTypes.Data.FirstOrDefault(ft => ft.Id == 1);
+                    viewModel.Files = result.Data.Where(f => f.ExistingStatus == true && f.FileType.Id == 1).ToList();
                     break;
-                default:
-                    viewModel.Files = result.Data;
+                case 2:
+                    viewModel.File.FileType = fileTypes.Data.FirstOrDefault(ft => ft.Id == 1);
+                    viewModel.Files = result.Data.Where(f => f.FileType.Id == 1).ToList();
+                    break;
+                case 3:
+                    viewModel.File.FileType = fileTypes.Data.FirstOrDefault(ft => ft.Id == 2);
+                    viewModel.Files = result.Data.Where(f => f.FileType.Id == 2).ToList();
+                    break;
+                case 4:
+                    viewModel.File.FileType = fileTypes.Data.FirstOrDefault(ft => ft.Id == 2);
+                    viewModel.Files = result.Data.Where(f => f.ExistingStatus == false && f.FileType.Id == 2).ToList();
+                    break;
+                case 5:
+                    viewModel.File.FileType = fileTypes.Data.FirstOrDefault(ft => ft.Id == 2);
+                    viewModel.Files = result.Data.Where(f => f.ExistingStatus == true && f.FileType.Id == 2).ToList();
+                    break;
+                case 6:
+                    viewModel.File.FileType = fileTypes.Data.FirstOrDefault(ft => ft.Id == 3);
+                    viewModel.Files = result.Data.Where(f => f.FileType.Id == 3).ToList();
+                    break;
+                case 7:
+                    viewModel.File.FileType = fileTypes.Data.FirstOrDefault(ft => ft.Id == 4);
+                    viewModel.Files = result.Data.Where(f => f.FileType.Id == 4).ToList();
+                    break;
+                case 8:
+                    viewModel.File.FileType = fileTypes.Data.FirstOrDefault(ft => ft.Id == 5);
+                    viewModel.Files = result.Data.Where(f => f.FileType.Id == 5).ToList();
+                    break;
+                case 9:
+                    viewModel.Files = result.Data.Where(f => f.EditionStatus == true).ToList();
                     break;
             }
             return View(viewModel);
         }
 
         [HttpGet]
-        public async Task<IActionResult> SaveBook(int id)
+        public async Task<IActionResult> SaveResource(int id)
         {
             string accessToken = HttpContext.Session.GetString("AdminAccessToken");
             ResourceViewModel viewModel = new ResourceViewModel();
@@ -66,13 +104,21 @@ namespace Library.Admin.Controllers
                 Name = "Seç",
                 Id = 0
             });
+            var fileTypes = await _fileTypeService.GetAll();
+            fileTypes.Data.Add(new FileType()
+            {
+                Name = "Seç",
+                Id = 0
+            });
+
             viewModel.CategoryList = new SelectList(categories.Data, "Id", "Name", "Seç");
             viewModel.LanguageList = new SelectList(languages.Data, "Id", "Name", "Seç");
+            viewModel.FileTypeList = new SelectList(fileTypes.Data, "Id", "Name", "Seç");
 
             List<dynamic> editions = new List<dynamic>();
             editions.Add(new { Id = 0, Name = "true" });
             editions.Add(new { Id = 0, Name = "false" });
-            viewModel.EditionList = new SelectList(editions, "Id", "Name");
+            viewModel.BooleanList = new SelectList(editions, "Id", "Name");
 
             if (id == 0)
                 return PartialView(viewModel);
@@ -80,16 +126,13 @@ namespace Library.Admin.Controllers
             var file = await _fileService.Get(id);
 
             viewModel.File = file.Data;
-            viewModel.OriginalLanguageId = viewModel.File.Id;
-            viewModel.PublicationLanguageId = viewModel.File.Id;
-            viewModel.CategoryId = viewModel.File.Category.Id;
             viewModel.EditionStatusId = viewModel.File.EditionStatus ? 1 : 0;
 
             return PartialView(viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveBook(ResourceViewModel viewModel)
+        public async Task<IActionResult> SaveResource(ResourceViewModel viewModel)
         {
             string accessToken = HttpContext.Session.GetString("AdminAccessToken");
             try
@@ -142,19 +185,27 @@ namespace Library.Admin.Controllers
 
                     if (uploadFile.Success && uploadPhoto.Success)
                     {
-                        var category = await _categoryService.Get(viewModel.File.Category.Id);
-                        viewModel.File.Category = category.Data;
-                        viewModel.File.FileType = new FileType()
+                        var fileDto = new FileDto()
                         {
-                            Id=1,
-                            Name="Kitablar"
+                            Id = viewModel.File.Id,
+                            Name = viewModel.File.Name,
+                            CategoryId = viewModel.File.Category.Id,
+                            OriginalLanguageId = viewModel.File.OriginalLanguage.Id,
+                            PublicationLanguageId = viewModel.File.PublicationLanguage.Id,
+                            EditionStatus = viewModel.File.EditionStatus,
+                            ExistingStatus = viewModel.File.ExistingStatus,
+                            FileTypeId = viewModel.File.FileType.Id,
+                            PhotoPath = viewModel.File.PhotoPath,
+                            FilePath = viewModel.File.FilePath,
+                            PublisherName = viewModel.File.PublisherName,
+                            PublicationDate = viewModel.File.PublicationDate,
+                            PageNumber = viewModel.File.PageNumber,
+                            Description = viewModel.File.Description,
+                            GUID = viewModel.File.GUID,
+                            LastModified = viewModel.File.LastModified
                         };
-                        var originalLanguage = await _languageService.Get(accessToken, viewModel.File.OriginalLanguage.Id);
-                        var publicationLanguage = await _languageService.Get(accessToken, viewModel.File.PublicationLanguage.Id);
-                        viewModel.File.OriginalLanguage = originalLanguage.Data;
-                        viewModel.File.PublicationLanguage = publicationLanguage.Data;
 
-                        var result = await _fileService.Add(accessToken, viewModel.File);
+                        var result = await _fileService.Add(accessToken, fileDto);
 
                         if (!result.Success)
                         {
@@ -177,7 +228,7 @@ namespace Library.Admin.Controllers
                 }
                 else
                 {
-                    if(viewModel.AddedFile!=null)
+                    if (viewModel.AddedFile != null)
                     {
                         string oldFilePath = viewModel.File.FilePath;
                         viewModel.File.FilePath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedFile.FileName);
@@ -186,19 +237,27 @@ namespace Library.Admin.Controllers
 
                         if (uploadFile.Success)
                         {
-                            var category = await _categoryService.Get(viewModel.File.Category.Id);
-                            viewModel.File.Category = category.Data;
-                            viewModel.File.FileType = new FileType()
+                            var fileDto = new FileDto()
                             {
-                                Id = 1,
-                                Name = "Kitablar"
+                                Id = viewModel.File.Id,
+                                Name = viewModel.File.Name,
+                                CategoryId = viewModel.File.Category.Id,
+                                OriginalLanguageId = viewModel.File.OriginalLanguage.Id,
+                                PublicationLanguageId = viewModel.File.PublicationLanguage.Id,
+                                EditionStatus = viewModel.File.EditionStatus,
+                                ExistingStatus = viewModel.File.ExistingStatus,
+                                FileTypeId = viewModel.File.FileType.Id,
+                                PhotoPath = viewModel.File.PhotoPath,
+                                FilePath = viewModel.File.FilePath,
+                                PublisherName = viewModel.File.PublisherName,
+                                PublicationDate = viewModel.File.PublicationDate,
+                                PageNumber = viewModel.File.PageNumber,
+                                Description = viewModel.File.Description,
+                                GUID = viewModel.File.GUID,
+                                LastModified = viewModel.File.LastModified
                             };
-                            var originalLanguage = await _languageService.Get(accessToken, viewModel.File.OriginalLanguage.Id);
-                            var publicationLanguage = await _languageService.Get(accessToken, viewModel.File.PublicationLanguage.Id);
-                            viewModel.File.OriginalLanguage = originalLanguage.Data;
-                            viewModel.File.PublicationLanguage = publicationLanguage.Data;
 
-                            var result = await _fileService.Update(accessToken, viewModel.File);
+                            var result = await _fileService.Update(accessToken, fileDto);
 
                             if (!result.Success)
                             {
@@ -209,12 +268,12 @@ namespace Library.Admin.Controllers
                         else
                         {
                             await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, viewModel.File.FilePath));
-                           
+
                             viewModel.File.FilePath = oldFilePath;
                             TempData["Message"] = "File isn't upload!";
                         }
                     }
-                    else if(viewModel.AddedPicture!=null)
+                    else if (viewModel.AddedPicture != null)
                     {
                         string oldPhotoPath = viewModel.File.FilePath;
                         viewModel.File.PhotoPath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedPicture.FileName);
@@ -223,19 +282,27 @@ namespace Library.Admin.Controllers
 
                         if (uploadPhoto.Success)
                         {
-                            var category = await _categoryService.Get(viewModel.File.Category.Id);
-                            viewModel.File.Category = category.Data;
-                            viewModel.File.FileType = new FileType()
+                            var fileDto = new FileDto()
                             {
-                                Id = 1,
-                                Name = "Kitablar"
+                                Id = viewModel.File.Id,
+                                Name = viewModel.File.Name,
+                                CategoryId = viewModel.File.Category.Id,
+                                OriginalLanguageId = viewModel.File.OriginalLanguage.Id,
+                                PublicationLanguageId = viewModel.File.PublicationLanguage.Id,
+                                EditionStatus = viewModel.File.EditionStatus,
+                                ExistingStatus = viewModel.File.ExistingStatus,
+                                FileTypeId = viewModel.File.FileType.Id,
+                                PhotoPath = viewModel.File.PhotoPath,
+                                FilePath = viewModel.File.FilePath,
+                                PublisherName = viewModel.File.PublisherName,
+                                PublicationDate = viewModel.File.PublicationDate,
+                                PageNumber = viewModel.File.PageNumber,
+                                Description = viewModel.File.Description,
+                                GUID = viewModel.File.GUID,
+                                LastModified = viewModel.File.LastModified
                             };
-                            var originalLanguage = await _languageService.Get(accessToken, viewModel.File.OriginalLanguage.Id);
-                            var publicationLanguage = await _languageService.Get(accessToken, viewModel.File.PublicationLanguage.Id);
-                            viewModel.File.OriginalLanguage = originalLanguage.Data;
-                            viewModel.File.PublicationLanguage = publicationLanguage.Data;
 
-                            var result = await _fileService.Update(accessToken, viewModel.File);
+                            var result = await _fileService.Update(accessToken, fileDto);
 
                             if (!result.Success)
                             {
@@ -252,19 +319,218 @@ namespace Library.Admin.Controllers
                     }
                     else
                     {
-                        var category2 = await _categoryService.Get(viewModel.File.Category.Id);
-                        viewModel.File.Category = category2.Data;
-                        viewModel.File.FileType = new FileType()
+                        var fileDto = new FileDto()
                         {
-                            Id = 1,
-                            Name = "Kitablar"
+                            Id = viewModel.File.Id,
+                            Name = viewModel.File.Name,
+                            CategoryId = viewModel.File.Category.Id,
+                            OriginalLanguageId = viewModel.File.OriginalLanguage.Id,
+                            PublicationLanguageId = viewModel.File.PublicationLanguage.Id,
+                            EditionStatus = viewModel.File.EditionStatus,
+                            ExistingStatus = viewModel.File.ExistingStatus,
+                            FileTypeId = viewModel.File.FileType.Id,
+                            PhotoPath = viewModel.File.PhotoPath,
+                            FilePath = viewModel.File.FilePath,
+                            PublisherName = viewModel.File.PublisherName,
+                            PublicationDate = viewModel.File.PublicationDate,
+                            PageNumber = viewModel.File.PageNumber,
+                            Description = viewModel.File.Description,
+                            GUID = viewModel.File.GUID,
+                            LastModified = viewModel.File.LastModified
                         };
-                        var originalLanguage2 = await _languageService.Get(accessToken, viewModel.File.OriginalLanguage.Id);
-                        var publicationLanguage2 = await _languageService.Get(accessToken, viewModel.File.PublicationLanguage.Id);
-                        viewModel.File.OriginalLanguage = originalLanguage2.Data;
-                        viewModel.File.PublicationLanguage = publicationLanguage2.Data;
 
-                        var result2 = await _fileService.Update(accessToken, viewModel.File);
+                        var result2 = await _fileService.Update(accessToken, fileDto);
+                    }
+                }
+                TempData["Message"] = "Operation successfully";
+            }
+            catch (Exception exc)
+            {
+                // log exception here
+
+                TempData["Message"] = "Operation unsuccessfully";
+            }
+            return RedirectToAction("ShowResources","2");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteResource(ResourceViewModel viewModel)
+        {
+            string token = HttpContext.Session.GetString("AdminAccessToken");
+
+            var file = await _fileService.Get(viewModel.DeletedResource.Id);
+
+            var deleteFileFromFileSytem = await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, file.Data.FilePath));
+            var deletePhotoFromFileSytem = await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultPhotoPath, file.Data.PhotoPath));
+
+            var result = await _fileService.Delete(token, viewModel.DeletedResource.Id);
+
+            if (result.Success)
+            {
+                TempData["Message"] = "Operation successfully";
+                return RedirectToAction("ShowResources", "2");
+            }
+            // Must be return error message to UI
+            return RedirectToAction("ShowResources", "2");
+        }
+
+        #endregion
+
+        #region EducationalPrograms
+        [HttpGet]
+        public async Task<IActionResult> ShowEducationalPrograms()
+        {
+            string accessToken = HttpContext.Session.GetString("AdminAccessToken");
+
+            ResourceViewModel viewModel = new ResourceViewModel();
+            var educationalPrograms = await _educationalProgramService.GetAll(accessToken);
+            viewModel.EducationalPrograms = educationalPrograms.Data;
+            return View(viewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SaveEducationalProgram(int id)
+        {
+            string accessToken = HttpContext.Session.GetString("AdminAccessToken");
+
+            ResourceViewModel viewModel = new ResourceViewModel();
+            var specialties = await _specialtyService.GetAll(accessToken);
+            specialties.Data.Add(new Specialty()
+            {
+                Id = 0,
+                Name = "Seç"
+            });
+            viewModel.SpecialtyList = new SelectList(specialties.Data, "Id", "Name", "Seç");
+
+            List<dynamic> booleans = new List<dynamic>();
+            booleans.Add(new { Id = 0, Name = "false" });
+            booleans.Add(new { Id = 1, Name = "true" });
+            viewModel.BooleanList = new SelectList(booleans, "Id", "Name");
+
+            List<dynamic> educationLevels = new List<dynamic>();
+            educationLevels.Add(new { Id = 0, Name = "Seç" });
+            educationLevels.Add(new { Id = 1, Name = "Bakalavr" });
+            educationLevels.Add(new { Id = 2, Name = "Magistr" });
+            educationLevels.Add(new { Id = 3, Name = "Doktorant" });
+            viewModel.EducationLevelList = new SelectList(educationLevels, "Name", "Name","Seç");
+
+            if (id == 0)
+                return PartialView(viewModel);
+
+            var educationalProgram = await _educationalProgramService.Get(accessToken,id);
+
+            viewModel.EducationalProgram = educationalProgram.Data;
+            viewModel.IsActiveId = viewModel.EducationalProgram.IsActive ? 1 : 0;
+
+            return PartialView(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SaveEducationalProgram(ResourceViewModel viewModel)
+        {
+            string accessToken = HttpContext.Session.GetString("AdminAccessToken");
+
+            try
+            {
+                if (viewModel.IsActiveId == 0)
+                    viewModel.EducationalProgram.IsActive = false;
+                else
+                    viewModel.EducationalProgram.IsActive = true;
+
+                if (viewModel.EducationalProgram.Id == 0)
+                {
+                    viewModel.EducationalProgram.FilePath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedFile.FileName);
+                    viewModel.EducationalProgram.GUID = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.EducationalProgram.Name);
+
+                    var uploadFile = await UploadToFileSystem(viewModel.AddedFile, viewModel.EducationalProgram.FilePath);
+
+                    if (uploadFile.Success)
+                    {
+                        var educationalProgramDto = new EducationalProgramDto()
+                        {
+                            Id = viewModel.EducationalProgram.Id,
+                            Name = viewModel.EducationalProgram.Name,
+                            EducationLevel = viewModel.EducationalProgram.EducationLevel,
+                            FilePath = viewModel.EducationalProgram.FilePath,
+                            GUID = viewModel.EducationalProgram.GUID,
+                            IsActive = viewModel.EducationalProgram.IsActive,
+                            LastModified = viewModel.EducationalProgram.LastModified,
+                            SpecialtyId = viewModel.EducationalProgram.Specialty.Id,
+                            ProgramDate = viewModel.EducationalProgram.ProgramDate,
+                            EducationTime = viewModel.EducationalProgram.EducationTime,
+                        };
+
+                        var result = await _educationalProgramService.Add(accessToken, educationalProgramDto);
+
+                        if (!result.Success)
+                        {
+                            await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, viewModel.EducationalProgram.FilePath));
+                        }
+                    }
+                    else
+                    {
+                        await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, viewModel.EducationalProgram.FilePath));
+                        TempData["Message"] = "File isn't upload!";
+                    }
+                }
+                else
+                {
+                    if (viewModel.AddedFile != null)
+                    {
+                        string oldFilePath = viewModel.EducationalProgram.FilePath;
+                        viewModel.EducationalProgram.FilePath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedFile.FileName);
+
+                        var uploadFile = await UploadToFileSystem(viewModel.AddedFile, viewModel.EducationalProgram.FilePath);
+
+                        if (uploadFile.Success)
+                        {
+                            var educationalProgramDto = new EducationalProgramDto()
+                            {
+                                Id = viewModel.EducationalProgram.Id,
+                                Name = viewModel.EducationalProgram.Name,
+                                EducationLevel = viewModel.EducationalProgram.EducationLevel,
+                                FilePath = viewModel.EducationalProgram.FilePath,
+                                GUID = viewModel.EducationalProgram.GUID,
+                                IsActive = viewModel.EducationalProgram.IsActive,
+                                LastModified = viewModel.EducationalProgram.LastModified,
+                                SpecialtyId = viewModel.EducationalProgram.Specialty.Id,
+                                ProgramDate = viewModel.EducationalProgram.ProgramDate,
+                                EducationTime = viewModel.EducationalProgram.EducationTime,
+                            };
+
+                            var result = await _educationalProgramService.Update(accessToken, educationalProgramDto);
+
+                            if (!result.Success)
+                            {
+                                await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, oldFilePath));
+                                viewModel.EducationalProgram.FilePath = oldFilePath;
+                            }
+                        }
+                        else
+                        {
+                            await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, viewModel.EducationalProgram.FilePath));
+
+                            viewModel.EducationalProgram.FilePath = oldFilePath;
+                            TempData["Message"] = "File isn't upload!";
+                        }
+                    }
+                    else
+                    {
+                        var educationalProgramDto = new EducationalProgramDto()
+                        {
+                            Id = viewModel.EducationalProgram.Id,
+                            Name = viewModel.EducationalProgram.Name,
+                            EducationLevel = viewModel.EducationalProgram.EducationLevel,
+                            FilePath = viewModel.EducationalProgram.FilePath,
+                            GUID = viewModel.EducationalProgram.GUID,
+                            IsActive = viewModel.EducationalProgram.IsActive,
+                            LastModified = viewModel.EducationalProgram.LastModified,
+                            SpecialtyId = viewModel.EducationalProgram.Specialty.Id,
+                            ProgramDate = viewModel.EducationalProgram.ProgramDate,
+                            EducationTime = viewModel.EducationalProgram.EducationTime,
+                        };
+
+                        var result2 = await _educationalProgramService.Update(accessToken, educationalProgramDto);
                     }
                 }
                 TempData["Message"] = "Operation successfully";
@@ -276,28 +542,29 @@ namespace Library.Admin.Controllers
                 TempData["Message"] = "Operation unsuccessfully";
             }
 
-            return RedirectToAction("ShowBooks");
+            return RedirectToAction("ShowEducationalPrograms");
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeleteBook(ResourceViewModel viewModel)
+        public async Task<IActionResult> DeleteEducationalProgram(ResourceViewModel viewModel)
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-            var file = await _fileService.Get(viewModel.DeletedBook.Id);
 
-            var deleteFileFromFileSytem = await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, file.Data.FilePath));
-            var deletePhotoFromFileSytem = await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultPhotoPath, file.Data.PhotoPath));
+            var educationalProgram = await _educationalProgramService.Get(token,viewModel.DeletedEducationalProgram.Id);
 
-            var result = await _fileService.Delete(token, viewModel.DeletedBook.Id);
+            var deleteFileFromFileSytem = await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, educationalProgram.Data.FilePath));
+
+            var result = await _educationalProgramService.Delete(token, viewModel.DeletedEducationalProgram.Id);
 
             if (result.Success)
             {
                 TempData["Message"] = "Operation successfully";
-                return RedirectToAction("ShowBooks");
+                return RedirectToAction("ShowEducationalPrograms");
             }
             // Must be return error message to UI
-            return RedirectToAction("ShowBooks");
+            return RedirectToAction("ShowEducationalPrograms");
         }
+
         #endregion
 
         #region FileUpload&Delete
@@ -314,11 +581,11 @@ namespace Library.Admin.Controllers
 
             if (file.FileName.Contains(".pdf"))
             {
-                filePath = Path.Combine(DefaultPath.OriginalDefaultFilePath, uniqueFileName+".pdf");
+                filePath = Path.Combine(DefaultPath.OriginalDefaultFilePath, uniqueFileName + ".pdf");
             }
             else
             {
-                filePath = Path.Combine(DefaultPath.OriginalDefaultPhotoPath, uniqueFileName+".jpg");
+                filePath = Path.Combine(DefaultPath.OriginalDefaultPhotoPath, uniqueFileName + ".jpg");
             }
 
             var extension = Path.GetExtension(file.FileName);
@@ -368,11 +635,12 @@ namespace Library.Admin.Controllers
         {
             try
             {
-                string fullpath = Path.Combine(DefaultPath.OriginalDefaultPhotoPath, path);
+                string fullpath = Path.Combine(DefaultPath.OriginalDefaultPhotoPath, path + ".jpg");
 
                 var content = System.IO.File.ReadAllBytes(path);
 
-                return File(content, "img/*");
+                //return File(content, "img/*");
+                return File(content, "application/img");
             }
             catch
             {
@@ -385,10 +653,9 @@ namespace Library.Admin.Controllers
         {
             try
             {
-                string fullPath = Path.Combine(DefaultPath.OriginalDefaultPhotoPath, path);
+                string fullPath = Path.Combine(DefaultPath.OriginalDefaultFilePath, path + ".pdf");
 
                 var content = System.IO.File.ReadAllBytes(fullPath);
-
                 return File(content, "application/pdf");
             }
             catch

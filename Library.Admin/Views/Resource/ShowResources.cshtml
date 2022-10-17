@@ -1,0 +1,188 @@
+﻿@model ResourceViewModel
+@{
+    Layout = "_Layout";
+}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    @{
+        if(Model.File.FileType!=null)
+        {
+            <h1 class="h3 mb-2 text-gray-800">@Model.File.FileType.Name</h1>
+            <p class="mp-4">
+                Buradakı @Model.File.FileType.Name akademiyanın nəşrləri həmçinin xarici mənbələrdən toplanan resurslardır.
+            <span class="float-right">
+                <button class="btn btn-primary bgupdate" onclick="ShowSaveModal(this)" data-toggle="modal" data-id="0" id="myBtnAdd"><i class='fas fa-download'></i>Əlavə et</button>
+            </span>
+            </p>
+        }
+        else
+        {
+            <h1 class="h3 mb-2 text-gray-800">Resurlar</h1>
+            <p class="mp-4">
+                Buradakı resurlar akademiyanın nəşrləri həmçinin xarici mənbələrdən toplanan resurslardır.
+            <span class="float-right">
+                <button class="btn btn-primary bgupdate" onclick="ShowSaveModal(this)" data-toggle="modal" data-id="0" id="myBtnAdd"><i class='fas fa-download'></i>Əlavə et</button>
+            </span>
+            </p>
+        }
+    }
+    <br>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <!-- <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+        </div> -->
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Ad</th>
+                            <th>Kateqoriya</th>
+                            <th>Orjinal dil</th>
+                            <th>Çap dili</th>
+                            <th>Nəşrimizdir?</th>
+                            <th>Şəkil</th>
+                            <th>Fayl</th>
+                            <th>Çap evi</th>
+                            <th>Çap tarixi</th>
+                            <th>Səhifə sayı</th>
+                            <th>Description</th>
+                            <th>GUID</th>
+                            <th>Son dəyişilmə tarixi</th>
+                            <th>Yenilə</th>
+                            <th>Sil</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Ad</th>
+                            <th>Kateqoriya</th>
+                            <th>Orjinal dil</th>
+                            <th>Çap dili</th>
+                            <th>Nəşrimizdir?</th>
+                            <th>Şəkil</th>
+                            <th>Fayl</th>
+                            <th>Çap evi</th>
+                            <th>Çap tarixi</th>
+                            <th>Səhifə sayı</th>
+                            <th>Description</th>
+                            <th>GUID</th>
+                            <th>Son dəyişilmə tarixi</th>
+                            <th>Yenilə</th>
+                            <th>Sil</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach(var file in Model.Files)
+                        {
+                            <tr>
+                                <td>@file.Name</td>
+                                <td>@file.Category.Name</td>
+                                <td>@file.OriginalLanguage.Name</td>
+                                <td>@file.PublicationLanguage.Name</td>
+                                <td>@file.EditionStatus</td>
+                                <td><a target="_blank" asp-action="ShowPhoto" asp-controller="Resource" asp-route-path="@file.PhotoPath" class="btn btn-info" name="submit" id="submit">Aç</a></td>                                          
+                                <td><a target="_blank" asp-action="OpenFile"  asp-controller="Resource" asp-route-path="@file.FilePath" class="btn btn-info changeUrl" name="submit" id="submit">Aç</a></td>                                           
+                                <td>@file.PublisherName</td>
+                                <td>@file.PublicationDate.ToString("dd/MM/yyyy")</td>
+                                <td>@file.PageNumber</td>
+                                <td>@file.Description</td>
+                                <td>@file.GUID</td>
+                                <td>@file.LastModified</td>
+                                <td><button class="btn btn-primary bgupdate" onclick="ShowSaveModal(this)" data-id="@file.Id" id="btnUpdate"><i class='fas fa-download'></i> Update</button></td>
+                                <td><button class="btn btn-danger bgdelete" onclick="ShowDeleteModal(this)" data-toggle="modal" data-id="@file.Id" data-target="#DelModal"  id="btnDel"><i class='fas fa-trash-alt'></i> Delete</button></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" id="createModal">
+</div>
+
+<div class="modal fade" id="DelModal">
+    <div class="modal-dialog">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Delete row</h4>
+                <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+
+            <div style="overflow-x:auto;" class="modal-body ">
+                <p>Are you sure to delete this row?</p>
+            </div>
+
+            <div class="modal-footer">
+                <form asp-action="DeleteResource" asp-controller="Resource" method="post">
+                    <input asp-for="DeletedResource.Id" class="deletedId" hidden />
+                    <button type="submit" class="btn btn-primary bgupdate">Yes</button>
+                    <button type="button" class="btn btn-danger bgdelete" data-dismiss="modal">No</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="@Href("~/vendor/datatables/jquery.dataTables.min.js")"></script>
+    <script src="@Href("~/vendor/datatables/dataTables.bootstrap4.min.js")"></script>
+    <script src="@Href("~/js/demo/datatables-demo.js")"></script>
+
+    <script>
+        function ShowDeleteModal(elem) {
+            var dataId = $(elem).data("id");
+            $(".deletedId").val(dataId);
+        }
+
+        function ShowSaveModal(elem) {
+            var dataId = $(elem).data("id");
+
+            $.ajax({
+                url: "/Resource/SaveResource?id=" + dataId,
+                success: function (data) {
+                    console.log(data);
+                    $('#createModal').html(data);
+                    $("#createModal").modal("show");
+                },
+                error : function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        $(document).ready(function () {
+
+            $('#dataTable tfoot th').each(function () {
+                var title = $(this).text();
+                $(this).html('<input type="text" placeholder="Search" style="width:100%;" />');
+            });
+
+            var table = $('#dataTable').DataTable();
+
+            table.columns().every(function () {
+                var that = this;
+
+                $('input', this.footer()).on('keyup change clear', function () {
+                    if (that.search() !== this.value) {
+                        that.search(this.value).draw();
+                    }
+                });
+            });
+        });
+
+        $('.changeUrl').click(function(event) {
+            var url = $(this).attr('href');
+            let fullUrl = "https://localhost:7097" + url + "#toolbar=0";
+            window.open(fullUrl, '_blank');
+        });
+    </script>
+}
