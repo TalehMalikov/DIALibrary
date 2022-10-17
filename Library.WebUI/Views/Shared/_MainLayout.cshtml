@@ -44,26 +44,26 @@
 
                     <ul class="navbar-top">
                         <div class="li-bottom d-flex">
-                            <li class="nav-item mx-md-3">
-                                <i class="far fa-envelope"></i><a href="mailto:info@dia.edu.az"
-                                                                  class="text-dark"> info@dia.edu.az</a>
-                            </li>
-                            <li class="nav-item mx-md-3">
-                                <i class="far fa-phone-alt"></i><a href="tel:+994124926529" class="text-dark"> (+994 12)492 65 29</a>
-                            </li>
-                        </div>
-                        <li class="nav-item mx-md-1">
-                            <div class="lang">
-                                <select class="form-select-sm text-bold p-1" @*onchange="SetCulture(this.value)"*@ @*asp-for="@requestCulture.RequestCulture.UICulture.Name"*@>
-                                    <option class="text-bold" value="az-Latn-AZ" selected >Azərbaycan</option>
-                                    <option class="text-bold" value="ru-RU">Русский</option>
-                                    <option class="text-bold" value="en-US">English</option>
-                                </select>
-                            </div>
+                        <li class="nav-item mx-md-3">
+                            <i class="far fa-envelope"></i><a href="mailto:info@dia.edu.az"
+                                                              class="text-dark"> info@dia.edu.az</a>
                         </li>
+                        <li class="nav-item mx-md-3">
+                            <i class="far fa-phone-alt"></i><a href="tel:+994124926529" class="text-dark"> (+994 12)492 65 29</a>
+                        </li>
+            </div>
+            <li class="nav-item mx-md-1">
+                <div class="lang">
+                    <select class="form-select-sm text-bold p-1" @*onchange="SetCulture(this.value)"*@ @*asp-for="@requestCulture.RequestCulture.UICulture.Name"*@>
+                        <option class="text-bold" value="az-Latn-AZ" selected>Azərbaycan</option>
+                        <option class="text-bold" value="ru-RU">Русский</option>
+                        <option class="text-bold" value="en-US">English</option>
+                    </select>
+                </div>
+            </li>
 
-                    </ul>
-                </nav>
+            </ul>
+            </nav>
             </div>
         </section>
 
@@ -71,43 +71,43 @@
 
     </header>
 
-        <section id="main-photo" class="pt-2 pb-5">
-            <div class="container-lg">
-                <div class="image-area">
-                    <img class="main-image" src="~/images/mainbg.png" width="100%" height="auto">
+    <section id="main-photo" class="pt-2 pb-5">
+        <div class="container-lg">
+            <div class="image-area">
+                <img class="main-image" src="~/images/mainbg.png" width="100%" height="auto">
+            </div>
+        </div>
+    </section>
+
+    <section id="books">
+        <div class="container-lg">
+            <div class="title d-flex justify-content-between">
+                <div class="left">
+                    <span class="text-bold">Yeni əlavə olunanlar</span>
+                    <a asp-action="ShowAllFiles" asp-controller="File" class="text-italic">-bütün kitablar</a>
+                </div>
+                <div class="right">
+                    <button class="prev-btn">
+                        <i class="fas fa-angle-left"></i>
+                    </button>
+                    <button class="next-btn">
+                        <i class="fas fa-angle-right"></i>
+                    </button>
                 </div>
             </div>
-        </section>
+            <hr>
 
-        <section id="books">
-            <div class="container-lg">
-                <div class="title d-flex justify-content-between">
-                    <div class="left">
-                        <span class="text-bold">Yeni əlavə olunanlar</span>
-                        <a asp-action="ShowAllFiles" asp-controller="File" class="text-italic">-bütün kitablar</a>
-                    </div>
-                    <div class="right">
-                        <button class="prev-btn">
-                            <i class="fas fa-angle-left"></i>
-                        </button>
-                        <button class="next-btn">
-                            <i class="fas fa-angle-right"></i>
-                        </button>
-                    </div>
-                </div>
-                <hr>
-
-                <div class="swiper">
-                    <div class="swiper-wrapper">
-                        @{
-                            @foreach (var item in @Model.NewAddedFileAuthorList)
-                            {
-                                <div class="swiper-slide">
-                                    <a class="card-book ">
-                                        <img width="140" height="180" src="@Url.Action("Picture","Resources" ,new { name = item.File.PhotoPath })">
-                                    </a>
-                                    <div class="hover-content shadow-sm">
-                                        <h6>
+            <div class="swiper">
+                <div class="swiper-wrapper">
+                    @{
+                        @foreach (var item in @Model.NewAddedFileAuthorList)
+                        {
+                            <div class="swiper-slide">
+                                <a class="card-book ">
+                                    <img width="140" height="180" src="@Url.Action("Picture","Resources" ,new { name = item.File.PhotoPath })">
+                                </a>
+                                <div class="hover-content shadow-sm">
+                                    <h6>
                                         <span class="text-bold">
                                             @{
                                                 var builder = new StringBuilder();
@@ -120,63 +120,64 @@
                                                     <a>@builder.ToString().Trim().Trim(',')</a>
                                                 }
                                             }.
-                                        </span> @item.File.Name.- @item.File.PublicationDate.Year. - @item.File.PageNumber s.</h6>
-                                    </div>
+                                        </span> @item.File.Name.- @item.File.PublicationDate.Year. - @item.File.PageNumber s.
+                                    </h6>
                                 </div>
-                            }
+                            </div>
                         }
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <section id="sign" class="py-2 mb-4">
-            <div class="container-lg">
-                <div class="text-box">
-                    <span class="fw-bold pb-2">Qeydiyyat</span>
-
-                    <span class="text">
-                        1.Kitabxanaya yazılmaq üçün şəxsiyyəti təsdiq edən sənəd və bir ədəd 3X4 ölçülü
-                        şəkil təqdim olunmalıdır.
-                    </span>
-                    <span class="text-">
-                        2.Kitabxananın Oxu zallarından istənilən oxucu şəxsiyyəti təsdiq edən sənəd
-                        təqdim edərək istifadə edə bilər.
-                    </span>
-                  
-                    <span class="fw-bold mx-md-5 my-2 pt-2">Əlaqə nömrəsi:</span>
-                    <span class="mx-md-5 px-md-5 px-3 fw-bold">Oxu zalı: (+99412) 492-65-29</span>
+                    }
                 </div>
             </div>
-        </section>
 
-        <section id="carousel">
-            <div class="container-lg">
-                <div class="carousel my-5">
-                    <div class="owl-carousel owl-theme">
-                        <div class="item">
-                            <a href="https://heydaraliyevcenter.az/" target="_blank"><img src="images/HeydarAliyevCenter.jpg"></a>
-                        </div>
+        </div>
+    </section>
 
-                        <div class="item">
-                            <a href="https://president.az/" target="_blank"><img src="images/PresidentAz.gif"></a>
-                        </div>
+    <section id="sign" class="py-2 mb-4">
+        <div class="container-lg">
+            <div class="text-box">
+                <span class="fw-bold pb-2">Qeydiyyat</span>
 
-                        <div class="item">
-                            <a href="https://heydar-aliyev-foundation.org/az" target="_blank"><img src="images/HeydarAliyevFoundation.png"></a>
-                        </div>
+                <span class="text">
+                    1.Kitabxanaya yazılmaq üçün şəxsiyyəti təsdiq edən sənəd və bir ədəd 3X4 ölçülü
+                    şəkil təqdim olunmalıdır.
+                </span>
+                <span class="text-">
+                    2.Kitabxananın Oxu zallarından istənilən oxucu şəxsiyyəti təsdiq edən sənəd
+                    təqdim edərək istifadə edə bilər.
+                </span>
 
-                        <div class="item">
-                            <a href="http://www.millikitabxana.az/" target="_blank"><img src="images/libraries_anl.png"></a>
-                        </div>
+                <span class="fw-bold mx-md-5 my-2 pt-2">Əlaqə nömrəsi:</span>
+                <span class="mx-md-5 px-md-5 px-3 fw-bold">Oxu zalı: (+99412) 492-65-29</span>
+            </div>
+        </div>
+    </section>
 
+    <section id="carousel">
+        <div class="container-lg">
+            <div class="carousel my-5">
+                <div class="owl-carousel owl-theme">
+                    <div class="item">
+                        <a href="https://heydaraliyevcenter.az/" target="_blank"><img src="images/HeydarAliyevCenter.jpg"></a>
                     </div>
 
+                    <div class="item">
+                        <a href="https://president.az/" target="_blank"><img src="images/PresidentAz.gif"></a>
+                    </div>
+
+                    <div class="item">
+                        <a href="https://heydar-aliyev-foundation.org/az" target="_blank"><img src="images/HeydarAliyevFoundation.png"></a>
+                    </div>
+
+                    <div class="item">
+                        <a href="http://www.millikitabxana.az/" target="_blank"><img src="images/libraries_anl.png"></a>
+                    </div>
+
                 </div>
+
             </div>
-        </section>
-    
+        </div>
+    </section>
+
     <footer>
         <div class="footer pt-5 ">
             <div class="container-fluid">
@@ -252,21 +253,21 @@
                     <i class="fas fa-eye-slash eye"></i>
                     <input type="password" class="login-input mb-2 show-hide" placeholder="Şifrə" asp-for="LoginModel.Password">
                 </div>
-                <a asp-controller="Authentication" asp-action="ForgotPassword" >Şifrənizi unutmusunuz?</a>
+                <a asp-controller="Authentication" asp-action="ForgotPassword">Şifrənizi unutmusunuz?</a>
                 <button type="submit" class="btn btn-primary m-2">Daxil Ol </button>
                 <input type="button" class="btn btn-secondary mb-2 close" value="Geri">
             </form>
         </div>
     </div>
 
-    @await RenderSectionAsync("Scripts", required: false)
-   
+
+
     <div class="modalbackdrop"></div>
     <!-- Button ScrollTop -->
     <div class="top-btn">
         <i class="fas fa-arrow-alt-up"></i>
     </div>
-
+    @await RenderSectionAsync("Scripts", required: false)
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>

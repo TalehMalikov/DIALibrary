@@ -2,7 +2,7 @@
 {
     public class FileLogger : LoggerServiceBase
     {
-        public FileLogger() : base("FileLogger")
+        public FileLogger() : base("JsonFileLogger")
         {
         }
     }

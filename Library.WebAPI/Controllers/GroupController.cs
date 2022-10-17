@@ -1,5 +1,6 @@
 ﻿using Library.Business.Abstraction;
 using Library.Entities.Concrete;
+using Library.Entities.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +20,7 @@ namespace Library.WebAPI.Controllers
         [HttpPost]
         [Route("add")]
         [Authorize(Roles = "SuperAdmin,Admin")]
-        public IActionResult Add(Group group)
+        public IActionResult Add(GroupDto group)
         {
             var result = _groupService.Add(group);
             if (result.Success)
@@ -32,7 +33,7 @@ namespace Library.WebAPI.Controllers
         [HttpPut]
         [Route("update")]
         [Authorize(Roles = "SuperAdmin,Admin")]
-        public IActionResult Update(Group group)
+        public IActionResult Update(GroupDto group)
         {
             var result = _groupService.Update(group);
             if (result.Success)

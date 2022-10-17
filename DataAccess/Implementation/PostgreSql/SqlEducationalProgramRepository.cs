@@ -1,6 +1,7 @@
 ﻿using Library.Core.Extensions;
 using Library.DataAccess.Abstraction;
 using Library.Entities.Concrete;
+using Library.Entities.Dtos;
 using Npgsql;
 
 namespace Library.DataAccess.Implementation.PostgreSql
@@ -14,7 +15,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             _connectionString = connectionString;
         }
 
-        public bool Add(EducationalProgram value)
+        public bool Add(EducationalProgramDto value)
         {
             using NpgsqlConnection connection = new(_connectionString);
             connection.Open();
@@ -27,7 +28,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             command.Parameters.AddWithValue("@filePath", value.FilePath);
             command.Parameters.AddWithValue("@isActive", value.IsActive);
             command.Parameters.AddWithValue("@lastModified", DateTime.Now);
-            command.Parameters.AddWithValue("@specialtyId", value.Specialty.Id);
+            command.Parameters.AddWithValue("@specialtyId", value.SpecialtyId);
             command.Parameters.AddWithValue("@programDate", value.ProgramDate);
             command.Parameters.AddWithValue("@educationTime", value.EducationTime);
             command.Parameters.AddWithValue("@guid", value.GUID);
@@ -72,7 +73,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             return list;
         }
 
-        public bool Update(EducationalProgram value)
+        public bool Update(EducationalProgramDto value)
         {
             using NpgsqlConnection connection = new(_connectionString);
             connection.Open();
@@ -87,7 +88,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             command.Parameters.AddWithValue("@filePath", value.FilePath);
             command.Parameters.AddWithValue("@isActive", value.IsActive);
             command.Parameters.AddWithValue("@lastModified", DateTime.Now);
-            command.Parameters.AddWithValue("@specialtyId", value.Specialty.Id);
+            command.Parameters.AddWithValue("@specialtyId", value.SpecialtyId);
             command.Parameters.AddWithValue("@programDate", value.ProgramDate);
             command.Parameters.AddWithValue("@educationTime", value.EducationTime);
             command.Parameters.AddWithValue("@guid", value.GUID);

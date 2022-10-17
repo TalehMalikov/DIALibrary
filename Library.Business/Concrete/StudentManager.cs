@@ -4,6 +4,7 @@ using Library.Core.Result.Concrete;
 using Library.Core.Utils;
 using Library.DataAccess.Abstraction;
 using Library.Entities.Concrete;
+using Library.Entities.Dtos;
 
 namespace Library.Business.Concrete
 {
@@ -16,7 +17,7 @@ namespace Library.Business.Concrete
         }
         
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IStudentService.Get))]
-        public Result Add(Student value)
+        public Result Add(StudentDto value)
         {
             var result = _studentRepository.Add(value);
             if (!result)
@@ -59,7 +60,7 @@ namespace Library.Business.Concrete
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IStudentService.Get))]
-        public Result Update(Student value)
+        public Result Update(StudentDto value)
         {
             if(_studentRepository.Update(value))
                 return new SuccessResult(StatusMessagesUtil.UpdateSuccessMessage);

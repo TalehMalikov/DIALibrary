@@ -1,6 +1,7 @@
 ﻿using Library.Core.Extensions;
 using Library.DataAccess.Abstraction;
 using Library.Entities.Concrete;
+using Library.Entities.Dtos;
 using Npgsql;
 using File = Library.Entities.Concrete.File;
 
@@ -14,7 +15,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             _connectionString = connectionString;
         }
 
-        public bool Add(File value)
+        public bool Add(FileDto value)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
@@ -26,13 +27,13 @@ namespace Library.DataAccess.Implementation.PostgreSql
                                "@filePath,@pageNumber,@guid)";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             command.Parameters.AddWithValue("@name", value.Name);
-            command.Parameters.AddWithValue("@categoryId", value.Category.Id);
-            command.Parameters.AddWithValue("@originalLanguageId", value.OriginalLanguage.Id);
+            command.Parameters.AddWithValue("@categoryId", value.CategoryId);
+            command.Parameters.AddWithValue("@originalLanguageId", value.OriginalLanguageId);
             command.Parameters.AddWithValue("@lastModified", value.LastModified);
             command.Parameters.AddWithValue("@existingStatus", value.ExistingStatus);
-            command.Parameters.AddWithValue("@fileTypeId", value.FileType.Id);
+            command.Parameters.AddWithValue("@fileTypeId", value.FileTypeId);
             command.Parameters.AddWithValue("@editionStatus", value.EditionStatus);
-            command.Parameters.AddWithValue("@publicationLanguageId", value.PublicationLanguage.Id);
+            command.Parameters.AddWithValue("@publicationLanguageId", value.PublicationLanguageId);
             command.Parameters.AddWithValue("@description", value.Description);
             command.Parameters.AddWithValue("@publisherName", value.PublisherName);
             command.Parameters.AddWithValue("@publicationDate", value.PublicationDate);
@@ -153,7 +154,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             return books;
         }
 
-        public bool Update(File value)
+        public bool Update(FileDto value)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
@@ -166,13 +167,13 @@ namespace Library.DataAccess.Implementation.PostgreSql
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             command.Parameters.AddWithValue("@id", value.Id);
             command.Parameters.AddWithValue("@name", value.Name);
-            command.Parameters.AddWithValue("@categoryId", value.Category.Id);
-            command.Parameters.AddWithValue("@originalLanguageId", value.OriginalLanguage.Id);
+            command.Parameters.AddWithValue("@categoryId", value.CategoryId);
+            command.Parameters.AddWithValue("@originalLanguageId", value.OriginalLanguageId);
             command.Parameters.AddWithValue("@lastModified", value.LastModified);
             command.Parameters.AddWithValue("@existingStatus", value.ExistingStatus);
-            command.Parameters.AddWithValue("@fileTypeId", value.FileType.Id);
+            command.Parameters.AddWithValue("@fileTypeId", value.FileTypeId);
             command.Parameters.AddWithValue("@editionStatus", value.EditionStatus);
-            command.Parameters.AddWithValue("@publicationLanguageId", value.PublicationLanguage.Id);
+            command.Parameters.AddWithValue("@publicationLanguageId", value.PublicationLanguageId);
             command.Parameters.AddWithValue("@description", value.Description);
             command.Parameters.AddWithValue("@publisherName", value.PublisherName);
             command.Parameters.AddWithValue("@publicationDate", value.PublicationDate);

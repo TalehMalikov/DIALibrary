@@ -1,6 +1,7 @@
 ﻿using Library.Core.Extensions;
 using Library.DataAccess.Abstraction;
 using Library.Entities.Concrete;
+using Library.Entities.Dtos;
 using Npgsql;
 
 namespace Library.DataAccess.Implementation.PostgreSql
@@ -12,7 +13,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
         {
             _connectionString = connectionString;
         }
-        public bool Add(Account value)
+        public bool Add(AccountDto value)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
@@ -20,7 +21,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
                              "values(@accountname,@userId,@passwordHash,@email,@lastModified)";
             using NpgsqlCommand cmd = new NpgsqlCommand(cmdText, connection);
             cmd.Parameters.AddWithValue("@accountName", value.AccountName);
-            cmd.Parameters.AddWithValue("@userid", value.User.Id);
+            cmd.Parameters.AddWithValue("@userid", value.UserId);
             cmd.Parameters.AddWithValue("@passwordHash", value.PasswordHash);
             cmd.Parameters.AddWithValue("@email", value.Email);
             cmd.Parameters.AddWithValue("@lastModified", value.LastModified);
@@ -110,7 +111,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             return roles;
         }
 
-        public bool Update(Account value)
+        public bool Update(AccountDto value)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
@@ -120,7 +121,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             using NpgsqlCommand cmd = new NpgsqlCommand(cmdText, connection);
             cmd.Parameters.AddWithValue("@id", value.Id);
             cmd.Parameters.AddWithValue("@accountname", value.AccountName);
-            cmd.Parameters.AddWithValue("@userid", value.User.Id);
+            cmd.Parameters.AddWithValue("@userid", value.UserId);
             cmd.Parameters.AddWithValue("@passwordhash", value.PasswordHash);
             cmd.Parameters.AddWithValue("@email", value.Email);
             cmd.Parameters.AddWithValue("@lastmodified", value.LastModified);

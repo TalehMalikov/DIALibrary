@@ -44,14 +44,18 @@ namespace Library.Admin.Controllers
         public async Task<IActionResult> NewUser(UserViewModel model)
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-            if (model.Student.Specialty.Id != 0 & model.Student.Group.Id != 0)
+            if (model.Student.SpecialtyId != 0 & model.Student.GroupId != 0)
             {
                 var userId = await _userService.AddAsStudent(model.User,token);
-                model.Student.User = new User { Id = userId.Data };
+                model.Student.UserId = userId.Data ;
                 var result = await _studentService.Add(token, model.Student);
                 if (result.Success)
                     return RedirectToAction("ShowStudents", "Student");
                 await _userService.DeleteFromDb(userId.Data,token);
+            }
+            else
+            {
+                await _userService.Add(token, model.User);
             }
             return RedirectToAction("NewUser");
         }

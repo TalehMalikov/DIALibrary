@@ -21,8 +21,8 @@ namespace Library.Business.Concrete
         }
 
         [CacheRemoveAspect(nameof(IFileService.Get))]
-        [ValidationAspect(typeof(BookValidator))]
-        public Result Add(File value)
+        //[ValidationAspect(typeof(BookValidator))]
+        public Result Add(FileDto value)
         {
             _fileRepository.Add(value);
             return new SuccessResult(StatusMessagesUtil.AddSuccessMessage);
@@ -90,8 +90,8 @@ namespace Library.Business.Concrete
         }
 
         [CacheRemoveAspect(nameof(IFileService.Get))]
-        [ValidationAspect(typeof(BookValidator))]
-        public Result Update(File value)
+        //[ValidationAspect(typeof(BookValidator))]
+        public Result Update(FileDto value)
         {
             if(_fileRepository.Update(value))
                 return new SuccessResult(StatusMessagesUtil.UpdateSuccessMessage);

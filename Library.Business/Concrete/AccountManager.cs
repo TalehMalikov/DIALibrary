@@ -6,6 +6,7 @@ using Library.Core.Result.Concrete;
 using Library.Core.Utils;
 using Library.DataAccess.Abstraction;
 using Library.Entities.Concrete;
+using Library.Entities.Dtos;
 
 namespace Library.Business.Concrete
 {
@@ -34,7 +35,7 @@ namespace Library.Business.Concrete
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IAccountService.Get))]
         [ValidationAspect(typeof(AccountValidator))]
-        public Result Add(Account value)
+        public Result Add(AccountDto value)
         {
             _accountRepository.Add(value);
             return new SuccessResult(StatusMessagesUtil.AddSuccessMessage);
@@ -68,7 +69,7 @@ namespace Library.Business.Concrete
         
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IAccountService.Get))]
         [ValidationAspect(typeof(AccountValidator))]
-        public Result Update(Account value)
+        public Result Update(AccountDto value)
         {
             if (_accountRepository.Update(value))
                 return new SuccessResult(StatusMessagesUtil.UpdateSuccessMessage);

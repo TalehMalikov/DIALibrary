@@ -6,6 +6,7 @@ using Library.Core.Domain.Dtos;
 using Library.Core.Result.Concrete;
 using Library.Core.Utils;
 using Library.Entities.Concrete;
+using Library.Entities.Dtos;
 using Library.WebAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -72,9 +73,9 @@ namespace Library.WebAPI.Controllers
             if (user?.Data == null)
                 return BadRequest("No user found with given id");
 
-            var result = _accountService.Add(new Account
+            var result = _accountService.Add(new AccountDto
             {
-                User = user.Data,
+                UserId = user.Data.Id,
                 Email = model.Email,
                 LastModified = DateTime.Now,
                 IsDeleted = false,

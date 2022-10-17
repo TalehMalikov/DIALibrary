@@ -32,8 +32,9 @@ $((function () {
                     </button>
                 </div>
                 <div class="modal-footer">
-                    <button id="cancel-delete" type="button" class="btn btn-secondary" data-dismiss="modal">Ləğv et</button>
                     <button id="confirm-delete" type="button"  class="btn btn-danger">Təsdiq et</button>
+                    <button id="cancel-delete" type="button" class="btn btn-success" data-dismiss="modal">Ləğv et</button>
+                   
                 </div>
             </div>
         </div>

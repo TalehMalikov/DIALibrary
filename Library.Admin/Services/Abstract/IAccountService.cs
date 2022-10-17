@@ -1,10 +1,16 @@
 ﻿using Library.Core.Result.Concrete;
 using Library.Entities.Concrete;
+using Library.Entities.Dtos;
 
 namespace Library.Admin.Services.Abstract
 {
-    public interface IAccountService : IBaseService<Account>
+    public interface IAccountService 
     {
-        Task<DataResult<List<Account>>> GetAll(string token);
+        Task<DataResult<List<Account>>> GetAll(string token); 
+        Task<DataResult<Account>> Get(string token, int id);
+        Task<Result> Add(string token, AccountDto entity);
+        Task<Result> Update(string token, Account entity);
+        Task<Result> Delete(string token, int id);
+
     }
 }

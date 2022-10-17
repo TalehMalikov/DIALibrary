@@ -1,6 +1,7 @@
 ﻿using Library.Core.Extensions;
 using Library.DataAccess.Abstraction;
 using Library.Entities.Concrete;
+using Library.Entities.Dtos;
 using Npgsql;
 
 namespace Library.DataAccess.Implementation.PostgreSql
@@ -13,15 +14,15 @@ namespace Library.DataAccess.Implementation.PostgreSql
             _connectionString = connectionString;
         }
 
-        public bool Add(Group value)
+        public bool Add(GroupDto value)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
-            string cmdString = "Insert Into Groups(Name,SpecialtyId,SectorId) Values(@name,@speacialtyId,@sectorId)";
+            string cmdString = "Insert Into Groups(Name,SpecialtyId,SectorId) Values(@name,@specialtyId,@sectorId)";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             command.Parameters.AddWithValue("@name", value.Name);
-            command.Parameters.AddWithValue("@specialtyId", value.Speciality.Id);
-            command.Parameters.AddWithValue("@sectorId", value.Sector.Id);
+            command.Parameters.AddWithValue("@specialtyId", value.SpecialityId);
+            command.Parameters.AddWithValue("@sectorId", value.SectorId);
             return 1 == command.ExecuteNonQuery();
 
         }
@@ -73,15 +74,15 @@ namespace Library.DataAccess.Implementation.PostgreSql
 
         }
 
-        public bool Update(Group value)
+        public bool Update(GroupDto value)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString = "Update Groups Set Name=@name,SpecialtyId=@specialtyId,SectorId=@sectorId Where Id=@id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             command.Parameters.AddWithValue("@name", value.Name);
-            command.Parameters.AddWithValue("@specialtyId", value.Speciality.Id);
-            command.Parameters.AddWithValue("@sectorId", value.Sector.Id);
+            command.Parameters.AddWithValue("@specialtyId", value.SpecialityId);
+            command.Parameters.AddWithValue("@sectorId", value.SectorId);
             command.Parameters.AddWithValue("@id", value.Id);
             return 1 == command.ExecuteNonQuery();
         }

@@ -6,7 +6,7 @@ using System.Net.Http.Headers;
 
 namespace Library.Admin.Services.Concrete
 {
-    public class CategoryService :BaseService, ICategoryService
+    public class CategoryService : BaseService, ICategoryService
     {
         public async Task<DataResult<Category>> Get(int id)
         {

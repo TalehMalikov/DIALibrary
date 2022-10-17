@@ -41,7 +41,6 @@
                                 <td class="text-center"><a class="btn btn-danger delete px-4" data-id="@item.Id" data-toggle="modal" data-target="#deleteModal" data-controller="Group" data-action="Delete">Sil</a></td>
                             </tr>
                         }
-                    }
                 </tbody>
             </table>
         </div>
@@ -52,11 +51,11 @@
     <!-- Add User Modal - addUserModal -->
     <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
-        <form class="user" asp-action="Add" asp-controller="Faculty" asp-antiforgery="false">
+        <form class="user" asp-action="Add" asp-controller="Group">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Fakültə əlavə et</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Qrup əlavə et</h5>
                         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
@@ -65,9 +64,16 @@
 
                         <div class="form-group row d-flex justify-content-center">
                             <div class="col-sm-6 col-sm-10 mb-3 mb-sm-0">
-                                <input type="text" class="form-control form-control-register"
-                                       id="exampleInputFirstName" placeholder="Fakültə adı" asp-for="@Model.Group.Name">
+                                <input type="text" class="form-control form-control-register mb-2"
+                                       id="exampleInputFirstName" placeholder="Qrup adı" asp-for="@Model.GroupDto.Name">
+                                <select asp-items="@Model.SpecialtyList" asp-for="GroupDto.SpecialityId" class="form-control form-control-register mb-2">
+                                    <option selected>İxtisas seçin</option>
+                                </select>
+                                <select asp-items="@Model.SectorList" asp-for="GroupDto.SectorId" class="form-control form-control-register mb-2">
+                                    <option selected value="0">Sektor seçin</option>
+                                </select>
                             </div>
+
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -78,11 +84,13 @@
             </div>
         </form>
     </div>
-}
 
     <div class="modal fade" id="createModal">
     </div>
 
+}
+
+    
 @section Scripts{
     <script>
         function ShowSaveModal(elem) {
