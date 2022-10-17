@@ -5,7 +5,7 @@ using File = Library.Entities.Concrete.File;
 
 namespace Library.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class FileController : ControllerBase
     {

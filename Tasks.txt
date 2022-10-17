@@ -13,11 +13,16 @@ Admin panel footer
 
 
 Mən:
-1. Open Pdf																			- 
-2. Confirm Resubmission																- 
-3. HTTPS																			- 
-8. Qeydiyyat hissəsi, ümumi məlumat hissəsinə baxış, ;-düzəlt						- 
-9. Localization																		-  
+1. API Add +
+
+Kitablar
+Yeniliklər
+Digər resurslar
+Open Pdf																			- 
+Confirm Resubmission																- 
+HTTPS																				- 
+Qeydiyyat hissəsi, ümumi məlumat hissəsinə baxış, ;-düzəlt							- 
+Localization																		-  
 
 ShowFilteredFiles = author
 
@@ -26,12 +31,6 @@ ShowFilteredFiles = author
 
 --------------------------------------------
 				Admin Panel Task
-	Taleh
-1. Kitablar
-2. Yeniliklər
-3. Digər resurslar
-
-
 	Əhməd
 1. Hesablar
 2. Fakültə, ixtisas, qrup

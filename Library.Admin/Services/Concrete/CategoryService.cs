@@ -8,6 +8,13 @@ namespace Library.Admin.Services.Concrete
 {
     public class CategoryService :BaseService, ICategoryService
     {
+        public async Task<DataResult<Category>> Get(int id)
+        {
+            using HttpClient client = new HttpClient();
+            var result = await client.GetJsonAsync<DataResult<Category>>(BaseUrl + "Category/getbyid/"+id);
+            return result;
+        }
+
         public async Task<DataResult<List<Category>>> GetAll()
         {
             using HttpClient client = new HttpClient();

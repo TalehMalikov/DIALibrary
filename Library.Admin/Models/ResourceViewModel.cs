@@ -12,6 +12,7 @@ namespace Library.Admin.Models
 
         public IFormFile AddedFile { get; set; }
 
+
         public SelectList CategoryList { get; set; }
         public SelectList LanguageList { get; set; }
         public SelectList EditionList { get; set; }
@@ -20,6 +21,6 @@ namespace Library.Admin.Models
         public int PublicationLanguageId { get; set; }
         public int EditionStatusId { get; set; }
         public File DeletedBook { get; set; }
-        public File File { get; set; }
+        public File File { get; set; } = new File();
     }
 }

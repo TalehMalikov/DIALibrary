@@ -4,6 +4,7 @@ using Library.Core.DefaultSystemPath;
 using Library.Core.Extensions;
 using Library.Core.Result.Concrete;
 using Library.Entities.Concrete;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Text;
@@ -16,11 +17,14 @@ namespace Library.Admin.Controllers
         private readonly IFileService _fileService;
         private readonly ILanguageService _languageService;
         private readonly ICategoryService _categoryService;
-        public ResourceController(IFileService fileService, ILanguageService languageService, ICategoryService categoryService)
+        private readonly IFileTypeService _fileTypeService;
+        public ResourceController(IFileService fileService, ILanguageService languageService, ICategoryService categoryService,
+                                    IFileTypeService fileTypeService)
         {
             _fileService = fileService;
             _languageService = languageService;
             _categoryService = categoryService;
+            _fileTypeService = fileTypeService;
         }
 
         #region Books
@@ -76,8 +80,8 @@ namespace Library.Admin.Controllers
             var file = await _fileService.Get(id);
 
             viewModel.File = file.Data;
-            viewModel.OriginalLanguageId = viewModel.File.OriginalLanguage.Id;
-            viewModel.PublicationLanguageId = viewModel.File.PublicationLanguage.Id;
+            viewModel.OriginalLanguageId = viewModel.File.Id;
+            viewModel.PublicationLanguageId = viewModel.File.Id;
             viewModel.CategoryId = viewModel.File.Category.Id;
             viewModel.EditionStatusId = viewModel.File.EditionStatus ? 1 : 0;
 
@@ -90,6 +94,7 @@ namespace Library.Admin.Controllers
             string accessToken = HttpContext.Session.GetString("AdminAccessToken");
             try
             {
+                #region Validation
                 /*if (ModelState.IsValid == false)
                 {
                     var errors = ModelState.SelectMany(x => x.Value.Errors).Select(x => x.ErrorMessage).ToList();
@@ -119,6 +124,7 @@ namespace Library.Admin.Controllers
                 {
                     Id = viewModel.PublicationLanguageId
                 };*/
+                #endregion
 
                 if (viewModel.EditionStatusId == 0)
                     viewModel.File.EditionStatus = false;
@@ -136,6 +142,18 @@ namespace Library.Admin.Controllers
 
                     if (uploadFile.Success && uploadPhoto.Success)
                     {
+                        var category = await _categoryService.Get(viewModel.File.Category.Id);
+                        viewModel.File.Category = category.Data;
+                        viewModel.File.FileType = new FileType()
+                        {
+                            Id=1,
+                            Name="Kitablar"
+                        };
+                        var originalLanguage = await _languageService.Get(accessToken, viewModel.File.OriginalLanguage.Id);
+                        var publicationLanguage = await _languageService.Get(accessToken, viewModel.File.PublicationLanguage.Id);
+                        viewModel.File.OriginalLanguage = originalLanguage.Data;
+                        viewModel.File.PublicationLanguage = publicationLanguage.Data;
+
                         var result = await _fileService.Add(accessToken, viewModel.File);
 
                         if (!result.Success)
@@ -159,40 +177,95 @@ namespace Library.Admin.Controllers
                 }
                 else
                 {
-                    string oldPhotoPath = viewModel.File.FilePath, oldFilePath = viewModel.File.FilePath;
-                    viewModel.File.FilePath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedFile.FileName);
-                    viewModel.File.PhotoPath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedPicture.FileName);
-
-                    var uploadFile = await UploadToFileSystem(viewModel.AddedFile, viewModel.File.FilePath);
-                    var uploadPhoto = await UploadToFileSystem(viewModel.AddedPicture, viewModel.File.PhotoPath);
-
-                    if (uploadPhoto.Success && uploadFile.Success)
+                    if(viewModel.AddedFile!=null)
                     {
-                        var result = await _fileService.Update(accessToken, viewModel.File);
+                        string oldFilePath = viewModel.File.FilePath;
+                        viewModel.File.FilePath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedFile.FileName);
 
-                        if (!result.Success)
+                        var uploadFile = await UploadToFileSystem(viewModel.AddedFile, viewModel.File.FilePath);
+
+                        if (uploadFile.Success)
                         {
-                            await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, oldFilePath));
-                            await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultPhotoPath, oldPhotoPath));
+                            var category = await _categoryService.Get(viewModel.File.Category.Id);
+                            viewModel.File.Category = category.Data;
+                            viewModel.File.FileType = new FileType()
+                            {
+                                Id = 1,
+                                Name = "Kitablar"
+                            };
+                            var originalLanguage = await _languageService.Get(accessToken, viewModel.File.OriginalLanguage.Id);
+                            var publicationLanguage = await _languageService.Get(accessToken, viewModel.File.PublicationLanguage.Id);
+                            viewModel.File.OriginalLanguage = originalLanguage.Data;
+                            viewModel.File.PublicationLanguage = publicationLanguage.Data;
+
+                            var result = await _fileService.Update(accessToken, viewModel.File);
+
+                            if (!result.Success)
+                            {
+                                await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, oldFilePath));
+                                viewModel.File.FilePath = oldFilePath;
+                            }
+                        }
+                        else
+                        {
+                            await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, viewModel.File.FilePath));
+                           
                             viewModel.File.FilePath = oldFilePath;
+                            TempData["Message"] = "File isn't upload!";
+                        }
+                    }
+                    else if(viewModel.AddedPicture!=null)
+                    {
+                        string oldPhotoPath = viewModel.File.FilePath;
+                        viewModel.File.PhotoPath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedPicture.FileName);
+
+                        var uploadPhoto = await UploadToFileSystem(viewModel.AddedPicture, viewModel.File.PhotoPath);
+
+                        if (uploadPhoto.Success)
+                        {
+                            var category = await _categoryService.Get(viewModel.File.Category.Id);
+                            viewModel.File.Category = category.Data;
+                            viewModel.File.FileType = new FileType()
+                            {
+                                Id = 1,
+                                Name = "Kitablar"
+                            };
+                            var originalLanguage = await _languageService.Get(accessToken, viewModel.File.OriginalLanguage.Id);
+                            var publicationLanguage = await _languageService.Get(accessToken, viewModel.File.PublicationLanguage.Id);
+                            viewModel.File.OriginalLanguage = originalLanguage.Data;
+                            viewModel.File.PublicationLanguage = publicationLanguage.Data;
+
+                            var result = await _fileService.Update(accessToken, viewModel.File);
+
+                            if (!result.Success)
+                            {
+                                await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultPhotoPath, oldPhotoPath));
+                                viewModel.File.PhotoPath = oldPhotoPath;
+                            }
+                        }
+                        else
+                        {
+                            await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultPhotoPath, viewModel.File.PhotoPath));
                             viewModel.File.PhotoPath = oldPhotoPath;
+                            TempData["Message"] = "File isn't upload!";
                         }
                     }
                     else
                     {
-                        if (!uploadFile.Success)
+                        var category2 = await _categoryService.Get(viewModel.File.Category.Id);
+                        viewModel.File.Category = category2.Data;
+                        viewModel.File.FileType = new FileType()
                         {
-                            await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, viewModel.File.FilePath));
-                        }
-                        if (!uploadPhoto.Success)
-                        {
-                            await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultPhotoPath, viewModel.File.PhotoPath));
-                        }
-                        viewModel.File.FilePath = oldFilePath;
-                        viewModel.File.PhotoPath = oldPhotoPath;
-                        TempData["Message"] = "File isn't upload!";
-                    }
+                            Id = 1,
+                            Name = "Kitablar"
+                        };
+                        var originalLanguage2 = await _languageService.Get(accessToken, viewModel.File.OriginalLanguage.Id);
+                        var publicationLanguage2 = await _languageService.Get(accessToken, viewModel.File.PublicationLanguage.Id);
+                        viewModel.File.OriginalLanguage = originalLanguage2.Data;
+                        viewModel.File.PublicationLanguage = publicationLanguage2.Data;
 
+                        var result2 = await _fileService.Update(accessToken, viewModel.File);
+                    }
                 }
                 TempData["Message"] = "Operation successfully";
             }
@@ -210,15 +283,19 @@ namespace Library.Admin.Controllers
         public async Task<IActionResult> DeleteBook(ResourceViewModel viewModel)
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-            var deletedId = viewModel.DeletedBook.Id;
+            var file = await _fileService.Get(viewModel.DeletedBook.Id);
 
-            var deleteFileFromFileSytem = await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, viewModel.File.FilePath));
-            var deletePhotoFromFileSytem = await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultPhotoPath, viewModel.File.PhotoPath));
+            var deleteFileFromFileSytem = await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, file.Data.FilePath));
+            var deletePhotoFromFileSytem = await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultPhotoPath, file.Data.PhotoPath));
 
-            await _fileService.Delete(token, deletedId);
+            var result = await _fileService.Delete(token, viewModel.DeletedBook.Id);
 
-            TempData["Message"] = "Operation successfully";
-
+            if (result.Success)
+            {
+                TempData["Message"] = "Operation successfully";
+                return RedirectToAction("ShowBooks");
+            }
+            // Must be return error message to UI
             return RedirectToAction("ShowBooks");
         }
         #endregion
@@ -237,11 +314,11 @@ namespace Library.Admin.Controllers
 
             if (file.FileName.Contains(".pdf"))
             {
-                filePath = Path.Combine(DefaultPath.OriginalDefaultFilePath, uniqueFileName);
+                filePath = Path.Combine(DefaultPath.OriginalDefaultFilePath, uniqueFileName+".pdf");
             }
             else
             {
-                filePath = Path.Combine(DefaultPath.OriginalDefaultPhotoPath, uniqueFileName);
+                filePath = Path.Combine(DefaultPath.OriginalDefaultPhotoPath, uniqueFileName+".jpg");
             }
 
             var extension = Path.GetExtension(file.FileName);
@@ -287,19 +364,36 @@ namespace Library.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Picture(string name)
+        public IActionResult ShowPhoto(string path)
         {
             try
             {
-                string fullpath = Path.Combine(DefaultPath.OriginalDefaultPhotoPath, name);
+                string fullpath = Path.Combine(DefaultPath.OriginalDefaultPhotoPath, path);
 
-                var content = System.IO.File.ReadAllBytes(name);
+                var content = System.IO.File.ReadAllBytes(path);
 
                 return File(content, "img/*");
             }
             catch
             {
                 return Ok();
+            }
+        }
+
+        [HttpGet]
+        public IActionResult OpenFile(string path)
+        {
+            try
+            {
+                string fullPath = Path.Combine(DefaultPath.OriginalDefaultPhotoPath, path);
+
+                var content = System.IO.File.ReadAllBytes(fullPath);
+
+                return File(content, "application/pdf");
+            }
+            catch
+            {
+                return BadRequest("Not found");
             }
         }
 

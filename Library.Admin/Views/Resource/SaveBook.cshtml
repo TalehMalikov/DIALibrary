@@ -1,13 +1,14 @@
 ﻿@model ResourceViewModel
-
 <div class="modal-dialog modal-dialog-scrollable modal-lg">
     <!-- Modal content -->
     <div class="modal-content" id="editDebtModelBody">
         <div style="overflow:auto;" class="modal-body">
-            <form asp-controller="Resource" asp-action="SaveBook" class="form-group" enctype = "multipart/form-data">
-                <input hidden asp-for="File.Id"/>
-
-               <div class="form-group">
+            <form asp-controller="Resource" asp-action="SaveBook" class="form-group" enctype="multipart/form-data">
+                <input hidden asp-for="File.Id" />
+                <input hidden asp-for="File.FilePath" />
+                <input hidden asp-for="File.PhotoPath" />
+                <input hidden asp-for="File.GUID" />
+                <div class="form-group">
                     <label for="name" class="mr-sm-2">Ad:</label>
                     <input asp-for="File.Name" class="form-control mb-2 mr-sm-2" />
                     <span asp-validation-for="File.Name" class="text-danger"></span>
@@ -15,35 +16,53 @@
 
                 <div class="form-group">
                     <label for="name" class="mr-sm-2">Kateqoriya:</label>
-                     @Html.DropDownListFor(s=> s.File.Category.Id, Model.CategoryList,new {@class="custom-select form-control"})
+                    @Html.DropDownListFor(s=> s.File.Category.Id, Model.CategoryList,new {@class="custom-select form-control"})
                 </div>
-                
+
                 <div class="form-group">
                     <label for="name" class="mr-sm-2">Orjinal dil:</label>
-                     @Html.DropDownListFor(s=> s.File.OriginalLanguage.Id, Model.LanguageList,new {@class="custom-select form-control"})
+                    @Html.DropDownListFor(s=> s.File.OriginalLanguage.Id, Model.LanguageList,new {@class="custom-select form-control"})
                 </div>
-                
+
                 <div class="form-group">
                     <label for="name" class="mr-sm-2">Çap dili:</label>
                     @Html.DropDownListFor(s=> s.File.PublicationLanguage.Id, Model.LanguageList,new {@class="custom-select form-control"})
                 </div>
-                
+
                 <div class="form-group">
-                    <label for="name" class="mr-sm-2">Fayl yüklə:</label>
-                    <input type="file" asp-for="AddedFile" class="form-control mb-2 mr-sm-2" id="inputGroupFile02">
-                    <span asp-validation-for="AddedFile" class="text-danger"></span>
+                    @if (Model.File.Name != null)
+                    {
+                        <a class="btn btn-info" name="submit" id="submitFileButton">Fayl yüklə</a>
+                        <div id="chooseFileDiv">
+                        </div>
+                    }
+                    else
+                    {
+                        <label for="name" class="mr-sm-2">Fayl əlavə et:</label>
+                        <input type="file" asp-for="AddedFile" class="form-control mb-2 mr-sm-2" id="inputGroupFile02">
+                        <span asp-validation-for="AddedFile" class="text-danger"></span>
+                    }
                 </div>
 
                 <div class="form-group">
-                    <label for="name" class="mr-sm-2">Şəkil yüklə:</label>
-                    <input type="file" asp-for="AddedPicture" class="form-control mb-2 mr-sm-2 fileUpload" id="inputGroupFile02">
-                    <span asp-validation-for="AddedPicture" class="text-danger"></span>
+                    @if (Model.File.Name != null)
+                    {
+                        <a class="btn btn-info" name="submit" id="submitPhotoButton">Photo yüklə</a>
+                        <div id="choosePhotoDiv">
+                        </div>
+                    }
+                    else
+                    {
+                        <label for="name" class="mr-sm-2">Şəkil əlavə et:</label>
+                        <input type="file" asp-for="AddedPicture" class="form-control mb-2 mr-sm-2 fileUpload" id="inputGroupFile02">
+                        <span asp-validation-for="AddedPicture" class="text-danger"></span>
+                    }
                 </div>
 
                 <div class="form-group">
                     <label for="name" class="mr-sm-2">Nəşrimizdir:</label>
                     @Html.DropDownListFor(s=> s.EditionStatusId, Model.EditionList,new {@class="custom-select form-control"})
-                </div> 
+                </div>
 
                 <div class="form-group">
                     <label for="name" class="mr-sm-2">Çap evi:</label>
@@ -76,5 +95,42 @@
         </div>
     </div>
 </div>
+<script>
 
-<partial name="_ValidationScriptsPartial"/>
+
+        $(document).ready(function()
+        {
+            let fileCount = 1;
+            let photoCount = 1;
+             $("#submitFileButton").click(function () {
+            //your code here
+              fileCount++;
+       if(fileCount % 2 == 0)
+       {
+        $( "#chooseFileDiv" ).append
+         ('<input type="file" asp-for="AddedPicture" class="form-control mb-2 mr-sm-2 fileUpload" id="inputGroupFile02"> <span asp-validation-for="AddedPicture" class="text-danger"></span>');
+       }
+       else
+       {
+           $("#chooseFileDiv").empty()
+       }
+
+         });
+
+        $("#submitPhotoButton").click(function () {
+       //your code here
+       photoCount++;
+       if(photoCount % 2 == 0)
+       {
+        $( "#choosePhotoDiv" ).append
+         ('<input type="file" asp-for="AddedPicture" class="form-control mb-2 mr-sm-2 fileUpload" id="inputGroupFile02"> <span asp-validation-for="AddedPicture" class="text-danger"></span>');
+       }
+       else
+       {
+           $("#choosePhotoDiv").empty()
+       }
+
+    });
+    });
+</script>
+<partial name="_ValidationScriptsPartial" />

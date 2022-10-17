@@ -158,7 +158,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString =
-                "Update Books Set Name=@name,CategoryId=@categoryId," +
+                "Update files Set Name=@name,CategoryId=@categoryId," +
                 "OriginalLanguageId=@originalLanguageId,LastModified=@lastModified,GUID=@guid," +
                 "ExistingStatus=@existingStatus,FileTypeId=@fileTypeId,EditionStatus=@editionStatus," +
                 "PublicationLanguageId=@publicationLanguageId,Description=@description,PublisherName=@publisherName," +
