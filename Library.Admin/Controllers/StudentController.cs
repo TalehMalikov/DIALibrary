@@ -17,21 +17,29 @@ namespace Library.Admin.Controllers
         public async Task<IActionResult> ShowStudents()
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-            var result = await _studentService.GetAll(token);
-            var model = new StudentViewModel
+            if(token!=null)
             {
-                Students = result.Data
-            };
-            return View(model);
+                var result = await _studentService.GetAll(token);
+                var model = new StudentViewModel
+                {
+                    Students = result.Data
+                };
+                return View(model);
+            }
+            return new NotFoundResult();
         }
 
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-            var responseStudent = await _studentService.Delete(token,id);
-            var responseUser = await _userService.Delete(token, id);
-            return RedirectToAction("ShowStudents");
+            if(token!=null)
+            {
+                var responseStudent = await _studentService.Delete(token, id);
+                var responseUser = await _userService.Delete(token, id);
+                return RedirectToAction("ShowStudents");
+            }
+            return new NotFoundResult();
         }
 
     }

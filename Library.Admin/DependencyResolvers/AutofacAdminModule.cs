@@ -21,6 +21,7 @@ namespace Library.Admin.DependencyResolvers
             builder.RegisterType<SectorService>().As<ISectorService>().SingleInstance();
             builder.RegisterType<FileTypeSevice>().As<IFileTypeService>().SingleInstance();
             builder.RegisterType<EducationalProgramService>().As<IEducationalProgramService>().SingleInstance();
+            builder.RegisterType<AuthorService>().As<IAuthorService>().SingleInstance();
         }
     }
 }

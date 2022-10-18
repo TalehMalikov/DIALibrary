@@ -4,24 +4,24 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Library.Admin.Controllers
 {
-    public class FacultyController : Controller
+    public class AuthorController : Controller
     {
-        private readonly IFacultyService _facultyService;
+        private readonly IAuthorService _authorService;
 
-        public FacultyController(IFacultyService facultyService)
+        public AuthorController(IAuthorService authorService)
         {
-            _facultyService = facultyService;
+            _authorService = authorService;
         }
 
         public async Task<IActionResult> Index()
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-            if(token!=null)
+            if (token != null)
             {
-                var result = await _facultyService.GetAll(token);
-                var model = new FacultyViewModel
+                var result = await _authorService.GetAll(token);
+                var model = new AuthorViewModel
                 {
-                    Faculties = result.Data
+                    Authors = result.Data
                 };
 
                 return View(model);
@@ -30,12 +30,12 @@ namespace Library.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(FacultyViewModel model)
+        public async Task<IActionResult> Add(AuthorViewModel model)
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-            if(token!=null)
+            if (token != null)
             {
-                var result = await _facultyService.Add(token, model.Faculty);
+                var result = await _authorService.Add(token, model.Author);
                 return RedirectToAction("Index");
             }
             return new NotFoundResult();
@@ -44,9 +44,9 @@ namespace Library.Admin.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-            if(token!=null)
+            if (token != null)
             {
-                var result = await _facultyService.Delete(token, id);
+                var result = await _authorService.Delete(token, id);
                 return RedirectToAction("Index");
             }
             return new NotFoundResult();

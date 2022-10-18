@@ -13,21 +13,20 @@ Admin panel footer
 
 
 Mən:
-1. API Add +
+Müəlliflər
+Kateqoriyalar
+Sektorlar
+İmtiyazlar
+İcazələr
 
-Kitablar
+
 Yeniliklər
-Digər resurslar
-Open Pdf																			- 
 Confirm Resubmission																- 
 HTTPS																				- 
 Qeydiyyat hissəsi, ümumi məlumat hissəsinə baxış, ;-düzəlt							- 
 Localization																		-  
 
 ShowFilteredFiles = author
-
-
-
 
 --------------------------------------------
 				Admin Panel Task

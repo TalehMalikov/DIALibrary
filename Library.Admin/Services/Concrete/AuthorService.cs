@@ -1,43 +1,42 @@
-﻿using System.Net.Http.Headers;
-using System.Net.NetworkInformation;
-using Library.Admin.Services.Abstract;
+﻿using Library.Admin.Services.Abstract;
 using Library.Core.Extensions;
 using Library.Core.Result.Concrete;
 using Library.Entities.Concrete;
+using System.Net.Http.Headers;
 
 namespace Library.Admin.Services.Concrete
 {
-    public class FacultyService : BaseService, IFacultyService
+    public class AuthorService : BaseService, IAuthorService
     {
-        public async Task<Result> Add(string token, Faculty entity)
+        public async Task<Result> Add(string token, Author entity)
         {
             using HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var result = await client.PostJsonAsync<Result, Faculty>(BaseUrl + "Faculty/add", entity);
-            return result;
-        }
-
-        public async Task<Result> Update(string token, Faculty entity)
-        {
-            using HttpClient client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var result = await client.PutJsonAsync<Result, Faculty>(BaseUrl + "Faculty/update", entity);
-            return result;
+            var result = await client.PostJsonAsync<Result, Author>(BaseUrl + "Author/add", entity);
+            return result; 
         }
 
         public async Task<Result> Delete(string token, int id)
         {
             using HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var result = await client.DeleteJsonAsync<Result>(BaseUrl + "Faculty/delete/"+id);
+            var result = await client.DeleteJsonAsync<Result>(BaseUrl + "Author/delete/" + id);
             return result;
         }
 
-        public async Task<DataResult<List<Faculty>>> GetAll(string token)
+        public async Task<DataResult<List<Author>>> GetAll(string token)
         {
             using HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var result = await client.GetJsonAsync<DataResult<List<Faculty>>>(BaseUrl + "Faculty/getall");
+            var result = await client.GetJsonAsync<DataResult<List<Author>>>(BaseUrl + "Author/getall");
+            return result;
+        }
+
+        public async Task<Result> Update(string token, Author entity)
+        {
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var result = await client.PutJsonAsync<Result, Author>(BaseUrl + "Author/update", entity);
             return result;
         }
     }

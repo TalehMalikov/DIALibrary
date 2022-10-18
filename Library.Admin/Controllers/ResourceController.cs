@@ -38,7 +38,6 @@ namespace Library.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> ShowResources(int id)
         {
-            string accessToken = HttpContext.Session.GetString("AdminAccessToken");
             ResourceViewModel viewModel = new ResourceViewModel();
             var result = await _fileService.GetAll();
             var fileTypes = await _fileTypeService.GetAll();
@@ -91,196 +90,105 @@ namespace Library.Admin.Controllers
         public async Task<IActionResult> SaveResource(int id)
         {
             string accessToken = HttpContext.Session.GetString("AdminAccessToken");
-            ResourceViewModel viewModel = new ResourceViewModel();
-            var categories = await _categoryService.GetAll();
-            categories.Data.Add(new Category()
+            if(accessToken!=null)
             {
-                Name = "Seç",
-                Id = 0
-            });
-            var languages = await _languageService.GetAll(accessToken);
-            languages.Data.Add(new Language()
-            {
-                Name = "Seç",
-                Id = 0
-            });
-            var fileTypes = await _fileTypeService.GetAll();
-            fileTypes.Data.Add(new FileType()
-            {
-                Name = "Seç",
-                Id = 0
-            });
+                ResourceViewModel viewModel = new ResourceViewModel();
+                var categories = await _categoryService.GetAll();
+                categories.Data.Add(new Category()
+                {
+                    Name = "Seç",
+                    Id = 0
+                });
+                var languages = await _languageService.GetAll(accessToken);
+                languages.Data.Add(new Language()
+                {
+                    Name = "Seç",
+                    Id = 0
+                });
+                var fileTypes = await _fileTypeService.GetAll();
+                fileTypes.Data.Add(new FileType()
+                {
+                    Name = "Seç",
+                    Id = 0
+                });
 
-            viewModel.CategoryList = new SelectList(categories.Data, "Id", "Name", "Seç");
-            viewModel.LanguageList = new SelectList(languages.Data, "Id", "Name", "Seç");
-            viewModel.FileTypeList = new SelectList(fileTypes.Data, "Id", "Name", "Seç");
+                viewModel.CategoryList = new SelectList(categories.Data, "Id", "Name", "Seç");
+                viewModel.LanguageList = new SelectList(languages.Data, "Id", "Name", "Seç");
+                viewModel.FileTypeList = new SelectList(fileTypes.Data, "Id", "Name", "Seç");
 
-            List<dynamic> editions = new List<dynamic>();
-            editions.Add(new { Id = 0, Name = "true" });
-            editions.Add(new { Id = 0, Name = "false" });
-            viewModel.BooleanList = new SelectList(editions, "Id", "Name");
+                List<dynamic> editions = new List<dynamic>();
+                editions.Add(new { Id = 0, Name = "true" });
+                editions.Add(new { Id = 0, Name = "false" });
+                viewModel.BooleanList = new SelectList(editions, "Id", "Name");
 
-            if (id == 0)
+                if (id == 0)
+                    return PartialView(viewModel);
+
+                var file = await _fileService.Get(id);
+
+                viewModel.File = file.Data;
+                viewModel.EditionStatusId = viewModel.File.EditionStatus ? 1 : 0;
+
                 return PartialView(viewModel);
-
-            var file = await _fileService.Get(id);
-
-            viewModel.File = file.Data;
-            viewModel.EditionStatusId = viewModel.File.EditionStatus ? 1 : 0;
-
-            return PartialView(viewModel);
+            }
+            return new NotFoundResult();
         }
 
         [HttpPost]
         public async Task<IActionResult> SaveResource(ResourceViewModel viewModel)
         {
             string accessToken = HttpContext.Session.GetString("AdminAccessToken");
-            try
+            if(accessToken!=null)
             {
-                #region Validation
-                /*if (ModelState.IsValid == false)
+                try
                 {
-                    var errors = ModelState.SelectMany(x => x.Value.Errors).Select(x => x.ErrorMessage).ToList();
-                    var errorMessage = errors.Aggregate((message, value) =>
+                    #region Validation
+                    /*if (ModelState.IsValid == false)
                     {
-                        if (message.Length == 0)
-                            return value;
+                        var errors = ModelState.SelectMany(x => x.Value.Errors).Select(x => x.ErrorMessage).ToList();
+                        var errorMessage = errors.Aggregate((message, value) =>
+                        {
+                            if (message.Length == 0)
+                                return value;
 
-                        return message + ", " + value;
-                    });
+                            return message + ", " + value;
+                        });
 
-                    TempData["Message"] = errorMessage;
-                    return RedirectToAction("ShowBooks");
-                }*/
+                        TempData["Message"] = errorMessage;
+                        return RedirectToAction("ShowBooks");
+                    }*/
 
-                /*
-                viewModel.File.Category = new Category()
-                {
-                    Id = viewModel.CategoryId
-                };
-                viewModel.File.OriginalLanguage = new Language()
-                {
-                    Id = viewModel.OriginalLanguageId
-                };
-
-                viewModel.File.PublicationLanguage = new Language()
-                {
-                    Id = viewModel.PublicationLanguageId
-                };*/
-                #endregion
-
-                if (viewModel.EditionStatusId == 0)
-                    viewModel.File.EditionStatus = false;
-                else
-                    viewModel.File.EditionStatus = true;
-
-                if (viewModel.File.Id == 0)
-                {
-                    viewModel.File.FilePath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedFile.FileName);
-                    viewModel.File.GUID = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.File.Name);
-                    viewModel.File.PhotoPath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedPicture.FileName);
-
-                    var uploadFile = await UploadToFileSystem(viewModel.AddedFile, viewModel.File.FilePath);
-                    var uploadPhoto = await UploadToFileSystem(viewModel.AddedPicture, viewModel.File.PhotoPath);
-
-                    if (uploadFile.Success && uploadPhoto.Success)
+                    /*
+                    viewModel.File.Category = new Category()
                     {
-                        var fileDto = new FileDto()
-                        {
-                            Id = viewModel.File.Id,
-                            Name = viewModel.File.Name,
-                            CategoryId = viewModel.File.Category.Id,
-                            OriginalLanguageId = viewModel.File.OriginalLanguage.Id,
-                            PublicationLanguageId = viewModel.File.PublicationLanguage.Id,
-                            EditionStatus = viewModel.File.EditionStatus,
-                            ExistingStatus = viewModel.File.ExistingStatus,
-                            FileTypeId = viewModel.File.FileType.Id,
-                            PhotoPath = viewModel.File.PhotoPath,
-                            FilePath = viewModel.File.FilePath,
-                            PublisherName = viewModel.File.PublisherName,
-                            PublicationDate = viewModel.File.PublicationDate,
-                            PageNumber = viewModel.File.PageNumber,
-                            Description = viewModel.File.Description,
-                            GUID = viewModel.File.GUID,
-                            LastModified = viewModel.File.LastModified
-                        };
+                        Id = viewModel.CategoryId
+                    };
+                    viewModel.File.OriginalLanguage = new Language()
+                    {
+                        Id = viewModel.OriginalLanguageId
+                    };
 
-                        var result = await _fileService.Add(accessToken, fileDto);
+                    viewModel.File.PublicationLanguage = new Language()
+                    {
+                        Id = viewModel.PublicationLanguageId
+                    };*/
+                    #endregion
 
-                        if (!result.Success)
-                        {
-                            await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, viewModel.File.FilePath));
-                            await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultPhotoPath, viewModel.File.PhotoPath));
-                        }
-                    }
+                    if (viewModel.EditionStatusId == 0)
+                        viewModel.File.EditionStatus = false;
                     else
+                        viewModel.File.EditionStatus = true;
+
+                    if (viewModel.File.Id == 0)
                     {
-                        if (!uploadFile.Success)
-                        {
-                            await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, viewModel.File.FilePath));
-                        }
-                        if (!uploadPhoto.Success)
-                        {
-                            await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultPhotoPath, viewModel.File.PhotoPath));
-                        }
-                        TempData["Message"] = "File isn't upload!";
-                    }
-                }
-                else
-                {
-                    if (viewModel.AddedFile != null)
-                    {
-                        string oldFilePath = viewModel.File.FilePath;
                         viewModel.File.FilePath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedFile.FileName);
-
-                        var uploadFile = await UploadToFileSystem(viewModel.AddedFile, viewModel.File.FilePath);
-
-                        if (uploadFile.Success)
-                        {
-                            var fileDto = new FileDto()
-                            {
-                                Id = viewModel.File.Id,
-                                Name = viewModel.File.Name,
-                                CategoryId = viewModel.File.Category.Id,
-                                OriginalLanguageId = viewModel.File.OriginalLanguage.Id,
-                                PublicationLanguageId = viewModel.File.PublicationLanguage.Id,
-                                EditionStatus = viewModel.File.EditionStatus,
-                                ExistingStatus = viewModel.File.ExistingStatus,
-                                FileTypeId = viewModel.File.FileType.Id,
-                                PhotoPath = viewModel.File.PhotoPath,
-                                FilePath = viewModel.File.FilePath,
-                                PublisherName = viewModel.File.PublisherName,
-                                PublicationDate = viewModel.File.PublicationDate,
-                                PageNumber = viewModel.File.PageNumber,
-                                Description = viewModel.File.Description,
-                                GUID = viewModel.File.GUID,
-                                LastModified = viewModel.File.LastModified
-                            };
-
-                            var result = await _fileService.Update(accessToken, fileDto);
-
-                            if (!result.Success)
-                            {
-                                await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, oldFilePath));
-                                viewModel.File.FilePath = oldFilePath;
-                            }
-                        }
-                        else
-                        {
-                            await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, viewModel.File.FilePath));
-
-                            viewModel.File.FilePath = oldFilePath;
-                            TempData["Message"] = "File isn't upload!";
-                        }
-                    }
-                    else if (viewModel.AddedPicture != null)
-                    {
-                        string oldPhotoPath = viewModel.File.FilePath;
+                        viewModel.File.GUID = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.File.Name);
                         viewModel.File.PhotoPath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedPicture.FileName);
 
+                        var uploadFile = await UploadToFileSystem(viewModel.AddedFile, viewModel.File.FilePath);
                         var uploadPhoto = await UploadToFileSystem(viewModel.AddedPicture, viewModel.File.PhotoPath);
 
-                        if (uploadPhoto.Success)
+                        if (uploadFile.Success && uploadPhoto.Success)
                         {
                             var fileDto = new FileDto()
                             {
@@ -302,55 +210,154 @@ namespace Library.Admin.Controllers
                                 LastModified = viewModel.File.LastModified
                             };
 
-                            var result = await _fileService.Update(accessToken, fileDto);
+                            var result = await _fileService.Add(accessToken, fileDto);
 
                             if (!result.Success)
                             {
-                                await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultPhotoPath, oldPhotoPath));
-                                viewModel.File.PhotoPath = oldPhotoPath;
+                                await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, viewModel.File.FilePath));
+                                await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultPhotoPath, viewModel.File.PhotoPath));
                             }
                         }
                         else
                         {
-                            await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultPhotoPath, viewModel.File.PhotoPath));
-                            viewModel.File.PhotoPath = oldPhotoPath;
+                            if (!uploadFile.Success)
+                            {
+                                await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, viewModel.File.FilePath));
+                            }
+                            if (!uploadPhoto.Success)
+                            {
+                                await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultPhotoPath, viewModel.File.PhotoPath));
+                            }
                             TempData["Message"] = "File isn't upload!";
                         }
                     }
                     else
                     {
-                        var fileDto = new FileDto()
+                        if (viewModel.AddedFile != null)
                         {
-                            Id = viewModel.File.Id,
-                            Name = viewModel.File.Name,
-                            CategoryId = viewModel.File.Category.Id,
-                            OriginalLanguageId = viewModel.File.OriginalLanguage.Id,
-                            PublicationLanguageId = viewModel.File.PublicationLanguage.Id,
-                            EditionStatus = viewModel.File.EditionStatus,
-                            ExistingStatus = viewModel.File.ExistingStatus,
-                            FileTypeId = viewModel.File.FileType.Id,
-                            PhotoPath = viewModel.File.PhotoPath,
-                            FilePath = viewModel.File.FilePath,
-                            PublisherName = viewModel.File.PublisherName,
-                            PublicationDate = viewModel.File.PublicationDate,
-                            PageNumber = viewModel.File.PageNumber,
-                            Description = viewModel.File.Description,
-                            GUID = viewModel.File.GUID,
-                            LastModified = viewModel.File.LastModified
-                        };
+                            string oldFilePath = viewModel.File.FilePath;
+                            viewModel.File.FilePath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedFile.FileName);
 
-                        var result2 = await _fileService.Update(accessToken, fileDto);
+                            var uploadFile = await UploadToFileSystem(viewModel.AddedFile, viewModel.File.FilePath);
+
+                            if (uploadFile.Success)
+                            {
+                                var fileDto = new FileDto()
+                                {
+                                    Id = viewModel.File.Id,
+                                    Name = viewModel.File.Name,
+                                    CategoryId = viewModel.File.Category.Id,
+                                    OriginalLanguageId = viewModel.File.OriginalLanguage.Id,
+                                    PublicationLanguageId = viewModel.File.PublicationLanguage.Id,
+                                    EditionStatus = viewModel.File.EditionStatus,
+                                    ExistingStatus = viewModel.File.ExistingStatus,
+                                    FileTypeId = viewModel.File.FileType.Id,
+                                    PhotoPath = viewModel.File.PhotoPath,
+                                    FilePath = viewModel.File.FilePath,
+                                    PublisherName = viewModel.File.PublisherName,
+                                    PublicationDate = viewModel.File.PublicationDate,
+                                    PageNumber = viewModel.File.PageNumber,
+                                    Description = viewModel.File.Description,
+                                    GUID = viewModel.File.GUID,
+                                    LastModified = viewModel.File.LastModified
+                                };
+
+                                var result = await _fileService.Update(accessToken, fileDto);
+
+                                if (!result.Success)
+                                {
+                                    await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, oldFilePath));
+                                    viewModel.File.FilePath = oldFilePath;
+                                }
+                            }
+                            else
+                            {
+                                await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, viewModel.File.FilePath));
+
+                                viewModel.File.FilePath = oldFilePath;
+                                TempData["Message"] = "File isn't upload!";
+                            }
+                        }
+                        else if (viewModel.AddedPicture != null)
+                        {
+                            string oldPhotoPath = viewModel.File.FilePath;
+                            viewModel.File.PhotoPath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedPicture.FileName);
+
+                            var uploadPhoto = await UploadToFileSystem(viewModel.AddedPicture, viewModel.File.PhotoPath);
+
+                            if (uploadPhoto.Success)
+                            {
+                                var fileDto = new FileDto()
+                                {
+                                    Id = viewModel.File.Id,
+                                    Name = viewModel.File.Name,
+                                    CategoryId = viewModel.File.Category.Id,
+                                    OriginalLanguageId = viewModel.File.OriginalLanguage.Id,
+                                    PublicationLanguageId = viewModel.File.PublicationLanguage.Id,
+                                    EditionStatus = viewModel.File.EditionStatus,
+                                    ExistingStatus = viewModel.File.ExistingStatus,
+                                    FileTypeId = viewModel.File.FileType.Id,
+                                    PhotoPath = viewModel.File.PhotoPath,
+                                    FilePath = viewModel.File.FilePath,
+                                    PublisherName = viewModel.File.PublisherName,
+                                    PublicationDate = viewModel.File.PublicationDate,
+                                    PageNumber = viewModel.File.PageNumber,
+                                    Description = viewModel.File.Description,
+                                    GUID = viewModel.File.GUID,
+                                    LastModified = viewModel.File.LastModified
+                                };
+
+                                var result = await _fileService.Update(accessToken, fileDto);
+
+                                if (!result.Success)
+                                {
+                                    await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultPhotoPath, oldPhotoPath));
+                                    viewModel.File.PhotoPath = oldPhotoPath;
+                                }
+                            }
+                            else
+                            {
+                                await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultPhotoPath, viewModel.File.PhotoPath));
+                                viewModel.File.PhotoPath = oldPhotoPath;
+                                TempData["Message"] = "File isn't upload!";
+                            }
+                        }
+                        else
+                        {
+                            var fileDto = new FileDto()
+                            {
+                                Id = viewModel.File.Id,
+                                Name = viewModel.File.Name,
+                                CategoryId = viewModel.File.Category.Id,
+                                OriginalLanguageId = viewModel.File.OriginalLanguage.Id,
+                                PublicationLanguageId = viewModel.File.PublicationLanguage.Id,
+                                EditionStatus = viewModel.File.EditionStatus,
+                                ExistingStatus = viewModel.File.ExistingStatus,
+                                FileTypeId = viewModel.File.FileType.Id,
+                                PhotoPath = viewModel.File.PhotoPath,
+                                FilePath = viewModel.File.FilePath,
+                                PublisherName = viewModel.File.PublisherName,
+                                PublicationDate = viewModel.File.PublicationDate,
+                                PageNumber = viewModel.File.PageNumber,
+                                Description = viewModel.File.Description,
+                                GUID = viewModel.File.GUID,
+                                LastModified = viewModel.File.LastModified
+                            };
+
+                            var result2 = await _fileService.Update(accessToken, fileDto);
+                        }
                     }
+                    TempData["Message"] = "Operation successfully";
                 }
-                TempData["Message"] = "Operation successfully";
-            }
-            catch (Exception exc)
-            {
-                // log exception here
+                catch (Exception exc)
+                {
+                    // log exception here
 
-                TempData["Message"] = "Operation unsuccessfully";
+                    TempData["Message"] = "Operation unsuccessfully";
+                }
+                return RedirectToAction("ShowResources", "2");
             }
-            return RedirectToAction("ShowResources","2");
+            return new NotFoundResult();
         }
 
         [HttpPost]
@@ -358,20 +365,24 @@ namespace Library.Admin.Controllers
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
 
-            var file = await _fileService.Get(viewModel.DeletedResource.Id);
-
-            var deleteFileFromFileSytem = await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, file.Data.FilePath));
-            var deletePhotoFromFileSytem = await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultPhotoPath, file.Data.PhotoPath));
-
-            var result = await _fileService.Delete(token, viewModel.DeletedResource.Id);
-
-            if (result.Success)
+            if(token!=null)
             {
-                TempData["Message"] = "Operation successfully";
+                var file = await _fileService.Get(viewModel.DeletedResource.Id);
+
+                var deleteFileFromFileSytem = await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, file.Data.FilePath));
+                var deletePhotoFromFileSytem = await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultPhotoPath, file.Data.PhotoPath));
+
+                var result = await _fileService.Delete(token, viewModel.DeletedResource.Id);
+
+                if (result.Success)
+                {
+                    TempData["Message"] = "Operation successfully";
+                    return RedirectToAction("ShowResources", "2");
+                }
+                // Must be return error message to UI
                 return RedirectToAction("ShowResources", "2");
             }
-            // Must be return error message to UI
-            return RedirectToAction("ShowResources", "2");
+            return new NotFoundResult();
         }
 
         #endregion
@@ -381,104 +392,73 @@ namespace Library.Admin.Controllers
         public async Task<IActionResult> ShowEducationalPrograms()
         {
             string accessToken = HttpContext.Session.GetString("AdminAccessToken");
-
-            ResourceViewModel viewModel = new ResourceViewModel();
-            var educationalPrograms = await _educationalProgramService.GetAll(accessToken);
-            viewModel.EducationalPrograms = educationalPrograms.Data;
-            return View(viewModel);
+            if (accessToken != null)
+            {
+                ResourceViewModel viewModel = new ResourceViewModel();
+                var educationalPrograms = await _educationalProgramService.GetAll(accessToken);
+                viewModel.EducationalPrograms = educationalPrograms.Data;
+                return View(viewModel);
+            }
+            return new NotFoundResult();
         }
 
         [HttpGet]
         public async Task<IActionResult> SaveEducationalProgram(int id)
         {
             string accessToken = HttpContext.Session.GetString("AdminAccessToken");
-
-            ResourceViewModel viewModel = new ResourceViewModel();
-            var specialties = await _specialtyService.GetAll(accessToken);
-            specialties.Data.Add(new Specialty()
+            if(accessToken!=null)
             {
-                Id = 0,
-                Name = "Seç"
-            });
-            viewModel.SpecialtyList = new SelectList(specialties.Data, "Id", "Name", "Seç");
+                ResourceViewModel viewModel = new ResourceViewModel();
+                var specialties = await _specialtyService.GetAll(accessToken);
+                specialties.Data.Add(new Specialty()
+                {
+                    Id = 0,
+                    Name = "Seç"
+                });
+                viewModel.SpecialtyList = new SelectList(specialties.Data, "Id", "Name", "Seç");
 
-            List<dynamic> booleans = new List<dynamic>();
-            booleans.Add(new { Id = 0, Name = "false" });
-            booleans.Add(new { Id = 1, Name = "true" });
-            viewModel.BooleanList = new SelectList(booleans, "Id", "Name");
+                List<dynamic> booleans = new List<dynamic>();
+                booleans.Add(new { Id = 0, Name = "false" });
+                booleans.Add(new { Id = 1, Name = "true" });
+                viewModel.BooleanList = new SelectList(booleans, "Id", "Name");
 
-            List<dynamic> educationLevels = new List<dynamic>();
-            educationLevels.Add(new { Id = 0, Name = "Seç" });
-            educationLevels.Add(new { Id = 1, Name = "Bakalavr" });
-            educationLevels.Add(new { Id = 2, Name = "Magistr" });
-            educationLevels.Add(new { Id = 3, Name = "Doktorant" });
-            viewModel.EducationLevelList = new SelectList(educationLevels, "Name", "Name","Seç");
+                List<dynamic> educationLevels = new List<dynamic>();
+                educationLevels.Add(new { Id = 0, Name = "Seç" });
+                educationLevels.Add(new { Id = 1, Name = "Bakalavr" });
+                educationLevels.Add(new { Id = 2, Name = "Magistr" });
+                educationLevels.Add(new { Id = 3, Name = "Doktorant" });
+                viewModel.EducationLevelList = new SelectList(educationLevels, "Name", "Name", "Seç");
 
-            if (id == 0)
+                if (id == 0)
+                    return PartialView(viewModel);
+
+                var educationalProgram = await _educationalProgramService.Get(accessToken, id);
+
+                viewModel.EducationalProgram = educationalProgram.Data;
+                viewModel.IsActiveId = viewModel.EducationalProgram.IsActive ? 1 : 0;
+
                 return PartialView(viewModel);
-
-            var educationalProgram = await _educationalProgramService.Get(accessToken,id);
-
-            viewModel.EducationalProgram = educationalProgram.Data;
-            viewModel.IsActiveId = viewModel.EducationalProgram.IsActive ? 1 : 0;
-
-            return PartialView(viewModel);
+            }
+            return new NotFoundResult();
         }
 
         [HttpPost]
         public async Task<IActionResult> SaveEducationalProgram(ResourceViewModel viewModel)
         {
             string accessToken = HttpContext.Session.GetString("AdminAccessToken");
-
-            try
+            if(accessToken!=null)
             {
-                if (viewModel.IsActiveId == 0)
-                    viewModel.EducationalProgram.IsActive = false;
-                else
-                    viewModel.EducationalProgram.IsActive = true;
-
-                if (viewModel.EducationalProgram.Id == 0)
+                try
                 {
-                    viewModel.EducationalProgram.FilePath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedFile.FileName);
-                    viewModel.EducationalProgram.GUID = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.EducationalProgram.Name);
-
-                    var uploadFile = await UploadToFileSystem(viewModel.AddedFile, viewModel.EducationalProgram.FilePath);
-
-                    if (uploadFile.Success)
-                    {
-                        var educationalProgramDto = new EducationalProgramDto()
-                        {
-                            Id = viewModel.EducationalProgram.Id,
-                            Name = viewModel.EducationalProgram.Name,
-                            EducationLevel = viewModel.EducationalProgram.EducationLevel,
-                            FilePath = viewModel.EducationalProgram.FilePath,
-                            GUID = viewModel.EducationalProgram.GUID,
-                            IsActive = viewModel.EducationalProgram.IsActive,
-                            LastModified = viewModel.EducationalProgram.LastModified,
-                            SpecialtyId = viewModel.EducationalProgram.Specialty.Id,
-                            ProgramDate = viewModel.EducationalProgram.ProgramDate,
-                            EducationTime = viewModel.EducationalProgram.EducationTime,
-                        };
-
-                        var result = await _educationalProgramService.Add(accessToken, educationalProgramDto);
-
-                        if (!result.Success)
-                        {
-                            await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, viewModel.EducationalProgram.FilePath));
-                        }
-                    }
+                    if (viewModel.IsActiveId == 0)
+                        viewModel.EducationalProgram.IsActive = false;
                     else
+                        viewModel.EducationalProgram.IsActive = true;
+
+                    if (viewModel.EducationalProgram.Id == 0)
                     {
-                        await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, viewModel.EducationalProgram.FilePath));
-                        TempData["Message"] = "File isn't upload!";
-                    }
-                }
-                else
-                {
-                    if (viewModel.AddedFile != null)
-                    {
-                        string oldFilePath = viewModel.EducationalProgram.FilePath;
                         viewModel.EducationalProgram.FilePath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedFile.FileName);
+                        viewModel.EducationalProgram.GUID = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.EducationalProgram.Name);
 
                         var uploadFile = await UploadToFileSystem(viewModel.AddedFile, viewModel.EducationalProgram.FilePath);
 
@@ -498,71 +478,114 @@ namespace Library.Admin.Controllers
                                 EducationTime = viewModel.EducationalProgram.EducationTime,
                             };
 
-                            var result = await _educationalProgramService.Update(accessToken, educationalProgramDto);
+                            var result = await _educationalProgramService.Add(accessToken, educationalProgramDto);
 
                             if (!result.Success)
                             {
-                                await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, oldFilePath));
-                                viewModel.EducationalProgram.FilePath = oldFilePath;
+                                await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, viewModel.EducationalProgram.FilePath));
                             }
                         }
                         else
                         {
                             await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, viewModel.EducationalProgram.FilePath));
-
-                            viewModel.EducationalProgram.FilePath = oldFilePath;
                             TempData["Message"] = "File isn't upload!";
                         }
                     }
                     else
                     {
-                        var educationalProgramDto = new EducationalProgramDto()
+                        if (viewModel.AddedFile != null)
                         {
-                            Id = viewModel.EducationalProgram.Id,
-                            Name = viewModel.EducationalProgram.Name,
-                            EducationLevel = viewModel.EducationalProgram.EducationLevel,
-                            FilePath = viewModel.EducationalProgram.FilePath,
-                            GUID = viewModel.EducationalProgram.GUID,
-                            IsActive = viewModel.EducationalProgram.IsActive,
-                            LastModified = viewModel.EducationalProgram.LastModified,
-                            SpecialtyId = viewModel.EducationalProgram.Specialty.Id,
-                            ProgramDate = viewModel.EducationalProgram.ProgramDate,
-                            EducationTime = viewModel.EducationalProgram.EducationTime,
-                        };
+                            string oldFilePath = viewModel.EducationalProgram.FilePath;
+                            viewModel.EducationalProgram.FilePath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedFile.FileName);
 
-                        var result2 = await _educationalProgramService.Update(accessToken, educationalProgramDto);
+                            var uploadFile = await UploadToFileSystem(viewModel.AddedFile, viewModel.EducationalProgram.FilePath);
+
+                            if (uploadFile.Success)
+                            {
+                                var educationalProgramDto = new EducationalProgramDto()
+                                {
+                                    Id = viewModel.EducationalProgram.Id,
+                                    Name = viewModel.EducationalProgram.Name,
+                                    EducationLevel = viewModel.EducationalProgram.EducationLevel,
+                                    FilePath = viewModel.EducationalProgram.FilePath,
+                                    GUID = viewModel.EducationalProgram.GUID,
+                                    IsActive = viewModel.EducationalProgram.IsActive,
+                                    LastModified = viewModel.EducationalProgram.LastModified,
+                                    SpecialtyId = viewModel.EducationalProgram.Specialty.Id,
+                                    ProgramDate = viewModel.EducationalProgram.ProgramDate,
+                                    EducationTime = viewModel.EducationalProgram.EducationTime,
+                                };
+
+                                var result = await _educationalProgramService.Update(accessToken, educationalProgramDto);
+
+                                if (!result.Success)
+                                {
+                                    await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, oldFilePath));
+                                    viewModel.EducationalProgram.FilePath = oldFilePath;
+                                }
+                            }
+                            else
+                            {
+                                await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, viewModel.EducationalProgram.FilePath));
+
+                                viewModel.EducationalProgram.FilePath = oldFilePath;
+                                TempData["Message"] = "File isn't upload!";
+                            }
+                        }
+                        else
+                        {
+                            var educationalProgramDto = new EducationalProgramDto()
+                            {
+                                Id = viewModel.EducationalProgram.Id,
+                                Name = viewModel.EducationalProgram.Name,
+                                EducationLevel = viewModel.EducationalProgram.EducationLevel,
+                                FilePath = viewModel.EducationalProgram.FilePath,
+                                GUID = viewModel.EducationalProgram.GUID,
+                                IsActive = viewModel.EducationalProgram.IsActive,
+                                LastModified = viewModel.EducationalProgram.LastModified,
+                                SpecialtyId = viewModel.EducationalProgram.Specialty.Id,
+                                ProgramDate = viewModel.EducationalProgram.ProgramDate,
+                                EducationTime = viewModel.EducationalProgram.EducationTime,
+                            };
+
+                            var result2 = await _educationalProgramService.Update(accessToken, educationalProgramDto);
+                        }
                     }
+                    TempData["Message"] = "Operation successfully";
                 }
-                TempData["Message"] = "Operation successfully";
-            }
-            catch (Exception exc)
-            {
-                // log exception here
+                catch (Exception exc)
+                {
+                    // log exception here
 
-                TempData["Message"] = "Operation unsuccessfully";
-            }
+                    TempData["Message"] = "Operation unsuccessfully";
+                }
 
-            return RedirectToAction("ShowEducationalPrograms");
+                return RedirectToAction("ShowEducationalPrograms");
+            }
+            return new NotFoundResult();
         }
 
         [HttpPost]
         public async Task<IActionResult> DeleteEducationalProgram(ResourceViewModel viewModel)
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-
-            var educationalProgram = await _educationalProgramService.Get(token,viewModel.DeletedEducationalProgram.Id);
-
-            var deleteFileFromFileSytem = await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, educationalProgram.Data.FilePath));
-
-            var result = await _educationalProgramService.Delete(token, viewModel.DeletedEducationalProgram.Id);
-
-            if (result.Success)
+            if(token!=null)
             {
-                TempData["Message"] = "Operation successfully";
+                var educationalProgram = await _educationalProgramService.Get(token, viewModel.DeletedEducationalProgram.Id);
+
+                var deleteFileFromFileSytem = await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, educationalProgram.Data.FilePath));
+
+                var result = await _educationalProgramService.Delete(token, viewModel.DeletedEducationalProgram.Id);
+
+                if (result.Success)
+                {
+                    TempData["Message"] = "Operation successfully";
+                    return RedirectToAction("ShowEducationalPrograms");
+                }
+                // Must be return error message to UI
                 return RedirectToAction("ShowEducationalPrograms");
             }
-            // Must be return error message to UI
-            return RedirectToAction("ShowEducationalPrograms");
+            return new NotFoundResult();
         }
 
         #endregion
@@ -640,7 +663,6 @@ namespace Library.Admin.Controllers
                 var content = System.IO.File.ReadAllBytes(fullpath);
 
                 return File(content, "img/*");
-                //return File(content, "application/img");
             }
             catch
             {
@@ -658,7 +680,6 @@ namespace Library.Admin.Controllers
                     PhotoPath = path
                 }
             };
-
             return PartialView(viewModel);
         }
 
