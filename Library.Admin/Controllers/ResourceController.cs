@@ -637,15 +637,29 @@ namespace Library.Admin.Controllers
             {
                 string fullpath = Path.Combine(DefaultPath.OriginalDefaultPhotoPath, path + ".jpg");
 
-                var content = System.IO.File.ReadAllBytes(path);
+                var content = System.IO.File.ReadAllBytes(fullpath);
 
-                //return File(content, "img/*");
-                return File(content, "application/img");
+                return File(content, "img/*");
+                //return File(content, "application/img");
             }
             catch
             {
                 return Ok();
             }
+        }
+
+        [HttpGet]
+        public IActionResult ShowPhotoModal(string path)
+        {
+            ResourceViewModel viewModel = new ResourceViewModel()
+            {
+                File = new File()
+                {
+                    PhotoPath = path
+                }
+            };
+
+            return PartialView(viewModel);
         }
 
         [HttpGet]

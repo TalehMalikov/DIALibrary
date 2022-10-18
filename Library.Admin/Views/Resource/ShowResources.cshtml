@@ -85,8 +85,9 @@
                                 <td>@file.OriginalLanguage.Name</td>
                                 <td>@file.PublicationLanguage.Name</td>
                                 <td>@file.EditionStatus</td>
-                                <td><a target="_blank" asp-action="ShowPhoto" asp-controller="Resource" asp-route-path="@file.PhotoPath" class="btn btn-info" name="submit" id="submit">Aç</a></td>                                          
-                                <td><a target="_blank" asp-action="OpenFile"  asp-controller="Resource" asp-route-path="@file.FilePath" class="btn btn-info changeUrl" name="submit" id="submit">Aç</a></td>                                           
+                                <td><a onclick="ShowPhotoModal(this)" data-path="@file.PhotoPath" data-toggle="modal"  class="btn btn-info" name="submit" id="submit">Aç</a></td>     
+@*                                asp-action="ShowPhoto" asp-controller="Resource" asp-route-path="@file.PhotoPath"
+*@                                <td><a target="_blank" asp-action="OpenFile"  asp-controller="Resource" asp-route-path="@file.FilePath" class="btn btn-info changeUrl" name="submit" id="submit">Aç</a></td>                                           
                                 <td>@file.PublisherName</td>
                                 <td>@file.PublicationDate.ToString("dd/MM/yyyy")</td>
                                 <td>@file.PageNumber</td>
@@ -106,6 +107,9 @@
 </div>
 
 <div class="modal fade" id="createModal">
+</div>
+
+<div class="modal fade" id="createPhotoModal">
 </div>
 
 <div class="modal fade" id="DelModal">
@@ -152,6 +156,22 @@
                     console.log(data);
                     $('#createModal').html(data);
                     $("#createModal").modal("show");
+                },
+                error : function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function ShowPhotoModal(elem) {
+            var dataPath = $(elem).data("path");
+
+            $.ajax({
+                url: "/Resource/ShowPhotoModal?path=" + dataPath,
+                success: function (data) {
+                    console.log(data);
+                    $('#createPhotoModal').html(data);
+                    $("#createPhotoModal").modal("show");
                 },
                 error : function(error) {
                     console.log(error);

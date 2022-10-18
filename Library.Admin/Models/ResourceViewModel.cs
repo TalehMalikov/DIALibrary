@@ -22,6 +22,7 @@ namespace Library.Admin.Models
 
         public int EditionStatusId { get; set; }
         public int IsActiveId { get; set; }  //
+        public string FullPath { get; set; }
 
         public File DeletedResource { get; set; }
         public File File { get; set; } = new File();
