@@ -1,0 +1,138 @@
+﻿@model AuthorViewModel
+<div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <!-- Modal content -->
+    <div class="modal-content" id="editDebtModelBody">
+        <div style="overflow:auto;" class="modal-body">
+        <form asp-controller="Author" asp-action="SaveAuthor" class="form-group">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Müəllif əlavə et</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group row d-flex justify-content-center">
+                            <div class="col-sm-6 col-sm-10 mb-3 mb-sm-0">
+                                <input type="text" class="form-control form-control-register"
+                                   id="exampleInputFirstName" placeholder="Adı" asp-for="@Model.Author.FirstName">
+                                   <span asp-validation-for="@Model.Author.FirstName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row d-flex justify-content-center">
+                            <div class="col-sm-6 col-sm-10 mb-3 mb-sm-0">
+                                <input type="text" class="form-control form-control-register"
+                                   id="exampleInputFirstName" placeholder="Soyadı" asp-for="@Model.Author.LastName">
+                                   <span asp-validation-for="@Model.Author.LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row d-flex justify-content-center">
+                            <div class="col-sm-6 col-sm-10 mb-3 mb-sm-0">
+                                <input type="text" class="form-control form-control-register"
+                                   id="exampleInputFirstName" placeholder="Ata adı" asp-for="@Model.Author.FatherName">
+                                   <span asp-validation-for="@Model.Author.FatherName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row d-flex justify-content-center">
+                            <div class="col-sm-6 col-sm-10 mb-3 mb-sm-0">
+                                <input class="form-control form-control-register"
+                                   id="exampleInputFirstName" placeholder="Kitab sayı" asp-for="@Model.Author.BookCount">
+                                   <span asp-validation-for="@Model.Author.BookCount" class="text-danger"></span>
+                            </div>
+                        </div>
+                         <div class="form-group row">
+                            <div class="col-sm-6 d-flex justify-content-evenly">
+                                <div class="mr-sm-3">
+                                    @Html.RadioButtonFor(model => model.Author.Gender, false)
+                                    <label for="gender">Kişi</label><br>
+                                </div>
+                                
+                                <div>
+                                    @Html.RadioButtonFor(model => model.Author.Gender, true)
+                                    <label for="gender">Qadın</label>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" type="submit" >Yadda saxla</button>
+                        <button class="btn btn-danger" type="button" data-dismiss="modal">Ləğv et</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+<partial name="_ValidationScriptsPartial" />
+
+
+@*
+@section Modals{
+    <!-- Add User Modal - addUserModal -->
+    <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+        <form class="user" asp-action="Add" asp-controller="Author" asp-antiforgery="false">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Müəllif əlavə et</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group row d-flex justify-content-center">
+                            <div class="col-sm-6 col-sm-10 mb-3 mb-sm-0">
+                                <input type="text" class="form-control form-control-register"
+                                   id="exampleInputFirstName" placeholder="Adı" asp-for="@Model.Author.FirstName">
+                                   <span asp-validation-for="@Model.Author.FirstName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row d-flex justify-content-center">
+                            <div class="col-sm-6 col-sm-10 mb-3 mb-sm-0">
+                                <input type="text" class="form-control form-control-register"
+                                   id="exampleInputFirstName" placeholder="Soyadı" asp-for="@Model.Author.LastName">
+                                   <span asp-validation-for="@Model.Author.LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row d-flex justify-content-center">
+                            <div class="col-sm-6 col-sm-10 mb-3 mb-sm-0">
+                                <input type="text" class="form-control form-control-register"
+                                   id="exampleInputFirstName" placeholder="Ata adı" asp-for="@Model.Author.FatherName">
+                                   <span asp-validation-for="@Model.Author.FatherName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row d-flex justify-content-center">
+                            <div class="col-sm-6 col-sm-10 mb-3 mb-sm-0">
+                                <input class="form-control form-control-register"
+                                   id="exampleInputFirstName" placeholder="Kitab sayı" asp-for="@Model.Author.BookCount">
+                                   <span asp-validation-for="@Model.Author.BookCount" class="text-danger"></span>
+                            </div>
+                        </div>
+                         <div class="form-group row">
+                            <div class="col-sm-6 d-flex justify-content-evenly">
+                                <div class="mr-sm-3">
+                                    @Html.RadioButtonFor(model => model.Author.Gender, false)
+                                    <label for="gender">Kişi</label><br>
+                                </div>
+                                
+                                <div>
+                                    @Html.RadioButtonFor(model => model.Author.Gender, true)
+                                    <label for="gender">Qadın</label>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" type="submit" >Təsdiqlə</button>
+                        <button class="btn btn-danger" type="button" data-dismiss="modal">Ləğv et</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>*@
+}

@@ -1,0 +1,98 @@
+﻿@model AuthorViewModel;
+@{
+    ViewData["Title"] = "ShowAuthors";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Müəlliflər</h1>
+<p class="mp-4">
+    <span class="pull-left">
+        <button class="btn btn-primary bgupdate" onclick="ShowSaveModal(this)" data-toggle="modal" data-id="0" id="myBtnAdd"><i class='fas fa-download'></i>Əlavə et</button>
+    </span>
+</p>
+<br>
+
+<div class="card shadow mb-4 w-100">
+   
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Adı</th>
+                        <th>Soyadı</th>
+                        <th>Ata adı</th>
+                        <th>Kitab sayı</th>
+                        <th>Yenilə</th>
+                        <th>Sil</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Authors)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.FirstName</td>
+                            <td>@item.LastName</td>
+                            <td>@item.FatherName</td>
+                            <td>@item.BookCount</td>
+                            <td><button class="btn btn-primary bgupdate" onclick="ShowSaveModal(this)" data-id="@item.Id" id="btnUpdate"><i class='fas fa-download'></i> Yenilə</button></td>
+                            <td><a class="btn btn-danger delete" data-toggle="modal" data-id="@item.Id" data-target="#deleteModal" data-controller="Author" data-action="DeleteAuthor" ><i class='fas fa-trash-alt'></i> Sil</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="createModal">
+</div>
+
+@section Scripts{
+    <script src="@Href("~/vendor/datatables/jquery.dataTables.min.js")"></script>
+    <script src="@Href("~/vendor/datatables/dataTables.bootstrap4.min.js")"></script>
+    <script src="@Href("~/js/demo/datatables-demo.js")"></script>
+    <script src="@Href("~/js/section.js")"></script>
+
+    <script>
+        function ShowSaveModal(elem) {
+            var dataId = $(elem).data("id");
+
+            $.ajax({
+                url: "/Author/SaveAuthor?id=" + dataId,
+                success: function (data) {
+                    console.log(data);
+                    $('#createModal').html(data);
+                    $("#createModal").modal("show");
+                },
+                error : function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+
+        $(document).ready(function () {
+
+            $('#dataTable tfoot th').each(function () {
+                var title = $(this).text();
+                $(this).html('<input type="text" placeholder="Search" style="width:100%;" />');
+            });
+
+            var table = $('#dataTable').DataTable();
+
+            table.columns().every(function () {
+                var that = this;
+
+                $('input', this.footer()).on('keyup change clear', function () {
+                    if (that.search() !== this.value) {
+                        that.search(this.value).draw();
+                    }
+                });
+            });
+        });
+    </script>
+}

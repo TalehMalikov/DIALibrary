@@ -13,7 +13,7 @@ namespace Library.Admin.Controllers
             _authorService = authorService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> ShowAuthors()
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
             if (token != null)
@@ -30,13 +30,21 @@ namespace Library.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(AuthorViewModel model)
+        public async Task<IActionResult> SaveAuthor(AuthorViewModel model)
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
             if (token != null)
             {
-                var result = await _authorService.Add(token, model.Author);
-                return RedirectToAction("Index");
+                if(model.Author.Id==0)
+                {
+                    var result = await _authorService.Add(token, model.Author);
+                    return RedirectToAction("ShowAuthors");
+                }
+                else
+                {
+                    var result = await _authorService.Update(token, model.Author);
+                    return RedirectToAction("ShowAuthors");
+                }
             }
             return new NotFoundResult();
         }
@@ -47,7 +55,7 @@ namespace Library.Admin.Controllers
             if (token != null)
             {
                 var result = await _authorService.Delete(token, id);
-                return RedirectToAction("Index");
+                return RedirectToAction("ShowAuthors");
             }
             return new NotFoundResult();
         }

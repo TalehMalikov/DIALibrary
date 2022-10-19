@@ -37,7 +37,7 @@
                 <div class="form-group">
                     @if (Model.File.Name != null)
                     {
-                        <a class="btn btn-info" name="submit" id="submitFileButton">Fayl yüklə</a>
+                        <a class="btn btn-info" name="submit" id="submitFileButton">Faylı dəyiş</a>
                         <div id="chooseFileDiv">
                         </div>
                     }
@@ -52,7 +52,7 @@
                 <div class="form-group">
                     @if (Model.File.Name != null)
                     {
-                        <a class="btn btn-info" name="submit" id="submitPhotoButton">Photo yüklə</a>
+                        <a class="btn btn-info" name="submit" id="submitPhotoButton">Şəkili dəyiş</a>
                         <div id="choosePhotoDiv">
                         </div>
                     }
@@ -101,8 +101,6 @@
     </div>
 </div>
 <script>
-
-
         $(document).ready(function()
         {
             let fileCount = 1;
@@ -110,32 +108,32 @@
              $("#submitFileButton").click(function () {
             //your code here
               fileCount++;
-       if(fileCount % 2 == 0)
-       {
-        $( "#chooseFileDiv" ).append
-         ('<input type="file" asp-for="AddedPicture" class="form-control mb-2 mr-sm-2 fileUpload" id="inputGroupFile02"> <span asp-validation-for="AddedPicture" class="text-danger"></span>');
-       }
-       else
-       {
-           $("#chooseFileDiv").empty()
-       }
+            if(fileCount % 2 == 0)
+            {
+                 $( "#chooseFileDiv" ).append
+                 //('<input type="file" asp-for="AddedFile" class="form-control mb-2 mr-sm-2 fileUpload" id="inputGroupFile02"> <span asp-validation-for="AddedFile" class="text-danger"></span>');
+                 ('<input type="file" class="form-control mb-2 mr-sm-2" id="inputGroupFile02" data-val="true" data-val-required="The AddedFile field is required." name="AddedFile">   <span class="text-danger field-validation-valid" data-valmsg-for="AddedFile" data-valmsg-replace="true"></span>');
+            }
+            else
+            {
+                $("#chooseFileDiv").empty()
+            }
 
          });
 
         $("#submitPhotoButton").click(function () {
-       //your code here
-       photoCount++;
-       if(photoCount % 2 == 0)
-       {
-        $( "#choosePhotoDiv" ).append
-         ('<input type="file" asp-for="AddedPicture" class="form-control mb-2 mr-sm-2 fileUpload" id="inputGroupFile02"> <span asp-validation-for="AddedPicture" class="text-danger"></span>');
-       }
-       else
-       {
-           $("#choosePhotoDiv").empty()
-       }
-
-    });
+            //your code here
+            photoCount++;
+            if(photoCount % 2 == 0)
+            {
+              $( "#choosePhotoDiv" ).append
+              ('<input type="file" class="form-control mb-2 mr-sm-2 fileUpload" id="inputGroupFile02" data-val="true" data-val-required="The AddedPicture field is required." name="AddedPicture">  <span class="text-danger field-validation-valid" data-valmsg-for="AddedPicture" data-valmsg-replace="true"></span>');
+            }
+            else
+            {
+                $("#choosePhotoDiv").empty()
+            }
+        });
     });
 </script>
 <partial name="_ValidationScriptsPartial" />
