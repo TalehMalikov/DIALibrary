@@ -609,8 +609,12 @@ namespace Library.Admin.Controllers
             StringBuilder builder = new StringBuilder();
             builder.Append(uniqueFileName);
             builder.Append(extension);
+            string filePath;
+            if (file.ContentType.Contains("image"))
+                filePath = Path.Combine(DefaultPath.OriginalDefaultPhotoPath, builder.ToString());
+            else
+                filePath = Path.Combine(DefaultPath.OriginalDefaultFilePath, builder.ToString());
 
-            string filePath = Path.Combine(DefaultPath.OriginalDefaultFilePath, builder.ToString());
 
             if (!System.IO.File.Exists(filePath))
             {
@@ -618,7 +622,7 @@ namespace Library.Admin.Controllers
                 {
                     await file.CopyToAsync(stream);
                 }
-                return new SuccessDataResult<string>(extension);
+                return new SuccessDataResult<string>(extension,"Successfully uploaded!");
             }
             return new ErrorDataResult<string>();
         }
