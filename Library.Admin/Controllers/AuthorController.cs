@@ -29,6 +29,26 @@ namespace Library.Admin.Controllers
             return new NotFoundResult();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> SaveAuthor(int id)
+        {
+            string accessToken = HttpContext.Session.GetString("AdminAccessToken");
+            if (accessToken != null)
+            {
+                AuthorViewModel viewModel = new AuthorViewModel();
+                
+                if (id == 0)
+                    return PartialView(viewModel);
+
+                var author = await _authorService.Get(accessToken,id);
+
+                viewModel.Author = author.Data;
+
+                return PartialView(viewModel);
+            }
+            return new NotFoundResult();
+        }
+
         [HttpPost]
         public async Task<IActionResult> SaveAuthor(AuthorViewModel model)
         {

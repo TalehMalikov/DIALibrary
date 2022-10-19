@@ -24,6 +24,14 @@ namespace Library.Admin.Services.Concrete
             return result;
         }
 
+        public async Task<DataResult<Author>> Get(string token, int id)
+        {
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var result = await client.GetJsonAsync<DataResult<Author>>(BaseUrl + "Author/getbyid/"+id);
+            return result;
+        }
+
         public async Task<DataResult<List<Author>>> GetAll(string token)
         {
             using HttpClient client = new HttpClient();
