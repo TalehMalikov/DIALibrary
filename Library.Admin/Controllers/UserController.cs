@@ -79,5 +79,42 @@ namespace Library.Admin.Controllers
                 return RedirectToAction("ShowUsers");
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> SaveUser(int id)
+        {
+            string token = HttpContext.Session.GetString("AdminAccessToken");
+            var model = new UserViewModel();
+            if (id == 0)
+                return PartialView();
+            var user = await _userService.Get(token,id);
+            model.User = user.Data;
+            return PartialView(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SaveUser(UserViewModel model)
+        {
+            string token = HttpContext.Session.GetString("AdminAccessToken");
+            if (model.User.Id == 0)
+            {
+                await _userService.Add(token, model.User);
+                return RedirectToAction("ShowUsers");
+            }
+
+            await _userService.Update(token, model.User);
+            return RedirectToAction("ShowUsers");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeactiveUsers()
+        {
+            string token = HttpContext.Session.GetString("AdminAccessToken");
+            var model = new UserViewModel();
+            var result = await _userService.GetDeactiveUsers(token);
+            model.Users = result.Data;
+            return View(model);
+        }
+
     }
 }

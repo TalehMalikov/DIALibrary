@@ -70,6 +70,13 @@ namespace Library.Business.Concrete
             return new ErrorResult(StatusMessagesUtil.NotFoundMessageGivenId);
         }
 
+        [CacheAspect]
+        public DataResult<List<User>> GetDeactiveUsers()
+        {
+            var result = _userRepository.GetDeactiveUsers();
+            return new SuccessDataResult<List<User>>(result);
+        }
+
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IUserService.Get))]
         [ValidationAspect(typeof(UserValidator))]
         public Result Update(User value)

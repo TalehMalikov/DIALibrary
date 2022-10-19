@@ -26,10 +26,10 @@ namespace Library.DataAccess.Implementation.PostgreSql
             cmd.Parameters.AddWithValue("@firstName", value.FirstName);
             cmd.Parameters.AddWithValue("@lastName", value.LastName);
             cmd.Parameters.AddWithValue("@fatherName", value.FatherName);
-            cmd.Parameters.AddWithValue("@birthDate", value.BirthDate.ToString("dd-mm-yyyy"));
+            cmd.Parameters.AddWithValue("@birthDate", value.BirthDate);
             cmd.Parameters.AddWithValue("@gender", value.Gender);
             cmd.Parameters.AddWithValue("@isDeleted", false);
-            cmd.Parameters.AddWithValue("@lastModified", value.LastModified.ToString("dd-mm-yyyy"));
+            cmd.Parameters.AddWithValue("@lastModified", DateTime.Now);
             return 1 == cmd.ExecuteNonQuery();
         }
 
@@ -52,6 +52,20 @@ namespace Library.DataAccess.Implementation.PostgreSql
             command.Parameters.AddWithValue("@id", id);
             return 1 == command.ExecuteNonQuery();
         }
+
+        public List<User> GetDeactiveUsers()
+        {
+            List<User> users = new List<User>();
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
+            connection.Open();
+            string cmdString = "Select * From Users  where isDeleted=true";
+            using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
+            var reader = command.ExecuteReader();
+            while (reader.Read())
+                users.Add(ReadUser(reader));
+            return users;
+        }
+
         public int AddAsStudent(User student)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
@@ -112,7 +126,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             cmd.Parameters.AddWithValue("@birthDate", value.BirthDate);
             cmd.Parameters.AddWithValue("@gender", value.Gender);
             cmd.Parameters.AddWithValue("@isDeleted", false);
-            cmd.Parameters.AddWithValue("@lastModified", value.LastModified);
+            cmd.Parameters.AddWithValue("@lastModified", DateTime.Now);
             return 1 == cmd.ExecuteNonQuery();
         }
 

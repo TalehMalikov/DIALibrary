@@ -48,6 +48,22 @@ namespace Library.Admin.Services.Concrete
             return result;
         }
 
+        public async Task<DataResult<User>> Get(string token, int id)
+        {
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var result = await client.GetJsonAsync<DataResult<User>>(BaseUrl + "User/getbyid/" + id);
+            return result;
+        }
+
+        public async Task<DataResult<List<User>>> GetDeactiveUsers(string token)
+        {
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var result = await client.GetJsonAsync<DataResult<List<User>>>(BaseUrl + "User/getdeactiveusers");
+            return result;
+        }
+
         public async Task<Result> Update(string token, User entity)
         {
             using HttpClient client = new HttpClient();

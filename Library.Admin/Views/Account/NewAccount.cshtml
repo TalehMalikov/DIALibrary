@@ -9,10 +9,8 @@
     </div>
     <form class="user">
         <div class="form-group">
-            <select class=" form-select btn-block form-control-register">
+            <select class=" form-select btn-block form-control-register" asp-for="Account.UserId">
                 <option selected>--İstifadəçi seçin--</option>
-                <option data-UserId="1" data-FirstName="Taleh" data-LastName="Məlikov" data-Group="K201">Taleh Məlikov K201</option>
-                <option data-UserId="2" data-FirstName="Əhməd" data-LastName="Əhmədov" data-Group="K201">Əhməd Əhmədov K201</option>
             </select>
         </div>
 
@@ -40,21 +38,6 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label><h7>Rol :</h7></label><br>
-            <input type="radio" id="role_sa" name="role_sa">
-            <label for="role_sa">Super Admin</label><br>
-
-            <input type="radio" id="role_sa" name="role_sa">
-            <label for="role_sa">User Admin</label><br>
-
-            <input type="radio" id="role_sa" name="role_sa">
-            <label for="role_sa">Book Admin</label><br>
-
-            <input type="radio" id="role_sa" name="role_sa">
-            <label for="role_sa">Standart</label><br>
-        </div>
-
         <button type="submit" class="btn btn-primary btn-user btn-block">
             Qeydiyyatdan keç
         </button>
@@ -62,3 +45,6 @@
 
     </form>
 </div>
+@section Scripts{
+    
+}

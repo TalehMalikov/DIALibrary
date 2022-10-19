@@ -43,9 +43,9 @@
                             <td>@item.User.FatherName</td>
                             <td>@item.Specialty.Name</td>
                             <td>@item.Group.Name</td>
-                            <td>@item.AcceptanceDate.ToString("dd-mm-yyyy")</td>
-                            <td>@item.User.BirthDate.ToString("dd-mm-yyyy")</td>
-                            <td>@item.User.LastModified.ToString("dd-mm-yyyy")</td>
+                            <td>@item.AcceptanceDate.ToString("d")</td>
+                            <td>@item.User.BirthDate.ToString("d")</td>
+                            <td>@item.User.LastModified.ToString("d")</td>
                             <td class="text-center"><a class="btn btn-primary  px-3" data-toggle="modal" data-target="#updateUserModal">Yenilə</a></td>
                             <td class="text-center"><a class="btn btn-danger delete  px-3" data-toggle="modal" data-target="#deleteModal" data-id="@item.User.Id" data-action="Delete" data-controller="Student">Sil</a></td>
                         </tr>

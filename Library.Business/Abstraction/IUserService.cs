@@ -9,5 +9,6 @@ namespace Library.Business.Abstraction
         Result Update(User value);
         DataResult<int> AddAsStudent(User student);
         Result DeleteFromDb(int id);
+        DataResult<List<User>> GetDeactiveUsers();
     }
 }

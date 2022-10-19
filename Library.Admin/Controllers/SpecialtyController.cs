@@ -32,7 +32,7 @@ namespace Library.Admin.Controllers
         public async Task<IActionResult> Add(SpecialtyViewModel model)
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-            if (model.Specialty.Faculty.Id == 0 || String.IsNullOrWhiteSpace(model.Specialty.Name))
+            if (model.Specialty.FacultyId == 0 || String.IsNullOrWhiteSpace(model.Specialty.Name))
                 return RedirectToAction("Index");
             await _specialtyService.Add(token, model.Specialty);
             return RedirectToAction("Index");

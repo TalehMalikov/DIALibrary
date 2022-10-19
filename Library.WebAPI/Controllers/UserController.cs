@@ -107,5 +107,18 @@ namespace Library.WebAPI.Controllers
 
             return BadRequest(result);
         }
+
+        [HttpGet("getdeactiveusers")]
+        [Authorize(Roles = "SuperAdmin,Admin,GroupAdmin")]
+        public IActionResult GetDeactiveUsers()
+        {
+            var result = _userService.GetDeactiveUsers();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
     }
 }

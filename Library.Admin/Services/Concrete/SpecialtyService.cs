@@ -3,24 +3,34 @@ using Library.Admin.Services.Abstract;
 using Library.Core.Extensions;
 using Library.Core.Result.Concrete;
 using Library.Entities.Concrete;
+using Library.Entities.Dtos;
 
 namespace Library.Admin.Services.Concrete
 {
     public class SpecialtyService : BaseService, ISpecialtyService
     {
-        public Task<Result> Add(string token, Specialty entity)
+        public async Task<Result> Add(string token, SpecialtyDto entity)
         {
-            throw new NotImplementedException();
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var result = await client.PostJsonAsync<Result, SpecialtyDto>(BaseUrl + "Specialty/add", entity);
+            return result;
         }
 
-        public Task<Result> Update(string token, Specialty entity)
+        public async Task<Result> Update(string token, SpecialtyDto entity)
         {
-            throw new NotImplementedException();
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var result = await client.PutJsonAsync<Result, SpecialtyDto>(BaseUrl + "Specialty/update", entity);
+            return result;
         }
 
-        public Task<Result> Delete(string token, int id)
+        public async Task<Result> Delete(string token, int id)
         {
-            throw new NotImplementedException();
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var result = await client.DeleteJsonAsync<Result>(BaseUrl + "Specialty/delete/"+id);
+            return result;
         }
 
         public async Task<DataResult<List<Specialty>>> GetAll(string token)

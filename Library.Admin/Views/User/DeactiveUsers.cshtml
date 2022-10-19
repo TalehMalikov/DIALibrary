@@ -6,12 +6,11 @@
 
 
 <!-- Page Heading -->
-<h1 class="h3 mb-2 text-gray-800">İstifadəçilər</h1>
+<h1 class="h3 mb-2 text-gray-800">Bloklanmış istifadəçilər</h1>
 <p class="mp-4">
-    Burdakı istifadəçilər işçi heyəti və hal hazırda akademiyada təhsil alan tələbələrdir.
+    Burdakı istifadəçilər <span class="text-bold">administrator</span> tərəfindən bloklanmışdır.
     <span class="pull-left">
-        <button type="button" class="btn btn-primary float-right" onclick="ShowSaveModal(this)" data-toggle="modal" data-id="0" id="myBtnAdd">Əlavə et</button>
-        <a class="btn btn-primary float-right mr-2" asp-action="DeactiveUsers" asp-controller="User">Bloklanmış istifadəçilər</a>
+        <a class="btn btn-primary float-right mr-2" asp-action="ShowUsers" asp-controller="User">Aktiv istifadəçilər</a>
     </span>
 </p>
 <br>
@@ -43,7 +42,7 @@
                             <td>@item.FatherName</td>
                             <td>@item.BirthDate.ToString("d")</td>
                             <td>@item.LastModified.ToString("d")</td>
-                            <td class="text-center"><a class="btn btn-secondary px-4 px-sm-4 bgupdate" onclick="ShowSaveModal(this)" data-id="@item.Id" id="btnUpdate">Yenilə</a></td>
+                            <td class="text-center"><a class="btn btn-secondary px-4 px-sm-4 bgupdate" onclick="ShowSaveModal(this)" data-id="@item.Id" id="btnUpdate">Aktiv et</a></td>
                             <td class="text-center"><a class="btn btn-danger delete px-4 px-sm-4" data-id="@item.Id" data-toggle="modal" data-target="#deleteModal" data-controller="User" data-action="Delete">Sil</a></td>
                         </tr>
                     }
@@ -58,7 +57,7 @@
     </div>
 }
 
-@section Scripts{
+    @section Scripts{
     <script>
         function ShowSaveModal(elem) {
             var dataId = $(elem).data("id");

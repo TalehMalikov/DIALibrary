@@ -17,11 +17,11 @@ namespace Library.Admin.Services.Concrete
             return result;
         }
 
-        public async Task<Result> Update(string token, Account entity)
+        public async Task<Result> Update(string token, AccountDto entity)
         {
             using HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var result = await client.PutJsonAsync<Result, Account>(BaseUrl + "Account/add", entity);
+            var result = await client.PutJsonAsync<Result, AccountDto>(BaseUrl + "Account/add", entity);
             return result;
         }
 

@@ -9,7 +9,7 @@ namespace Library.Admin.Services.Abstract
         Task<DataResult<List<Account>>> GetAll(string token); 
         Task<DataResult<Account>> Get(string token, int id);
         Task<Result> Add(string token, AccountDto entity);
-        Task<Result> Update(string token, Account entity);
+        Task<Result> Update(string token, AccountDto entity);
         Task<Result> Delete(string token, int id);
 
     }
