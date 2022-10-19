@@ -6,7 +6,8 @@ namespace Library.Admin.Models
 {
     public class SpecialtyViewModel
     {
-        public SpecialtyDto Specialty { get; set; }
+        public Specialty Specialty { get; set; }
+        public SpecialtyDto SpecialtyDto { get; set; }
 
         public SelectList FacultyList { get; set; }
 

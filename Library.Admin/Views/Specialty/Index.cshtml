@@ -3,17 +3,17 @@
     Layout = "_Layout";
 }
 
-    <!-- Page Heading -->
+<!-- Page Heading -->
 <h1 class="h3 mb-2 text-gray-800">İxtisaslar</h1>
 <p class="mp-4">
     <span class="pull-left">
-        <button type="button" class="btn btn-primary float-right mb-2" name="submit" id="submit" data-toggle="modal" data-target="#addUserModal">Əlavə et</button>
+        <button type="button" class="btn btn-primary float-right mb-2" onclick="ShowSaveModal(this)" data-toggle="modal" data-id="0" id="myBtnAdd">Əlavə et</button>
     </span>
 </p>
 <br>
 
 <div class="card shadow mb-4 w-100">
-   
+
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -33,8 +33,8 @@
                             <td>@item.Id</td>
                             <td>@item.Name</td>
                             <td>@item.Faculty.Name</td>
-                            <td class="text-center"><a class="btn btn-secondary px-4" href="#">Yenilə</a></td>
-                            <td class="text-center"><a class="btn btn-danger delete px-4" data-id="@item.Id" data-toggle="modal" data-target="#deleteModal" data-controller="Group" data-action="Delete">Sil</a></td>
+                            <td class="text-center"><a class="btn btn-secondary px-4 bgupdate" onclick="ShowSaveModal(this)" data-id="@item.Id" id="btnUpdate">Yenilə</a></td>
+                            <td class="text-center"><a class="btn btn-danger delete px-4" data-id="@item.Id" data-toggle="modal" data-target="#deleteModal" data-controller="Specialty" data-action="Delete">Sil</a></td>
                         </tr>
                     }
                 </tbody>
@@ -45,40 +45,50 @@
 
 @section Modals{
     <!-- Add User Modal - addUserModal -->
-    <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <form class="user" asp-action="Add" asp-controller="Specialty" asp-antiforgery="false">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">İxtisas əlavə et</h5>
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-
-                        <div class="form-group row d-flex justify-content-center">
-                            <div class="col-sm-6 col-sm-10 mb-3 mb-sm-0">
-                                <input type="text" class="form-control form-control-register mb-3"
-                                       id="exampleInputFirstName" placeholder="İxtisas adı" asp-for="@Model.Specialty.Name">
-                                <select class="form-control form-control-register" asp-items="@Model.FacultyList" asp-for="Specialty.FacultyId">
-                                    <option selected value="0">Fakültə seçin</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-success" type="submit">Təsdiqlə</button>
-                        <button class="btn btn-danger" type="button" data-dismiss="modal">Ləğv et</button>
-                    </div>
-                </div>
-            </div>
-        </form>
+    <div class="modal fade" id="createModal">
     </div>
+
 }
 
 
-@section Scripts{
+    @section Scripts{
+    <script>
+        function ShowSaveModal(elem) {
+            var dataId = $(elem).data("id");
+
+            $.ajax({
+                url: "/Specialty/SaveSpecialty?id=" + dataId,
+                success: function (data) {
+                    console.log(data);
+                    $('#createModal').html(data);
+                    $("#createModal").modal("show");
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        $(document).ready(function () {
+
+            $('#dataTable tfoot th').each(function () {
+                var title = $(this).text();
+                $(this).html('<input type="text" placeholder="Search" style="width:100%;" />');
+            });
+
+            var table = $('#dataTable').DataTable();
+
+            table.columns().every(function () {
+                var that = this;
+
+                $('input', this.footer()).on('keyup change clear', function () {
+                    if (that.search() !== this.value) {
+                        that.search(this.value).draw();
+                    }
+                });
+            });
+        });
+    </script>
     <script src="@Href("~/js/section.js")"></script>
+
 }
