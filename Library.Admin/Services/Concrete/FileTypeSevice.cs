@@ -1,19 +1,18 @@
 ﻿using Library.Admin.Services.Abstract;
 using Library.Core.Extensions;
 using Library.Core.Result.Concrete;
-using Library.Entities.Dtos;
+using Library.Entities.Concrete;
 using System.Net.Http.Headers;
-using System.Net.Http.Json;
-using File = Library.Entities.Concrete.File;
+
 namespace Library.Admin.Services.Concrete
 {
-    public class FileService : BaseService, IFileService
+    public class FileTypeSevice : BaseService, IFileTypeService
     {
-        public async Task<Result> Add(string token, FileDto fileDto)
+        public async Task<Result> Add(string token, FileType entity)
         {
             using HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var result = await client.PostJsonAsync<Result, FileDto>(BaseUrl + "File/add", fileDto);
+            var result = await client.PostJsonAsync<Result, FileType>(BaseUrl + "FileType/add", entity);
             return result;
         }
 
@@ -21,29 +20,29 @@ namespace Library.Admin.Services.Concrete
         {
             using HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var result = await client.DeleteJsonAsync<Result>(BaseUrl + $"File/delete/{id}");
+            var result = await client.DeleteJsonAsync<Result>(BaseUrl + $"FileType/delete?id={id}");
             return result;
         }
 
-        public async Task<DataResult<File>> Get(int id)
+        public async Task<DataResult<FileType>> Get(int id)
         {
             using HttpClient client = new HttpClient();
-            var result = await client.GetJsonAsync<DataResult<File>>(BaseUrl + $"File/getbyid/{id}");
+            var result = await client.GetJsonAsync<DataResult<FileType>>(BaseUrl + $"FileType/getbyid/{id}");
             return result;
         }
 
-        public async Task<DataResult<List<File>>> GetAll()
+        public async Task<DataResult<List<FileType>>> GetAll()
         {
             using HttpClient client = new HttpClient();
-            var result = await client.GetJsonAsync<DataResult<List<File>>>(BaseUrl + "File/getall");
+            var result = await client.GetJsonAsync<DataResult<List<FileType>>>(BaseUrl + "FileType/getall");
             return result;
         }
 
-        public async Task<Result> Update(string token, FileDto fileDto)
+        public async Task<Result> Update(string token, FileType entity)
         {
             using HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var result = await client.PutJsonAsync<Result, FileDto>(BaseUrl + "File/update", fileDto);
+            var result = await client.PostJsonAsync<Result, FileType>(BaseUrl + "FileType/update", entity);
             return result;
         }
     }

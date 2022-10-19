@@ -1,0 +1,29 @@
+﻿@model ResourceViewModel
+
+<div class="modal-dialog modal-sm">
+    <div class="modal-content" >
+        <div style="overflow:auto;" class="modal-body">
+            <form class="form-group" >
+                <div class="modal-body">
+                    <img class="form-group" src="@Url.Action("ShowPhoto","Resource" ,new { path = Model.File.PhotoPath })"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .modal-dialog {
+    max-width: max-content !important;
+}
+
+.modal-body {
+  display: flex;
+}
+
+.modal-body img {
+  object-fit: contain;
+}
+</style>
+
+<partial name="_ValidationScriptsPartial" />

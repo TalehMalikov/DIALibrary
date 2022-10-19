@@ -24,60 +24,76 @@ namespace Library.Admin.Controllers
         public async Task<IActionResult> NewUser()
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-            var model = new UserViewModel();
-            var specialties = await _specialtyService.GetAll(token);
-            var groups = await _groupService.GetAll(token);
-            var group = new Group
+            if(token!=null)
             {
-                Id = 0,
-                Name = "Qrup seçin"
-            };
-            groups.Data.Insert(0,group);
-            specialties.Data.Insert(0, new Specialty { Id = 0, Name = "İxtisas seçin" });
-            model.GroupList = new SelectList(groups.Data, "Id", "Name", group);
-            model.SpecialtyList = new SelectList(specialties.Data, "Id", "Name",
-                new Specialty { Id = 0, Name = "İxtisas seçin" });
-            return View(model);
+                var model = new UserViewModel();
+                var specialties = await _specialtyService.GetAll(token);
+                var groups = await _groupService.GetAll(token);
+                var group = new Group
+                {
+                    Id = 0,
+                    Name = "Qrup seçin"
+                };
+                groups.Data.Insert(0, group);
+                specialties.Data.Insert(0, new Specialty { Id = 0, Name = "İxtisas seçin" });
+                model.GroupList = new SelectList(groups.Data, "Id", "Name", group);
+                model.SpecialtyList = new SelectList(specialties.Data, "Id", "Name",
+                    new Specialty { Id = 0, Name = "İxtisas seçin" });
+                return View(model);
+            }
+            return new NotFoundResult();
         }
 
         [HttpPost]
         public async Task<IActionResult> NewUser(UserViewModel model)
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-            if (model.Student.SpecialtyId != 0 & model.Student.GroupId != 0)
+            if(token!=null)
             {
-                var userId = await _userService.AddAsStudent(model.User,token);
-                model.Student.UserId = userId.Data ;
-                var result = await _studentService.Add(token, model.Student);
-                if (result.Success)
-                    return RedirectToAction("ShowStudents", "Student");
-                await _userService.DeleteFromDb(userId.Data,token);
+                if (model.Student.SpecialtyId != 0 & model.Student.GroupId != 0)
+                {
+                    var userId = await _userService.AddAsStudent(model.User, token);
+                    model.Student.UserId = userId.Data;
+                    var result = await _studentService.Add(token, model.Student);
+                    if (result.Success)
+                        return RedirectToAction("ShowStudents", "Student");
+                    await _userService.DeleteFromDb(userId.Data, token);
+                }
+                else
+                {
+                    await _userService.Add(token, model.User);
+                }
+                return RedirectToAction("NewUser");
             }
-            else
-            {
-                await _userService.Add(token, model.User);
-            }
-            return RedirectToAction("NewUser");
+            return new NotFoundResult();
         }
 
         public async Task<IActionResult> ShowUsers()
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-            var result = await _userService.GetAll(token);
-            var model = new UserViewModel
+            if(token!=null)
             {
-                Users = result.Data
-            };
-            return View(model);
+                var result = await _userService.GetAll(token);
+                var model = new UserViewModel
+                {
+                    Users = result.Data
+                };
+                return View(model);
+            }
+            return new NotFoundResult();
         }
 
         public async Task<IActionResult> Delete(int id)
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-            var result = await _userService.Delete(token,id);
-            if(result.Success)
-                return RedirectToAction("ShowUsers");
-            return RedirectToAction("Index", "Home");
+            if(token!=null)
+            {
+                var result = await _userService.Delete(token, id);
+                if (result.Success)
+                    return RedirectToAction("ShowUsers");
+                return RedirectToAction("Index", "Home");
+            }
+            return new NotFoundResult();
         }
 
         [HttpGet]

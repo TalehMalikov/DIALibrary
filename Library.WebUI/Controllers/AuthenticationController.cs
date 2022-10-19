@@ -1,9 +1,6 @@
 ﻿using Library.Core.Domain.Dtos;
 using Library.WebUI.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Net.Http.Headers;
 using Library.Core.Utils;
 using Library.WebUI.ViewModels;
 

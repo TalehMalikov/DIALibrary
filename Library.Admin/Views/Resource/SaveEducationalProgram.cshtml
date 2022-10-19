@@ -1,0 +1,85 @@
+﻿@model ResourceViewModel
+<div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <!-- Modal content -->
+    <div class="modal-content" id="editDebtModelBody">
+        <div style="overflow:auto;" class="modal-body">
+            <form asp-controller="Resource" asp-action="SaveEducationalProgram" class="form-group" enctype="multipart/form-data">
+                <input hidden asp-for="EducationalProgram.Id" />
+                <input hidden asp-for="EducationalProgram.FilePath" />
+                <input hidden asp-for="EducationalProgram.GUID" />
+                <div class="form-group">
+                    <label for="name" class="mr-sm-2">Ad :</label>
+                    <input asp-for="EducationalProgram.Name" class="form-control mb-2 mr-sm-2" />
+                    <span asp-validation-for="EducationalProgram.Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="name" class="mr-sm-2">Təhsil səviyyəsi :</label>
+                    @Html.DropDownListFor(s=> s.EducationalProgram.EducationLevel, Model.EducationLevelList,new {@class="custom-select form-control"})
+                    @Html.ValidationMessageFor(s => s.EducationalProgram.EducationLevel, "", new {@class = "text-danger"})
+                </div>
+
+                <div class="form-group">
+                    <label for="name" class="mr-sm-2">İxtisas :</label>
+                    @Html.DropDownListFor(s=> s.EducationalProgram.Specialty.Id, Model.SpecialtyList,"Seç",new {@class="custom-select form-control"})
+                    @Html.ValidationMessageFor(s => s.EducationalProgram.Specialty.Id, "", new {@class = "text-danger"})
+                </div>
+
+                <div class="form-group">
+                    <label for="name" class="mr-sm-2">Qüvvədədir :</label>
+                    @Html.DropDownListFor(s=> s.IsActiveId, Model.BooleanList,new {@class="custom-select form-control"})
+                    @Html.ValidationMessageFor(s => s.IsActiveId, "", new {@class = "text-danger"})
+                </div>
+
+                <div class="form-group">
+                    <label for="name" class="mr-sm-2">Başlama tarixi :</label>
+                    <input asp-for="EducationalProgram.ProgramDate" class="form-control mb-2 mr-sm-2" />
+                    <span asp-validation-for="EducationalProgram.ProgramDate" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="name" class="mr-sm-2">Müddəti :</label>
+                    <input asp-for="EducationalProgram.EducationTime" class="form-control mb-2 mr-sm-2" />
+                    <span asp-validation-for="EducationalProgram.EducationTime" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    @if (Model.EducationalProgram.Name != null)
+                    {
+                        <a class="btn btn-info" name="submit" id="submitFileButton">Faylı dəyiş</a>
+                        <div id="chooseFileDiv">
+                        </div>
+                    }
+                    else
+                    {
+                        <label for="name" class="mr-sm-2">Fayl əlavə et :</label>
+                        <input type="file" asp-for="AddedFile" class="form-control mb-2 mr-sm-2 fileUpload" id="inputGroupFile02">
+                        <span asp-validation-for="AddedFile" class="text-danger"></span>
+                    }
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary bgupdate">Yadda saxla</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+        $(document).ready(function()
+        {
+            let fileCount = 1;
+            $("#submitFileButton").click(function () {
+            fileCount++;
+            if(fileCount % 2 == 0)
+            {
+                $( "#chooseFileDiv" ).append('<input type="file" asp-for="AddedPicture" class="form-control mb-2 mr-sm-2 fileUpload" id="inputGroupFile02"> <span asp-validation-for="AddedPicture" class="text-danger"></span>');
+            }
+            else
+            {
+                $("#chooseFileDiv").empty()
+            }
+            });
+        });
+</script>
+<partial name="_ValidationScriptsPartial" />

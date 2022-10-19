@@ -19,23 +19,31 @@ namespace Library.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-            var result = await _specialtyService.GetAll(token);
-            var facultyList = await _faultyService.GetAll(token);
-            var model = new SpecialtyViewModel
+            if(token!=null)
             {
-                SpecialtyList = result.Data,
-                FacultyList = new SelectList(facultyList.Data,"Id","Name")
-            };
-            return View(model);
+                var result = await _specialtyService.GetAll(token);
+                var facultyList = await _faultyService.GetAll(token);
+                var model = new SpecialtyViewModel
+                {
+                    SpecialtyList = result.Data,
+                    FacultyList = new SelectList(facultyList.Data, "Id", "Name")
+                };
+                return View(model);
+            }
+            return new NotFoundResult();
         }
 
         public async Task<IActionResult> Add(SpecialtyViewModel model)
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-            if (model.Specialty.FacultyId == 0 || String.IsNullOrWhiteSpace(model.Specialty.Name))
+            if(token!=null)
+            {
+                if (model.Specialty.Faculty.Id == 0 || String.IsNullOrWhiteSpace(model.Specialty.Name))
+                    return RedirectToAction("Index");
+                await _specialtyService.Add(token, model.Specialty);
                 return RedirectToAction("Index");
-            await _specialtyService.Add(token, model.Specialty);
-            return RedirectToAction("Index");
+            }
+            return new NotFoundResult();
         }
     }
 }

@@ -22,53 +22,69 @@ namespace Library.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-            var result = await _groupService.GetAll(token);
-            var sectorList = await _sectorService.GetAll(token);
-            var specialtyList = await _specialtyService.GetAll(token);
-            var model = new GroupViewModel
+            if (token != null)
             {
-                Groups = result.Data,
-                SectorList = new SelectList(sectorList.Data, "Id", "Name"),
-                SpecialtyList = new SelectList(specialtyList.Data, "Id", "Name")
-            };
+                var result = await _groupService.GetAll(token);
+                var sectorList = await _sectorService.GetAll(token);
+                var specialtyList = await _specialtyService.GetAll(token);
+                var model = new GroupViewModel
+                {
+                    Groups = result.Data,
+                    SectorList = new SelectList(sectorList.Data, "Id", "Name"),
+                    SpecialtyList = new SelectList(specialtyList.Data, "Id", "Name")
+                };
 
-            return View(model);
+                return View(model);
+            }
+            return new NotFoundResult();
         }
 
         [HttpGet]
         public async Task<IActionResult> SaveGroup(int id)
         {
             string accessToken = HttpContext.Session.GetString("AdminAccessToken");
-            var model = new GroupViewModel();
-            var sectorList = await _sectorService.GetAll(accessToken);
-            var specialtyList = await _specialtyService.GetAll(accessToken);
-            model.SpecialtyList = new SelectList(specialtyList.Data, "Id", "Name");
-            model.SectorList = new SelectList(sectorList.Data, "Id", "Name");
-            var group = await _groupService.Get(accessToken, id);
-            model.Group = group.Data;
-            return PartialView(model);
+            if(accessToken!=null)
+            {
+                var model = new GroupViewModel();
+                var sectorList = await _sectorService.GetAll(accessToken);
+                var specialtyList = await _specialtyService.GetAll(accessToken);
+                model.SpecialtyList = new SelectList(specialtyList.Data, "Id", "Name");
+                model.SectorList = new SelectList(sectorList.Data, "Id", "Name");
+                var group = await _groupService.Get(accessToken, id);
+                model.Group = group.Data;
+                return PartialView(model);
+            }
+            return new NotFoundResult();
         }
 
         [HttpPost]
         public async Task<IActionResult> SaveGroup(GroupViewModel model)
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-            var result = await _groupService.Update(token, new GroupDto
+            if(token!=null)
             {
-                Id = model.Group.Id,
-                Name = model.Group.Name,
-                SectorId = model.Group.Sector.Id,
-                SpecialityId = model.Group.Speciality.Id,
-            });
-            return RedirectToAction("Index");
+                var result = await _groupService.Update(token, new GroupDto
+                {
+                    Id = model.Group.Id,
+                    Name = model.Group.Name,
+                    SectorId = model.Group.Sector.Id,
+                    SpecialityId = model.Group.Speciality.Id,
+                });
+                return RedirectToAction("Index");
+            }
+            return new NotFoundResult();
         }
 
         [HttpPost]
         public async Task<IActionResult> Add(GroupViewModel model)
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-            var result = await _groupService.Add(token, model.GroupDto);
-            return RedirectToAction("Index");
+            if(token!=null)
+            {
+                var result = await _groupService.Add(token, model.GroupDto);
+                return RedirectToAction("Index");
+            }
+            return new NotFoundResult();
         }
     }
 }

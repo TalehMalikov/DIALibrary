@@ -117,12 +117,9 @@
                             <span class="font-weight-bold">Kitablar</span><i class="fas fa-angle-down"></i>
                         </a>
                         <div class="collapse" id="collapseBook">
-                                    @{
-                                        int x = 0, y = 1, z = 2;
-                                    }
-                            <a class="collapse-item" asp-controller="Resource" asp-action="ShowBooks" asp-route-id="@z">Ümumi kitablar</a>
-                            <a class="collapse-item" asp-controller="Resource" asp-action="ShowBooks" asp-route-id="@x">Elektron kitablar</a>
-                            <a class="collapse-item" asp-controller="Resource" asp-action="ShowBooks" asp-route-id="@y">Fiziki kitablar</a>
+                            <a class="collapse-item" asp-controller="Resource" asp-action="ShowResources" asp-route-id="2">Ümumi kitablar</a>
+                            <a class="collapse-item" asp-controller="Resource" asp-action="ShowResources" asp-route-id="0">Elektron kitablar</a>
+                            <a class="collapse-item" asp-controller="Resource" asp-action="ShowResources" asp-route-id="1">Fiziki kitablar</a>
                         </div>
 
                         <a class="collapse-item collapsed d-flex justify-content-between align-items-center" href="#"
@@ -130,9 +127,9 @@
                             <span class="font-weight-bold">Məqalələr</span><i class="fas fa-angle-down"></i>
                         </a>
                         <div class="collapse" id="collapseJournal">
-                            <a class="collapse-item" href="#">Ümumi məqalələr</a>
-                            <a class="collapse-item" href="#">Elektron məqalələr</a>
-                            <a class="collapse-item" href="#">Fiziki məqalələr</a>
+                            <a class="collapse-item" asp-controller="Resource" asp-action="ShowResources" asp-route-id="3">Ümumi məqalələr</a>
+                            <a class="collapse-item" asp-controller="Resource" asp-action="ShowResources" asp-route-id="4">Elektron məqalələr</a>
+                            <a class="collapse-item" asp-controller="Resource" asp-action="ShowResources" asp-route-id="5">Fiziki məqalələr</a>
                         </div>
 
                         <a class="collapse-item collapsed d-flex justify-content-between align-items-center" href="#"
@@ -140,11 +137,11 @@
                             <span class="font-weight-bold">Digər Resurslar</span><i class="fas fa-angle-down"></i>
                         </a>
                         <div class="collapse" id="collapseResource">
-                            <a class="collapse-item" href="#">Jurnallar</a>
-                            <a class="collapse-item" href="#">Avtoreferatlar</a>
-                            <a class="collapse-item" href="#">Dərsliklər</a>
-                            <a class="collapse-item" href="#">Fənn proqramları</a>
-                            <a class="collapse-item" href="#">Nəşrlərimiz</a>
+                            <a class="collapse-item" asp-controller="Resource" asp-action="ShowResources" asp-route-id="6">Jurnallar</a>
+                            <a class="collapse-item" asp-controller="Resource" asp-action="ShowResources" asp-route-id="7">Avtoreferatlar</a>
+                            <a class="collapse-item" asp-controller="Resource" asp-action="ShowResources" asp-route-id="8">Dərsliklər</a>
+                            <a class="collapse-item" asp-controller="Resource" asp-action="ShowEducationalPrograms">Fənn proqramları</a>
+                            <a class="collapse-item" asp-controller="Resource" asp-action="ShowResources" asp-route-id="9">Nəşrlərimiz</a>
                         </div>
 
                         <div class="collapse-divider"></div>
@@ -154,7 +151,7 @@
                             <span class="font-weight-bold">Başqaları</span><i class="fas fa-angle-down"></i>
                         </a>
                         <div class="collapse" id="collapseOther">
-                            <a class="collapse-item" href="#">Müəlliflər</a>
+                            <a class="collapse-item" asp-action="Index" asp-controller="Author">Müəlliflər</a>
                             <a class="collapse-item" href="#">Katoqriyalar</a>
                             <a class="collapse-item" href="#">Sektorlar</a>
                             <a class="collapse-item" asp-action="Index" asp-controller="Faculty">Fakültələr</a>
