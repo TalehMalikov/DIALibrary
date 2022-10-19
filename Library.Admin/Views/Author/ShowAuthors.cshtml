@@ -39,7 +39,7 @@
                             <td>@item.FatherName</td>
                             <td>@item.BookCount</td>
                             <td><button class="btn btn-primary bgupdate" onclick="ShowSaveModal(this)" data-id="@item.Id" id="btnUpdate"><i class='fas fa-download'></i> Yenilə</button></td>
-                            <td><a class="btn btn-danger delete" data-toggle="modal" data-id="@item.Id" data-target="#deleteModal" data-controller="Author" data-action="DeleteAuthor" ><i class='fas fa-trash-alt'></i> Sil</a></td>
+                            <td><a class="btn btn-danger delete" data-toggle="modal" data-id="@item.Id" data-target="#deleteModal" data-controller="Author" data-action="Delete" ><i class='fas fa-trash-alt'></i> Sil</a></td>
                         </tr>
                     }
                 </tbody>

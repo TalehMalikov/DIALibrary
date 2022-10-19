@@ -19,7 +19,7 @@ namespace Library.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-            if(token!=null)
+            if (token != null)
             {
                 var result = await _specialtyService.GetAll(token);
                 var facultyList = await _faultyService.GetAll(token);
@@ -36,14 +36,18 @@ namespace Library.Admin.Controllers
         public async Task<IActionResult> Add(SpecialtyViewModel model)
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-            if(token!=null)
-            {
-                if (model.Specialty.FacultyId == 0 || String.IsNullOrWhiteSpace(model.Specialty.Name))
-                    return RedirectToAction("Index");
-                await _specialtyService.Add(token, model.Specialty);
+            if (model.Specialty.FacultyId == 0 || String.IsNullOrWhiteSpace(model.Specialty.Name))
                 return RedirectToAction("Index");
-            }
+            await _specialtyService.Add(token, model.Specialty);
+            return RedirectToAction("Index");
             return new NotFoundResult();
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            string token = HttpContext.Session.GetString("AdminAccessToken");
+            await _specialtyService.Delete(token, id);
+            return RedirectToAction("Index");
         }
     }
 }
