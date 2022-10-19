@@ -188,6 +188,9 @@ namespace Library.Admin.Controllers
                         var uploadFile = await UploadToFileSystem(viewModel.AddedFile, viewModel.File.FilePath);
                         var uploadPhoto = await UploadToFileSystem(viewModel.AddedPicture, viewModel.File.PhotoPath);
 
+                        viewModel.File.FilePath += uploadFile.Data;
+                        viewModel.File.PhotoPath +=uploadPhoto.Data;
+
                         if (uploadFile.Success && uploadPhoto.Success)
                         {
                             var fileDto = new FileDto()
@@ -239,6 +242,7 @@ namespace Library.Admin.Controllers
                             viewModel.File.FilePath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedFile.FileName);
 
                             var uploadFile = await UploadToFileSystem(viewModel.AddedFile, viewModel.File.FilePath);
+                            viewModel.File.FilePath += uploadFile.Data;
 
                             if (uploadFile.Success)
                             {
@@ -284,6 +288,7 @@ namespace Library.Admin.Controllers
                             viewModel.File.PhotoPath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedPicture.FileName);
 
                             var uploadPhoto = await UploadToFileSystem(viewModel.AddedPicture, viewModel.File.PhotoPath);
+                            viewModel.File.PhotoPath += uploadPhoto.Data;
 
                             if (uploadPhoto.Success)
                             {
@@ -355,7 +360,7 @@ namespace Library.Admin.Controllers
 
                     TempData["Message"] = "Operation unsuccessfully";
                 }
-                return RedirectToAction("ShowResources", "2");
+                return RedirectToAction("ShowResources","Resource", "2");
             }
             return new NotFoundResult();
         }
@@ -377,10 +382,10 @@ namespace Library.Admin.Controllers
                 if (result.Success)
                 {
                     TempData["Message"] = "Operation successfully";
-                    return RedirectToAction("ShowResources", "2");
+                    return RedirectToAction("ShowResources","Resource", "2");
                 }
                 // Must be return error message to UI
-                return RedirectToAction("ShowResources", "2");
+                return RedirectToAction("ShowResources","Resource", "2");
             }
             return new NotFoundResult();
         }
@@ -592,7 +597,7 @@ namespace Library.Admin.Controllers
 
         #region FileUpload&Delete
         [HttpPost]
-        public async Task<Result> UploadToFileSystem(IFormFile file, string uniqueFileName)
+        public async Task<DataResult<string>> UploadToFileSystem(IFormFile file, string uniqueFileName)
         {
             bool basePhotoPathExists = System.IO.Directory.Exists(DefaultPath.OriginalDefaultPhotoPath);
             if (!basePhotoPathExists) Directory.CreateDirectory(DefaultPath.OriginalDefaultPhotoPath);
@@ -600,18 +605,12 @@ namespace Library.Admin.Controllers
             bool baseFilePathExists = System.IO.Directory.Exists(DefaultPath.OriginalDefaultFilePath);
             if (!baseFilePathExists) Directory.CreateDirectory(DefaultPath.OriginalDefaultFilePath);
 
-            string filePath;
+            string extension = Path.GetExtension(file.FileName);
+            StringBuilder builder = new StringBuilder();
+            builder.Append(uniqueFileName);
+            builder.Append(extension);
 
-            if (file.FileName.Contains(".pdf"))
-            {
-                filePath = Path.Combine(DefaultPath.OriginalDefaultFilePath, uniqueFileName + ".pdf");
-            }
-            else
-            {
-                filePath = Path.Combine(DefaultPath.OriginalDefaultPhotoPath, uniqueFileName + ".jpg");
-            }
-
-            var extension = Path.GetExtension(file.FileName);
+            string filePath = Path.Combine(DefaultPath.OriginalDefaultFilePath, builder.ToString());
 
             if (!System.IO.File.Exists(filePath))
             {
@@ -619,10 +618,9 @@ namespace Library.Admin.Controllers
                 {
                     await file.CopyToAsync(stream);
                 }
-                return new SuccessResult();
+                return new SuccessDataResult<string>(extension);
             }
-            TempData["Message"] = "File successfully uploaded to File System.";
-            return new ErrorResult();
+            return new ErrorDataResult<string>();
         }
 
         public async Task<Result> DeleteFileFromFileSystem(string fullFilePath)
@@ -658,7 +656,7 @@ namespace Library.Admin.Controllers
         {
             try
             {
-                string fullpath = Path.Combine(DefaultPath.OriginalDefaultPhotoPath, path + ".jpg");
+                string fullpath = Path.Combine(DefaultPath.OriginalDefaultPhotoPath, path);
 
                 var content = System.IO.File.ReadAllBytes(fullpath);
 
@@ -688,7 +686,7 @@ namespace Library.Admin.Controllers
         {
             try
             {
-                string fullPath = Path.Combine(DefaultPath.OriginalDefaultFilePath, path + ".pdf");
+                string fullPath = Path.Combine(DefaultPath.OriginalDefaultFilePath, path/* + ".pdf"*/);
 
                 var content = System.IO.File.ReadAllBytes(fullPath);
                 return File(content, "application/pdf");
