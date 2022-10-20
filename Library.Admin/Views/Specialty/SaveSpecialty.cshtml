@@ -1,0 +1,38 @@
+﻿@model SpecialtyViewModel
+
+<div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content" id="editDebtModelBody">
+        <div style="overflow:auto;" class="modal-body">
+            <form class="user" asp-action="SaveSpecialty" asp-controller="Specialty" asp-antiforgery="false">
+                <input hidden asp-for="@Model.Specialty.Id" />
+                <div class="d-flex justify-content-center flex-column">
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <label for="name" class="mr-sm-2">İxtisas adı:</label>
+                            <input asp-for="@Model.Specialty.Name" class="form-control mb-2 mr-sm-2" required/>
+                            <span asp-validation-for="@Model.Specialty.Name" class="text-danger"></span>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <label for="facultySelectList">Fakültə:</label>
+                            <select asp-for="Specialty.Faculty.Id" class="form-control" asp-items="Model.FacultyList" id="facultySelectList">
+                                <option value="false">Fakültə seçin</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer row">
+                        <button type="submit" class="btn btn-primary bgupdate">Yadda saxla</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<partial name="_ValidationScriptsPartial" />

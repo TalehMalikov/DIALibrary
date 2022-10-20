@@ -25,7 +25,9 @@ ShowFilteredFiles = author
 				Admin Panel Task
 	Əhməd
 1. Hesablar
-2. Fakültə, ixtisas, qrup
-3. Hesabım
+2. Hesabım
+3. Kateqoriyalar
+4. Sektorlar
+5. İmtiyazlar
 
 

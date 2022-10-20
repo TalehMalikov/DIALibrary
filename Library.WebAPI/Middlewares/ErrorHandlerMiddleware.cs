@@ -17,7 +17,10 @@
             }
             catch (Exception ex)
             {
-                ////
+                string path = @"C:\Log\httplogs.txt";
+                string content =
+                    $"\n\nException Date: {DateTime.Now.ToString("g")}\nException Message: {ex.Message}\n\n--------------------------";
+                File.AppendAllText(path,content);
             }
         }
     }

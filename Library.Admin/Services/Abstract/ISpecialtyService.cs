@@ -10,5 +10,6 @@ namespace Library.Admin.Services.Abstract
         Task<Result> Update(string token, SpecialtyDto entity);
         Task<Result> Delete(string token, int id);
         Task<DataResult<List<Specialty>>> GetAll(string token);
+        Task<DataResult<Specialty>> Get(string token, int id);
     }
 }

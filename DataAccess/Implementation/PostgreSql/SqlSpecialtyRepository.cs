@@ -68,7 +68,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
         {
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
-            string cmdString = "Update Specialties Set FacultyId=@facultyName, Name=@name Where Id=@id";
+            string cmdString = "Update Specialties Set FacultyId=@facultyId, Name=@name Where Id=@id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             command.Parameters.AddWithValue("@facultyId", value.FacultyId);
             command.Parameters.AddWithValue("@name", value.Name);

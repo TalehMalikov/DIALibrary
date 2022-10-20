@@ -21,5 +21,29 @@ namespace Library.Admin.Services.Concrete
             var result = await client.GetJsonAsync<DataResult<List<Category>>>(BaseUrl + "Category/getall");
             return result;
         }
+
+        public async Task<Result> Add(string token, Category entity)
+        {
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var result = await client.PostJsonAsync<Result, Category>(BaseUrl + "Category/add", entity);
+            return result;
+        }
+
+        public async Task<Result> Update(string token, Category entity)
+        {
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var result = await client.PutJsonAsync<Result, Category>(BaseUrl + "Category/update", entity);
+            return result;
+        }
+
+        public async Task<Result> Delete(string token, int id)
+        {
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var result = await client.DeleteJsonAsync<Result>(BaseUrl + "Category/delete/" + id);
+            return result;
+        }
     }
 }

@@ -101,35 +101,39 @@
 
 </div>
 
-<div class="modal fade" id="createModal">
-</div>
+@section Modals
+{
+    <div class="modal fade" id="createModal">
+    </div>
 
-<div class="modal fade" id="createPhotoModal">
-</div>
+    <div class="modal fade" id="createPhotoModal">
+    </div>
 
-<div class="modal fade" id="DelModal">
-    <div class="modal-dialog">
-        <!-- Modal content -->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Delete row</h4>
-                <button type="button" class="close" data-dismiss="modal">×</button>
-            </div>
+    <div class="modal fade" id="DelModal">
+        <div class="modal-dialog">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete row</h4>
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                </div>
 
-            <div style="overflow-x:auto;" class="modal-body ">
-                <p>Are you sure to delete this row?</p>
-            </div>
+                <div style="overflow-x:auto;" class="modal-body ">
+                    <p>Are you sure to delete this row?</p>
+                </div>
 
-            <div class="modal-footer">
-                <form asp-action="DeleteResource" asp-controller="Resource" method="post">
-                    <input asp-for="DeletedResource.Id" class="deletedId" hidden />
-                    <button type="submit" class="btn btn-primary bgupdate">Yes</button>
-                    <button type="button" class="btn btn-danger bgdelete" data-dismiss="modal">No</button>
-                </form>
+                <div class="modal-footer">
+                    <form asp-action="DeleteResource" asp-controller="Resource" method="post">
+                        <input asp-for="DeletedResource.Id" class="deletedId" hidden />
+                        <button type="submit" class="btn btn-primary bgupdate">Yes</button>
+                        <button type="button" class="btn btn-danger bgdelete" data-dismiss="modal">No</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
+}
+
 
 @section Scripts{
     <script src="@Href("~/vendor/datatables/jquery.dataTables.min.js")"></script>
