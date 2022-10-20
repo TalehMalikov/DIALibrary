@@ -73,6 +73,13 @@ namespace Library.Admin.Controllers
             });
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            string token = HttpContext.Session.GetString("AdminAccessToken");
+            await _specialtyService.Delete(token, id);
+            return RedirectToAction("Index");
+        }
     }
     
 }

@@ -1,6 +1,8 @@
 ﻿using Library.Admin.Models;
 using Library.Admin.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
+using NuGet.Common;
 
 namespace Library.Admin.Controllers
 {
@@ -16,7 +18,7 @@ namespace Library.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-            if(token!=null)
+            if (token != null)
             {
                 var result = await _facultyService.GetAll(token);
                 var model = new FacultyViewModel
@@ -29,22 +31,37 @@ namespace Library.Admin.Controllers
             return new NotFoundResult();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> SaveFaculty(int id)
+        {
+            var model = new FacultyViewModel();
+            string token = HttpContext.Session.GetString("AdminAccessToken");
+            if (id == 0)
+                return PartialView();
+            var faculty = await _facultyService.Get(token, id);
+            model.Faculty = faculty.Data;
+            return PartialView(model);
+        }
+
+
         [HttpPost]
-        public async Task<IActionResult> Add(FacultyViewModel model)
+        public async Task<IActionResult> SaveFaculty(FacultyViewModel model)
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-            if(token!=null)
+            if (model.Faculty.Id == 0)
             {
-                var result = await _facultyService.Add(token, model.Faculty);
+                await _facultyService.Add(token, model.Faculty);
                 return RedirectToAction("Index");
             }
-            return new NotFoundResult();
+
+            await _facultyService.Update(token, model.Faculty);
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> Delete(int id)
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-            if(token!=null)
+            if (token != null)
             {
                 var result = await _facultyService.Delete(token, id);
                 return RedirectToAction("Index");
