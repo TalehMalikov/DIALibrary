@@ -78,5 +78,42 @@ $((function () {
 
 
 
+function ShowSaveModal(elem) {
+    var dataId = $(elem).data("id");
+    var controller = $(elem).data("controller");
+    var action = $(elem).data("action");
+    $.ajax({
+        url: "/" + controller + "/" + action + "?id=" + dataId,
+        success: function (data) {
+            console.log(data);
+            $('#createModal').html(data);
+            $("#createModal").modal("show");
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}
+
+$(document).ready(function () {
+
+    $('#dataTable tfoot th').each(function () {
+        var title = $(this).text();
+        $(this).html('<input type="text" placeholder="Search" style="width:100%;" />');
+    });
+
+    var table = $('#dataTable').DataTable();
+
+    table.columns().every(function () {
+        var that = this;
+
+        $('input', this.footer()).on('keyup change clear', function () {
+            if (that.search() !== this.value) {
+                that.search(this.value).draw();
+            }
+        });
+    });
+});
+
 
 

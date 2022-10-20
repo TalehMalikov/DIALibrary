@@ -109,7 +109,7 @@
                             <a class="collapse-item" asp-action="ShowUsers" asp-controller="User">Ümumi istifadəçilər</a>
                             <a class="collapse-item" asp-action="ShowAdmins" asp-controller="User">Adminlər</a>
                             <a class="collapse-item" asp-action="ShowStudents" asp-controller="Student">Tələbələr</a>
-                            <a class="collapse-item" asp-action="ShowAccounts" asp-controller="Account">Hesablar</a>
+                            <a class="collapse-item" asp-action="Index" asp-controller="Account">Hesablar</a>
                         </div>
 
                         <a class="collapse-item collapsed d-flex justify-content-between align-items-center" href="#"
@@ -152,8 +152,8 @@
                         </a>
                         <div class="collapse" id="collapseOther">
                             <a class="collapse-item" asp-action="Index" asp-controller="Author">Müəlliflər</a>
-                            <a class="collapse-item" href="#">Katoqriyalar</a>
-                            <a class="collapse-item" href="#">Sektorlar</a>
+                            <a class="collapse-item" asp-controller="Category" asp-action="Index">Katoqriyalar</a>
+                            <a class="collapse-item" asp-controller="Sector" asp-action="Index">Sektorlar</a>
                             <a class="collapse-item" asp-action="Index" asp-controller="Faculty">Fakültələr</a>
                             <a class="collapse-item" asp-action="Index" asp-controller="Specialty">İxtisaslar</a>
                             <a class="collapse-item" asp-action="Index" asp-controller="Group">Qruplar</a>
