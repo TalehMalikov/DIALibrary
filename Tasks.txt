@@ -13,6 +13,7 @@ Admin panel footer
 
 
 Mən:
+File - online/offline problem
 Müəlliflər
 İcazələr
 File_check - runnabledırmı ya yox
