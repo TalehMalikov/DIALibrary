@@ -7,6 +7,8 @@ namespace Library.Business.Abstraction
     public interface IBookAuthorService : IBaseService<BookAuthor>
     {
         Result Add(FileAuthorDtoForCrud value);
+        Result AddList(List<FileAuthorDtoForCrud> value);
         Result Update(FileAuthorDtoForCrud value);
+        Result UpdateList(List<FileAuthorDtoForCrud> value);
     }
 }

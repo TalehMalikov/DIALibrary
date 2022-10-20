@@ -23,6 +23,16 @@ namespace Library.Business.Concrete
             return new SuccessResult(StatusMessagesUtil.AddSuccessMessage);
         }
 
+        public Result AddList(List<FileAuthorDtoForCrud> values)
+        {
+            bool isSuccess = true;
+            for (int i = 0; i < values.Count; i++)
+            {
+                if (!Add(values[i]).Success) isSuccess = false;
+            }
+            return isSuccess ? new SuccessResult() : new ErrorResult();
+        }
+
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IBookAuthorService.Get))]
         public Result Delete(int id)
         {
@@ -55,6 +65,16 @@ namespace Library.Business.Concrete
             if(_fileAuthorRepository.Update(value))
                 return new SuccessResult(StatusMessagesUtil.UpdateSuccessMessage);
             return new ErrorResult(StatusMessagesUtil.NotFoundMessageGivenId);
+        }
+
+        public Result UpdateList(List<FileAuthorDtoForCrud> values)
+        {
+            bool isSuccess=true;
+            for (int i = 0; i < values.Count; i++)
+            {
+                if (!Update(values[i]).Success) isSuccess=false;
+            }
+            return isSuccess ? new SuccessResult() : new ErrorResult();
         }
     }
 }

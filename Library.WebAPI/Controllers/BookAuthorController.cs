@@ -31,6 +31,21 @@ namespace Library.WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpPost]
+        [Route("add")]
+        [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
+        public IActionResult AddList(List<FileAuthorDtoForCrud> bookAuthors)
+
+        {
+            var result = _bookAuthorService.AddList(bookAuthors);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
         [HttpPut]
         [Route("update")]
         [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
@@ -38,6 +53,21 @@ namespace Library.WebAPI.Controllers
 
         {
             var result = _bookAuthorService.Update(bookAuthor);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpPut]
+        [Route("update")]
+        [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
+        public IActionResult UpdateList(List<FileAuthorDtoForCrud> bookAuthors)
+
+        {
+            var result = _bookAuthorService.UpdateList(bookAuthors);
             if (result.Success)
             {
                 return Ok(result);

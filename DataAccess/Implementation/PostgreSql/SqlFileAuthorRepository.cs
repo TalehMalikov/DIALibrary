@@ -21,8 +21,8 @@ namespace Library.DataAccess.Implementation.PostgreSql
             connection.Open();
             string cmdString = "Insert Into BookAuthors(BookId,AuthorId) Values(@bookId,@authorId)";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
-            command.Parameters.AddWithValue("@bookId", value.FileId);
-            command.Parameters.AddWithValue("@authorId", value.AuthorId);
+                command.Parameters.AddWithValue("@bookId", value.FileId);
+                command.Parameters.AddWithValue("@authorId", value.AuthorId);
             return 1 == command.ExecuteNonQuery();
         }
 

@@ -1,5 +1,4 @@
 ﻿using Library.Entities.Abstract;
-using Library.Entities.Concrete;
 
 namespace Library.Entities.Dtos
 {

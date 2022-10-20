@@ -7,8 +7,9 @@
 <!-- Page Heading -->
 <h1 class="h3 mb-2 text-gray-800">Müəlliflər</h1>
 <p class="mp-4">
-    <span class="pull-left">
-        <button class="btn btn-primary bgupdate" onclick="ShowSaveModal(this)" data-toggle="modal" data-id="0" id="myBtnAdd"><i class='fas fa-download'></i>Əlavə et</button>
+    <span class="float-right">
+        <button class="btn btn-primary bgupdate" onclick="ShowSaveAuthorModal(this)" data-toggle="modal" data-id="0" id="myBtnAdd"><i class='fas fa-download'></i>Əlavə et</button>
+        <button class="btn btn-primary bgupdate" onclick="ShowSaveFileAuthorModal(this)" data-toggle="modal" data-id="0" id="myBtnAdd"><i class='fas fa-download'></i>Əlavə et</button>
     </span>
 </p>
 <br>
@@ -24,6 +25,7 @@
                         <th>Adı</th>
                         <th>Soyadı</th>
                         <th>Ata adı</th>
+                        <th>Cinsi</th>
                         <th>Kitab sayı</th>
                         <th>Yenilə</th>
                         <th>Sil</th>
@@ -37,8 +39,9 @@
                             <td>@item.FirstName</td>
                             <td>@item.LastName</td>
                             <td>@item.FatherName</td>
+                            <td>@item.Gender</td>
                             <td>@item.BookCount</td>
-                            <td><button class="btn btn-primary bgupdate" onclick="ShowSaveModal(this)" data-id="@item.Id" id="btnUpdate"><i class='fas fa-download'></i> Yenilə</button></td>
+                            <td><button class="btn btn-primary bgupdate" onclick="ShowSaveAuthorModal(this)" data-id="@item.Id" id="btnUpdate"><i class='fas fa-download'></i> Yenilə</button></td>
                             <td><a class="btn btn-danger delete" data-toggle="modal" data-id="@item.Id" data-target="#deleteModal" data-controller="Author" data-action="DeleteAuthor" ><i class='fas fa-trash-alt'></i> Sil</a></td>
                         </tr>
                     }
@@ -51,6 +54,9 @@
 <div class="modal fade" id="createModal">
 </div>
 
+<div class="modal fade" id="createFileAuthorModal">
+</div>
+
 @section Scripts{
     <script src="@Href("~/vendor/datatables/jquery.dataTables.min.js")"></script>
     <script src="@Href("~/vendor/datatables/dataTables.bootstrap4.min.js")"></script>
@@ -58,7 +64,7 @@
     <script src="@Href("~/js/section.js")"></script>
 
     <script>
-        function ShowSaveModal(elem) {
+        function ShowSaveAuthorModal(elem) {
             var dataId = $(elem).data("id");
 
             $.ajax({
@@ -74,6 +80,21 @@
             });
         }
 
+        function ShowSaveFileAuthorModal(elem) {
+            var dataId = $(elem).data("id");
+
+            $.ajax({
+                url: "/Author/SaveFileAuthor?fileId=" + dataId,
+                success: function (data) {
+                    console.log(data);
+                    $('#createFileAuthorModal').html(data);
+                    $("#createFileAuthorModal").modal("show");
+                },
+                error : function(error) {
+                    console.log(error);
+                }
+            });
+        }
 
         $(document).ready(function () {
 

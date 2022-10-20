@@ -14,16 +14,9 @@ Admin panel footer
 
 Mən:
 Müəlliflər
-Kateqoriyalar
-Sektorlar
-İmtiyazlar
-İcazələr
-
 
 Yeniliklər
 Confirm Resubmission																- 
-HTTPS																				- 
-Qeydiyyat hissəsi, ümumi məlumat hissəsinə baxış, ;-düzəlt							- 
 Localization																		-  
 
 ShowFilteredFiles = author
