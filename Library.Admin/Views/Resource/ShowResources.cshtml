@@ -86,8 +86,7 @@
                                 <td>@file.PublicationLanguage.Name</td>
                                 <td>@file.EditionStatus</td>
                                 <td><a onclick="ShowPhotoModal(this)" data-path="@file.PhotoPath" data-toggle="modal"  class="btn btn-info" name="submit" id="submit">Aç</a></td>     
-@*                                asp-action="ShowPhoto" asp-controller="Resource" asp-route-path="@file.PhotoPath"
-*@                                <td><a target="_blank" asp-action="OpenFile"  asp-controller="Resource" asp-route-path="@file.FilePath" class="btn btn-info changeUrl" name="submit" id="submit">Aç</a></td>                                           
+                                <td><a target="_blank" asp-action="OpenFile"  asp-controller="Resource" asp-route-path="@file.FilePath" class="btn btn-info changeUrl" name="submit" id="submit">Aç</a></td>                                           
                                 <td>@file.PublisherName</td>
                                 <td>@file.PublicationDate.ToString("dd/MM/yyyy")</td>
                                 <td>@file.PageNumber</td>

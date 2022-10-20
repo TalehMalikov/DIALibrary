@@ -14,9 +14,8 @@ Admin panel footer
 
 Mən:
 Müəlliflər
-
 İcazələr
-
+File_check - runnabledırmı ya yox
 
 Yeniliklər
 Confirm Resubmission																- 
