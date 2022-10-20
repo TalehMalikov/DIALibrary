@@ -466,6 +466,8 @@ namespace Library.Admin.Controllers
                         viewModel.EducationalProgram.GUID = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.EducationalProgram.Name);
 
                         var uploadFile = await UploadToFileSystem(viewModel.AddedFile, viewModel.EducationalProgram.FilePath);
+                        
+                        viewModel.EducationalProgram.FilePath += uploadFile.Data;
 
                         if (uploadFile.Success)
                         {
@@ -504,6 +506,7 @@ namespace Library.Admin.Controllers
                             viewModel.EducationalProgram.FilePath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedFile.FileName);
 
                             var uploadFile = await UploadToFileSystem(viewModel.AddedFile, viewModel.EducationalProgram.FilePath);
+                            viewModel.EducationalProgram.FilePath += uploadFile.Data;
 
                             if (uploadFile.Success)
                             {
