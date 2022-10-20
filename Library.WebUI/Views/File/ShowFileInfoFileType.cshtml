@@ -90,7 +90,7 @@
 
                         <div class="buttons float-end py-2">
                             <a href="@Url.Action("OpenFile","Resources",new {name=fileAuthorData.File.FilePath})" class="btn btn-primary">Oxumaq</a>
-                            <a href="@Url.Action("DownloadFileFromFileSystem","Resources",new {name=fileAuthorData.File.Id})" class="btn btn-danger" download>Yükləmək</a>
+                            <a href="@Url.Action("DownloadFileFromFileSystem","Resources",new {id=fileAuthorData.File.Id})" class="btn btn-danger" download>Yükləmək</a>
                         </div>
                     </div>
                 </div>

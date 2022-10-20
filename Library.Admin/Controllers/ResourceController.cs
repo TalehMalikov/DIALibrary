@@ -466,6 +466,8 @@ namespace Library.Admin.Controllers
                         viewModel.EducationalProgram.GUID = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.EducationalProgram.Name);
 
                         var uploadFile = await UploadToFileSystem(viewModel.AddedFile, viewModel.EducationalProgram.FilePath);
+                        
+                        viewModel.EducationalProgram.FilePath += uploadFile.Data;
 
                         if (uploadFile.Success)
                         {
@@ -504,6 +506,7 @@ namespace Library.Admin.Controllers
                             viewModel.EducationalProgram.FilePath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedFile.FileName);
 
                             var uploadFile = await UploadToFileSystem(viewModel.AddedFile, viewModel.EducationalProgram.FilePath);
+                            viewModel.EducationalProgram.FilePath += uploadFile.Data;
 
                             if (uploadFile.Success)
                             {
@@ -690,7 +693,7 @@ namespace Library.Admin.Controllers
         {
             try
             {
-                string fullPath = Path.Combine(DefaultPath.OriginalDefaultFilePath, path/* + ".pdf"*/);
+                string fullPath = Path.Combine(DefaultPath.OriginalDefaultFilePath, path);
 
                 var content = System.IO.File.ReadAllBytes(fullPath);
                 return File(content, "application/pdf");
