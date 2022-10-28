@@ -142,38 +142,6 @@ namespace Library.Admin.Controllers
             {
                 try
                 {
-                    #region Validation
-                    /*if (ModelState.IsValid == false)
-                    {
-                        var errors = ModelState.SelectMany(x => x.Value.Errors).Select(x => x.ErrorMessage).ToList();
-                        var errorMessage = errors.Aggregate((message, value) =>
-                        {
-                            if (message.Length == 0)
-                                return value;
-
-                            return message + ", " + value;
-                        });
-
-                        TempData["Message"] = errorMessage;
-                        return RedirectToAction("ShowBooks");
-                    }*/
-
-                    /*
-                    viewModel.File.Category = new Category()
-                    {
-                        Id = viewModel.CategoryId
-                    };
-                    viewModel.File.OriginalLanguage = new Language()
-                    {
-                        Id = viewModel.OriginalLanguageId
-                    };
-
-                    viewModel.File.PublicationLanguage = new Language()
-                    {
-                        Id = viewModel.PublicationLanguageId
-                    };*/
-                    #endregion
-
                     if (viewModel.EditionStatusId == 0)
                         viewModel.File.EditionStatus = false;
                     else

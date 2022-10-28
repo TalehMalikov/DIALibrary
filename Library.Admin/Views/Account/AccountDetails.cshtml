@@ -1,0 +1,63 @@
+﻿@inject IHttpContextAccessor HttpContextAccessor
+@model AccountViewModel
+@{
+    Layout = "_Layout";
+}
+<div class="p-5">
+    <div class="text-center">
+        <h1 class="h4 text-gray-900 mb-4">Məlumatları yenilə!</h1>
+    </div>
+        <div class="form-group">
+            @Html.DropDownListFor(a=>a.Account.UserId,Model.AccountList,new {@class="form-select form-control btn-block form-control-register", @disabled = "disabled" })
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-6 mb-3 mb-sm-0">
+                <input type="text" readonly class="form-control form-control-register" id="exampleInputEmail"
+                       placeholder="Hesab adı" asp-for="@Model.Account.AccountName">
+            </div>
+            <div class="col-sm-6">
+                <input type="email" readonly class="form-control form-control-register" id="exampleInputEmail"
+                       placeholder="Email adresi" asp-for="@Model.Account.Email">
+            </div>
+        </div
+
+        <div class="form-group row">
+            <div class="col-sm-6 mb-3 mb-sm-0">
+                <input type="text" readonly class="form-control form-control-register" id="exampleInputEmail"
+                       placeholder="Rol" value="@HttpContextAccessor?.HttpContext?.Session.GetString("UserRole")">
+            </div>
+        </div>
+        <a class="btn btn-primary btn-user btn-block" onclick="ShowUpdateModal(this)" data-id="@Model.Account.Id" id="btnUpdate1">Məlumatları yenilə</a>
+        <hr>
+</div>
+
+
+@section Modals
+{
+    <div class="modal fade" id="createUpdateModal">
+    </div>
+}
+
+@section Scripts{
+    <script src="@Href("~/vendor/datatables/jquery.dataTables.min.js")"></script>
+    <script src="@Href("~/vendor/datatables/dataTables.bootstrap4.min.js")"></script>
+    <script src="@Href("~/js/demo/datatables-demo.js")"></script>
+
+    <script>
+        function ShowUpdateModal(elem) {
+            var dataId = $(elem).data("id");
+
+            $.ajax({
+                url: "/Account/SaveAccount?id=" + dataId,
+                success: function (data) {
+                    $('#createUpdateModal').html(data);
+                    $("#createUpdateModal").modal("show");
+                },
+                error : function(error) {
+                    console.log(error);
+                }
+            });
+        }
+    </script>
+}

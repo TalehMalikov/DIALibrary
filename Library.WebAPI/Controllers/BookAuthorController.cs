@@ -32,7 +32,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpPost]
-        [Route("add")]
+        [Route("addlist")]
         [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
         public IActionResult AddList(List<FileAuthorDtoForCrud> bookAuthors)
 
@@ -62,7 +62,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpPut]
-        [Route("update")]
+        [Route("updatelist")]
         [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
         public IActionResult UpdateList(List<FileAuthorDtoForCrud> bookAuthors)
 

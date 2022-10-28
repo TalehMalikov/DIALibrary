@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@inject IHttpContextAccessor HttpContextAccessor
+<!DOCTYPE html>
 <html lang="en">
 <head>
 
@@ -56,8 +57,8 @@
                 <div id="collapsePagesProfile" class="collapse" aria-labelledby="headingPages"
                      data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="update-details.html">Məlumatları yenilə</a>
-                        <a class="collapse-item" href="forgot-password.html">Parolu dəyiş</a>
+                        <a class="collapse-item" asp-controller="Account" asp-action="AccountDetails" asp-route-id="@HttpContextAccessor?.HttpContext?.Session.GetString("AdminId")">Məlumatları yenilə</a>
+                        <a class="collapse-item" asp-controller="Account" asp-action="ChangePassword" asp-route-id="@HttpContextAccessor?.HttpContext?.Session.GetString("AdminId")">Parolu dəyiş</a>
                     </div>
                 </div>
 
@@ -88,7 +89,8 @@
                         <!-- <a class="collapse-item" href="login.html">Login</a> -->
                         <a class="collapse-item" asp-action="NewUser" asp-controller="User">Yeni istifadəçi</a>
                         <a class="collapse-item" asp-action="NewAccount" asp-controller="Account">Yeni hesab</a>
-                        <a class="collapse-item" asp-action="ResetPassword" asp-controller="Authentication">Parol sıfırlama</a>
+                        <a class="collapse-item" asp-action="ResetPassword" asp-controller="Authentication" asp-route-id="@HttpContextAccessor?.HttpContext?.Session.GetString("AdminId")">Parol sıfırlama</a>
+                        
                         <div class="collapse-divider"></div>
                     </div>
                 </div>
