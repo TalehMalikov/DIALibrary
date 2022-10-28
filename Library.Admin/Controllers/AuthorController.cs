@@ -1,6 +1,8 @@
 ﻿using Library.Admin.Models;
 using Library.Admin.Services.Abstract;
+using Library.Entities.Dtos;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Library.Admin.Controllers
 {
@@ -78,13 +80,21 @@ namespace Library.Admin.Controllers
             if (accessToken != null)
             {
                 AuthorViewModel viewModel = new AuthorViewModel();
-
+                var authors = await _authorService.GetAll(accessToken);
+                //viewModel.AuthorList = new MultiSelectList(authors.Data, "Id", "FirstName");
+                for (int i = 0; i < authors.Data.Count; i++)
+                {
+                    viewModel.AuthorList.Add(new SelectListItem($"{authors.Data[i].FirstName} {authors.Data[i].LastName}", $"{authors.Data[i].Id}"));
+                }
                 if (fileId == 0)
                     return PartialView(viewModel);
 
                 var author = await _fileAuthorService.GetFileWithAuthors(fileId);
 
-                viewModel.FileAuthor.File = author.Data.File;
+                viewModel.FileAuthor = new FileAuthorDto()
+                {
+                    File = author.Data.File
+                };
                 viewModel.FileAuthor.Authors = author.Data.Authors;
 
                 return PartialView(viewModel);
@@ -92,7 +102,7 @@ namespace Library.Admin.Controllers
             return new NotFoundResult();
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> SaveFileAuthor(AuthorViewModel viewModel)
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");

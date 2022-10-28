@@ -21,7 +21,7 @@ namespace Library.Admin.Services.Concrete
         {
             using HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var result = await client.PutJsonAsync<Result, AccountDto>(BaseUrl + "Account/add", entity);
+            var result = await client.PutJsonAsync<Result, AccountDto>(BaseUrl + "Account/update", entity);
             return result;
         }
 
@@ -46,6 +46,12 @@ namespace Library.Admin.Services.Concrete
             using HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             var result = await client.GetJsonAsync<DataResult<Account>>(BaseUrl + "Account/getbyid/" + id);
+            return result;
+        }
+        public async Task<DataResult<Account>> GetByEmail(string name)
+        {
+            using HttpClient client = new HttpClient();
+            var result = await client.GetJsonAsync<DataResult<Account>>(BaseUrl + "Account/getbyemail?name=" + name);
             return result;
         }
     }

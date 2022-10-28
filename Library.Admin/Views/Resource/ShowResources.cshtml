@@ -152,7 +152,6 @@
             $.ajax({
                 url: "/Resource/SaveResource?id=" + dataId,
                 success: function (data) {
-                    console.log(data);
                     $('#createModal').html(data);
                     $("#createModal").modal("show");
                 },

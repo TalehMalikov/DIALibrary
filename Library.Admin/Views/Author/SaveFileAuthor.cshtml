@@ -1,0 +1,25 @@
+﻿@model AuthorViewModel
+<div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <!-- Modal content -->
+    <div class="modal-content" id="editDebtModelBody">
+        <div style="overflow:auto;" class="modal-body">
+            <form asp-controller="Author" asp-action="SaveAuthor" class="form-group">
+                <div class="modal-body">
+                    <input hidden asp-for="@Model.Author.Id" />
+                            @Html.DropDownListFor(a=>a.SelectedValues,Model.AuthorList,new {@class="chosen-author form-control",multiple="true"})
+                            @*@Html.ListBoxFor(a=>a.SelectedValues,Model.AuthorList);*@
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" type="submit" >Yadda saxla</button>
+                    <button class="btn btn-danger" type="button" data-dismiss="modal">Ləğv et</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(".chosen-author").chosen();
+</script>
+
+<partial name="_ValidationScriptsPartial" />

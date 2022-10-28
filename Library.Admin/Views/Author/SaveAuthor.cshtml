@@ -5,6 +5,7 @@
         <div style="overflow:auto;" class="modal-body">
             <form asp-controller="Author" asp-action="SaveAuthor" class="form-group">
                 <div class="modal-body">
+                        <input hidden asp-for="@Model.Author.Id" />
                         <div class="form-group row d-flex justify-content-center">
                             <div class="col-sm-6 col-sm-10 mb-3 mb-sm-0">
                                 <input type="text" class="form-control form-control-register"

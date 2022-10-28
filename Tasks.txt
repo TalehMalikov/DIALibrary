@@ -14,6 +14,7 @@ Admin panel footer
 
 Mən:
 Müəlliflər
+İcazələr
 
 Yeniliklər
 Confirm Resubmission																- 
@@ -29,5 +30,3 @@ ShowFilteredFiles = author
 3. Kateqoriyalar
 4. Sektorlar
 5. İmtiyazlar
-
-
