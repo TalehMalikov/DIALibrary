@@ -112,7 +112,7 @@ namespace Library.Admin.Controllers
                     LastModified = account.Data.LastModified
                 };
                 var accounts = await _userService.GetAll(accessToken);
-                var roles = await _roleService.GetAll(accessToken);
+                //var roles = await _roleService.GetAll(accessToken);
 
                 foreach (var ac in accounts.Data)
                 {
