@@ -37,7 +37,7 @@
                                 <td>@item.Speciality.Name</td>
                                 <td>@item.Speciality.Faculty.Name</td>
                                 <td>@item.Sector.Name</td>
-                                <td class="text-center"><a class="btn btn-primary px-4 bgupdate" onclick="ShowSaveModal(this)" data-id="@item.Id" id="btnUpdate">Yenilə</a></td>
+                                <td class="text-center"><a class="btn btn-primary px-4 bgupdate" onclick="ShowSaveModal(this)" data-controller="Group" data-action="SaveGroup" data-id="@item.Id" id="btnUpdate">Yenilə</a></td>
                                 <td class="text-center"><a class="btn btn-danger delete px-4" data-id="@item.Id" data-toggle="modal" data-target="#deleteModal" data-controller="Group" data-action="Delete">Sil</a></td>
                             </tr>
                         }
@@ -51,7 +51,7 @@
     <!-- Add User Modal - addUserModal -->
     <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
-        <form class="user" asp-action="Add" asp-controller="Group">
+        <form class="user" asp-action="Add" asp-controller="Group" >
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -92,42 +92,6 @@
 
     
 @section Scripts{
-    <script>
-        function ShowSaveModal(elem) {
-            var dataId = $(elem).data("id");
-
-            $.ajax({
-                url: "/Group/SaveGroup?id=" + dataId,
-                success: function (data) {
-                    console.log(data);
-                    $('#createModal').html(data);
-                    $("#createModal").modal("show");
-                },
-                error: function (error) {
-                    console.log(error);
-                }
-            });
-        }
-
-        $(document).ready(function () {
-
-            $('#dataTable tfoot th').each(function () {
-                var title = $(this).text();
-                $(this).html('<input type="text" placeholder="Search" style="width:100%;" />');
-            });
-
-            var table = $('#dataTable').DataTable();
-
-            table.columns().every(function () {
-                var that = this;
-
-                $('input', this.footer()).on('keyup change clear', function () {
-                    if (that.search() !== this.value) {
-                        that.search(this.value).draw();
-                    }
-                });
-            });
-        });
-    </script>
+   
     <script src="@Href("~/js/section.js")"></script>
 }

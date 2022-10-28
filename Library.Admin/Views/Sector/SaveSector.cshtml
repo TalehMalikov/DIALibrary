@@ -1,17 +1,17 @@
-﻿@model CategoryViewModel;
+﻿@model SectorViewModel;
 
 <div class="modal-dialog">
     <!-- Modal content -->
     <div class="modal-content" id="editDebtModelBody">
         <div style="overflow:auto;" class="modal-body">
-            <form class="user" asp-action="SaveCategory" asp-controller="Category" asp-antiforgery="true">
-                <input hidden asp-for="@Model.Category.Id" />
+            <form class="user" asp-action="SaveSector" asp-controller="Sector" asp-antiforgery="true">
+                <input hidden asp-for="@Model.Sector.Id" />
 
                 <div class="form-group">
                     <div class="col-sm-12">
-                        <label for="name" class="mr-sm-2">Kateqoriya adı:</label>
-                        <input asp-for="@Model.Category.Name" class="form-control mb-2 mr-sm-2" required />
-                        <span asp-validation-for="@Model.Category.Name" class="text-danger"></span>
+                        <label for="name" class="mr-sm-2">Sektor adı:</label>
+                        <input asp-for="@Model.Sector.Name" class="form-control mb-2 mr-sm-2" required />
+                        <span asp-validation-for="@Model.Sector.Name" class="text-danger"></span>
                     </div>
 
                 </div>

@@ -1,6 +1,7 @@
 ﻿using Library.Core.Extensions;
 using Library.DataAccess.Abstraction;
 using Library.Entities.Concrete;
+using Library.Entities.Dtos;
 using Npgsql;
 
 namespace Library.DataAccess.Implementation.PostgreSql
@@ -12,14 +13,14 @@ namespace Library.DataAccess.Implementation.PostgreSql
         {
             _connectionString = connectionString;
         }
-        public bool Add(AccountRole value)
+        public bool Add(AccountRoleDto value)
         {
             using NpgsqlConnection connection = new(_connectionString);
             connection.Open();
             string cmdString = "Insert Into AccountRoles(AccountId,RoleId) Values(@accountId,@roleId)";
             using NpgsqlCommand command = new(cmdString, connection);
-            command.Parameters.AddWithValue("@accountId", value.Account.Id);
-            command.Parameters.AddWithValue("@roleId", value.Id);
+            command.Parameters.AddWithValue("@accountId", value.AccountId);
+            command.Parameters.AddWithValue("@roleId", value.RoleId);
             return 1 == command.ExecuteNonQuery();
         }
 
@@ -61,7 +62,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
                             "lastname,fathername,birthdate,gender,users.isdeleted as userisdeleted," +
                             "users.lastmodified as userlastmodified,accountname,passwordhash,email," +
                             "accounts.isdeleted as accountisdeleted,accounts.lastmodified as accountlastmodified," +
-                            "roleid, roles.name as rolename from accountroles join accounts on accountid = accounts.id " +
+                            "roleid, roles.name as rolename, roles.description from accountroles join accounts on accountid = accounts.id " +
                             "join users on userid = users.id join roles on roleid = roles.id " +
                             "where accounts.isdeleted=false and users.isdeleted=false";
             using NpgsqlCommand cmd = new NpgsqlCommand(query, connection);
@@ -72,18 +73,41 @@ namespace Library.DataAccess.Implementation.PostgreSql
             return accountRoles;
         }
 
-        public bool Update(AccountRole value)
+        public bool Update(AccountRoleDto value)
         {
             using NpgsqlConnection connection = new(_connectionString);
             connection.Open();
             string cmdString = "Update AccountRoles Set AccountId=@accountId, RoleId=@roleId Where Id=@id";
             using NpgsqlCommand command = new(cmdString, connection);
-            command.Parameters.AddWithValue("@accountId", value.Account.Id);
-            command.Parameters.AddWithValue("@roleId", value.Id);
+            command.Parameters.AddWithValue("@accountId", value.AccountId);
+            command.Parameters.AddWithValue("@roleId", value.RoleId);
             command.Parameters.AddWithValue("@id", value.Id);
             return 1 == command.ExecuteNonQuery();
         }
 
+        public List<Role> GetRoles()
+        {
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
+            connection.Open();
+            string query = "Select * From Roles";
+            using NpgsqlCommand command = new NpgsqlCommand(query, connection);
+            var reader = command.ExecuteReader();
+            List<Role> roleList = new List<Role>();
+            while (reader.Read())
+                roleList.Add(ReadRole(reader));
+            return roleList;
+        }
+
+        private Role ReadRole(NpgsqlDataReader reader)
+        {
+            return new Role
+            {
+                Id = reader.Get<int>("Id"),
+                Name = reader.Get<string>("Name"),
+                Description = reader.Get<string>("Description")
+            };
+
+        }
         private AccountRole ReadAccountRoles(NpgsqlDataReader reader)
         {
             return new AccountRole
@@ -112,7 +136,8 @@ namespace Library.DataAccess.Implementation.PostgreSql
                 Role = new Role
                 {
                     Id = reader.Get<int>("RoleId"),
-                    Name = reader.Get<string>("RoleName")
+                    Name = reader.Get<string>("RoleName"),
+                    Description = reader.Get<string>("Description")
                 }
             };
         }

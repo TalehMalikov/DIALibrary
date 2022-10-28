@@ -4,6 +4,7 @@ using Library.Core.Result.Concrete;
 using Library.Core.Utils;
 using Library.DataAccess.Abstraction;
 using Library.Entities.Concrete;
+using Library.Entities.Dtos;
 
 namespace Library.Business.Concrete
 {
@@ -16,7 +17,7 @@ namespace Library.Business.Concrete
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IAccountRoleService.Get))]
-        public Result Add(AccountRole value)
+        public Result Add(AccountRoleDto value)
         {
             _accountRoleRepository.Add(value);
             return new SuccessResult(StatusMessagesUtil.AddSuccessMessage);
@@ -49,11 +50,20 @@ namespace Library.Business.Concrete
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IAccountRoleService.Get))]
-        public Result Update(AccountRole value)
+        public Result Update(AccountRoleDto value)
         {
             if(_accountRoleRepository.Update(value))
                 return new SuccessResult(StatusMessagesUtil.UpdateSuccessMessage);
             return new ErrorResult(StatusMessagesUtil.NotFoundMessageGivenId);
+        }
+
+        [CacheAspect]
+        public DataResult<List<Role>> GetRoles()
+        {
+            var result = _accountRoleRepository.GetRoles();
+            if (result.Count == 0)
+                return new ErrorDataResult<List<Role>>(result, StatusMessagesUtil.NotFoundMessage);
+            return new SuccessDataResult<List<Role>>(result);
         }
     }
 }

@@ -1,0 +1,54 @@
+﻿@model SectorViewModel;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Sektorlar</h1>
+<p class="mp-4">
+    <span class="pull-left">
+        <button type="button" class="btn btn-primary float-right mb-2" onclick="ShowSaveModal(this)" data-toggle="modal" data-id="0" id="myBtnAdd" data-action="SaveSector" data-controller="Sector">Əlavə et</button>
+    </span>
+</p>
+<br>
+
+<div class="card shadow mb-4 w-100">
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Sektor adı</th>
+                    <th>Yenilə</th>
+                    <th>Sil</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model.Sectors)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Name</td>
+                        <td class="text-center"><a class="btn btn-primary px-sm-3 bgupdate" onclick="ShowSaveModal(this)" data-action="SaveSector" data-controller="Sector" data-toggle="modal" data-id="@item.Id" id="btnUpdate">Yenilə</a></td>
+                        <td class="text-center"><a class="btn btn-danger delete px-sm-3" data-id="@item.Id" data-toggle="modal" data-target="#deleteModal" data-controller="Sector" data-action="Delete">Sil</a></td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Modals{
+    <div class="modal fade" id="createModal">
+    </div>
+
+}
+
+@section Scripts{
+        
+    <script src="@Href("~/js/section.js")"></script>
+}

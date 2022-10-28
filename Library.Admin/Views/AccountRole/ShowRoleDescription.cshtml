@@ -1,0 +1,15 @@
+﻿@model AccountRoleViewModel;
+
+<div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content" id="editDebtModelBody">
+        <div style="overflow: auto;" class="modal-body">
+            <h4 class="text-center">@Model.Role.Name</h4>
+            <p>
+                @Model.Role.Description
+            </p>
+        </div>
+    </div>
+</div>
+
+<partial name="_ValidationScriptsPartial" />

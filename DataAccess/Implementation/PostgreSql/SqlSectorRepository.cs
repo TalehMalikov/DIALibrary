@@ -39,6 +39,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             connection.Open();
             string cmdString = "Select * From Sectors Where Id=@id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
+            command.Parameters.AddWithValue("@id", id);
             var reader = command.ExecuteReader();
             if (reader.Read())
                 return ReadSector(reader);

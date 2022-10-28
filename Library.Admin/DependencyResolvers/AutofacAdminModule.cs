@@ -22,6 +22,7 @@ namespace Library.Admin.DependencyResolvers
             builder.RegisterType<FileTypeSevice>().As<IFileTypeService>().SingleInstance();
             builder.RegisterType<EducationalProgramService>().As<IEducationalProgramService>().SingleInstance();
             builder.RegisterType<AuthorService>().As<IAuthorService>().SingleInstance();
+            builder.RegisterType<AccountRoleService>().As<IAccountRoleService>().SingleInstance();
         }
     }
 }

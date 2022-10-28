@@ -9,5 +9,6 @@ namespace Library.Admin.Services.Abstract
         Task<Result> Update(string token, Sector entity);
         Task<Result> Delete(string token, int id);
         Task<DataResult<List<Sector>>> GetAll(string token);
+        Task<DataResult<Sector>> Get(string token, int id);
     }
 }

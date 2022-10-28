@@ -1,5 +1,6 @@
 ﻿using Library.Business.Abstraction;
 using Library.Entities.Concrete;
+using Library.Entities.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,7 @@ namespace Library.WebAPI.Controllers
         [HttpPost]
         [Route("add")]
         [Authorize(Roles = "SuperAdmin")]
-        public IActionResult Add(AccountRole accountRole)
+        public IActionResult Add(AccountRoleDto accountRole)
         {
             var result = _accountRoleService.Add(accountRole);
             if (result.Success)
@@ -31,7 +32,7 @@ namespace Library.WebAPI.Controllers
         [HttpPut]
         [Route("update")]
         [Authorize(Roles = "SuperAdmin")]
-        public IActionResult Update(AccountRole accountRole)
+        public IActionResult Update(AccountRoleDto accountRole)
         {
             var result = _accountRoleService.Update(accountRole);
             if (result.Success)
@@ -69,7 +70,7 @@ namespace Library.WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpDelete("{id:int}")]
+        [HttpDelete("delete/{id:int}")]
         [Authorize(Roles = "SuperAdmin")]
         public IActionResult Delete(int id)
         {
@@ -81,5 +82,19 @@ namespace Library.WebAPI.Controllers
 
             return BadRequest(result);
         }
+
+        [HttpGet("getroles")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        public IActionResult GetRoles()
+        {
+            var result = _accountRoleService.GetRoles();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
     }
 }

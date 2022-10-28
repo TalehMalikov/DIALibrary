@@ -7,7 +7,7 @@
 <h1 class="h3 mb-2 text-gray-800">İxtisaslar</h1>
 <p class="mp-4">
     <span class="pull-left">
-        <button type="button" class="btn btn-primary float-right mb-2" onclick="ShowSaveModal(this)" data-toggle="modal" data-id="0" id="myBtnAdd">Əlavə et</button>
+        <button type="button" class="btn btn-primary float-right mb-2" onclick="ShowSaveModal(this)" data-toggle="modal" data-controller="Specialty" data-action="SaveSpecialty" data-id="0" id="myBtnAdd">Əlavə et</button>
     </span>
 </p>
 <br>
@@ -33,7 +33,7 @@
                             <td>@item.Id</td>
                             <td>@item.Name</td>
                             <td>@item.Faculty.Name</td>
-                            <td class="text-center"><a class="btn btn-primary px-4 bgupdate" onclick="ShowSaveModal(this)" data-id="@item.Id" id="btnUpdate">Yenilə</a></td>
+                            <td class="text-center"><a class="btn btn-primary px-4 bgupdate" onclick="ShowSaveModal(this)" data-controller="Specialty" data-action="SaveSpecialty" data-id="@item.Id" id="btnUpdate">Yenilə</a></td>
                             <td class="text-center"><a class="btn btn-danger delete px-4" data-id="@item.Id" data-toggle="modal" data-target="#deleteModal" data-controller="Specialty" data-action="Delete">Sil</a></td>
                         </tr>
                     }
@@ -52,43 +52,7 @@
 
 
     @section Scripts{
-    <script>
-        function ShowSaveModal(elem) {
-            var dataId = $(elem).data("id");
-
-            $.ajax({
-                url: "/Specialty/SaveSpecialty?id=" + dataId,
-                success: function (data) {
-                    console.log(data);
-                    $('#createModal').html(data);
-                    $("#createModal").modal("show");
-                },
-                error: function (error) {
-                    console.log(error);
-                }
-            });
-        }
-
-        $(document).ready(function () {
-
-            $('#dataTable tfoot th').each(function () {
-                var title = $(this).text();
-                $(this).html('<input type="text" placeholder="Search" style="width:100%;" />');
-            });
-
-            var table = $('#dataTable').DataTable();
-
-            table.columns().every(function () {
-                var that = this;
-
-                $('input', this.footer()).on('keyup change clear', function () {
-                    if (that.search() !== this.value) {
-                        that.search(this.value).draw();
-                    }
-                });
-            });
-        });
-    </script>
+    
     <script src="@Href("~/js/section.js")"></script>
 
 }
