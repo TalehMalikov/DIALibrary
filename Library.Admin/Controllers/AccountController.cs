@@ -72,7 +72,7 @@ namespace Library.Admin.Controllers
                 AccountViewModel model = new AccountViewModel();
                 var account = await _accountService.Get(token, id);
                 
-                model.Account = new AccountDto()
+                model.AccountDto = new AccountDto()
                 {
                     Id=account.Data.Id,
                     UserId = account.Data.User.Id,
@@ -94,7 +94,7 @@ namespace Library.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> SaveAccount(int id)
+        public async Task<IActionResult> UpdateAccount(int id)
         {
             string accessToken = HttpContext.Session.GetString("AdminAccessToken");
             if (accessToken != null)
@@ -103,7 +103,7 @@ namespace Library.Admin.Controllers
                 var account = await _accountService.Get(accessToken, id);
                 if (account.Success == false)
                     return new NotFoundObjectResult(account.Message);
-                viewModel.Account = new AccountDto()
+                viewModel.AccountDto = new AccountDto()
                 {
                     Id=account.Data.Id,
                     UserId = account.Data.User.Id,
@@ -127,12 +127,12 @@ namespace Library.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveAccount(AccountViewModel viewModel)
+        public async Task<IActionResult> UpdateAccount(AccountViewModel viewModel)
         {
             string accessToken = HttpContext.Session.GetString("AdminAccessToken");
             if(accessToken!=null)
             {
-                var result = await _accountService.Update(accessToken, viewModel.Account);
+                var result = await _accountService.Update(accessToken, viewModel.AccountDto);
                 if(result.Success)
                     return RedirectToAction("AccountDetails", "Account", $"{viewModel.Account.Id}");
                 else

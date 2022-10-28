@@ -2,25 +2,24 @@
 <div class="modal-dialog  modal-lg">
     <div class="modal-content" id="editDebtModelBody">
         <div style="overflow:auto;" class="modal-body">
-            <form asp-controller="Account" asp-action="SaveAccount" class="form-group" >
-                <input hidden asp-for="Account.Id" />
-                <input hidden asp-for="Account.PasswordHash" />
-                @*<input hidden asp-for="Account.UserId" />*@
+            <form asp-controller="Account" asp-action="UpdateAccount" class="form-group" >
+                <input hidden asp-for="AccountDto.Id" />
+                <input hidden asp-for="AccountDto.PasswordHash" />
                 <div class="form-group">
                     <label for="name" class="mr-sm-2">İstifadəçi:</label>
-                    @Html.DropDownListFor(s=> s.Account.UserId, Model.AccountList,new {@class="custom-select form-control"})
+                    @Html.DropDownListFor(s=> s.AccountDto.UserId, Model.AccountList,new {@class="custom-select form-control"})
                 </div>
 
                 <div class="form-group">
                     <label for="name" class="mr-sm-2">Hesab adı:</label>
-                    <input asp-for="Account.AccountName" class="form-control mb-2 mr-sm-2" />
-                    <span asp-validation-for="Account.AccountName" class="text-danger"></span>
+                    <input asp-for="AccountDto.AccountName" class="form-control mb-2 mr-sm-2" />
+                    <span asp-validation-for="AccountDto.AccountName" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label for="address" class="mr-sm-2">Email adresi:</label>
-                    <input asp-for="Account.Email" class="form-control mb-2 mr-sm-2" />
-                    <span asp-validation-for="Account.Email" class="text-danger"></span>
+                    <input asp-for="AccountDto.Email" class="form-control mb-2 mr-sm-2" />
+                    <span asp-validation-for="AccountDto.Email" class="text-danger"></span>
                 </div>
 
                 <div class="modal-footer">
