@@ -7,9 +7,9 @@
     <div class="text-center">
         <h1 class="h4 text-gray-900 mb-4">Hesab əlavə et!</h1>
     </div>
-    <form class="user">
+    <form class="user" asp-antiforgery="true">
         <div class="form-group">
-            <select class=" form-select btn-block form-control-register" asp-for="Account.UserId">
+            <select class=" form-select btn-block form-control-register" asp-for="AccountDto.UserId">
                 <option selected>--İstifadəçi seçin--</option>
             </select>
         </div>
@@ -18,11 +18,11 @@
         <div class="form-group row">
             <div class="col-sm-6 mb-3 mb-sm-0">
                 <input type="accountname" class="form-control form-control-register" id="exampleInputEmail"
-                       placeholder="Hesab adı" asp-for="@Model.Account.AccountName">
+                       placeholder="Hesab adı" asp-for="@Model.AccountDto.AccountName">
             </div>
             <div class="col-sm-6">
                 <input type="email" class="form-control form-control-register" id="exampleInputEmail"
-                       placeholder="Email adresi" asp-for="@Model.Account.Email">
+                       placeholder="Email adresi" asp-for="@Model.AccountDto.Email">
             </div>
         </div>
 

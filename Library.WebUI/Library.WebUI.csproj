@@ -15,6 +15,11 @@
 
   <ItemGroup>
     <Content Remove="wwwroot\images\qr.png" />
+    <Content Remove="wwwroot\js\dropdown.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\js\dropdown.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,6 +28,7 @@
 
   <ItemGroup>
     <None Include="wwwroot\images\qr.png" />
+    <None Include="wwwroot\js\dropdown.js" />
   </ItemGroup>
 
   <ItemGroup>

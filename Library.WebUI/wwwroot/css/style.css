@@ -6,7 +6,9 @@
     outline: none;
     list-style: none;
 }
-
+/*#drop-box {
+    transform: translate3d(0px, 46.4px, 0px) !important;
+}*/
 #navtop {
     padding: 1rem;
     padding-top: 0;
@@ -233,6 +235,10 @@
     .li-bottom {
         flex-direction: column;
     }
+
+    /*#drop-box {
+        transform: translate3d(0px, 30.5px, 0px) !important;
+    }*/
 
     .line {
         width: 100%;
@@ -566,9 +572,9 @@
     font-weight: 400;
 }
 
-.sub:hover + .submenu {
+/*.sub:hover + .submenu {
     display: block !important;
-}
+}*/
 
 .submenu {
     position: absolute;
@@ -715,7 +721,7 @@
         width: 100px;
         right: -100px;
         bottom: -90px;
-        display: block !important;
+       /* display: block !important;*/
     }
 }
 

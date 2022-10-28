@@ -1,0 +1,57 @@
+﻿@model AccountRoleViewModel
+
+<div class="modal-dialog">
+    <!-- Modal content -->
+    <div class="modal-content" id="editDebtModelBody">
+        <div style="overflow:auto;" class="modal-body">
+            <form asp-controller="Group" asp-action="SaveGroup" class="form-group" asp-antiforgery="true">
+                <input hidden asp-for="@Model.AccountRole.Id" />
+                
+                @{
+                    if (Model.AccountRole.Id == 0)
+                    {
+                        <div class="form-group mb-sm-2">
+                            <label for="name" class="mr-sm-2">İstifadəçi:</label>
+                            <select class="custom-select form-control" asp-items="@Model.AccountList" asp-for="AccountRole.Account.Id">
+                                <option value="0" selected>İstifadəçi seçin</option>
+                            </select>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-group row mb-sm-2">
+                            <label for="firstName" class="mr-sm-2">Ad:</label>
+                            <input type="text" id="firstName" asp-for="AccountRole.Account.User.FirstName" class="form-control col-sm-12" readonly />
+                        </div>
+                        <div class="form-group row mb-sm-2">
+                            <label for="lastName" class="mr-sm-2">Soyad:</label>
+                            <input type="text" id="lastName" asp-for="AccountRole.Account.User.LastName" class="form-control col-sm-12" readonly />
+                        </div>
+                        <div class="form-group row mb-sm-2">
+                            <label for="fatherName" class="mr-sm-2">Ata adı:</label>
+                            <input type="text" id="fatherName" asp-for="AccountRole.Account.User.FirstName" class="form-control col-sm-12" readonly />
+                        </div>
+                        <div class="form-group row mb-sm-2">
+                            <label for="accountName" class="mr-sm-2">Hesab adı:</label>
+                            <input type="text" id="accountName" asp-for="AccountRole.Account.AccountName" class="form-control col-sm-12" readonly />
+                        </div>
+                    }
+                }
+                
+
+                <div class="form-group">
+                    <label for="name" class="mr-sm-2">İmtiyaz:</label>
+                    <select class="custom-select form-control" asp-items="@Model.RoleList" asp-for="@Model.AccountRole.Role.Id">
+                        <option selected >İmtiyaz seçin</option>
+                    </select>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary bgupdate">Yadda saxla</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<partial name="_ValidationScriptsPartial" />

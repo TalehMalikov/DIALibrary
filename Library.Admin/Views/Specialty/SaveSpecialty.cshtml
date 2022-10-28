@@ -4,7 +4,7 @@
     <!-- Modal content -->
     <div class="modal-content" id="editDebtModelBody">
         <div style="overflow:auto;" class="modal-body">
-            <form class="user" asp-action="SaveSpecialty" asp-controller="Specialty" asp-antiforgery="false">
+            <form class="user" asp-action="SaveSpecialty" asp-controller="Specialty" asp-antiforgery="true">
                 <input hidden asp-for="@Model.Specialty.Id" />
                 <div class="d-flex justify-content-center flex-column">
                     <div class="form-group row">
