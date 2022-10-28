@@ -8,5 +8,8 @@ namespace Library.Admin.Services.Abstract
     {
         Task<DataResult<List<Category>>> GetAll();
         Task<DataResult<Category>> Get(int id);
+        Task<Result> Add(string token, Category category);
+        Task<Result> Delete(string token,int id);
+        Task<Result> Update(string token,Category category);
     }
 }

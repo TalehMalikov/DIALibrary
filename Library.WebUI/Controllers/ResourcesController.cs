@@ -57,7 +57,8 @@ namespace Library.WebUI.Controllers
             string filePath, contentType, filename;
 
             filePath = Path.Combine(SystemDefaults.DefaultFilePath, file.FilePath);
-            contentType = "pdf/*";
+            
+            contentType = $"{Path.GetExtension(file.FilePath).TrimStart('.')}/*";
             filename = file.FilePath;
 
             if (file == null) return null;

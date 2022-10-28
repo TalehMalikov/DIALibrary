@@ -97,6 +97,14 @@ namespace Library.WebAPI.Controllers
 
             byte[] key = Encoding.ASCII.GetBytes("xecretKeywqejane");
 
+            var date = DateTime.UtcNow;
+            /*var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Expires = date.AddMinutes(10),
+                NotBefore = date,
+            };
+            */
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(
@@ -106,7 +114,8 @@ namespace Library.WebAPI.Controllers
                     new Claim(ClaimTypes.Name, account.Id.ToString()),
                     new Claim(ClaimTypes.Email, account.Email),
                 }),
-                Expires = DateTime.Now.AddHours(1.5D), //Token expires after 1.5 hours
+                Expires = date.AddHours(1), //Token expires after 1 hours
+                NotBefore = date,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 

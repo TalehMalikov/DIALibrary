@@ -28,7 +28,7 @@ namespace Library.WebUI.Controllers
             _accountService = accountService;
         }
 
-
+        
         public async Task<IActionResult> GetAllFilesByCategoryId(int id)
         {
             CategoryFileViewModel model = new CategoryFileViewModel
@@ -203,6 +203,7 @@ namespace Library.WebUI.Controllers
             return View(viewModel);
         }
 
+        [HttpPost]
         public async Task<IActionResult> ECatalogFilter(ECatalogViewModel viewModel)
         {
             bool isFiltered = false;
