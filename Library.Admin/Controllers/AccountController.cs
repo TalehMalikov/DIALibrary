@@ -17,11 +17,13 @@ namespace Library.Admin.Controllers
     {
         private readonly IAccountService _accountService;
         private readonly IUserService _userService;
+        private readonly IAccountRoleService _accountRoleService;
 
-        public AccountController(IAccountService accountService, IUserService userService)
+        public AccountController(IAccountService accountService, IUserService userService,IAccountRoleService accountRoleService)
         {
             _accountService = accountService;
             _userService = userService;
+            _accountRoleService = accountRoleService;
         }
 
         public IActionResult NewAccount()
@@ -70,24 +72,8 @@ namespace Library.Admin.Controllers
             if (token != null)
             {
                 AccountViewModel model = new AccountViewModel();
-                var account = await _accountService.Get(token, id);
-                
-                model.AccountDto = new AccountDto()
-                {
-                    Id=account.Data.Id,
-                    UserId = account.Data.User.Id,
-                    AccountName = account.Data.AccountName,
-                    PasswordHash = account.Data.PasswordHash,
-                    Email = account.Data.Email,
-                    IsDeleted = account.Data.IsDeleted,
-                    LastModified = account.Data.LastModified
-                };
-                List<Account> accounts = new List<Account>();
-                accounts.Add(account.Data);
-                foreach (var ac in accounts)
-                {
-                    model.AccountList.Add(new SelectListItem($"{ac.User.FirstName} {ac.User.LastName} {ac.User.FatherName}", $"{ac.User.Id}"));
-                }
+                var account = await _accountRoleService.GetAccountRoleByAccountId(token, id);
+                model.AccountRole = account.Data;
                 return View(model);
             }
             return new NotFoundResult();
@@ -103,23 +89,11 @@ namespace Library.Admin.Controllers
                 var account = await _accountService.Get(accessToken, id);
                 if (account.Success == false)
                     return new NotFoundObjectResult(account.Message);
-                viewModel.AccountDto = new AccountDto()
-                {
-                    Id=account.Data.Id,
-                    UserId = account.Data.User.Id,
-                    AccountName = account.Data.AccountName,
-                    PasswordHash = account.Data.PasswordHash,
-                    Email = account.Data.Email,
-                    IsDeleted = account.Data.IsDeleted,
-                    LastModified = account.Data.LastModified
-                };
-                var accounts = await _userService.GetAll(accessToken);
-                //var roles = await _roleService.GetAll(accessToken);
+                var accountRole = await _accountRoleService.GetAccountRoleByAccountId(accessToken, id);
+                viewModel.AccountRole = accountRole.Data;
 
-                foreach (var ac in accounts.Data)
-                {
-                    viewModel.AccountList.Add(new SelectListItem($"{ac.FirstName} {ac.LastName} {ac.FatherName}", $"{ac.Id}"));
-                }
+                var roles = await _accountRoleService.GetRoles(accessToken);
+                viewModel.Roles = new SelectList(roles.Data,"Id","Name");
 
                 return PartialView(viewModel);
             }
@@ -132,32 +106,40 @@ namespace Library.Admin.Controllers
             string accessToken = HttpContext.Session.GetString("AdminAccessToken");
             if(accessToken!=null)
             {
-                var result = await _accountService.Update(accessToken, viewModel.AccountDto);
-                if(result.Success)
-                    return RedirectToAction("AccountDetails", "Account", $"{viewModel.Account.Id}");
-                else
-                    return BadRequest(result);
+                var updateUser = await _userService.Update(accessToken,viewModel.AccountRole.Account.User);
+                if(updateUser.Success)
+                {
+                    var accountRoleDto = new AccountRoleDto()
+                    {
+                        Id=viewModel.AccountRole.Id,
+                        RoleId = viewModel.AccountRole.Role.Id,
+                        AccountId = viewModel.AccountRole.Account.Id
+                    };
+                    var updateAccountRole = await _accountRoleService.Update(accessToken, accountRoleDto);
+                    if(updateAccountRole.Success)
+                    {
+                        var accountDto = new AccountDto()
+                        {
+                            Id = viewModel.AccountRole.Account.Id,
+                            UserId = viewModel.AccountRole.Account.User.Id,
+                            AccountName = viewModel.AccountRole.Account.AccountName,
+                            PasswordHash = viewModel.AccountRole.Account.PasswordHash,
+                            Email = viewModel.AccountRole.Account.Email,
+                            IsDeleted = viewModel.AccountRole.Account.IsDeleted,
+                            LastModified = viewModel.AccountRole.Account.LastModified
+                        };
+                        var result = await _accountService.Update(accessToken, accountDto);
+                        if (result.Success)
+                            return RedirectToAction("AccountDetails", "Account", new { id = $"{viewModel.AccountRole.Account.Id}" });
+                        else
+                            return BadRequest(result);
+                    }
+                    else
+                        return BadRequest(updateAccountRole);
+                }
+                return BadRequest(updateUser.Message);
             }
             return new NotFoundResult();
         }
-
-
-        [HttpGet]
-        public async Task<IActionResult> SaveAccount(int id)
-        {
-            var model = new AccountViewModel();
-            string token = HttpContext.Session.GetString("AdminAccessToken");
-            var account = await _accountService.Get(token, id);
-            model.Account = account.Data;
-            return PartialView(model);
-        }
-
-        //[HttpPut]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> SaveAccount(AccountViewModel model)
-        //{
-        //    string token = HttpContext.Session.GetString("AdminAccessToken");
-            
-        //}
     }
 }
