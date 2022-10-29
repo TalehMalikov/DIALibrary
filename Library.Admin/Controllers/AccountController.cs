@@ -63,15 +63,15 @@ namespace Library.Admin.Controllers
             return new NotFoundResult();
         }
 
-        [HttpGet]
-        public async Task<IActionResult> SaveAccount(int id)
-        {
-            var model = new AccountViewModel();
-            string token = HttpContext.Session.GetString("AdminAccessToken");
-            var account = await _accountService.Get(token, id);
-            model.Account = account.Data;
-            return PartialView(model);
-        }
+        //[HttpGet]
+        //public async Task<IActionResult> SaveAccount(int id)
+        //{
+        //    var model = new AccountViewModel();
+        //    string token = HttpContext.Session.GetString("AdminAccessToken");
+        //    var account = await _accountService.Get(token, id);
+        //    model.Account = account.Data;
+        //    return PartialView(model);
+        //}
 
         //[HttpPut]
         //[ValidateAntiForgeryToken]
@@ -90,7 +90,7 @@ namespace Library.Admin.Controllers
                 AccountViewModel model = new AccountViewModel();
                 var account = await _accountService.Get(token, id);
                 
-                model.Account = new AccountDto()
+                model.AccountDto = new AccountDto()
                 {
                     Id=account.Data.Id,
                     UserId = account.Data.User.Id,
@@ -121,7 +121,7 @@ namespace Library.Admin.Controllers
                 var account = await _accountService.Get(accessToken, id);
                 if (account.Success == false)
                     return new NotFoundObjectResult(account.Message);
-                viewModel.Account = new AccountDto()
+                viewModel.AccountDto = new AccountDto()
                 {
                     Id=account.Data.Id,
                     UserId = account.Data.User.Id,
@@ -150,7 +150,7 @@ namespace Library.Admin.Controllers
             string accessToken = HttpContext.Session.GetString("AdminAccessToken");
             if(accessToken!=null)
             {
-                var result = await _accountService.Update(accessToken, viewModel.Account);
+                var result = await _accountService.Update(accessToken, viewModel.AccountDto);
                 if(result.Success)
                     return RedirectToAction("AccountDetails", "Account", $"{viewModel.Account.Id}");
                 else

@@ -72,8 +72,9 @@ namespace Library.Admin.Controllers
             if (id == 0)
             {
                 var accounts = await _accountService.GetAll(token);
-                model.AccountList = new SelectList(accounts.Data, "Id", "FirstName LastName FatherName");
-                return PartialView();
+                foreach (var ac in accounts.Data)
+                    model.AccountList.Add(new SelectListItem($"{ac.User.FirstName} {ac.User.LastName} {ac.User.FatherName}", $"{ac.Id}"));
+                return PartialView(model);
             }
             var accountRole = await _roleService.GetAccountRole(token, id);
             model.AccountRole = accountRole.Data;

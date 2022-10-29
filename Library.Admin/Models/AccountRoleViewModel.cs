@@ -10,6 +10,6 @@ namespace Library.Admin.Models
         public List<AccountRole> AccountRoles { get; set; }
         public AccountRole AccountRole { get; set; }
         public SelectList RoleList { get; set; }
-        public SelectList AccountList { get; set; }
+        public List<SelectListItem> AccountList { get; set; } = new List<SelectListItem>();
     }
 }
