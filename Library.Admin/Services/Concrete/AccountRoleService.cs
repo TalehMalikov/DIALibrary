@@ -33,6 +33,13 @@ namespace Library.Admin.Services.Concrete
             return result;
         }
 
+        public async Task<DataResult<AccountRole>> GetAccountRoleByAccountId(string token, int accountId)
+        {
+            var accountRoles = await GetAccountRoles(token);
+            var result = accountRoles.Data.FirstOrDefault(r => r.Account.Id == accountId);
+            return new SuccessDataResult<AccountRole>(result);
+        }
+
         public async Task<Result> Add(string token, AccountRoleDto role)
         {
             using HttpClient client = new HttpClient();

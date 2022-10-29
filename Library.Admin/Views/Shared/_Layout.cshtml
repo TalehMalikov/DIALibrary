@@ -231,7 +231,7 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                  aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="update-details.html">
+                                <a class="dropdown-item" asp-controller="Account" asp-action="AccountDetails" asp-route-id="@HttpContextAccessor?.HttpContext?.Session.GetString("AdminId")">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Hesabım
                                 </a>

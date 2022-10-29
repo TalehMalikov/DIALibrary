@@ -1,0 +1,70 @@
+﻿@model AccountViewModel
+<div class="modal-dialog  modal-lg">
+    <div class="modal-content" id="editDebtModelBody">
+        <div style="overflow:auto;" class="modal-body">
+            <form asp-controller="Account" asp-antiforgery="true" asp-action="UpdateAccount" class="form-group" >
+                <input hidden asp-for="AccountRole.Account.Id" />
+                <input hidden asp-for="AccountRole.Account.User.Id" />
+                <input hidden asp-for="AccountRole.Id" />
+                <input hidden asp-for="AccountRole.Account.PasswordHash" />
+                
+                <div class="form-group">
+                    <label for="userFirstName" class="mr-sm-2">Adı:</label>
+                    <input asp-for="AccountRole.Account.User.FirstName" class="form-control mb-2 mr-sm-2" />
+                    <span asp-validation-for="AccountRole.Account.User.FirstName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="userLastName" class="mr-sm-2">Soyadı:</label>
+                    <input asp-for="AccountRole.Account.User.LastName" class="form-control mb-2 mr-sm-2" />
+                    <span asp-validation-for="AccountRole.Account.User.LastName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="userFatherName" class="mr-sm-2">Ata adı:</label>
+                    <input asp-for="AccountRole.Account.User.FatherName" class="form-control mb-2 mr-sm-2" />
+                    <span asp-validation-for="AccountRole.Account.User.FatherName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="userBirthdate" class="mr-sm-2">Doğum tarixi:</label>
+                    <input asp-for="AccountRole.Account.User.BirthDate" class="form-control mb-2 mr-sm-2" />
+                    <span asp-validation-for="AccountRole.Account.User.BirthDate" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="userBirthdate" class="mr-sm-2">Cins:</label>
+                    <div class="col-sm-6 ">
+                        @Html.RadioButtonFor(model=>model.AccountRole.Account.User.Gender,false)
+                        <label for="gender">Kişi</label><br>
+                
+                        @Html.RadioButtonFor(model=>model.AccountRole.Account.User.Gender,true)
+                        <label for="gender">Qadın</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="name" class="mr-sm-2">Hesab adı:</label>
+                    <input asp-for="AccountRole.Account.AccountName" class="form-control mb-2 mr-sm-2" />
+                    <span asp-validation-for="AccountRole.Account.AccountName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="address" class="mr-sm-2">Email adresi:</label>
+                    <input asp-for="AccountRole.Account.Email" class="form-control mb-2 mr-sm-2" />
+                    <span asp-validation-for="AccountRole.Account.Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="address" class="mr-sm-2">Rol:</label>
+                    @Html.DropDownListFor(s=>s.AccountRole.Role.Id,Model.Roles,new {@class= "form-select btn-block form-control-register" })
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary bgupdate">Yadda saxla</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<partial name="_ValidationScriptsPartial" />

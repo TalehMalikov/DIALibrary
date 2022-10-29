@@ -7,28 +7,69 @@
     <div class="text-center">
         <h1 class="h4 text-gray-900 mb-4">Məlumatları yenilə!</h1>
     </div>
-        <div class="form-group">
-            @Html.DropDownListFor(a=>a.AccountDto.UserId,Model.AccountList,new {@class="form-select form-control btn-block form-control-register", @disabled = "disabled" })
+        <div class="form-group row">
+            <div class="col-sm-6 mb-3 mb-sm-0">
+                    <label for="userFirstName" class="mr-sm-2">Adı:</label>
+                    <input type="text" readonly class="form-control form-control-register" id="exampleInputEmail"
+                       placeholder="Ad" asp-for="@Model.AccountRole.Account.User.FirstName">
+                </div>
+            <div class="col-sm-6">
+                <label for="userLastName" class="mr-sm-2">Soyadı:</label>
+                <input type="text" readonly class="form-control form-control-register" id="exampleInputEmail"
+                       placeholder="Soyad" asp-for="@Model.AccountRole.Account.User.LastName">
+            </div>
         </div>
 
         <div class="form-group row">
             <div class="col-sm-6 mb-3 mb-sm-0">
-                <input type="text" readonly class="form-control form-control-register" id="exampleInputEmail"
-                       placeholder="Hesab adı" asp-for="@Model.AccountDto.AccountName">
+                    <label for="userFatherName" class="mr-sm-2">Ata adı:</label>
+                    <input type="text" readonly class="form-control form-control-register" id="exampleInputEmail"
+                       placeholder="Ata adı" asp-for="@Model.AccountRole.Account.User.FatherName">
             </div>
             <div class="col-sm-6">
-                <input type="email" readonly class="form-control form-control-register" id="exampleInputEmail"
-                       placeholder="Email adresi" asp-for="@Model.AccountDto.Email">
+                   <label for="userBirthdate" class="mr-sm-2">Doğum tarixi:</label>
+                   <input type="date" readonly class="form-control form-control-register" id="exampleInputEmail"
+                       placeholder="Ad günü" asp-for="@Model.AccountRole.Account.User.BirthDate">
             </div>
-        </div
+        </div>
 
         <div class="form-group row">
             <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="accountName" class="mr-sm-2">Hesab adı:</label>
                 <input type="text" readonly class="form-control form-control-register" id="exampleInputEmail"
-                       placeholder="Rol" value="@HttpContextAccessor?.HttpContext?.Session.GetString("UserRole")">
+                       placeholder="Hesab adı" asp-for="@Model.AccountRole.Account.AccountName">
+            </div>
+            <div class="col-sm-6">
+                <label for="email" class="mr-sm-2">Email:</label>
+                <input type="email" readonly class="form-control form-control-register" id="exampleInputEmail"
+                       placeholder="Email adresi" asp-for="@Model.AccountRole.Account.Email">
             </div>
         </div>
-        <a class="btn btn-primary btn-user btn-block" onclick="ShowUpdateModal(this)" data-id="@Model.AccountDto.Id" id="btnUpdate1">Məlumatları yenilə</a>
+
+        <div class="form-group row">
+            <div class="col-sm-6 mb-3 mb-sm-0">
+                <label for="accountrole" class="mr-sm-2">Rol:</label>
+                <input type="text" readonly class="form-control form-control-register" id="exampleInputEmail"
+                       placeholder="Rol" asp-for="@Model.AccountRole.Role.Name">
+            </div>
+            <div class="col-sm-6">
+                <label for="accountrole" class="mr-sm-2">Cins:</label>
+                @{
+                    if(Model.AccountRole.Account.User.Gender)
+                    {
+                        <input type="text" readonly class="form-control form-control-register" id="exampleInputEmail"
+                        placeholder="Hesab adı" value="Qadın">
+            
+                    }
+                    else
+                    {
+                        <input type="text" readonly class="form-control form-control-register" id="exampleInputEmail"
+                        placeholder="Hesab adı" value="Kişi">
+                    }
+            }
+            </div>
+        </div>
+        <a class="btn btn-primary btn-user btn-block" onclick="ShowUpdateModal(this)" data-id="@Model.AccountRole.Account.Id" id="btnUpdate1">Məlumatları yenilə</a>
         <hr>
 </div>
 
@@ -49,7 +90,7 @@
             var dataId = $(elem).data("id");
 
             $.ajax({
-                url: "/Account/SaveAccount?id=" + dataId,
+                url: "/Account/UpdateAccount?id=" + dataId,
                 success: function (data) {
                     $('#createUpdateModal').html(data);
                     $("#createUpdateModal").modal("show");

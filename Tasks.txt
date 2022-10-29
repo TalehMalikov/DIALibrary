@@ -16,6 +16,7 @@ Mən:
 File - online/offline problem
 Müəlliflər
 İcazələr
+asp-antiforgery
 
 Yeniliklər
 Confirm Resubmission																- 
