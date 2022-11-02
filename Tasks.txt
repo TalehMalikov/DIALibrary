@@ -32,3 +32,11 @@ ShowFilteredFiles = author
 3. İmtiyazlar
 
 
+
+---------------------------------------------
+				Review
+1. Confirm resubmission
+2. Antiforgery
+3. Token Handling
+4. Script handling
+5. Navbar

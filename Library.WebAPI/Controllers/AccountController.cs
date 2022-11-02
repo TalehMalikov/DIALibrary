@@ -83,5 +83,30 @@ namespace Library.WebAPI.Controllers
 
             return BadRequest(result);
         }
+
+        [HttpPost("add")]
+        public IActionResult Add(AccountDto account)
+        {
+            var result = _accountService.Add(account);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpPost("getbyaccountname")]
+        [Authorize(Roles = "Admin,SuperAdmin")]
+        public IActionResult GetByAccountName(string accountName)
+        {
+            var result = _accountService.GetByAccountName(accountName);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
     }
 }

@@ -1,0 +1,62 @@
+﻿@model AccountRoleViewModel;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Adminlər</h1>
+<p class="mp-4">
+    <span class="pull-left">
+        <button type="button" class="btn btn-primary float-right mb-2" onclick="ShowSaveModal(this)" data-toggle="modal" data-id="0" id="myBtnAdd" data-action="SaveAccountRole" data-controller="AccountRole">Əlavə et</button>
+    </span>
+</p>
+<br>
+
+<div class="card shadow mb-4 w-100">
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Ad</th>
+                        <th>Soyad</th>
+                        <th>Ata adı</th>
+                        <th>Hesab</th>
+                        <th>İmtiyaz</th>
+                        <th>Yenilə</th>
+                        <th>Sil</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.AccountRoles)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.Account.User.FirstName</td>
+                            <td>@item.Account.User.LastName</td>
+                            <td>@item.Account.User.FatherName</td>
+                            <td>@item.Account.AccountName</td>
+                            <td>@item.Role.Name</td>
+                            <td class="text-center"><a class="btn btn-primary px-sm-3 bgupdate" onclick="ShowSaveModal(this)" data-action="SaveAccountRole" data-controller="AccountRole" data-toggle="modal" data-id="@item.Id" id="btnUpdate">Yenilə</a></td>
+                            <td class="text-center"><a class="btn btn-danger delete px-sm-3" data-id="@item.Id" data-toggle="modal" data-target="#deleteModal" data-controller="AccountRole" data-action="Delete">Sil</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Modals{
+    <div class="modal fade" id="createModal">
+    </div>
+
+}
+
+    @section Scripts{
+
+    <script src="@Href("~/js/section.js")"></script>
+}

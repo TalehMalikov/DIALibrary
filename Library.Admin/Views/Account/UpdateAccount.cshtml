@@ -1,5 +1,5 @@
 ﻿@model AccountViewModel
-<div class="modal-dialog  modal-lg">
+<div class="modal-dialog">
     <div class="modal-content" id="editDebtModelBody">
         <div style="overflow:auto;" class="modal-body">
             <form asp-controller="Account" asp-antiforgery="true" asp-action="UpdateAccount" class="form-group" >
@@ -34,12 +34,17 @@
 
                 <div class="form-group">
                     <label for="userBirthdate" class="mr-sm-2">Cins:</label>
-                    <div class="col-sm-6 ">
-                        @Html.RadioButtonFor(model=>model.AccountRole.Account.User.Gender,false)
-                        <label for="gender">Kişi</label><br>
-                
-                        @Html.RadioButtonFor(model=>model.AccountRole.Account.User.Gender,true)
-                        <label for="gender">Qadın</label>
+                    <div class="col-sm-6 d-flex">
+                        <div class="mr-sm-3 mr-4">
+                            @Html.RadioButtonFor(model => model.AccountRole.Account.User.Gender, false)
+                            <label for="gender">Kişi</label><br>
+                        </div>
+                        
+                        <div>
+                            @Html.RadioButtonFor(model => model.AccountRole.Account.User.Gender, true)
+                            <label for="gender">Qadın</label>
+                        </div>
+                        
                     </div>
                 </div>
 

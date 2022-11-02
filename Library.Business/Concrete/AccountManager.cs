@@ -27,6 +27,14 @@ namespace Library.Business.Concrete
             return new SuccessDataResult<Account>(result);
         }
 
+        public DataResult<Account> GetByAccountName(string accountName)
+        {
+            var result = _accountRepository.GetByAccountName(accountName);
+            if (result == null)
+                return new ErrorDataResult<Account>(result, StatusMessagesUtil.NotFoundMessage);
+            return new SuccessDataResult<Account>(result);
+        }
+
         [CacheAspect]
         public DataResult<List<Role>> GetRoles(Account account)
         {
@@ -35,10 +43,12 @@ namespace Library.Business.Concrete
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IAccountService.Get))]
         [ValidationAspect(typeof(AccountValidator))]
-        public Result Add(AccountDto value)
+        public DataResult<int> Add(AccountDto value)
         {
-            _accountRepository.Add(value);
-            return new SuccessResult(StatusMessagesUtil.AddSuccessMessage);
+            var result = _accountRepository.Add(value);
+            if (result != 0)
+                return new SuccessDataResult<int>(result,StatusMessagesUtil.AddSuccessMessage);
+            return new ErrorDataResult<int>();
         }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IAccountService.Get))]

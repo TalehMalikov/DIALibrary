@@ -25,8 +25,8 @@
                 <a class="logo" asp-controller="Home" asp-action="Index">
                     <img src="~/images/logo.png" width="100rem" class="d-inline-block">
                     <span class="logo-text text-white">Azərbaycan Respublikası Prezidenti yanında Dövlət İdarəçilik
-                        Akademiyası
-                        Elekton Kitabxanası</span>
+                        Akademiyasının
+                        Elektron Kitabxanası</span>
                 </a>
 
             </nav>
@@ -34,7 +34,7 @@
     </header>
 
     <section id="search">
-        <form asp-controller="File" asp-action="ECatalogFilter">
+        <form asp-controller="File" asp-action="ECatalogFilter" asp-antiforgery="true">
             <div class="container-fluid">
             <div class="search-div">
                 <div class="top">

@@ -28,8 +28,7 @@
                         <th>Ata adı</th>
                         <th>Doğum tarixi</th>
                         <th>Sonuncu düzəliş</th>
-                        <th>Yenilə</th>
-                        <th>Sil</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -42,8 +41,16 @@
                             <td>@item.FatherName</td>
                             <td>@item.BirthDate.ToString("d")</td>
                             <td>@item.LastModified.ToString("d")</td>
-                            <td class="text-center"><a class="btn btn-secondary px-4 px-sm-4 bgupdate" onclick="ShowSaveModal(this)" data-id="@item.Id" id="btnUpdate">Aktiv et</a></td>
-                            <td class="text-center"><a class="btn btn-danger delete px-4 px-sm-4" data-id="@item.Id" data-toggle="modal" data-target="#deleteModal" data-controller="User" data-action="Delete">Sil</a></td>
+                            @{
+                                if (item.IsStudent)
+                                {
+                                    <td>Tələbə</td>
+                                }
+                                else
+                                {
+                                    <td>İşçi</td>
+                                }
+                            }
                         </tr>
                     }
                 </tbody>

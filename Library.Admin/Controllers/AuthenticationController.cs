@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using Library.Core.Utils;
+using Library.Entities.Dtos;
 
 namespace Library.Admin.Controllers
 {
@@ -32,6 +34,7 @@ namespace Library.Admin.Controllers
                 HttpContext.Session.SetString("AdminAccessToken", result.Data.Token);
                 HttpContext.Session.SetString("AdminEmail", result.Data.Email);
                 HttpContext.Session.SetString("UserRole", GetRole(result.Data.Token));
+                HttpContext.Session.SetString("FullName",result.Data.FullName);
 
                 var account = await _accountService.GetByEmail(result.Data.Email);
                 HttpContext.Session.SetString("AdminId",account.Data.Id.ToString());
@@ -67,5 +70,51 @@ namespace Library.Admin.Controllers
 
             return RedirectToAction("Login");
         }
+
+        public IActionResult ResetPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdatePassword(AuthViewModel model)
+        {
+            string token = HttpContext.Session.GetString("AdminAccessToken");
+            var account = await _authService.GetAccountByAccountName(token, model.AccountName);
+            if (account.Success)
+            {
+                var viewModel = new AuthViewModel();
+                viewModel.Account = account.Data;
+                return View(viewModel);
+            }
+
+            return RedirectToAction("ResetPassword");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(AuthViewModel model)
+        {
+            string token = HttpContext.Session.GetString("AdminAccessToken");
+            if (!string.IsNullOrWhiteSpace(model.Password))
+            {
+
+                var result = await _accountService.Update(token, new AccountDto
+                {
+                    Id = model.Account.Id,
+                    AccountName = model.Account.AccountName,
+                    Email = model.Account.Email,
+                    IsDeleted = model.Account.IsDeleted,
+                    LastModified = DateTime.Now,
+                    UserId = model.Account.User.Id,
+                    PasswordHash = SecurityUtil.ComputeSha256Hash(model.Password.Trim())
+                });
+                if (result.Success)
+                    return RedirectToAction("Index", "Home");
+            }
+
+            return RedirectToAction("ResetPassword");
+        }
+
+
     }
 }

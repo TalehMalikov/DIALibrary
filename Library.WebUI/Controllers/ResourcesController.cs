@@ -10,6 +10,17 @@ namespace Library.WebUI.Controllers
     {
         private readonly IFileService _fileService;
 
+        private string ReformatString(string text)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (char c in text)
+            {
+                if (c == '/' | c == '\\')
+                    sb.Append("");
+                else sb.Append(c);
+            }
+            return sb.ToString();
+        }
         public ResourcesController(IFileService fileService)
         {
             _fileService = fileService;
@@ -20,6 +31,7 @@ namespace Library.WebUI.Controllers
         {
             try
             {
+                name = ReformatString(name);
                 string fullPath = Path.Combine(SystemDefaults.DefaultPhotoPath, name);
 
                 var content = System.IO.File.ReadAllBytes(fullPath);
@@ -37,6 +49,7 @@ namespace Library.WebUI.Controllers
         {
             try
             {
+                name = ReformatString(name);
                 string fullPath = Path.Combine(SystemDefaults.DefaultFilePath, name);
 
                 var content = System.IO.File.ReadAllBytes(fullPath);
@@ -57,7 +70,7 @@ namespace Library.WebUI.Controllers
             string filePath, contentType, filename;
 
             filePath = Path.Combine(SystemDefaults.DefaultFilePath, file.FilePath);
-            
+
             contentType = $"{Path.GetExtension(file.FilePath).TrimStart('.')}/*";
             filename = file.FilePath;
 

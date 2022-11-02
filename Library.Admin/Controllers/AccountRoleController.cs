@@ -104,5 +104,17 @@ namespace Library.Admin.Controllers
             });
             return RedirectToAction("ShowAccountRoles");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ShowAdmins()
+        {
+            string token = HttpContext.Session.GetString("AdminAccessToken");
+            var result = await _roleService.GetAccountRoles(token);
+            var model = new AccountRoleViewModel
+            {
+                AccountRoles = result.Data.Where(p => p.Role.Name.ToLower() != "user").ToList()
+            };
+            return View(model);
+        }
     }
 }

@@ -89,9 +89,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <!-- <a class="collapse-item" href="login.html">Login</a> -->
                         <a class="collapse-item" asp-action="NewUser" asp-controller="User">Yeni istifadəçi</a>
-                        <a class="collapse-item" asp-action="NewAccount" asp-controller="Account">Yeni hesab</a>
                         <a class="collapse-item" asp-action="ResetPassword" asp-controller="Authentication" asp-route-id="@HttpContextAccessor?.HttpContext?.Session.GetString("AdminId")">Parol sıfırlama</a>
-                        
                         <div class="collapse-divider"></div>
                     </div>
                 </div>
@@ -110,7 +108,7 @@
                         </a>
                         <div class="collapse" id="collapseUser">
                             <a class="collapse-item" asp-action="ShowUsers" asp-controller="User">Ümumi istifadəçilər</a>
-                            <a class="collapse-item" asp-action="ShowAdmins" asp-controller="User">Adminlər</a>
+                            <a class="collapse-item" asp-action="ShowAdmins" asp-controller="AccountRole">Adminlər</a>
                             <a class="collapse-item" asp-action="ShowStudents" asp-controller="Student">Tələbələr</a>
                             <a class="collapse-item" asp-action="Index" asp-controller="Account">Hesablar</a>
                         </div>
@@ -225,7 +223,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Taleh Məlikov</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">@HttpContextAccessor.HttpContext.Session.GetString("FullName")</span>
                                 <img class="img-profile rounded-circle" src="@Href("~/img/undraw_profile.svg")">
                             </a>
                             <!-- Dropdown - User Information -->
