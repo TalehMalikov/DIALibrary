@@ -18,57 +18,56 @@
     </section>
 }
 
-<body>
-        <section id="bookResult" class="my-5 px-lg-3">
-            <div class="container-fluid">
-                    <div class="title d-flex">
-                        <h3 class="text-bold"><span class="text-bold">[kitab sayı: @Model.FileModel.FileAuthors.Data.Count]</span></h3>
-                    </div>
-                    <hr/>
 
-                    <div class="book-result d-flex flex-column" data-current-page="1" aria-live="polite" id="paginated-list">
-                        @foreach (var item in Model.FileModel.FileAuthors.Data)
-                        {
-                            <div class="pagination-image">
-                                <div class="book-div py-4">
-                                    <a asp-controller="File" asp-action="ShowFileInfo" asp-route-guid="@item.File.GUID">
-                                        <img src="@Url.Action("Picture","Resources", new{ name = item.File.PhotoPath})" class="result-img">
-                                    </a>
-                                    <div class="book-info d-flex flex-column px-4 ">
-                                        <h6 class="h6"><span class="text-bold">Kitab Adı: </span>@item.File.Name</h6>
-                                        <h6 class="h6"><span class="text-bold">Müəllif:</span>
-                                            @{
-                                                var builder = new StringBuilder();
-                                                foreach (var m in item.Authors)
-                                                {
-                                                    builder.Append(m.FirstName);
-                                                    builder.Append(" ");
-                                                    builder.Append(m.LastName);
-                                                    builder.Append(", ");
-                                                    <a>@builder.ToString().Trim().Trim(',')</a>
-                                                }
-                                            }    
-                                        </h6>
-                                        <h6 class="h6"><span class="text-bold">Səhife: </span>@item.File.PageNumber</h6>
-                                    </div>
-                                </div>
-                                <hr>
-                            </div>
-                        }
-                    </div>
-                    <nav class="pagination-container">
-                        <button class="pagination-button" id="prev-button" aria-label="Previous page" title="Previous page">
-                            &lt;
-                        </button>
-
-                        <div id="pagination-numbers">
-
-                        </div>
-
-                        <button class="pagination-button" id="next-button" aria-label="Next page" title="Next page">
-                            &gt;
-                        </button>
-                    </nav>
+    <section id="bookResult" class="my-5 px-lg-3">
+        <div class="container-lg">
+            <div class="title d-flex">
+                <h3 class="text-bold"><span class="text-bold">[kitab sayı: @Model.FileModel.FileAuthors.Data.Count]</span></h3>
             </div>
-        </section>
-</body>
+            <hr />
+
+            <div class="book-result d-flex flex-column" data-current-page="1" aria-live="polite" id="paginated-list">
+            @foreach (var item in Model.FileModel.FileAuthors.Data)
+            {
+                <div class="pagination-image">
+                    <div class="book-div py-4">
+                        <a asp-controller="File" asp-action="ShowFileInfo" asp-route-guid="@item.File.GUID">
+                            <img src="@Url.Action("Picture","Resources", new{ name = item.File.PhotoPath})" class="result-img">
+                        </a>
+                        <div class="book-info d-flex flex-column px-4 ">
+                            <h6 class="h6"><span class="text-bold">Kitab Adı: </span>@item.File.Name</h6>
+                            <h6 class="h6">
+                                <span class="text-bold">Müəllif:</span>
+                                @{
+                                    var builder = new StringBuilder();
+                                    foreach (var m in item.Authors)
+                                    {
+                                        builder.Append(m.FirstName);
+                                        builder.Append(" ");
+                                        builder.Append(m.LastName);
+                                        builder.Append(", ");
+                                        <a>@builder.ToString().Trim().Trim(',')</a>
+                                    }
+                                }
+                            </h6>
+                            <h6 class="h6"><span class="text-bold">Səhife: </span>@item.File.PageNumber</h6>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            }
+        </div>
+        <nav class="pagination-container">
+            <button class="pagination-button" id="prev-button" aria-label="Previous page" title="Previous page">
+                &lt;
+            </button>
+
+            <div id="pagination-numbers">
+            </div>
+
+            <button class="pagination-button" id="next-button" aria-label="Next page" title="Next page">
+                &gt;
+            </button>
+        </nav>
+    </div>
+</section>

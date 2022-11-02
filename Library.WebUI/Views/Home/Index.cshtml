@@ -13,8 +13,8 @@
             </a>
 
             <div class="dropdown">
-                <a class="btn btn-menu dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                   data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="btn btn-menu dropdown-toggle" href="#" role="button"
+                   data-bs-toggle="dropdown" aria-expanded="false" data-toggle="dropdown">
                     Bizim kitabxana
                 </a>
 
@@ -25,8 +25,32 @@
                     
                 </ul>
             </div>
-
+            
             <div class="dropdown">
+                <a class="btn btn-menu dropdown-toggle kitabxanaBtn" role="button" id="dropdownMenuLink"
+                   data-bs-toggle="dropdown" aria-expanded="false" data-toggle="dropdown" data-submenu >
+                    E-Kitabxana
+                </a>
+
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" asp-action="ECatalogIndex" asp-controller="File">E-Kataloq</a>
+                    <a class="dropdown-item" asp-controller="Category" asp-action="Index">E-Kitablar</a>
+                    <div class="dropdown dropright dropdown-submenu">
+                        <a class="dropdown-item dropdown-toggle" href="#">E-Resurslar</a>
+
+                        <div class="dropdown-menu">
+                            @foreach(var item in @ViewBag.AllFileTypes)
+                            {
+                                <a asp-controller="File" asp-action="ShowFilteredFiles" asp-route-id="@item.Id" class="dropdown-item">@item.Name</a>
+                            }
+                        </div>
+                    </div>
+                    <a class="dropdown-item" asp-controller="File" asp-action="ShowOurPublications">Nəşrlərimiz</a>
+                </div>
+                        
+
+            </div>
+            @*<div class="dropdown">
                 <a class="btn btn-menu dropdown-toggle kitabxanaBtn" role="button" id="dropdownMenuLink"
                    data-bs-toggle="dropdown" aria-expanded="false" asp-action="Index" asp-controller="Category">
                     E-Kitabxana
@@ -45,13 +69,13 @@
                     </ul>
                     <li><a class="dropdown-item" asp-controller="File" asp-action="ShowOurPublications">Bizim nəşrlərimiz</a></li>
                 </ul>
-            </div>
+            </div>*@
 
             @{
                 if(!string.IsNullOrEmpty(HttpContextAccessor?.HttpContext?.Session.GetString("AccessToken")))
                 {
                     <a class="btn btn-menu " asp-action="Index" asp-controller="PrivateOffice" >
-                        Şəxsi kabinet
+                        Kabinetim
                     </a>
                 }
                 else

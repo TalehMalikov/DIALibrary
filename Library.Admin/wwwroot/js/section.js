@@ -9,7 +9,7 @@ function handleRadioClick() {
     }
 }
 
-const radioButtons = document.querySelectorAll('input[name="section"]');
+const radioButtons = document.querySelectorAll('input[name="User.IsStudent"]');
 radioButtons.forEach(radio => {
     radio.addEventListener('click', handleRadioClick);
 });

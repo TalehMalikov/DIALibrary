@@ -71,8 +71,8 @@ namespace Library.DataAccess.Implementation.PostgreSql
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdString =
-                "Insert Into Users(FirstName,LastName,FatherName,BirthDate,Gender,IsDeleted,LastModified) " +
-                "Values(@firstName,@lastName,@fatherName,@birthDate,@gender,@isDeleted,@lastModified) RETURNING Users.Id";
+                "Insert Into Users(FirstName,LastName,FatherName,BirthDate,Gender,IsDeleted,LastModified,IsStudent) " +
+                "Values(@firstName,@lastName,@fatherName,@birthDate,@gender,@isDeleted,@lastModified,@isStudent) RETURNING Users.Id";
             using NpgsqlCommand cmd = new NpgsqlCommand(cmdString, connection);
             cmd.Parameters.AddWithValue("@firstName", student.FirstName);
             cmd.Parameters.AddWithValue("@lastName", student.LastName);
@@ -81,6 +81,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             cmd.Parameters.AddWithValue("@gender", student.Gender);
             cmd.Parameters.AddWithValue("@isDeleted", false);
             cmd.Parameters.AddWithValue("@lastModified", DateTime.Now);
+            cmd.Parameters.AddWithValue("@isStudent", student.IsStudent);
             int id = Convert.ToInt32(cmd.ExecuteScalar());
             return id;
         }
@@ -141,7 +142,8 @@ namespace Library.DataAccess.Implementation.PostgreSql
                 BirthDate = reader.Get<DateTime>(nameof(User.BirthDate)),
                 LastModified = reader.Get<DateTime>(nameof(User.LastModified)),
                 IsDeleted = reader.Get<bool>(nameof(User.IsDeleted)),
-                Gender = reader.Get<bool>(nameof(User.Gender))
+                Gender = reader.Get<bool>(nameof(User.Gender)),
+                IsStudent = reader.Get<bool>(nameof(User.IsStudent))
             };
         }
     }

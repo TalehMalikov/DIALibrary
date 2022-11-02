@@ -29,6 +29,14 @@ ShowFilteredFiles = author
 	Əhməd
 1. Hesablar
 2. Hesabım
-3. Kateqoriyalar
-4. Sektorlar
-5. İmtiyazlar
+3. İmtiyazlar
+
+
+
+---------------------------------------------
+				Review
+1. Confirm resubmission
+2. Antiforgery
+3. Token Handling
+4. Script handling
+5. Navbar

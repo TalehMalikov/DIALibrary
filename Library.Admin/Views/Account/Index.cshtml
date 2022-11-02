@@ -1,0 +1,61 @@
+﻿@model AccountViewModel;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Hesablar</h1>
+<p class="mp-4">
+    <span class="pull-left">
+        <a type="button" class="btn btn-primary float-right mb-2" asp-action="NewUser" asp-controller="User">Əlavə et</a>
+    </span>
+</p>
+<br>
+
+<div class="card shadow mb-4 w-100">
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Ad</th>
+                        <th>Soyad</th>
+                        <th>Ata adı</th>
+                        <th>Hesab</th>
+                        <th>Email</th>
+                        <th>Yenilə</th>
+                        <th>Sil</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Accounts)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.User.FirstName</td>
+                            <td>@item.User.LastName</td>
+                            <td>@item.User.FatherName</td>
+                            <td>@item.AccountName</td>
+                            <td>@item.Email</td>
+                            <td class="text-center"><a class="btn btn-primary px-sm-3 bgupdate" onclick="ShowSaveModal(this)" data-action="UpdateAccount" data-controller="Account" data-toggle="modal" data-id="@item.Id" id="btnUpdate">Yenilə</a></td>
+                            <td class="text-center"><a class="btn btn-danger delete px-sm-3" data-id="@item.Id" data-toggle="modal" data-target="#deleteModal" data-controller="Account" data-action="Delete">Sil</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Modals{
+    <div class="modal fade" id="createModal">
+    </div>
+
+}
+
+@section Scripts{
+    <script src="@Href("~/js/section.js")"></script>
+}

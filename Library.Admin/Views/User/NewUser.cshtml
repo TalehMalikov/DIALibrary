@@ -8,21 +8,22 @@
     <div class="text-center">
         <h1 class="h4 text-gray-900 mb-4">İstifadəçi əlavə et!</h1>
     </div>
-    <div class="form-group row">
-        <div class = "col-sm-2 d-flex justify-content-between">
-            <div>
-                <input type="radio" id="hide" name="section" checked/>
-                <label for="hide">İşçi</label>
-            </div>
+    
+    <form class="user" asp-action="NewUser" asp-controller="User">
+        <div class="form-group row">
+            <div class = "col-sm-6 d-flex">
+                <div class="mr-sm-4">
+                   
+                    @Html.RadioButtonFor(model => model.User.IsStudent,false,new { @checked=true,@id="hide"})
+                    <label for="hide">İşçi</label>
+                </div>
                             
-            <div>
-                <input type="radio" id="show" name="section" />
-                <label for="show">Tələbə</label>
+                <div>
+                    @Html.RadioButtonFor(model => model.User.IsStudent,true,new{@checked=false,@id="show"})
+                    <label for="show">Tələbə</label>
+                </div>
             </div>
         </div>
-    </div>
-    <form class="user" asp-action="NewUser" asp-controller="User">
-
         <!-- Ad,soyad -->
         <div class="form-group row">
             <div class="col-sm-6 mb-3 mb-sm-0">
@@ -48,6 +49,30 @@
                        onfocus="(this.type='date')" asp-for="@Model.User.BirthDate" required>
             </div>
         </div>
+        
+        <div class="form-group row">
+            <div class="col-sm-6 mb-3 mb-sm-0">
+                <input type="text" class="form-control form-control-register" id="exampleInputEmail"
+                       placeholder="Hesab adı" asp-for="@Model.AccountDto.AccountName" required="">
+            </div>
+            <div class="col-sm-6">
+                <input type="email" class="form-control form-control-register" id="exampleInputEmail"
+                       placeholder="Email adresi" asp-for="@Model.AccountDto.Email">
+            </div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group row">
+            <div class="col-sm-6 mb-3 mb-sm-0">
+                <input type="password" class="form-control form-control-register"
+                       id="exampleInputPassword" placeholder="Parol" asp-for="@Model.Password">
+            </div>
+            <div class="col-sm-6">
+                <input type="password" class="form-control form-control-register"
+                       id="exampleRepeatPassword" placeholder="Parolu təkrarla" asp-for="@Model.RepeatPassword">
+            </div>
+        </div>
+        
         <div id="studentSection" style="display: none;" class="form-group row">
             <div class="form-group row">
                 <div class="col-sm-6 mb-3 mb-sm-0">
@@ -75,6 +100,8 @@
                 <label for="gender">Qadın</label>
             </div>
         </div>
+        
+        
         
         <button type="submit" class="btn btn-primary btn-user btn-block">
             Qeydiyyatı tamamla

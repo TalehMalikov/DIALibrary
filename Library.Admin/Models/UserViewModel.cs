@@ -7,9 +7,12 @@ namespace Library.Admin.Models
     public class UserViewModel
     {
         public User User { get; set; }
+        public AccountDto AccountDto { get; set; }
         public StudentDto Student { get; set; }
         public List<User> Users { get; set; } = new List<User>();
         public SelectList SpecialtyList { get; set; }
         public SelectList GroupList { get; set; }
+        public string Password { get; set; }
+        public string RepeatPassword { get; set; }
     }
 }

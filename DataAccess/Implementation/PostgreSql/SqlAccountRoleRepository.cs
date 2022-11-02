@@ -42,7 +42,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
                             "lastname,fathername,birthdate,gender,users.isdeleted as userisdeleted," +
                             "users.lastmodified as userlastmodified,accountname,passwordhash,email," +
                             "accounts.isdeleted as accountisdeleted,accounts.lastmodified as accountlastmodified," +
-                            "roleid, roles.name as rolename from accountroles join accounts on accountid = accounts.id " +
+                            "roleid, roles.name as rolename, roles.description from accountroles join accounts on accountid = accounts.id " +
                             "join users on userid = users.id join roles on roleid = roles.id " +
                             "where accountroles.id = @id and accounts.isdeleted=false and users.isdeleted=false";
             using NpgsqlCommand cmd = new NpgsqlCommand(query, connection);

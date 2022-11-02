@@ -204,6 +204,7 @@ namespace Library.WebUI.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ECatalogFilter(ECatalogViewModel viewModel)
         {
             bool isFiltered = false;

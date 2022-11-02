@@ -13,12 +13,12 @@ namespace Library.DataAccess.Implementation.PostgreSql
         {
             _connectionString = connectionString;
         }
-        public bool Add(AccountDto value)
+        public int Add(AccountDto value)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdText = "insert into Accounts(AccountName,UserId,PasswordHash,Email,LastModified) " +
-                             "values(@accountname,@userId,@passwordHash,@email,@lastModified)";
+                             "values(@accountname,@userId,@passwordHash,@email,@lastModified) RETURNING Accounts.Id";
             using NpgsqlCommand cmd = new NpgsqlCommand(cmdText, connection);
             cmd.Parameters.AddWithValue("@accountName", value.AccountName);
             cmd.Parameters.AddWithValue("@userid", value.UserId);
@@ -26,8 +26,8 @@ namespace Library.DataAccess.Implementation.PostgreSql
             cmd.Parameters.AddWithValue("@email", value.Email);
             cmd.Parameters.AddWithValue("@lastModified", value.LastModified);
 
-            int affectedCount = cmd.ExecuteNonQuery();
-            return affectedCount == 1;
+            int affectedCount = Convert.ToInt32(cmd.ExecuteScalar());
+            return affectedCount;
         }
 
         public bool Delete(int id)
@@ -111,20 +111,38 @@ namespace Library.DataAccess.Implementation.PostgreSql
             return roles;
         }
 
+        public Account GetByAccountName(string accountName)
+        {
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
+            connection.Open();
+            string query = "select Accounts.id as accountid,accountname,passwordhash,email," +
+                           "Accounts.isdeleted as AccountIsDeleted,Accounts.lastmodified as AccountLastModified, " +
+                           "Users.Id as UserId,firstname,lastname,fathername,birthdate,gender," +
+                           "Users.IsDeleted as UserIsDeleted,Users.LastModified as UserLastModified " +
+                           "from accounts inner join Users on Users.id = accounts.userid where Upper(Accounts.AccountName)=@accountname and Users.IsDeleted=false and Accounts.IsDeleted = false";
+            using NpgsqlCommand cmd = new NpgsqlCommand(query, connection);
+            cmd.Parameters.AddWithValue("@accountname", accountName.ToUpper());
+            var reader = cmd.ExecuteReader();
+            if (reader.Read())
+                return ReadAccount(reader);
+            return null;
+        }
+
         public bool Update(AccountDto value)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             string cmdText = "update Accounts set AccountName=@accountname, UserId=@userid, " +
-                             "PasswordHash=@passwordhash, Email=@email, LastModified=@lastmodified " +
-                             "where Id=@id and IsDeleted=false";
+                             "PasswordHash=@passwordhash, Email=@email, LastModified=@lastmodified, " +
+                             "IsDeleted=@isDeleted where Id=@id";
             using NpgsqlCommand cmd = new NpgsqlCommand(cmdText, connection);
             cmd.Parameters.AddWithValue("@id", value.Id);
             cmd.Parameters.AddWithValue("@accountname", value.AccountName);
             cmd.Parameters.AddWithValue("@userid", value.UserId);
             cmd.Parameters.AddWithValue("@passwordhash", value.PasswordHash);
             cmd.Parameters.AddWithValue("@email", value.Email);
-            cmd.Parameters.AddWithValue("@lastmodified", value.LastModified);
+            cmd.Parameters.AddWithValue("@lastmodified", DateTime.Now);
+            cmd.Parameters.AddWithValue("@isDeleted", value.IsDeleted);
 
             return 1 == cmd.ExecuteNonQuery();
         }

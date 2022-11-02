@@ -1,4 +1,5 @@
-﻿@model UserViewModel
+﻿@using Microsoft.CodeAnalysis.VisualBasic.Syntax
+@model UserViewModel
 @{
     ViewData["Title"] = "ShowUsers";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -10,7 +11,7 @@
 <p class="mp-4">
     Burdakı istifadəçilər işçi heyəti və hal hazırda akademiyada təhsil alan tələbələrdir.
     <span class="pull-left">
-        <button type="button" class="btn btn-primary float-right" onclick="ShowSaveModal(this)" data-toggle="modal" data-controller="User" data-action="SaveUser" data-id="0" id="myBtnAdd">Əlavə et</button>
+        <a type="button" class="btn btn-primary float-right" asp-action="NewUser" asp-controller="User">Əlavə et</a>
         <a class="btn btn-primary float-right mr-2" asp-action="DeactiveUsers" asp-controller="User">Bloklanmış istifadəçilər</a>
     </span>
 </p>
@@ -29,8 +30,7 @@
                         <th>Ata adı</th>
                         <th>Doğum tarixi</th>
                         <th>Sonuncu düzəliş</th>
-                        <th>Yenilə</th>
-                        <th>Sil</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,8 +43,17 @@
                             <td>@item.FatherName</td>
                             <td>@item.BirthDate.ToString("d")</td>
                             <td>@item.LastModified.ToString("d")</td>
-                            <td class="text-center"><a class="btn btn-secondary px-4 px-sm-4 bgupdate" onclick="ShowSaveModal(this)" data-toggle="modal" data-controller="User" data-action="SaveUser" data-id="@item.Id" id="btnUpdate">Yenilə</a></td>
-                            <td class="text-center"><a class="btn btn-danger delete px-4 px-sm-4" data-id="@item.Id" data-toggle="modal" data-target="#deleteModal" data-controller="User" data-action="Delete">Sil</a></td>
+                            @{
+                                if (item.IsStudent)
+                                {
+                                    <td>Tələbə</td>
+                                }
+                                else
+                                {
+                                    <td>İşçi</td>
+                                }
+                            }
+                            
                         </tr>
                     }
                 </tbody>

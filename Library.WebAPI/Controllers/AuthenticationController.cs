@@ -59,7 +59,8 @@ namespace Library.WebAPI.Controllers
             return Ok(new SuccessDataResult<LoginResponseDto>(new LoginResponseDto
             {
                 Email = account.Email,
-                Token = token
+                Token = token,
+                FullName = account.User.FirstName + " " + account.User.LastName,
             }));
             
         }

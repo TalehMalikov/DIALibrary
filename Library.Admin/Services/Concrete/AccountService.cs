@@ -9,11 +9,11 @@ namespace Library.Admin.Services.Concrete
 {
     public class AccountService : BaseService ,IAccountService
     {
-        public async Task<Result> Add(string token, AccountDto account)
+        public async Task<DataResult<int>> Add(string token, AccountDto account)
         {
             using HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var result = await client.PostJsonAsync<Result, AccountDto>(BaseUrl + "Account/add", account);
+            var result = await client.PostJsonAsync<DataResult<int>, AccountDto>(BaseUrl + "Account/add", account);
             return result;
         }
 

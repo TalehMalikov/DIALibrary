@@ -72,8 +72,9 @@ namespace Library.Admin.Controllers
             if (id == 0)
             {
                 var accounts = await _accountService.GetAll(token);
-                model.AccountList = new SelectList(accounts.Data, "Id", "FirstName LastName FatherName");
-                return PartialView();
+                foreach (var ac in accounts.Data)
+                    model.AccountList.Add(new SelectListItem($"{ac.User.FirstName} {ac.User.LastName} {ac.User.FatherName}", $"{ac.Id}"));
+                return PartialView(model);
             }
             var accountRole = await _roleService.GetAccountRole(token, id);
             model.AccountRole = accountRole.Data;
@@ -102,6 +103,18 @@ namespace Library.Admin.Controllers
                 AccountId = model.AccountRole.Account.Id
             });
             return RedirectToAction("ShowAccountRoles");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ShowAdmins()
+        {
+            string token = HttpContext.Session.GetString("AdminAccessToken");
+            var result = await _roleService.GetAccountRoles(token);
+            var model = new AccountRoleViewModel
+            {
+                AccountRoles = result.Data.Where(p => p.Role.Name.ToLower() != "user").ToList()
+            };
+            return View(model);
         }
     }
 }

@@ -11,5 +11,6 @@ namespace Library.Entities.Concrete
         public bool Gender { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime LastModified { get; set; }
+        public bool IsStudent { get; set; }
     }
 }
