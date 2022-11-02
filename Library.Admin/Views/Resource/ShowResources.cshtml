@@ -27,6 +27,10 @@
             </span>
             </p>
         }
+
+        @*<input type="hidden" id="selectedmemebers" value="@Model.selectedmembers" />
+        @Html.DropDownListFor(x => x.members, Model.AuthorList, new { @id="Members", @class= "select2 form-select",  multiple = "multiple", tabindex="3" })
+        <span asp-validation-for="members" class="text-danger"></span>*@
     }
     <br>
 
@@ -133,7 +137,6 @@
         </div>
     </div>
 }
-
 
 @section Scripts{
     <script src="@Href("~/vendor/datatables/jquery.dataTables.min.js")"></script>

@@ -52,7 +52,6 @@ namespace Library.WebUI.Controllers
         {
             var result = await _accountService.GetByEmail(model.Email);
             string email = result.Data.Email;
-            //string email = "eehmedov17@gmail.com";
             if (result.Success & model.Email == email)
             {
                 string code = MailKitUtil.GenerateVerificationCode();

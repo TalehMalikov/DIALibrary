@@ -26,9 +26,14 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="name" class="mr-sm-2">Qüvvədədir :</label>
-                    @Html.DropDownListFor(s=> s.IsActiveId, Model.BooleanList,new {@class="custom-select form-control"})
-                    @Html.ValidationMessageFor(s => s.IsActiveId, "", new {@class = "text-danger"})
+                    <label for="activationStatus" class="mr-sm-2">Qüvvədədir:</label>
+                    <div class="col-sm-6 ">
+                        @Html.RadioButtonFor(model=>model.EducationalProgram.IsActive,true)
+                        <label >Hə</label><br>
+                
+                        @Html.RadioButtonFor(model=>model.EducationalProgram.IsActive,false)
+                        <label >Yox</label>
+                    </div>
                 </div>
 
                 <div class="form-group">

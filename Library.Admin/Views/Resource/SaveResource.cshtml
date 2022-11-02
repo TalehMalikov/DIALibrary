@@ -1,9 +1,11 @@
-﻿@model ResourceViewModel
+﻿
+
+@model ResourceViewModel
 <div class="modal-dialog modal-dialog-scrollable modal-lg">
     <!-- Modal content -->
     <div class="modal-content" id="editDebtModelBody">
         <div style="overflow:auto;" class="modal-body">
-            <form asp-controller="Resource" asp-action="SaveResource" class="form-group" >
+            <form asp-controller="Resource" asp-action="SaveResource" class="form-group" enctype="multipart/form-data" >
                 <input hidden asp-for="File.Id" />
                 <input hidden asp-for="File.FilePath" />
                 <input hidden asp-for="File.PhotoPath" />
@@ -35,6 +37,27 @@
                 </div>
 
                 <div class="form-group">
+                    <input type="hidden" id="selectedmemebers" value="@Model.Selectedmembers" />
+                    @Html.DropDownListFor(x => x.Members, Model.AuthorList, new { @id="Members", @class= "select2 form-select form-control select2-dropdown",  multiple = "multiple", tabindex="3" })
+                    <span asp-validation-for="Members" class="text-danger"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="name" class="mr-sm-2">Mövcudluq:</label>
+                    <div class = "col-sm-2 d-flex justify-content-between">
+                        <div>
+                            <input type="radio" id="hide" name="section" checked/>
+                            <label for="hide">Fiziki  </label>
+                        </div>
+                        <div>
+                            <input type="radio" id="show" name="section" />
+                            <label for="show">Elektron  </label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div id="studentSection" class="form-group">
                     @if (Model.File.Name != null)
                     {
                         <a class="btn btn-info" name="submit" id="submitFileButton">Faylı dəyiş</a>
@@ -64,9 +87,14 @@
                     }
                 </div>
 
-                <div class="form-group">
-                    <label for="name" class="mr-sm-2">Nəşrimizdir:</label>
-                    @Html.DropDownListFor(s=> s.EditionStatusId, Model.BooleanList,new {@class="custom-select form-control"})
+                <div class="form-group" >
+                    <label for="editionStatus" class="mr-sm-2">Tip:</label>
+                    <div class="col-sm-2 d-flex justify-content-between">
+                        @Html.RadioButtonFor(model=>model.File.EditionStatus,false)
+                        <label for="gender">Xarici mənbə</label><br>
+                        @Html.RadioButtonFor(model=>model.File.EditionStatus,true)
+                        <label for="gender">Bizim nəşr</label>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -100,40 +128,60 @@
         </div>
     </div>
 </div>
-<script>
-        $(document).ready(function()
-        {
-            let fileCount = 1;
-            let photoCount = 1;
-             $("#submitFileButton").click(function () {
-            //your code here
-              fileCount++;
-            if(fileCount % 2 == 0)
-            {
-                 $( "#chooseFileDiv" ).append
-                 //('<input type="file" asp-for="AddedFile" class="form-control mb-2 mr-sm-2 fileUpload" id="inputGroupFile02"> <span asp-validation-for="AddedFile" class="text-danger"></span>');
-                 ('<input type="file" class="form-control mb-2 mr-sm-2" id="inputGroupFile02" data-val="true" data-val-required="The AddedFile field is required." name="AddedFile">   <span class="text-danger field-validation-valid" data-valmsg-for="AddedFile" data-valmsg-replace="true"></span>');
-            }
-            else
-            {
-                $("#chooseFileDiv").empty()
-            }
-
-         });
-
-        $("#submitPhotoButton").click(function () {
-            //your code here
-            photoCount++;
-            if(photoCount % 2 == 0)
-            {
-              $( "#choosePhotoDiv" ).append
-              ('<input type="file" class="form-control mb-2 mr-sm-2 fileUpload" id="inputGroupFile02" data-val="true" data-val-required="The AddedPicture field is required." name="AddedPicture">  <span class="text-danger field-validation-valid" data-valmsg-for="AddedPicture" data-valmsg-replace="true"></span>');
-            }
-            else
-            {
-                $("#choosePhotoDiv").empty()
-            }
-        });
-    });
-</script>
 <partial name="_ValidationScriptsPartial" />
+
+<link rel="stylesheet" href="~/scripts/select2.min.css"/>
+<script type="text/javascript" src="~/scripts/select2.min.js"></script>
+<script src="@Href("~/js/section.js")"></script>
+
+ <script>
+ $(document).ready(function()
+ {
+    let fileCount = 1;
+    let photoCount = 1;
+     $("#submitFileButton").click(function () {
+    //your code here
+      fileCount++;
+    if(fileCount % 2 == 0)
+    {
+         $( "#chooseFileDiv" ).append
+         ('<input type="file" class="form-control mb-2 mr-sm-2" id="inputGroupFile02" data-val="true" data-val-required="The AddedFile field is required." name="AddedFile">   <span class="text-danger field-validation-valid" data-valmsg-for="AddedFile" data-valmsg-replace="true"></span>');
+    }
+    else
+    {
+        $("#chooseFileDiv").empty()
+    }
+
+ });
+
+ $("#submitPhotoButton").click(function () {
+     photoCount++;
+     if(photoCount % 2 == 0)
+     {
+       $( "#choosePhotoDiv" ).append
+       ('<input type="file" class="form-control mb-2 mr-sm-2 fileUpload" id="inputGroupFile02" data-val="true" data-val-required="The AddedPicture field is required." name="AddedPicture">  <span class="text-danger field-validation-valid" data-valmsg-for="AddedPicture" data-valmsg-replace="true"></span>');
+     }
+     else
+     {
+         $("#choosePhotoDiv").empty()
+     }
+ });
+});
+</script>
+   <script type="text/javascript">
+        $(function () { 
+            //get the selectedmember from the hidden field.
+            var selectedmembers = $("#selectedmemebers").val().split(",");
+            //set the value in the dropdownlist.
+            $("#Members").select2({
+                multiple: true,
+              });
+              $('#Members').val(selectedmembers).trigger('change'); 
+        });
+    </script>
+<style>
+.select2-dropdown{
+   width:500px !important;
+}
+</style>
+

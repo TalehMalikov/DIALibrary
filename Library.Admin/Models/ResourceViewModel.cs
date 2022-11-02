@@ -16,13 +16,14 @@ namespace Library.Admin.Models
         public SelectList CategoryList { get; set; }
         public SelectList LanguageList { get; set; }
         public SelectList FileTypeList { get; set; }
-        public SelectList BooleanList { get; set; } //
         public SelectList EducationLevelList { get; set; }  //
         public SelectList SpecialtyList { get; set; }  //
 
-        public int EditionStatusId { get; set; }
-        public int IsActiveId { get; set; }  //
-        public string FullPath { get; set; }
+        #region Author
+        public long[] Members { get; set; }
+        public string Selectedmembers { get; set; } //used to store the selected members, such as: "tom,johnn,david"
+        public SelectList AuthorList { get; set; }
+        #endregion
 
         public File DeletedResource { get; set; }
         public File File { get; set; } = new File();

@@ -21,9 +21,10 @@ namespace Library.Admin.Controllers
         private readonly IFileTypeService _fileTypeService;
         private readonly IEducationalProgramService _educationalProgramService;
         private readonly ISpecialtyService _specialtyService;
+        private readonly IAuthorService _authorService;
         public ResourceController(IFileService fileService, ILanguageService languageService, ICategoryService categoryService,
                                     IFileTypeService fileTypeService,IEducationalProgramService educationalProgramService,
-                                    ISpecialtyService specialtyService)
+                                    ISpecialtyService specialtyService,IAuthorService authorService)
         {
             _fileService = fileService;
             _languageService = languageService;
@@ -31,6 +32,7 @@ namespace Library.Admin.Controllers
             _fileTypeService = fileTypeService;
             _educationalProgramService = educationalProgramService;
             _specialtyService = specialtyService;
+            _authorService = authorService;
         }
 
         #region Resources
@@ -83,6 +85,16 @@ namespace Library.Admin.Controllers
                     viewModel.Files = result.Data.Where(f => f.EditionStatus == true).ToList();
                     break;
             }
+
+            string accessToken = HttpContext.Session.GetString("AdminAccessToken");
+            var authors = await _authorService.GetAll(accessToken);
+            List<SelectListItem> authorList = new List<SelectListItem>();
+            foreach (var author in authors.Data)
+            {
+                authorList.Add(new SelectListItem() { Text = $"{author.LastName} {author.FirstName} {author.FatherName}", Value = $"{author.Id}" });
+            }
+            viewModel.AuthorList = new SelectList(authorList, "Value", "Text");
+            
             return View(viewModel);
         }
 
@@ -111,15 +123,17 @@ namespace Library.Admin.Controllers
                     Name = "Seç",
                     Id = 0
                 });
+                var authors = await _authorService.GetAll(accessToken);
+                List<SelectListItem> authorList = new List<SelectListItem>();
+                foreach (var author in authors.Data)
+                {
+                    authorList.Add(new SelectListItem() { Text = $"{author.LastName} {author.FirstName} {author.FatherName}", Value = $"{author.Id}" });
+                }
 
                 viewModel.CategoryList = new SelectList(categories.Data, "Id", "Name", "Seç");
                 viewModel.LanguageList = new SelectList(languages.Data, "Id", "Name", "Seç");
                 viewModel.FileTypeList = new SelectList(fileTypes.Data, "Id", "Name", "Seç");
-
-                List<dynamic> editions = new List<dynamic>();
-                editions.Add(new { Id = 0, Name = "true" });
-                editions.Add(new { Id = 0, Name = "false" });
-                viewModel.BooleanList = new SelectList(editions, "Id", "Name");
+                viewModel.AuthorList = new SelectList(authorList, "Value", "Text");
 
                 if (id == 0)
                     return PartialView(viewModel);
@@ -127,13 +141,13 @@ namespace Library.Admin.Controllers
                 var file = await _fileService.Get(id);
 
                 viewModel.File = file.Data;
-                viewModel.EditionStatusId = viewModel.File.EditionStatus ? 1 : 0;
-
+                
                 return PartialView(viewModel);
             }
             return new NotFoundResult();
         }
 
+        //existingStatus
         [HttpPost]
         public async Task<IActionResult> SaveResource(ResourceViewModel viewModel)
         {
@@ -142,11 +156,6 @@ namespace Library.Admin.Controllers
             {
                 try
                 {
-                    if (viewModel.EditionStatusId == 0)
-                        viewModel.File.EditionStatus = false;
-                    else
-                        viewModel.File.EditionStatus = true;
-
                     if (viewModel.File.Id == 0)
                     {
                         viewModel.File.FilePath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedFile.FileName);
@@ -204,7 +213,60 @@ namespace Library.Admin.Controllers
                     }
                     else
                     {
-                        if (viewModel.AddedFile != null)
+                        if(viewModel.AddedFile != null && viewModel.AddedPicture!=null)
+                        {
+                            string oldFilePath = viewModel.File.FilePath;
+                            viewModel.File.FilePath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedFile.FileName);
+
+                            string oldPhotoPath = viewModel.File.PhotoPath;
+                            viewModel.File.PhotoPath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedPicture.FileName);
+
+                            var uploadFile = await UploadToFileSystem(viewModel.AddedFile, viewModel.File.FilePath);
+                            var uploadPhoto = await UploadToFileSystem(viewModel.AddedPicture, viewModel.File.PhotoPath);
+                            viewModel.File.FilePath += uploadFile.Data;
+                            viewModel.File.PhotoPath += uploadPhoto.Data;
+
+                            if (uploadFile.Success && uploadPhoto.Success)
+                            {
+                                var fileDto = new FileDto()
+                                {
+                                    Id = viewModel.File.Id,
+                                    Name = viewModel.File.Name,
+                                    CategoryId = viewModel.File.Category.Id,
+                                    OriginalLanguageId = viewModel.File.OriginalLanguage.Id,
+                                    PublicationLanguageId = viewModel.File.PublicationLanguage.Id,
+                                    EditionStatus = viewModel.File.EditionStatus,
+                                    ExistingStatus = viewModel.File.ExistingStatus,
+                                    FileTypeId = viewModel.File.FileType.Id,
+                                    PhotoPath = viewModel.File.PhotoPath,
+                                    FilePath = viewModel.File.FilePath,
+                                    PublisherName = viewModel.File.PublisherName,
+                                    PublicationDate = viewModel.File.PublicationDate,
+                                    PageNumber = viewModel.File.PageNumber,
+                                    Description = viewModel.File.Description,
+                                    GUID = viewModel.File.GUID,
+                                    LastModified = viewModel.File.LastModified
+                                };
+
+                                var result = await _fileService.Update(accessToken, fileDto);
+
+                                if (!result.Success)
+                                {
+                                    await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, oldFilePath));
+                                    viewModel.File.FilePath = oldFilePath;
+                                }
+                            }
+                            else
+                            {
+                                await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, viewModel.File.FilePath));
+                                await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultPhotoPath, viewModel.File.PhotoPath));
+
+                                viewModel.File.FilePath = oldFilePath;
+                                viewModel.File.PhotoPath = oldPhotoPath;
+                                TempData["Message"] = "File and photo isn't upload!";
+                            }
+                        }
+                        else if (viewModel.AddedFile != null)
                         {
                             string oldFilePath = viewModel.File.FilePath;
                             viewModel.File.FilePath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedFile.FileName);
@@ -390,11 +452,6 @@ namespace Library.Admin.Controllers
                 });
                 viewModel.SpecialtyList = new SelectList(specialties.Data, "Id", "Name", "Seç");
 
-                List<dynamic> booleans = new List<dynamic>();
-                booleans.Add(new { Id = 0, Name = "false" });
-                booleans.Add(new { Id = 1, Name = "true" });
-                viewModel.BooleanList = new SelectList(booleans, "Id", "Name");
-
                 List<dynamic> educationLevels = new List<dynamic>();
                 educationLevels.Add(new { Id = 0, Name = "Seç" });
                 educationLevels.Add(new { Id = 1, Name = "Bakalavr" });
@@ -408,7 +465,6 @@ namespace Library.Admin.Controllers
                 var educationalProgram = await _educationalProgramService.Get(accessToken, id);
 
                 viewModel.EducationalProgram = educationalProgram.Data;
-                viewModel.IsActiveId = viewModel.EducationalProgram.IsActive ? 1 : 0;
 
                 return PartialView(viewModel);
             }
@@ -423,11 +479,6 @@ namespace Library.Admin.Controllers
             {
                 try
                 {
-                    if (viewModel.IsActiveId == 0)
-                        viewModel.EducationalProgram.IsActive = false;
-                    else
-                        viewModel.EducationalProgram.IsActive = true;
-
                     if (viewModel.EducationalProgram.Id == 0)
                     {
                         viewModel.EducationalProgram.FilePath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedFile.FileName);

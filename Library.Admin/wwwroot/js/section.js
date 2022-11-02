@@ -43,7 +43,6 @@ $((function () {
     
 
     /*Delete confirmation*/
-
     $(".delete").on('click', (e) => {
         e.preventDefault();
 
@@ -74,9 +73,6 @@ $((function () {
     });
 
 }()));
-
-
-
 
 function ShowSaveModal(elem) {
     var dataId = $(elem).data("id");
