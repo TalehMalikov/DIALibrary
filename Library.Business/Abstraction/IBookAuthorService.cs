@@ -10,5 +10,8 @@ namespace Library.Business.Abstraction
         Result AddList(List<FileAuthorDtoForCrud> value);
         Result Update(FileAuthorDtoForCrud value);
         Result UpdateList(List<FileAuthorDtoForCrud> value);
+        Result AddAllFilesAuthor(List<int> authorIds,int fileId);
+        Result DeleteFileAuthor(int fileId);
+        DataResult<List<int>> GetAllFileAuthors(int fileId);
     }
 }

@@ -20,7 +20,9 @@ namespace Library.Admin.Models
         public SelectList SpecialtyList { get; set; }  //
 
         #region Author
-        public long[] Members { get; set; }
+        //public int[] Members { get; set; }
+        public List<int> Members { get; set; }
+
         public string Selectedmembers { get; set; } //used to store the selected members, such as: "tom,johnn,david"
         public SelectList AuthorList { get; set; }
         #endregion
