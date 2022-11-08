@@ -143,7 +143,7 @@ namespace Library.Admin.Controllers
 
                 viewModel.File = file.Data;
 
-                var authorIds = await _fil
+                //var authorIds = await _fileAuthorService.
                 
                 return PartialView(viewModel);
             }
