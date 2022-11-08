@@ -32,7 +32,7 @@ namespace Library.WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost]
+      /*  [HttpPost]
         [Route("addlist")]
         [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
         public IActionResult AddList(List<FileAuthorDtoForCrud> bookAuthors)
@@ -45,7 +45,7 @@ namespace Library.WebAPI.Controllers
             }
 
             return BadRequest(result);
-        }
+        }*/
 
         [HttpPut]
         [Route("update")]
@@ -88,7 +88,7 @@ namespace Library.WebAPI.Controllers
 
             return BadRequest(result);
         }
-
+/*
         [HttpPut]
         [Route("updatelist")]
         [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
@@ -102,7 +102,7 @@ namespace Library.WebAPI.Controllers
             }
 
             return BadRequest(result);
-        }
+        }*/
 
         [HttpGet]
         [Route("getall")]

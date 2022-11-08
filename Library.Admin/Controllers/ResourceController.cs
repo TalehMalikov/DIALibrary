@@ -148,7 +148,13 @@ namespace Library.Admin.Controllers
                 viewModel.File = file.Data;
 
                 var authorIds = await _fileAuthorService.GetAllFileAuthors(viewModel.File.Id);
-                viewModel.Members = authorIds.Data;
+                StringBuilder stringBuilder = new StringBuilder();
+                foreach (int authorId in authorIds.Data)
+                {
+                    stringBuilder.Append(authorId);
+                    stringBuilder.Append(",");
+                }
+                viewModel.SelectedMembers = stringBuilder.ToString().TrimEnd(',');
 
                 return PartialView(viewModel);
             }
@@ -168,7 +174,6 @@ namespace Library.Admin.Controllers
                     {
                         AuthorIds = new List<int>(viewModel.Members),
                         FileId = viewModel.File.Id
-
                     };
 
                     if (viewModel.File.Id == 0)
@@ -443,6 +448,7 @@ namespace Library.Admin.Controllers
 
                 if (result.Success)
                 {
+                    await _fileAuthorService.DeleteFileAuthor(token, file.Data.Id);
                     TempData["Message"] = "Operation successfully";
                     return RedirectToAction("ShowResources","Resource", "2");
                 }

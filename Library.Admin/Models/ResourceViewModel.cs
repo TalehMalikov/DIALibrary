@@ -23,7 +23,7 @@ namespace Library.Admin.Models
         //public int[] Members { get; set; }
         public List<int> Members { get; set; }
 
-        public string Selectedmembers { get; set; } //used to store the selected members, such as: "tom,johnn,david"
+        public string SelectedMembers { get; set; } //used to store the selected members, such as: "tom,johnn,david"
         public SelectList AuthorList { get; set; }
         #endregion
 
