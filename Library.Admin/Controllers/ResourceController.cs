@@ -22,9 +22,10 @@ namespace Library.Admin.Controllers
         private readonly IEducationalProgramService _educationalProgramService;
         private readonly ISpecialtyService _specialtyService;
         private readonly IAuthorService _authorService;
+        private readonly IFileAuthorService _fileAuthorService;
         public ResourceController(IFileService fileService, ILanguageService languageService, ICategoryService categoryService,
                                     IFileTypeService fileTypeService,IEducationalProgramService educationalProgramService,
-                                    ISpecialtyService specialtyService,IAuthorService authorService)
+                                    ISpecialtyService specialtyService,IAuthorService authorService,IFileAuthorService fileAuthorService)
         {
             _fileService = fileService;
             _languageService = languageService;
@@ -141,6 +142,8 @@ namespace Library.Admin.Controllers
                 var file = await _fileService.Get(id);
 
                 viewModel.File = file.Data;
+
+                var authorIds = await _fil
                 
                 return PartialView(viewModel);
             }

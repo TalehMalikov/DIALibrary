@@ -1,8 +1,5 @@
-﻿
-
-@model ResourceViewModel
+﻿@model ResourceViewModel
 <div class="modal-dialog modal-dialog-scrollable modal-lg">
-    <!-- Modal content -->
     <div class="modal-content" id="editDebtModelBody">
         <div style="overflow:auto;" class="modal-body">
             <form asp-controller="Resource" asp-action="SaveResource" class="form-group" enctype="multipart/form-data" >
@@ -42,22 +39,21 @@
                     <span asp-validation-for="Members" class="text-danger"></span>
                 </div>
                 
-                <div class="form-group">
-                    <label for="name" class="mr-sm-2">Mövcudluq:</label>
-                    <div class = "col-sm-2 d-flex justify-content-between">
-                        <div>
-                            <input type="radio" id="hide" name="section" checked/>
-                            <label for="hide">Fiziki  </label>
+                <div class="form-group row">
+                    <div class = "col-sm-6 d-flex">
+                        <div class="mr-sm-4">
+                            @Html.RadioButtonFor(model => model.File.ExistingStatus,true,new { @checked=false,@id="hide"})
+                            <label for="hide">Fiziki</label>
                         </div>
+                                    
                         <div>
-                            <input type="radio" id="show" name="section" />
-                            <label for="show">Elektron  </label>
+                            @Html.RadioButtonFor(model => model.File.ExistingStatus,false,new{@checked=true,@id="show"})
+                            <label for="show">Elektron</label>
                         </div>
                     </div>
                 </div>
 
-
-                <div id="studentSection" class="form-group">
+                <div id="fileSection" class="form-group">
                     @if (Model.File.Name != null)
                     {
                         <a class="btn btn-info" name="submit" id="submitFileButton">Faylı dəyiş</a>
@@ -87,13 +83,18 @@
                     }
                 </div>
 
-                <div class="form-group" >
-                    <label for="editionStatus" class="mr-sm-2">Tip:</label>
-                    <div class="col-sm-2 d-flex justify-content-between">
-                        @Html.RadioButtonFor(model=>model.File.EditionStatus,false)
-                        <label for="gender">Xarici mənbə</label><br>
-                        @Html.RadioButtonFor(model=>model.File.EditionStatus,true)
-                        <label for="gender">Bizim nəşr</label>
+                <div class="form-group row">
+                    <div class = "col-sm-6 d-flex">
+                        <label for="editionStatus" class="mr-sm-2">Tip:</label>
+                        <div class="mr-sm-4">
+                            @Html.RadioButtonFor(model => model.File.EditionStatus,false,new { @checked=true})
+                            <label >Xarici mənbə</label>
+                        </div>
+
+                        <div>
+                            @Html.RadioButtonFor(model => model.File.EditionStatus,true,new{@checked=false})
+                            <label >Bizim nəşr</label>
+                        </div>
                     </div>
                 </div>
 
@@ -132,53 +133,71 @@
 
 <link rel="stylesheet" href="~/scripts/select2.min.css"/>
 <script type="text/javascript" src="~/scripts/select2.min.js"></script>
-<script src="@Href("~/js/section.js")"></script>
+@*<script src="@Href("~/js/section.js")"></script>*@
+<script>
+    const box = document.getElementById("fileSection");
 
- <script>
- $(document).ready(function()
- {
-    let fileCount = 1;
-    let photoCount = 1;
-     $("#submitFileButton").click(function () {
-    //your code here
-      fileCount++;
-    if(fileCount % 2 == 0)
+    function handleRadioClick() {
+    if (document.getElementById('hide').checked) {
+        box.style.display = 'none';
+    }
+    else {
+        box.style.display = 'block'
+    }
+}
+
+const radioButtons = document.querySelectorAll('input[name="File.ExistingStatus"]');
+radioButtons.forEach(radio => {
+    radio.addEventListener('click', handleRadioClick);
+});
+
+</script>
+
+<script>
+$(document).ready(function()
+{
+   let fileCount = 1;
+   let photoCount = 1;
+    $("#submitFileButton").click(function () {
+   //your code here
+     fileCount++;
+   if(fileCount % 2 == 0)
+   {
+        $( "#chooseFileDiv" ).append
+        ('<input type="file" class="form-control mb-2 mr-sm-2" id="inputGroupFile02" data-val="true" data-val-required="The AddedFile field is required." name="AddedFile">   <span class="text-danger field-validation-valid" data-valmsg-for="AddedFile" data-valmsg-replace="true"></span>');
+   }
+   else
+   {
+       $("#chooseFileDiv").empty()
+   }
+
+});
+
+$("#submitPhotoButton").click(function () {
+    photoCount++;
+    if(photoCount % 2 == 0)
     {
-         $( "#chooseFileDiv" ).append
-         ('<input type="file" class="form-control mb-2 mr-sm-2" id="inputGroupFile02" data-val="true" data-val-required="The AddedFile field is required." name="AddedFile">   <span class="text-danger field-validation-valid" data-valmsg-for="AddedFile" data-valmsg-replace="true"></span>');
+      $( "#choosePhotoDiv" ).append
+      ('<input type="file" class="form-control mb-2 mr-sm-2 fileUpload" id="inputGroupFile02" data-val="true" data-val-required="The AddedPicture field is required." name="AddedPicture">  <span class="text-danger field-validation-valid" data-valmsg-for="AddedPicture" data-valmsg-replace="true"></span>');
     }
     else
     {
-        $("#chooseFileDiv").empty()
+        $("#choosePhotoDiv").empty()
     }
-
- });
-
- $("#submitPhotoButton").click(function () {
-     photoCount++;
-     if(photoCount % 2 == 0)
-     {
-       $( "#choosePhotoDiv" ).append
-       ('<input type="file" class="form-control mb-2 mr-sm-2 fileUpload" id="inputGroupFile02" data-val="true" data-val-required="The AddedPicture field is required." name="AddedPicture">  <span class="text-danger field-validation-valid" data-valmsg-for="AddedPicture" data-valmsg-replace="true"></span>');
-     }
-     else
-     {
-         $("#choosePhotoDiv").empty()
-     }
- });
+});
 });
 </script>
-   <script type="text/javascript">
-        $(function () { 
-            //get the selectedmember from the hidden field.
-            var selectedmembers = $("#selectedmemebers").val().split(",");
-            //set the value in the dropdownlist.
-            $("#Members").select2({
-                multiple: true,
-              });
-              $('#Members').val(selectedmembers).trigger('change'); 
-        });
-    </script>
+<script type="text/javascript">
+     $(function () { 
+         //get the selectedmember from the hidden field.
+         var selectedmembers = $("#selectedmemebers").val().split(",");
+         //set the value in the dropdownlist.
+         $("#Members").select2({
+             multiple: true,
+           });
+           $('#Members').val(selectedmembers).trigger('change'); 
+     });
+ </script>
 <style>
 .select2-dropdown{
    width:500px !important;
