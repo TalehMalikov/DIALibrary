@@ -23,9 +23,11 @@ namespace Library.Admin.Controllers
         private readonly ISpecialtyService _specialtyService;
         private readonly IAuthorService _authorService;
         private readonly IFileAuthorService _fileAuthorService;
-        public ResourceController(IFileService fileService, ILanguageService languageService, ICategoryService categoryService,
-                                    IFileTypeService fileTypeService,IEducationalProgramService educationalProgramService,
-                                    ISpecialtyService specialtyService,IAuthorService authorService,IFileAuthorService fileAuthorService)
+
+        public ResourceController(IFileService fileService, ILanguageService languageService,
+            ICategoryService categoryService,
+            IFileTypeService fileTypeService, IEducationalProgramService educationalProgramService,
+            ISpecialtyService specialtyService, IAuthorService authorService, IFileAuthorService fileAuthorService)
         {
             _fileService = fileService;
             _languageService = languageService;
@@ -34,6 +36,7 @@ namespace Library.Admin.Controllers
             _educationalProgramService = educationalProgramService;
             _specialtyService = specialtyService;
             _authorService = authorService;
+            _fileAuthorService = fileAuthorService;
         }
 
         #region Resources
@@ -131,6 +134,7 @@ namespace Library.Admin.Controllers
                     authorList.Add(new SelectListItem() { Text = $"{author.LastName} {author.FirstName} {author.FatherName}", Value = $"{author.Id}" });
                 }
 
+
                 viewModel.CategoryList = new SelectList(categories.Data, "Id", "Name", "Seç");
                 viewModel.LanguageList = new SelectList(languages.Data, "Id", "Name", "Seç");
                 viewModel.FileTypeList = new SelectList(fileTypes.Data, "Id", "Name", "Seç");
@@ -143,8 +147,9 @@ namespace Library.Admin.Controllers
 
                 viewModel.File = file.Data;
 
-                //var authorIds = await _fileAuthorService.
-                
+                var authorIds = await _fileAuthorService.GetAllFileAuthors(viewModel.File.Id);
+                viewModel.Members = authorIds.Data;
+
                 return PartialView(viewModel);
             }
             return new NotFoundResult();
@@ -159,6 +164,13 @@ namespace Library.Admin.Controllers
             {
                 try
                 {
+                    FileAuthorDto fileAuthorDto = new FileAuthorDto()
+                    {
+                        AuthorIds = new List<int>(viewModel.Members),
+                        FileId = viewModel.File.Id
+
+                    };
+
                     if (viewModel.File.Id == 0)
                     {
                         viewModel.File.FilePath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedFile.FileName);
@@ -195,7 +207,8 @@ namespace Library.Admin.Controllers
 
                             var result = await _fileService.Add(accessToken, fileDto);
 
-                            if (!result.Success)
+                            var resultAuthor = await _fileAuthorService.AddAllFileAuthors(accessToken, fileAuthorDto);
+                            if (!result.Success && !resultAuthor.Success)
                             {
                                 await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, viewModel.File.FilePath));
                                 await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultPhotoPath, viewModel.File.PhotoPath));
@@ -252,8 +265,12 @@ namespace Library.Admin.Controllers
                                 };
 
                                 var result = await _fileService.Update(accessToken, fileDto);
-
-                                if (!result.Success)
+                                if (result.Success)
+                                {
+                                    await _fileAuthorService.DeleteFileAuthor(accessToken, viewModel.File.Id);
+                                    await _fileAuthorService.AddAllFileAuthors(accessToken, fileAuthorDto);
+                                }
+                                else
                                 {
                                     await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, oldFilePath));
                                     viewModel.File.FilePath = oldFilePath;
@@ -301,7 +318,12 @@ namespace Library.Admin.Controllers
 
                                 var result = await _fileService.Update(accessToken, fileDto);
 
-                                if (!result.Success)
+                                if (result.Success)
+                                {
+                                    await _fileAuthorService.DeleteFileAuthor(accessToken, viewModel.File.Id);
+                                    await _fileAuthorService.AddAllFileAuthors(accessToken, fileAuthorDto);
+                                }
+                                else
                                 {
                                     await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, oldFilePath));
                                     viewModel.File.FilePath = oldFilePath;
@@ -347,7 +369,12 @@ namespace Library.Admin.Controllers
 
                                 var result = await _fileService.Update(accessToken, fileDto);
 
-                                if (!result.Success)
+                                if (result.Success)
+                                {
+                                    await _fileAuthorService.DeleteFileAuthor(accessToken, viewModel.File.Id);
+                                    await _fileAuthorService.AddAllFileAuthors(accessToken, fileAuthorDto);
+                                }
+                                else
                                 {
                                     await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultPhotoPath, oldPhotoPath));
                                     viewModel.File.PhotoPath = oldPhotoPath;
@@ -382,7 +409,9 @@ namespace Library.Admin.Controllers
                                 LastModified = viewModel.File.LastModified
                             };
 
-                            var result2 = await _fileService.Update(accessToken, fileDto);
+                            await _fileService.Update(accessToken, fileDto);
+                            await _fileAuthorService.DeleteFileAuthor(accessToken, viewModel.File.Id);
+                            await _fileAuthorService.AddAllFileAuthors(accessToken, fileAuthorDto);
                         }
                     }
                     TempData["Message"] = "Operation successfully";

@@ -1,4 +1,5 @@
 ﻿using Library.Business.Abstraction;
+using Library.Core.Result.Concrete;
 using Library.Entities.Concrete;
 using Library.Entities.Dtos;
 using Microsoft.AspNetCore.Authorization;
@@ -61,6 +62,33 @@ namespace Library.WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpPost]
+        [Route("addallfileauthors")]
+        [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
+        public IActionResult AddAllFileAuthor(FileAuthorDto fileAuthorDto)
+        {
+            var result = _bookAuthorService.AddAllFilesAuthor(fileAuthorDto.AuthorIds, fileAuthorDto.FileId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpDelete("deletefileauthor/{id:int}")]
+        [Authorize(Roles = "SuperAdmin,Admin,GroupAdmin")]
+        public IActionResult DeleteFileAuthor(int fileId)
+        {
+            var result = _bookAuthorService.DeleteFileAuthor(fileId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
         [HttpPut]
         [Route("updatelist")]
         [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
@@ -107,6 +135,18 @@ namespace Library.WebAPI.Controllers
         public IActionResult Delete(int id)
         {
             var result = _bookAuthorService.Delete(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpGet("getallfileauthors/{id:int}")]
+        public IActionResult GetAllFileAuthors(int id)
+        {
+            var result = _bookAuthorService.GetAllFileAuthors(id);
             if (result.Success)
             {
                 return Ok(result);

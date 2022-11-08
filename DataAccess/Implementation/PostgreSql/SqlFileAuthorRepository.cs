@@ -2,6 +2,7 @@
 using Library.DataAccess.Abstraction;
 using Library.Entities.Concrete;
 using Library.Entities.Dtos;
+using Newtonsoft.Json.Linq;
 using Npgsql;
 using File = Library.Entities.Concrete.File;
 
@@ -36,7 +37,45 @@ namespace Library.DataAccess.Implementation.PostgreSql
             return 1 == command.ExecuteNonQuery();
         }
 
+        public bool AddAllFilesAuthor(List<int> authorIds, int fileId)
+        {
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
+            connection.Open();
+            string cmdString = "Insert Into BookAuthors(BookId,AuthorId) Values(@bookId,@authorId)";
+            using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
+            for (int i = 0; i < authorIds.Count; i++)
+            {
+                command.Parameters.AddWithValue("@bookId", fileId);
+                command.Parameters.AddWithValue("@authorId", authorIds[i]);
+                var reader = command.ExecuteReader();
+                reader.Close();
+            }
+            return true;
+        }
 
+        public bool DeleteFileAuthor(int fileId)
+        {
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
+            connection.Open();
+            string cmdString = "delete from BookAuthors where bookid=@fileId";
+            using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
+            command.Parameters.AddWithValue("@fileId", fileId);
+            return 1 == command.ExecuteNonQuery();
+        }
+
+        public List<int> GetAllFileAuthors(int fileId)
+        {
+            List<int> authorIdList = new List<int>();
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
+            connection.Open();
+            string cmdString = "select authorid from FileAuthors where fileid=@fileid";
+            using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
+            command.Parameters.AddWithValue("@fileId", fileId);
+            var reader = command.ExecuteReader();
+            while (reader.Read())
+                authorIdList.Add(Convert.ToInt32(reader["authorid"]));
+            return authorIdList;
+        }
 
         public BookAuthor Get(int id)
         {

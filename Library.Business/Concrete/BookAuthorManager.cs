@@ -76,5 +76,31 @@ namespace Library.Business.Concrete
             }
             return isSuccess ? new SuccessResult() : new ErrorResult();
         }
+
+        [CacheAspect]
+        public Result AddAllFilesAuthor(List<int> authorIds,int fileId)
+        {
+            var result = _fileAuthorRepository.AddAllFilesAuthor(authorIds,fileId);
+            if (result)
+                return new SuccessResult(StatusMessagesUtil.NotFoundMessage);
+            return new ErrorResult(StatusMessagesUtil.NotFoundMessageGivenId);
+        }
+
+        [CacheRemoveAspect(nameof(Library.Business.Abstraction.IAuthorService.Get))]
+        public Result DeleteFileAuthor(int fileId)
+        {
+            if (_fileAuthorRepository.DeleteFileAuthor(fileId))
+                return new SuccessResult(StatusMessagesUtil.DeleteSuccessMessage);
+            return new ErrorResult(StatusMessagesUtil.NotFoundMessageGivenId);
+        }
+
+        [CacheAspect]
+        public DataResult<List<int>> GetAllFileAuthors(int fileId)
+        {
+            var result = _fileAuthorRepository.GetAllFileAuthors(fileId);
+            if (result.Count == 0)
+                return new ErrorDataResult<List<int>>(result, StatusMessagesUtil.NotFoundMessage);
+            return new SuccessDataResult<List<int>>(result);
+        }
     }
 }

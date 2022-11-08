@@ -1,7 +1,9 @@
 ﻿using Library.Core.Extensions;
 using Library.DataAccess.Abstraction;
 using Library.Entities.Concrete;
+using Newtonsoft.Json.Linq;
 using Npgsql;
+using System.Collections.Generic;
 
 namespace Library.DataAccess.Implementation.PostgreSql
 {
@@ -79,7 +81,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             command.Parameters.AddWithValue("@gender", value.Gender);
             return 1 == command.ExecuteNonQuery();
         }
-         
+
         private Author ReadAuthor(NpgsqlDataReader reader)
         {
             return new Author

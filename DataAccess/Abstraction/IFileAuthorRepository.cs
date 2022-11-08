@@ -10,5 +10,8 @@ namespace Library.DataAccess.Abstraction
         bool Update(FileAuthorDtoForCrud value);
         FileAuthorDto GetFileWithAuthors(int fileId);
         List<FileAuthorDto> GetAllFilesWithAuthors(List<File> files);
+        bool AddAllFilesAuthor(List<int> authorIds, int fileId);
+        bool DeleteFileAuthor(int fileId);
+        List<int> GetAllFileAuthors(int fileId);
     }
 }
