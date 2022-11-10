@@ -29,7 +29,7 @@ namespace Library.WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpDelete("deletefileauthor/{id:int}")]
+        [HttpDelete("deletefileauthor/{fileId:int}")]
         [Authorize(Roles = "SuperAdmin,Admin,GroupAdmin")]
         public IActionResult DeleteFileAuthor(int fileId)
         {

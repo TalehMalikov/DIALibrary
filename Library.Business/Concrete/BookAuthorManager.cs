@@ -43,7 +43,7 @@ namespace Library.Business.Concrete
             return new SuccessDataResult<List<BookAuthor>>(result);
         }
 
-        [CacheAspect]
+        [CacheRemoveAspect(nameof(Library.Business.Abstraction.IBookAuthorService.Get))]
         public Result AddAllFilesAuthor(List<int> authorIds,int fileId)
         {
             var result = _fileAuthorRepository.AddAllFilesAuthor(authorIds,fileId);

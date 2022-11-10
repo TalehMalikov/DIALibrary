@@ -213,7 +213,10 @@ namespace Library.Admin.Controllers
                                 LastModified = viewModel.File.LastModified
                             };
 
+                            if (viewModel.File.ExistingStatus)
+                                fileDto.FilePath = "";
                             var result = await _fileService.Add(accessToken, fileDto);
+                            fileAuthorDtoForCrud.FileId = result.Data;
 
                             var resultAuthor = await _fileAuthorService.AddAllFileAuthors(accessToken, fileAuthorDtoForCrud);
                             if (!result.Success && !resultAuthor.Success)
@@ -447,6 +450,7 @@ namespace Library.Admin.Controllers
                 var deleteFileFromFileSytem = await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, file.Data.FilePath));
                 var deletePhotoFromFileSytem = await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultPhotoPath, file.Data.PhotoPath));
 
+                var resultFileAuthorDel =  await _fileAuthorService.DeleteFileAuthor(token, viewModel.DeletedResource.Id);
                 var result = await _fileService.Delete(token, viewModel.DeletedResource.Id);
 
                 if (result.Success)

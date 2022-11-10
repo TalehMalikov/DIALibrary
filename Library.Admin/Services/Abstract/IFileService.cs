@@ -6,7 +6,7 @@ namespace Library.Admin.Services.Abstract
 {
     public interface IFileService
     {
-        Task<Result> Add(string token, FileDto fileDto);
+        Task<DataResult<int>> Add(string token, FileDto fileDto);
         Task<Result> Update(string token, FileDto fileDto);
         Task<Result> Delete(string token, int id);
         Task<DataResult<List<File>>> GetAll();

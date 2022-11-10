@@ -9,11 +9,11 @@ namespace Library.Admin.Services.Concrete
 {
     public class FileService : BaseService, IFileService
     {
-        public async Task<Result> Add(string token, FileDto fileDto)
+        public async Task<DataResult<int>> Add(string token, FileDto fileDto)
         {
             using HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var result = await client.PostJsonAsync<Result, FileDto>(BaseUrl + "File/add", fileDto);
+            var result = await client.PostJsonAsync<DataResult<int>, FileDto>(BaseUrl + "File/add", fileDto);
             return result;
         }
 

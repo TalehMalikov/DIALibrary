@@ -6,7 +6,7 @@ namespace Library.DataAccess.Abstraction
 {
     public interface IFileRepository : ICrudRepository<File>
     {
-        bool Add(FileDto value);
+        int Add(FileDto value);
         bool Update(FileDto value);
         List<File> GetNewAdded();
         List<File> GetAllFilesByCategoryId(int id);

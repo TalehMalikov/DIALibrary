@@ -13,24 +13,20 @@
             <p class="mp-4">
                 Buradakı @Model.File.FileType.Name akademiyanın nəşrləri həmçinin xarici mənbələrdən toplanan resurslardır.
             <span class="float-right">
-                <button class="btn btn-primary bgupdate" onclick="ShowSaveModal(this)" data-toggle="modal" data-id="0" id="myBtnAdd"><i class='fas fa-download'></i>Əlavə et</button>
+                <a class="btn btn-primary" onclick="ShowSaveModal(this)" data-toggle="modal" data-id="0" id="myBtnAdd"><i class='fas fa-download'></i>Əlavə et</a>
             </span>
             </p>
         }
         else
         {
-            <h1 class="h3 mb-2 text-gray-800">Resurlar</h1>
+            <h1 class="h3 mb-2 text-gray-800">Resurslar</h1>
             <p class="mp-4">
                 Buradakı resurlar akademiyanın nəşrləri həmçinin xarici mənbələrdən toplanan resurslardır.
             <span class="float-right">
-                <button class="btn btn-primary bgupdate" onclick="ShowSaveModal(this)" data-toggle="modal" data-id="0" id="myBtnAdd"><i class='fas fa-download'></i>Əlavə et</button>
+                <a class="btn btn-primary" onclick="ShowSaveModal(this)" data-toggle="modal" data-id="0" id="myBtnAdd"><i class='fas fa-download'></i>Əlavə et</a>
             </span>
             </p>
         }
-
-        @*<input type="hidden" id="selectedmemebers" value="@Model.selectedmembers" />
-        @Html.DropDownListFor(x => x.members, Model.AuthorList, new { @id="Members", @class= "select2 form-select",  multiple = "multiple", tabindex="3" })
-        <span asp-validation-for="members" class="text-danger"></span>*@
     }
     <br>
 
@@ -86,7 +82,16 @@
                                 <td>@file.PublicationLanguage.Name</td>
                                 <td>@file.EditionStatus</td>
                                 <td><a onclick="ShowPhotoModal(this)" data-path="@file.PhotoPath" data-toggle="modal"  class="btn btn-info" name="submit" id="submit">Aç</a></td>     
-                                <td><a target="_blank" asp-action="OpenFile"  asp-controller="Resource" asp-route-path="@file.FilePath" class="btn btn-info changeUrl" name="submit" id="submit">Aç</a></td>                                           
+                                @{
+                                    if (@file.ExistingStatus)
+                                    {
+                                        <td><button target="_blank" disabled class="btn btn-info" name="submit" id="submit">Aç</button></td>                                           
+                                    }
+                                    else
+                                    {
+                                        <td><a target="_blank" asp-action="OpenFile"  asp-controller="Resource" asp-route-path="@file.FilePath" class="btn btn-info changeUrl" name="submit" id="submit">Aç</a></td>                                           
+                                    }
+                                }
                                 <td>@file.PublisherName</td>
                                 <td>@file.PublicationDate.ToString("dd/MM/yyyy")</td>
                                 <td>@file.PageNumber</td>
@@ -94,7 +99,7 @@
                                 <td>@file.GUID</td>
                                 <td>@file.LastModified</td>
                                 <td><button class="btn btn-primary bgupdate" onclick="ShowSaveModal(this)" data-id="@file.Id" id="btnUpdate"><i class='fas fa-download'></i> Update</button></td>
-                                <td><button class="btn btn-danger bgdelete" onclick="ShowDeleteModal(this)" data-toggle="modal" data-id="@file.Id" data-target="#DelModal"  id="btnDel"><i class='fas fa-trash-alt'></i> Delete</button></td>
+                                <td><a class="btn btn-danger bgdelete" onclick="ShowDeleteModal(this)" data-toggle="modal" data-id="@file.Id" data-target="#DelModal"  id="btnDel"><i class='fas fa-trash-alt'></i> Delete</a></td>
                             </tr>
                         }
                     </tbody>

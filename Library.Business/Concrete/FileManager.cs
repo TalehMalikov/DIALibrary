@@ -22,10 +22,10 @@ namespace Library.Business.Concrete
 
         [CacheRemoveAspect(nameof(IFileService.Get))]
         //[ValidationAspect(typeof(BookValidator))]
-        public Result Add(FileDto value)
+        public DataResult<int> Add(FileDto value)
         {
-            _fileRepository.Add(value);
-            return new SuccessResult(StatusMessagesUtil.AddSuccessMessage);
+            int id = _fileRepository.Add(value);
+            return new SuccessDataResult<int>(id,StatusMessagesUtil.AddSuccessMessage);
         }
 
         [CacheRemoveAspect(nameof(IFileService.Get))]

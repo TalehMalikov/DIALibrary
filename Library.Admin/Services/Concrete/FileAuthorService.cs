@@ -49,7 +49,7 @@ namespace Library.Admin.Services.Concrete
         {
             using HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var result = await client.GetJsonAsync<DataResult<List<int>>>(BaseUrl + "BookAuthor/deletefileauthor/" + id);
+            var result = await client.DeleteJsonAsync<Result>(BaseUrl + "BookAuthor/deletefileauthor/" + id);
             return result;
         }
     }

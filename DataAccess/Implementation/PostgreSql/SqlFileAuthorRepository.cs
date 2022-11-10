@@ -29,15 +29,17 @@ namespace Library.DataAccess.Implementation.PostgreSql
         public bool AddAllFilesAuthor(List<int> authorIds, int fileId)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
-            connection.Open();
             string cmdString = "Insert Into FileAuthors(FileId,AuthorId) Values(@fileId,@authorId)";
-            using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             for (int i = 0; i < authorIds.Count; i++)
             {
+                connection.Open();
+                using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
                 command.Parameters.AddWithValue("@fileId", fileId);
                 command.Parameters.AddWithValue("@authorId", authorIds[i]);
                 var reader = command.ExecuteReader();
                 reader.Close();
+                connection.Close();
+                
             }
             return true;
         }

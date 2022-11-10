@@ -15,7 +15,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             _connectionString = connectionString;
         }
 
-        public bool Add(FileDto value)
+        public int Add(FileDto value)
         {
             using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
             connection.Open();
@@ -24,7 +24,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
                                "PhotoPath,FilePath,PageNumber,GUID)" +
                                " Values(@name,@categoryId,@originalLanguageId,@lastModified,@existingStatus,@fileTypeId," +
                                "@editionStatus,@publicationLanguageId,@description,@publisherName,@publicationDate,@photoPath," +
-                               "@filePath,@pageNumber,@guid)";
+                               "@filePath,@pageNumber,@guid) RETURNING Files.Id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             command.Parameters.AddWithValue("@name", value.Name);
             command.Parameters.AddWithValue("@categoryId", value.CategoryId);
@@ -41,7 +41,8 @@ namespace Library.DataAccess.Implementation.PostgreSql
             command.Parameters.AddWithValue("@filePath", value.FilePath);
             command.Parameters.AddWithValue("@pageNumber", value.PageNumber);
             command.Parameters.AddWithValue("@guid", UniqueNameGenerator.UniqueFileNameGenerator(value.Name));
-            return 1 == command.ExecuteNonQuery();
+            int id = Convert.ToInt32(command.ExecuteScalar());
+            return id;
         }
 
         public bool Delete(int id)
