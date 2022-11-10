@@ -10,5 +10,6 @@ namespace Library.Admin.Services.Abstract
         Task<Result> Update(string token, Student entity);
         Task<Result> Delete(string token, int id);
         Task<DataResult<List<Student>>> GetAll(string token);
+        Task<DataResult<Student>> GetByUserId(string token, int id);
     }
 }

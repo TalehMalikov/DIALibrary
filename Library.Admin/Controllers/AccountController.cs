@@ -3,7 +3,6 @@ using Library.Admin.Services.Abstract;
 using Library.Core.Utils;
 using Library.Entities.Concrete;
 using Library.Entities.Dtos;
-using Library.Entities.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.IdentityModel.Tokens;
@@ -18,12 +17,18 @@ namespace Library.Admin.Controllers
         private readonly IAccountService _accountService;
         private readonly IUserService _userService;
         private readonly IAccountRoleService _accountRoleService;
-
-        public AccountController(IAccountService accountService, IUserService userService,IAccountRoleService accountRoleService)
+        private readonly IStudentService _studentService;
+        private readonly ISpecialtyService _specialtyService;
+        private readonly IGroupService _groupService;
+        public AccountController(IAccountService accountService, IUserService userService,IAccountRoleService accountRoleService,
+                                IStudentService studentService, ISpecialtyService specialtyService, IGroupService groupService)
         {
             _accountService = accountService;
             _userService = userService;
             _accountRoleService = accountRoleService;
+            _studentService = studentService;
+            _specialtyService = specialtyService;
+            _groupService = groupService;
         }
 
         public IActionResult NewAccount()
@@ -146,6 +151,47 @@ namespace Library.Admin.Controllers
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
             return View();
+        }
+
+        public async Task<IActionResult> UpdateCommonAccount(int id)
+        {
+            string accessToken = HttpContext.Session.GetString("AdminAccessToken");
+            if (accessToken != null)
+            {
+                AccountViewModel viewModel = new AccountViewModel();
+                var account = await _accountService.Get(accessToken, id);
+                if (account.Success == false)
+                    return new NotFoundObjectResult(account.Message);
+
+                //var accountRole = await _accountRoleService.GetAccountRoleByAccountId(accessToken, id);
+                //viewModel.AccountRole = accountRole.Data;
+
+                viewModel.AccountRole = new AccountRole()
+                {
+                    Account = account.Data
+                };
+
+                if (account.Data.User.IsStudent)
+                {
+                    var student = await _studentService.GetByUserId(accessToken, account.Data.User.Id);
+                    viewModel.StudentDto = new StudentDto()
+                    {
+                        Id = student.Data.Id,
+                        UserId = account.Data.User.Id,
+                        SpecialtyId = student.Data.Specialty.Id,
+                        GroupId = student.Data.Group.Id
+                    };
+                }
+
+                var specialties = await _specialtyService.GetAll(accessToken);
+                viewModel.SpecialtyList = new SelectList(specialties.Data, "Id", "Name");
+
+                var groups = await _groupService.GetAll(accessToken);
+                viewModel.GroupList = new SelectList(groups.Data, "Id", "Name");
+
+                return PartialView(viewModel);
+            }
+            return new NotFoundResult();
         }
     }
 }

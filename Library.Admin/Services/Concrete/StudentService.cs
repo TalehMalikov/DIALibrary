@@ -37,5 +37,13 @@ namespace Library.Admin.Services.Concrete
             var result = await client.GetJsonAsync<DataResult<List<Student>>>(BaseUrl + "Student/getall");
             return result;
         }
+
+        public async Task<DataResult<Student>> GetByUserId(string token, int id)
+        {
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var result = await client.GetJsonAsync<DataResult<Student>>(BaseUrl + "Student/getbyuserid");
+            return result;
+        }
     }
 }

@@ -40,7 +40,7 @@
                             <td>@item.User.FatherName</td>
                             <td>@item.AccountName</td>
                             <td>@item.Email</td>
-                            <td class="text-center"><a class="btn btn-primary px-sm-3 bgupdate" onclick="ShowSaveModal(this)" data-action="UpdateAccount" data-controller="Account" data-toggle="modal" data-id="@item.Id" id="btnUpdate">Yenilə</a></td>
+                            <td class="text-center"><a class="btn btn-primary px-sm-3 bgupdate" onclick="ShowSaveModal(this)" data-action="UpdateCommonAccount" data-controller="Account" data-toggle="modal" data-id="@item.Id" id="btnUpdate">Yenilə</a></td>
                             <td class="text-center"><a class="btn btn-danger delete px-sm-3" data-id="@item.Id" data-toggle="modal" data-target="#deleteModal" data-controller="Account" data-action="Delete">Sil</a></td>
                         </tr>
                     }
@@ -59,3 +59,4 @@
 @section Scripts{
     <script src="@Href("~/js/section.js")"></script>
 }
+
