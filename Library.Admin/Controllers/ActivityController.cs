@@ -157,7 +157,7 @@ namespace Library.Admin.Controllers
                         result = await _activityService.Update(token, new Activity
                         {
                             Id = model.Activity.Id,
-                            PhotoPath = newPhotoPath.Data,
+                            PhotoPath = fileName + newPhotoPath.Data,
                             Content = model.Activity.Content,
                             CreatedDate = model.Activity.CreatedDate,
                             IsDeleted = model.Activity.IsDeleted,
@@ -168,7 +168,11 @@ namespace Library.Admin.Controllers
                             return RedirectToAction("Index");
                     }
                     else
-                        DeleteFileFromFileSystem(newPhotoPath.Data);
+                    {
+
+                        DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultActivityPhotoPath, newPhotoPath.Data));
+
+                    }
                 }
             }
 
@@ -180,7 +184,7 @@ namespace Library.Admin.Controllers
         {
             try
             {
-                string fullpath = Path.Combine(DefaultPath.OriginalDefaultPhotoPath, path);
+                string fullpath = Path.Combine(DefaultPath.OriginalDefaultActivityPhotoPath, path);
 
                 var content = System.IO.File.ReadAllBytes(fullpath);
 
@@ -193,14 +197,14 @@ namespace Library.Admin.Controllers
         }
         private async Task<DataResult<string>> UploadToFileSystem(IFormFile file, string uniqueFileName)
         {
-            bool basePhotoPathExists = Directory.Exists(DefaultPath.OriginalDefaultPhotoPath);
-            if (!basePhotoPathExists) Directory.CreateDirectory(DefaultPath.OriginalDefaultPhotoPath);
+            bool basePhotoPathExists = Directory.Exists(DefaultPath.OriginalDefaultActivityPhotoPath);
+            if (!basePhotoPathExists) Directory.CreateDirectory(DefaultPath.OriginalDefaultActivityPhotoPath);
 
             string extension = Path.GetExtension(file.FileName);
             StringBuilder builder = new StringBuilder();
             builder.Append(uniqueFileName);
             builder.Append(extension);
-            string filePath = Path.Combine(DefaultPath.OriginalDefaultPhotoPath, builder.ToString());
+            string filePath = Path.Combine(DefaultPath.OriginalDefaultActivityPhotoPath, builder.ToString());
 
 
             if (!System.IO.File.Exists(filePath))
@@ -216,6 +220,7 @@ namespace Library.Admin.Controllers
 
         private Result DeleteFileFromFileSystem(string fullFilePath)
         {
+
             if (System.IO.File.Exists(fullFilePath))
             {
                 System.IO.File.Delete(fullFilePath);
