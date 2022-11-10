@@ -77,7 +77,7 @@
             var dataId = $(elem).data("id");
 
             $.ajax({
-                url: "/Author/SaveAuthor?id=" + dataId,
+                url: "/librarydashboardv2/Author/SaveAuthor?id=" + dataId,
                 success: function (data) {
                     console.log(data);
                     $('#createModal').html(data);

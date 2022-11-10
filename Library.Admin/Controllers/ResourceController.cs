@@ -740,6 +740,23 @@ namespace Library.Admin.Controllers
         }
 
         [HttpGet]
+        public IActionResult ActivityPhoto(string path)
+        {
+            try
+            {
+                string fullpath = Path.Combine(DefaultPath.OriginalDefaultActivityPhotoPath, path);
+
+                var content = System.IO.File.ReadAllBytes(fullpath);
+
+                return File(content, "img/*");
+            }
+            catch
+            {
+                return Ok();
+            }
+        }
+
+        [HttpGet]
         public IActionResult ShowPhotoModal(string path)
         {
             ResourceViewModel viewModel = new ResourceViewModel()

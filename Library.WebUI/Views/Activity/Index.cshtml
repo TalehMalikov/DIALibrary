@@ -67,7 +67,7 @@
                                 @if (!String.IsNullOrWhiteSpace(data.PhotoPath))
                                 {
                                     <div class="news-img">
-                                        <img src="@Url.Action("Picture", "Resources", new { name = data.PhotoPath })">
+                                        <img src="@Url.Action("ActivityPhoto", "Resources", new { name = data.PhotoPath })">
                                     </div>
                                 }
                                 

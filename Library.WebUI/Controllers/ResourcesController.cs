@@ -1,8 +1,8 @@
 ﻿using Library.Entities.Dtos;
 using Library.WebUI.Services.Abstract;
-using Library.WebUI.Systems;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
+using Library.Core.DefaultSystemPath;
 
 namespace Library.WebUI.Controllers
 {
@@ -32,7 +32,24 @@ namespace Library.WebUI.Controllers
             try
             {
                 name = ReformatString(name);
-                string fullPath = Path.Combine(SystemDefaults.DefaultPhotoPath, name);
+                string fullPath = Path.Combine(DefaultPath.OriginalDefaultPhotoPath, name);
+
+                var content = System.IO.File.ReadAllBytes(fullPath);
+
+                return File(content, "img/*");
+            }
+            catch
+            {
+                return BadRequest("Not found");
+            }
+        }
+
+        public IActionResult ActivityPhoto(string name)
+        {
+            try
+            {
+                name = ReformatString(name);
+                string fullPath = Path.Combine(DefaultPath.OriginalDefaultActivityPhotoPath, name);
 
                 var content = System.IO.File.ReadAllBytes(fullPath);
 
@@ -50,7 +67,7 @@ namespace Library.WebUI.Controllers
             try
             {
                 name = ReformatString(name);
-                string fullPath = Path.Combine(SystemDefaults.DefaultFilePath, name);
+                string fullPath = Path.Combine(DefaultPath.OriginalDefaultFilePath, name);
 
                 var content = System.IO.File.ReadAllBytes(fullPath);
 
@@ -69,7 +86,7 @@ namespace Library.WebUI.Controllers
 
             string filePath, contentType, filename;
 
-            filePath = Path.Combine(SystemDefaults.DefaultFilePath, file.FilePath);
+            filePath = Path.Combine(DefaultPath.OriginalDefaultFilePath, file.FilePath);
 
             contentType = $"{Path.GetExtension(file.FilePath).TrimStart('.')}/*";
             filename = file.FilePath;

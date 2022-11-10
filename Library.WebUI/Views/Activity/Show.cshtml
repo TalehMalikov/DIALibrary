@@ -33,7 +33,7 @@
             @if (!String.IsNullOrWhiteSpace(data.PhotoPath))
             {
                 <div class="news-image py-3">
-                    <img src="@Url.Action("Picture", "Resources", new {name = data.PhotoPath})" width="100%">
+                    <img src="@Url.Action("ActivityPhoto", "Resources", new {name = data.PhotoPath})" width="100%">
                 </div>
             }
 

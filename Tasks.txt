@@ -1,10 +1,7 @@
 ﻿Common problems:
-1. Log check
 2. Localization
 3. Notification(Optional)
-4. Last modified by when
 5. Last modified by whom (optional)
-6. <<Confirm form resubmission>>
 7. Navbar-giriş
 8. Email encrypt decrypt 
 
@@ -13,12 +10,10 @@ Admin panel footer
 
 
 Mən:
-File - online/offline problem
-Müəlliflər
-İcazələr
 asp-antiforgery
 
-Yeniliklər
+
+	Əhməd
 Confirm Resubmission																- 
 Localization																		-  
 
@@ -26,17 +21,10 @@ ShowFilteredFiles = author
 
 --------------------------------------------
 				Admin Panel Task
-	Əhməd
+
 1. Hesablar
 2. Hesabım
-3. İmtiyazlar
-
-
-
----------------------------------------------
-				Review
-1. Confirm resubmission
-2. Antiforgery
-3. Token Handling
-4. Script handling
-5. Navbar
+3. Confirm resubmission
+4. Antiforgery
+5. Script handling
+6. Bizim adımıza və hesabımıza icazə))

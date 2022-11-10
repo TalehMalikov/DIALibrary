@@ -120,7 +120,7 @@
             var dataId = $(elem).data("id");
 
             $.ajax({
-                url: "/Resource/SaveEducationalProgram?id=" + dataId,
+                url: "/librarydashboardv2/Resource/SaveEducationalProgram?id=" + dataId,
                 success: function (data) {
                     console.log(data);
                     $('#createModal').html(data);

@@ -23,10 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Systems\SystemDefaults.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="wwwroot\images\qr.png" />
     <None Include="wwwroot\js\dropdown.js" />
   </ItemGroup>

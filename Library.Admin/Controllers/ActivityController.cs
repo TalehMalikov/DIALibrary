@@ -7,7 +7,6 @@ using Library.Core.Result.Concrete;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using Library.Entities.Concrete;
-using Org.BouncyCastle.Asn1.IsisMtt.X509;
 
 namespace Library.Admin.Controllers
 {
@@ -56,11 +55,15 @@ namespace Library.Admin.Controllers
         public async Task<IActionResult> AddActivity(ActivityViewModel model)
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
+
             if (token == null) return RedirectToAction("Login", "Authentication");
+
             if (model.ActivityPhoto != null)
             {
                 model.Activity.PhotoPath = UniqueNameGenerator.UniqueFilePathGenerator(model.ActivityPhoto.FileName);
+
                 var result = await UploadToFileSystem(model.ActivityPhoto, model.Activity.PhotoPath);
+
                 if (result.Success)
                 {
                     var addResult = await _activityService.Add(token, new Activity
@@ -68,14 +71,13 @@ namespace Library.Admin.Controllers
                         Content = model.Activity.Content,
                         CreatedDate = model.Activity.CreatedDate,
                         LastModified = DateTime.Now,
-                        PhotoPath = model.Activity.PhotoPath,
+                        PhotoPath = model.Activity.PhotoPath+result.Data,
                         Title = model.Activity.Title,
                         IsDeleted = false
                     });
-                    if (addResult.Success) return RedirectToAction("Index");
-
-                    DeleteFileFromFileSystem(model.Activity.PhotoPath);
-                    return RedirectToAction("AddActivity");
+                    if (addResult.Success) return RedirectToAction("Index", "Activity");
+                    DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultActivityPhotoPath, model.Activity.PhotoPath));
+                    return RedirectToAction("Index","Activity");
                 }
             }
 
@@ -89,7 +91,7 @@ namespace Library.Admin.Controllers
                 Title = model.Activity.Title,
                 IsDeleted = false
             });
-            if (response.Success) return RedirectToAction("Index");
+            if (response.Success) return RedirectToAction("Index", "Activity");
             return View();
         }
 
@@ -98,7 +100,7 @@ namespace Library.Admin.Controllers
             string token = HttpContext.Session.GetString("AdminAccessToken");
             if (token == null) return RedirectToAction("Login", "Authentication");
             await _activityService.Delete(token, id);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Activity");
         }
 
         public async Task<IActionResult> DeleteFromDb(int id)
@@ -126,6 +128,7 @@ namespace Library.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(ActivityViewModel model)
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
@@ -143,7 +146,7 @@ namespace Library.Admin.Controllers
                     Title = model.Activity.Title
                 });
                 if (result.Success)
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index","Activity");
             }
             else if (model.ActivityPhoto != null)
             {
@@ -165,13 +168,11 @@ namespace Library.Admin.Controllers
                             Title = model.Activity.Title
                         });
                         if (result.Success)
-                            return RedirectToAction("Index");
+                            return RedirectToAction("Index", "Activity");
                     }
                     else
                     {
-
                         DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultActivityPhotoPath, newPhotoPath.Data));
-
                     }
                 }
             }
