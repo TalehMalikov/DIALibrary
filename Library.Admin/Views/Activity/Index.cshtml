@@ -1,68 +1,32 @@
 ﻿@model ActivityViewModel
 @{
-    ViewData["Title"] = "NewActivity";
     Layout = "_Layout";
 }
 
-<body id="page-top">
-    <!-- Begin Page Content -->
-    <div class="container-fluid">
-        <h1 class="text-gray-900 h4">Yenilik əlavə et</h1>
-        <form class="py-2" asp-controller="Activity" asp-action="AddActivity">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="form-group mb-3">
-                        <label for="titleNews" class="mb-0 text-dark">Başlıq</label>
-                        <input type="text" class="form-control" id="titleNews" placeholder="Yeniliyin başlığı" asp-for="@Model.Activity.Title">
-                    </div>
-                </div>
-            </div>
-
-            <div class="row py-1">
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="inputGroupFile02" class="mb-0 text-dark">Şəkil</label>
-                        <div class="custom-file">
-                            @*///////*@
-                            <input type="file" class="custom-file-input" id="inputGroupFile02">
-                            <label class="custom-file-label" for="inputGroupFile02">Yeniliyin şəklini yüklə</label>
+<div class="container mb-sm-3">
+    <div class="d-flex flex-wrap justify-content-center row">
+        @{
+            foreach (var item in Model.Activities)
+            {
+                <div class="col-sm-3 d-flex flex-column card mr-sm-2 mb-sm-1">
+                    <h6 class="card-header text-center">@item.Title</h6>
+                    <div class="card-body">
+                        <p class="card-text text-justify">@item.Content.Substring(0,135) ...</p>
+                        <div class="d-flex justify-content-end">
+                            <a class="btn btn-danger mr-sm-2 delete" data-toggle="modal" data-target="#deleteModal" data-action="Delete" data-controller="Activity" data-id="@item.Id">Silmək</a>
+                            <a asp-action="Update" asp-controller="Activity" class="btn btn-primary mr-sm-2 px-sm-3" asp-route-id="@item.Id">Edit</a>
+                            <a asp-action="ShowActivity" asp-controller="Activity" class="btn btn-primary px-sm-2" asp-route-id="@item.Id">Show</a>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-sm-3">
-                    <div class="form-group">
-                        <label for="timeNews" class="mb-0 text-dark">Tarix</label>
-                        <input type="datetime-local" class="form-control" id="timeNews" asp-for="@Model.Activity.CreatedDate">
-                    </div>
                 </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="form-group m-0 activities">
-                        <label for="contentNews" class="m-0 text-dark">Yeniliyin Məzmunu</label>
-                        @*<textarea class="form-control" id="contentNews" rows="2" placeholder="Abzas 1" ></textarea>*@
-                        @Html.TextAreaFor(m => m.Activity.Content, new { @class = "form-control",@id="contentNews" })
-                    </div>
-
-                    <div class="add d-flex justify-content-center">
-                        <span class="add-btn one btn btn-info mb-sm-2 mt-sm-2 mr-sm-3 px-sm-3">+</span>
-                        <span class="add-btn two btn btn-info mb-sm-2 mt-sm-2 px-sm-3">-</span>
-                    </div>
-                </div>
-            </div>
-            @{
-                
             }
-            <div class="row">
-                <div class="col-sm-12 text-center">
-                    <button type="submit" class="btn btn-primary px-5">Əlavə et</button>
-                </div>
-            </div>
-        </form>
-       
+        }
+        
     </div>
+    
+</div>
+@section Scripts{
+    <script src="~/js/section.js"></script>
 
-    <script src="~/js/app.js"></script>
-</body>
+}

@@ -1,0 +1,24 @@
+﻿@model ActivityViewModel
+@{
+    Layout = "_Layout";
+}
+<div class="container">
+    <h1 class="title text-center h3">
+        @Model.Activity.Title
+    </h1>
+    @if (!String.IsNullOrWhiteSpace(Model.Activity.PhotoPath))
+    {
+        <div class="news-image py-3">
+            <img src="@Url.Action("ShowPhoto", "Resource", new {path = Model.Activity.PhotoPath})" width="100%">
+        </div>
+    }
+
+    @foreach (var item in Model.Activity.Content.Split("\r\n"))
+    {
+        <p>@item</p>
+    }
+    <hr/>
+    <div>
+        <a asp-controller="Activity" asp-action="Update" asp-route-id="@Model.Activity.Id" class="btn btn-primary px-sm-3 mb-sm-3" style="letter-spacing: 1px">Edit</a>
+    </div>
+</div>

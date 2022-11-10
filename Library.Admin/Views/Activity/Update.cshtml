@@ -1,0 +1,91 @@
+﻿@model ActivityViewModel
+@{
+    ViewData["Title"] = "NewActivity";
+    Layout = "_Layout";
+}
+
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <h1 class="text-gray-900 h4 text-center">Yenilik əlavə et</h1>
+    <form class="py-2" asp-action="AddActivity" asp-antiforgery="true" asp-controller="Activity" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group mb-3">
+                    <label for="titleNews" class="mb-0 text-dark">Başlıq:</label>
+                    <input type="text" class="form-control" id="titleNews" placeholder="Xəbər başlığı" asp-for="Activity.Title">
+                </div>
+            </div>
+        </div>
+
+        <div class="row py-1">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="inputGroupFile02" class="mb-0 text-dark">Şəkil:</label>
+                    <div class="custom-file">
+                        <input type="file" class="form-control custom-file" placeholder="Şəkil dəyişmək" id="inputGroupFile02" asp-for="ActivityPhoto">
+                        @*<label class="custom-file-label" for="inputGroupFile02">Şəkil dəyişmək</label>*@
+                    </div>
+                    <a class="btn btn-primary mt-sm-2" onclick="ShowPhotoModal(this)" data-path="@Model.Activity.PhotoPath" data-toggle="modal" class="btn btn-info" name="submit" id="submit">
+                        Cari şəkilə baxmaq
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label for="timeNews" class="mb-0 text-dark">Tarix</label>
+                    <input type="date" class="form-control" id="timeNews" asp-for="Activity.CreatedDate">
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group m-0">
+                    <label for="contentNews" class="m-0 text-dark">Yeniliyin Məzmunu</label>
+                    <textarea class="form-control" id="contentNews" rows="10" placeholder="Xəbərin mətni" asp-for="Activity.Content"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-sm-3">
+            <div class="col-sm-12 text-center">
+                <button type="submit" class="btn btn-primary">
+                    Yadda saxla
+                </button>
+            </div>
+        </div>
+    </form>
+
+
+</div>
+@section Modals{
+    <div class="modal fade" id="createPhotoModal">
+    </div>
+
+}
+
+@section Scripts{
+    <script>
+        function ShowPhotoModal(elem) {
+            var dataPath = $(elem).data("path");
+
+            $.ajax({
+                url: "/Resource/ShowPhotoModal?path=" + dataPath,
+                success: function (data) {
+                    console.log(data);
+                    $('#createPhotoModal').html(data);
+                    $("#createPhotoModal").modal("show");
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+    </script>
+}

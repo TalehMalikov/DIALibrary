@@ -47,7 +47,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             List<Activity> activities = new();
             using NpgsqlConnection connection = new(_connectionString);
             connection.Open();
-            string cmdString = "Select * From Activities Where IsDeleted=false";
+            string cmdString = "Select * From Activities Where IsDeleted=false order by CreatedDate desc";
             using NpgsqlCommand command = new(cmdString, connection);
             var reader = command.ExecuteReader();
             while (reader.Read())
@@ -70,6 +70,29 @@ namespace Library.DataAccess.Implementation.PostgreSql
             command.Parameters.AddWithValue("@lastModified", DateTime.Now);
             command.Parameters.AddWithValue("@isDeleted", false);
             return 1 == command.ExecuteNonQuery();
+        }
+
+        public bool DeleteFromDb(int id)
+        {
+            using NpgsqlConnection connection = new(_connectionString);
+            connection.Open();
+            string cmdString = "Delete from Activities Where Id=@id";
+            using NpgsqlCommand command = new(cmdString, connection);
+            command.Parameters.AddWithValue("@id", id);
+            return 1 == command.ExecuteNonQuery();
+        }
+
+        public List<Activity> GetDeletedActivities()
+        {
+            List<Activity> activities = new();
+            using NpgsqlConnection connection = new(_connectionString);
+            connection.Open();
+            string cmdString = "Select * From Activities Where IsDeleted=true order by CreatedDate desc";
+            using NpgsqlCommand command = new(cmdString, connection);
+            var reader = command.ExecuteReader();
+            while (reader.Read())
+                activities.Add(ReadActivity(reader));
+            return activities;
         }
 
         public bool Delete(int id)

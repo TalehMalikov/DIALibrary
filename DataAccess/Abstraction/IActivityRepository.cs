@@ -6,5 +6,7 @@ namespace Library.DataAccess.Abstraction
     {
         bool Add(Activity value);
         bool Update(Activity value);
+        bool DeleteFromDb(int id);
+        List<Activity> GetDeletedActivities();
     }
 }

@@ -27,6 +27,21 @@ namespace Library.Business.Concrete
             return new ErrorResult(StatusMessagesUtil.NotFoundMessageGivenId);
         }
 
+        public Result DeleteFromDb(int id)
+        {
+            if (_activityRepository.DeleteFromDb(id))
+                return new SuccessResult(StatusMessagesUtil.DeleteSuccessMessage);
+            return new ErrorResult(StatusMessagesUtil.NotFoundMessageGivenId);
+        }
+
+        public DataResult<List<Activity>> GetDeletedActivities()
+        {
+            var result = _activityRepository.GetDeletedActivities();
+            if (result.Count == 0)
+                return new ErrorDataResult<List<Activity>>(result, StatusMessagesUtil.NotFoundMessage);
+            return new SuccessDataResult<List<Activity>>(result);
+        }
+
         public Result Delete(int id)
         {
             if (_activityRepository.Delete(id))

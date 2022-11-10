@@ -141,5 +141,11 @@ namespace Library.Admin.Controllers
             }
             return new NotFoundResult();
         }
+
+        public async Task<IActionResult> SaveAccount(int id)
+        {
+            string token = HttpContext.Session.GetString("AdminAccessToken");
+            return View();
+        }
     }
 }
