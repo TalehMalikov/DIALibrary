@@ -16,22 +16,6 @@ namespace Library.Business.Concrete
              _fileAuthorRepository = fileAuthorRepository;
         }
 
-        [CacheRemoveAspect(nameof(Library.Business.Abstraction.IBookAuthorService.Get))]
-        public Result Add(FileAuthorDtoForCrud value)
-        {
-            _fileAuthorRepository.Add(value);
-            return new SuccessResult(StatusMessagesUtil.AddSuccessMessage);
-        }
-
-        public Result AddList(List<FileAuthorDtoForCrud> values)
-        {
-            bool isSuccess = true;
-            for (int i = 0; i < values.Count; i++)
-            {
-                if (!Add(values[i]).Success) isSuccess = false;
-            }
-            return isSuccess ? new SuccessResult() : new ErrorResult();
-        }
 
         [CacheRemoveAspect(nameof(Library.Business.Abstraction.IBookAuthorService.Get))]
         public Result Delete(int id)
@@ -57,24 +41,6 @@ namespace Library.Business.Concrete
             if (result.Count == 0)
                 return new ErrorDataResult<List<BookAuthor>>(result, StatusMessagesUtil.NotFoundMessage);
             return new SuccessDataResult<List<BookAuthor>>(result);
-        }
-
-        [CacheRemoveAspect(nameof(Library.Business.Abstraction.IBookAuthorService.Get))]
-        public Result Update(FileAuthorDtoForCrud value)
-        {
-            if(_fileAuthorRepository.Update(value))
-                return new SuccessResult(StatusMessagesUtil.UpdateSuccessMessage);
-            return new ErrorResult(StatusMessagesUtil.NotFoundMessageGivenId);
-        }
-
-        public Result UpdateList(List<FileAuthorDtoForCrud> values)
-        {
-            bool isSuccess=true;
-            for (int i = 0; i < values.Count; i++)
-            {
-                if (!Update(values[i]).Success) isSuccess=false;
-            }
-            return isSuccess ? new SuccessResult() : new ErrorResult();
         }
 
         [CacheAspect]

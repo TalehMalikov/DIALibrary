@@ -31,11 +31,11 @@ namespace Library.Admin.Services.Concrete
             return result;
         }
 
-        public async Task<Result> AddAllFileAuthors(string token,FileAuthorDto fileAuthorDto)
+        public async Task<Result> AddAllFileAuthors(string token,FileAuthorDtoForCrud fileAuthorDtoForCrud)
         {
             using HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var result = await client.PostJsonAsync<Result,FileAuthorDto>(BaseUrl + "BookAuthor/addallfileauthors/", fileAuthorDto);
+            var result = await client.PostJsonAsync<Result,FileAuthorDtoForCrud>(BaseUrl + "BookAuthor/addallfileauthors/", fileAuthorDtoForCrud);
             return result;
         }
         public async Task<DataResult<List<int>>> GetAllFileAuthors(int fileId)

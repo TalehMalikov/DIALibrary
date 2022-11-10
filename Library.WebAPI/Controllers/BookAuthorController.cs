@@ -1,6 +1,4 @@
 ﻿using Library.Business.Abstraction;
-using Library.Core.Result.Concrete;
-using Library.Entities.Concrete;
 using Library.Entities.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,56 +16,11 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpPost]
-        [Route("add")]
-        [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
-        public IActionResult Add(FileAuthorDtoForCrud bookAuthor)
-
-        {
-            var result = _bookAuthorService.Add(bookAuthor);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-
-            return BadRequest(result);
-        }
-
-      /*  [HttpPost]
-        [Route("addlist")]
-        [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
-        public IActionResult AddList(List<FileAuthorDtoForCrud> bookAuthors)
-
-        {
-            var result = _bookAuthorService.AddList(bookAuthors);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-
-            return BadRequest(result);
-        }*/
-
-        [HttpPut]
-        [Route("update")]
-        [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
-        public IActionResult Update(FileAuthorDtoForCrud bookAuthor)
-
-        {
-            var result = _bookAuthorService.Update(bookAuthor);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-
-            return BadRequest(result);
-        }
-
-        [HttpPost]
         [Route("addallfileauthors")]
         [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
-        public IActionResult AddAllFileAuthor(FileAuthorDto fileAuthorDto)
+        public IActionResult AddAllFileAuthor(FileAuthorDtoForCrud fileAuthorDtoForCrud)
         {
-            var result = _bookAuthorService.AddAllFilesAuthor(fileAuthorDto.AuthorIds, fileAuthorDto.FileId);
+            var result = _bookAuthorService.AddAllFilesAuthor(fileAuthorDtoForCrud.AuthorIds, fileAuthorDtoForCrud.FileId);
             if (result.Success)
             {
                 return Ok(result);
@@ -88,21 +41,6 @@ namespace Library.WebAPI.Controllers
 
             return BadRequest(result);
         }
-/*
-        [HttpPut]
-        [Route("updatelist")]
-        [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
-        public IActionResult UpdateList(List<FileAuthorDtoForCrud> bookAuthors)
-
-        {
-            var result = _bookAuthorService.UpdateList(bookAuthors);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-
-            return BadRequest(result);
-        }*/
 
         [HttpGet]
         [Route("getall")]

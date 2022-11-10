@@ -170,7 +170,7 @@ namespace Library.Admin.Controllers
             {
                 try
                 {
-                    FileAuthorDto fileAuthorDto = new FileAuthorDto()
+                    FileAuthorDtoForCrud fileAuthorDtoForCrud = new FileAuthorDtoForCrud()
                     {
                         AuthorIds = new List<int>(viewModel.Members),
                         FileId = viewModel.File.Id
@@ -178,15 +178,18 @@ namespace Library.Admin.Controllers
 
                     if (viewModel.File.Id == 0)
                     {
-                        viewModel.File.FilePath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedFile.FileName);
                         viewModel.File.GUID = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.File.Name);
                         viewModel.File.PhotoPath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedPicture.FileName);
-
-                        var uploadFile = await UploadToFileSystem(viewModel.AddedFile, viewModel.File.FilePath);
                         var uploadPhoto = await UploadToFileSystem(viewModel.AddedPicture, viewModel.File.PhotoPath);
+                        viewModel.File.PhotoPath += uploadPhoto.Data;
 
-                        viewModel.File.FilePath += uploadFile.Data;
-                        viewModel.File.PhotoPath +=uploadPhoto.Data;
+                        DataResult<string> uploadFile = new SuccessDataResult<string>();
+                        if(!viewModel.File.ExistingStatus)
+                        {
+                            viewModel.File.FilePath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedFile.FileName);
+                            uploadFile = await UploadToFileSystem(viewModel.AddedFile, viewModel.File.FilePath);
+                            viewModel.File.FilePath += uploadFile.Data;
+                        }
 
                         if (uploadFile.Success && uploadPhoto.Success)
                         {
@@ -212,10 +215,11 @@ namespace Library.Admin.Controllers
 
                             var result = await _fileService.Add(accessToken, fileDto);
 
-                            var resultAuthor = await _fileAuthorService.AddAllFileAuthors(accessToken, fileAuthorDto);
+                            var resultAuthor = await _fileAuthorService.AddAllFileAuthors(accessToken, fileAuthorDtoForCrud);
                             if (!result.Success && !resultAuthor.Success)
                             {
-                                await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, viewModel.File.FilePath));
+                                if(!viewModel.File.ExistingStatus)
+                                    await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, viewModel.File.FilePath));
                                 await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultPhotoPath, viewModel.File.PhotoPath));
                             }
                         }
@@ -238,13 +242,12 @@ namespace Library.Admin.Controllers
                         {
                             string oldFilePath = viewModel.File.FilePath;
                             viewModel.File.FilePath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedFile.FileName);
+                            var uploadFile = await UploadToFileSystem(viewModel.AddedFile, viewModel.File.FilePath);
+                            viewModel.File.FilePath += uploadFile.Data;
 
                             string oldPhotoPath = viewModel.File.PhotoPath;
                             viewModel.File.PhotoPath = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.AddedPicture.FileName);
-
-                            var uploadFile = await UploadToFileSystem(viewModel.AddedFile, viewModel.File.FilePath);
                             var uploadPhoto = await UploadToFileSystem(viewModel.AddedPicture, viewModel.File.PhotoPath);
-                            viewModel.File.FilePath += uploadFile.Data;
                             viewModel.File.PhotoPath += uploadPhoto.Data;
 
                             if (uploadFile.Success && uploadPhoto.Success)
@@ -273,7 +276,7 @@ namespace Library.Admin.Controllers
                                 if (result.Success)
                                 {
                                     await _fileAuthorService.DeleteFileAuthor(accessToken, viewModel.File.Id);
-                                    await _fileAuthorService.AddAllFileAuthors(accessToken, fileAuthorDto);
+                                    await _fileAuthorService.AddAllFileAuthors(accessToken, fileAuthorDtoForCrud);
                                 }
                                 else
                                 {
@@ -326,7 +329,7 @@ namespace Library.Admin.Controllers
                                 if (result.Success)
                                 {
                                     await _fileAuthorService.DeleteFileAuthor(accessToken, viewModel.File.Id);
-                                    await _fileAuthorService.AddAllFileAuthors(accessToken, fileAuthorDto);
+                                    await _fileAuthorService.AddAllFileAuthors(accessToken, fileAuthorDtoForCrud);
                                 }
                                 else
                                 {
@@ -377,7 +380,7 @@ namespace Library.Admin.Controllers
                                 if (result.Success)
                                 {
                                     await _fileAuthorService.DeleteFileAuthor(accessToken, viewModel.File.Id);
-                                    await _fileAuthorService.AddAllFileAuthors(accessToken, fileAuthorDto);
+                                    await _fileAuthorService.AddAllFileAuthors(accessToken, fileAuthorDtoForCrud);
                                 }
                                 else
                                 {
@@ -416,7 +419,7 @@ namespace Library.Admin.Controllers
 
                             await _fileService.Update(accessToken, fileDto);
                             await _fileAuthorService.DeleteFileAuthor(accessToken, viewModel.File.Id);
-                            await _fileAuthorService.AddAllFileAuthors(accessToken, fileAuthorDto);
+                            await _fileAuthorService.AddAllFileAuthors(accessToken, fileAuthorDtoForCrud);
                         }
                     }
                     TempData["Message"] = "Operation successfully";

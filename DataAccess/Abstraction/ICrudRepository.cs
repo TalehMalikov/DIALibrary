@@ -7,7 +7,6 @@ namespace Library.DataAccess.Abstraction
         
         T Get(int id);
         List<T> GetAll();
-        
         bool Delete(int id);
     }
 }

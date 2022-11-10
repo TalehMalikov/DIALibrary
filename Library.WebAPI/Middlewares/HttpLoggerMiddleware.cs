@@ -62,7 +62,6 @@ namespace Library.WebAPI.Middlewares
                 await responseBodyStream.CopyToAsync(originalBodyStream);
             }
         }
-
         private static string ReadStreamInChunks(Stream stream)
         {
             const int readChunkBufferLength = 4096;
