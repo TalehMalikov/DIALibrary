@@ -23,20 +23,26 @@
 
 <section id="news-read" class="py-4">
 
-        @{
-            var data = @Model.Activity.Data;
-            <div class="container">
-                 <h1 class="title text-center h3">
-                      @data.Title
-                 </h1>
-                 <div class="news-image py-3">
+    @{
+        var data = @Model.Activity.Data;
+        <div class="container">
+            <h1 class="title text-center h3">
+                @data.Title
+            </h1>
+
+            @if (!String.IsNullOrWhiteSpace(data.PhotoPath))
+            {
+                <div class="news-image py-3">
                     <img src="@Url.Action("Picture", "Resources", new {name = data.PhotoPath})" width="100%">
-                 </div>
+                </div>
+            }
 
-                <p class="content">
-                     @data.Content
-                </p>
 
-             </div>
-        }
+            @foreach (var item in data.Content.Split("\r\n"))
+            {
+                <p>@item</p>
+            }
+
+        </div>
+    }
 </section>

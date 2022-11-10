@@ -53,6 +53,19 @@ namespace Library.WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpDelete("deletefromdb/{id:int}")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        public IActionResult DeleteFromDb(int id)
+        {
+            var result = _activityService.DeleteFromDb(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
@@ -64,6 +77,20 @@ namespace Library.WebAPI.Controllers
 
             return BadRequest(result);
         }
+
+        [HttpGet("getdeletedactivities")]
+        [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
+        public IActionResult GetDeletedActivities()
+        {
+            var result = _activityService.GetDeletedActivities();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
 
         [HttpGet("getbyid/{id:int}")]
         public IActionResult Get(int id)

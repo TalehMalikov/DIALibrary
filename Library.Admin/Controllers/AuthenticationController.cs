@@ -40,7 +40,7 @@ namespace Library.Admin.Controllers
                 HttpContext.Session.SetString("AdminId",account.Data.Id.ToString());
                 return RedirectToAction("Index", "Home");
             }
-            return View();
+            return RedirectToAction("Login");
         }
 
         protected string GetRole(string token)

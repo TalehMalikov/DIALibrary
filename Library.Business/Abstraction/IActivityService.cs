@@ -8,5 +8,7 @@ namespace Library.Business.Abstraction
 
         Result Add(Activity value);
         Result Update(Activity value);
+        Result DeleteFromDb(int id);
+        DataResult<List<Activity> GetDeletedActivities();
     }
 }
