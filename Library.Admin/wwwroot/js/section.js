@@ -52,7 +52,8 @@ $((function () {
         var action = $(target).data('action');
         redirectUrl = $(target).data('redirect-url');
 
-        url = "/librarydashboardv2" + "/" + controller + "/" + action + "/" + id;
+        //url = "/librarydaschboardv2" + "/" + controller + "/" + action + "/" + id;
+        url = "/" + controller + "/" + action + "/" + id;
         $("#deleteModal").modal('show');
     });
 
@@ -79,7 +80,8 @@ function ShowSaveModal(elem) {
     var controller = $(elem).data("controller");
     var action = $(elem).data("action");
     $.ajax({
-        url:"/librarydashboardv2"+ "/" + controller + "/" + action + "?id=" + dataId,
+        //url:"/librarydashboardv2"+ "/" + controller + "/" + action + "?id=" + dataId,
+        url: "/" + controller + "/" + action + "?id=" + dataId,
         success: function (data) {
             console.log(data);
             $('#createModal').html(data);

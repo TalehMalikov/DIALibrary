@@ -82,7 +82,7 @@
                                 <tr>
                                     <th class="col text-end">Description</th>
                                     <td class="col">
-                                        <img width="130" height="130" src="~/images/qr.png" alt="">
+                                        <img width="130" height="130" src="@Url.Action("QrCodePhoto","Resources", new{ name = @fileAuthorData.File.QrCodeFilePath})" alt="QrCode Image">
                                     </td>
                                 </tr>
                             </tbody>

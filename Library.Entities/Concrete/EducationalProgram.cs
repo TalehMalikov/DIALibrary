@@ -7,6 +7,7 @@ namespace Library.Entities.Concrete
         public string Name { get; set; }
         public string EducationLevel { get; set; }
         public string FilePath { get; set; }
+        public string QrCodePhotoPath { get; set; }
         public bool IsActive { get; set; }
         public DateTime LastModified { get; set; }
         public Specialty Specialty { get; set; }

@@ -21,10 +21,10 @@ namespace Library.DataAccess.Implementation.PostgreSql
             connection.Open();
             string cmdString = "Insert Into Files(Name,CategoryId,OriginalLanguageId,LastModified,ExistingStatus," +
                                "FileTypeId,EditionStatus,PublicationLanguageId,Description,PublisherName,PublicationDate," +
-                               "PhotoPath,FilePath,PageNumber,GUID)" +
+                               "PhotoPath,FilePath,PageNumber,GUID, QrCodeFilePath)" +
                                " Values(@name,@categoryId,@originalLanguageId,@lastModified,@existingStatus,@fileTypeId," +
                                "@editionStatus,@publicationLanguageId,@description,@publisherName,@publicationDate,@photoPath," +
-                               "@filePath,@pageNumber,@guid) RETURNING Files.Id";
+                               "@filePath,@pageNumber,@guid,@qrcodefilepath) RETURNING Files.Id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             command.Parameters.AddWithValue("@name", value.Name);
             command.Parameters.AddWithValue("@categoryId", value.CategoryId);
@@ -40,7 +40,8 @@ namespace Library.DataAccess.Implementation.PostgreSql
             command.Parameters.AddWithValue("@photoPath", value.PhotoPath);
             command.Parameters.AddWithValue("@filePath", value.FilePath);
             command.Parameters.AddWithValue("@pageNumber", value.PageNumber);
-            command.Parameters.AddWithValue("@guid", UniqueNameGenerator.UniqueFileNameGenerator(value.Name));
+            command.Parameters.AddWithValue("@guid", value.GUID);
+            command.Parameters.AddWithValue("@qrcodefilepath",value.QrCodeFilePath);
             int id = Convert.ToInt32(command.ExecuteScalar());
             return id;
         }
@@ -65,7 +66,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
                                "originallanguageid,ol.name as originallanguagename," +
                                "files.lastmodified as filelastmodified,editionstatus," +
                                "filetypeid,filetypes.name as filetypename," +
-                               "photopath,publishername,pagenumber,guid," +
+                               "photopath,publishername,pagenumber,guid,QrCodeFilePath," +
                                "publicationlanguageid, pl.name as publicationlanguagename," +
                                "publicationdate, description,filepath,existingstatus from files " +
                                "inner join categories on categories.id = categoryid " +
@@ -91,7 +92,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
                                "originallanguageid,ol.name as originallanguagename," +
                                "files.lastmodified as filelastmodified,editionstatus," +
                                "filetypeid,filetypes.name as filetypename," +
-                               "photopath,publishername,pagenumber,guid," +
+                               "photopath,publishername,pagenumber,guid,QrCodeFilePath," +
                                "publicationlanguageid, pl.name as publicationlanguagename," +
                                "publicationdate, description,filepath,existingstatus from files " +
                                "inner join categories on categories.id = categoryid " +
@@ -115,7 +116,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
                                "originallanguageid,ol.name as originallanguagename," +
                                "files.lastmodified as filelastmodified,editionstatus," +
                                "filetypeid,filetypes.name as filetypename," +
-                               "photopath,publishername,pagenumber,guid," +
+                               "photopath,publishername,pagenumber,guid,QrCodeFilePath," +
                                "publicationlanguageid, pl.name as publicationlanguagename," +
                                "publicationdate, description,filepath,existingstatus from files " +
                                "inner join categories on categories.id = categoryid " +
@@ -141,7 +142,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
                                "originallanguageid,ol.name as originallanguagename," +
                                "files.lastmodified as filelastmodified,editionstatus," +
                                "filetypeid,filetypes.name as filetypename," +
-                               "photopath,publishername,pagenumber,guid," +
+                               "photopath,publishername,pagenumber,guid,QrCodeFilePath," +
                                "publicationlanguageid, pl.name as publicationlanguagename," +
                                "publicationdate, description,filepath,existingstatus from files " +
                                "inner join categories on categories.id = categoryid " +
@@ -164,7 +165,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
                 "OriginalLanguageId=@originalLanguageId,LastModified=@lastModified,GUID=@guid," +
                 "ExistingStatus=@existingStatus,FileTypeId=@fileTypeId,EditionStatus=@editionStatus," +
                 "PublicationLanguageId=@publicationLanguageId,Description=@description,PublisherName=@publisherName," +
-                "PublicationDate=@publicationDate,PhotoPath=@photoPath,FilePath=@filePath,PageNumber=@pageNumber where Id=@id";
+                "PublicationDate=@publicationDate,PhotoPath=@photoPath,FilePath=@filePath,PageNumber=@pageNumber,QrCodeFilePath=@qrcodefilepath where Id=@id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             command.Parameters.AddWithValue("@id", value.Id);
             command.Parameters.AddWithValue("@name", value.Name);
@@ -181,7 +182,8 @@ namespace Library.DataAccess.Implementation.PostgreSql
             command.Parameters.AddWithValue("@photoPath", value.PhotoPath);
             command.Parameters.AddWithValue("@filePath", value.FilePath);
             command.Parameters.AddWithValue("@pageNumber", value.PageNumber);
-            command.Parameters.AddWithValue("@guid", UniqueNameGenerator.UniqueFileNameGenerator(value.Name));
+            command.Parameters.AddWithValue("@guid", value.GUID);
+            command.Parameters.AddWithValue("@qrcodefilepath", value.QrCodeFilePath);
             return 1 == command.ExecuteNonQuery();
         }
 
@@ -216,6 +218,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
                 Description=reader.Get<string>("Description"),
                 PhotoPath= reader.Get<string>("PhotoPath"),
                 FilePath = reader.Get<string>("FilePath"),
+                QrCodeFilePath = reader.Get<string>("QrCodeFilePath"),
                 PublisherName= reader.Get<string>("PublisherName"),
                 PageNumber=reader.Get<int>("PageNumber"),
                 EditionStatus = reader.Get<bool>("EditionStatus"),

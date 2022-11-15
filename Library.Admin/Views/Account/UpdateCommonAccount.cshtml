@@ -5,8 +5,8 @@
             <form asp-controller="Account" asp-antiforgery="true" asp-action="UpdateCommonAccount" class="form-group">
                 <input hidden asp-for="AccountRole.Account.Id" />
                 <input hidden asp-for="AccountRole.Account.User.Id" />
-                <input hidden asp-for="AccountRole.Id" />
                 <input hidden asp-for="AccountRole.Account.PasswordHash" />
+                <input hidden asp-for="AccountRole.Account.User.IsStudent" />
 
                 <div class="form-group">
                     <label for="userFirstName" class="mr-sm-2">Adı:</label>
@@ -33,6 +33,18 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="name" class="mr-sm-2">Hesab adı:</label>
+                    <input asp-for="AccountRole.Account.AccountName" class="form-control mb-2 mr-sm-2" />
+                    <span asp-validation-for="AccountRole.Account.AccountName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="address" class="mr-sm-2">Email adresi:</label>
+                    <input asp-for="AccountRole.Account.Email" class="form-control mb-2 mr-sm-2" />
+                    <span asp-validation-for="AccountRole.Account.Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
                     <label for="userBirthdate" class="mr-sm-2">Cins:</label>
                     <div class="col-sm-6 d-flex">
                         <div class="mr-sm-3 mr-4">
@@ -48,27 +60,27 @@
                     </div>
                 </div>
                 
-                @if (Model.AccountRole.Account.User.IsStudent)
-                {
-                    <input hidden asp-for="StudentDto.Id" />
-                    <input hidden asp-for="StudentDto.UserId" />
+                 @if (@Model.AccountRole.Account.User.IsStudent)
+                    {
+                        <input hidden asp-for="StudentDto.Id" />
+                        <input hidden asp-for="StudentDto.UserId" />
 
-                    <div class="form-group">
-                        <label for="name" class="mr-sm-2">İxtisas:</label>
-                        @Html.DropDownListFor(s=> s.StudentDto.SpecialtyId, Model.SpecialtyList,new {@class="custom-select form-control"})
-                    </div>
+                        <div class="form-group">
+                            <label for="name" class="mr-sm-2">İxtisas:</label>
+                            @Html.DropDownListFor(s=> s.StudentDto.SpecialtyId, Model.SpecialtyList,new {@class="custom-select form-control"})
+                        </div>
 
-                    <div class="form-group">
-                        <label for="name" class="mr-sm-2">Qrup:</label>
-                        @Html.DropDownListFor(s=> s.StudentDto.GroupId, Model.GroupList,new {@class="custom-select form-control"})
-                    </div>
+                        <div class="form-group">
+                            <label for="name" class="mr-sm-2">Qrup:</label>
+                            @Html.DropDownListFor(s=> s.StudentDto.GroupId, Model.GroupList,new {@class="custom-select form-control"})
+                        </div>
 
-                    <div class="form-group">
-                        <label for="userBirthdate" class="mr-sm-2">Daxilolma tarixi:</label>
-                        <input asp-for="StudentDto.AcceptanceDate" class="form-control mb-2 mr-sm-2" />
-                        <span asp-validation-for="StudentDto.AcceptanceDate" class="text-danger"></span>
-                    </div>
-                }
+                        <div class="form-group">
+                            <label for="userBirthdate" class="mr-sm-2">Daxilolma tarixi:</label>
+                            <input asp-for="StudentDto.AcceptanceDate" class="form-control mb-2 mr-sm-2" />
+                            <span asp-validation-for="StudentDto.AcceptanceDate" class="text-danger"></span>
+                        </div>
+                    }
 
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary bgupdate">Yadda saxla</button>

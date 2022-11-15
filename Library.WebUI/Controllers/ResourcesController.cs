@@ -44,6 +44,24 @@ namespace Library.WebUI.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult QrCodePhoto(string name)
+        {
+            try
+            {
+                name = ReformatString(name);
+                string fullPath = Path.Combine(DefaultPath.OriginalDefaultQRCodePhotoPath, name);
+
+                var content = System.IO.File.ReadAllBytes(fullPath);
+
+                return File(content, "img/*");
+            }
+            catch
+            {
+                return BadRequest("Not found");
+            }
+        }
+        
         public IActionResult ActivityPhoto(string name)
         {
             try
