@@ -156,15 +156,15 @@
     }
 
     .footer .icon-div .fa-instagram {
-        color: #ff4d00;
+        color: white;
     }
 
     .footer .icon-div .fa-youtube {
-        color: red;
+        color: white;
     }
 
     .footer .icon-div .fa-facebook {
-        color: blue;
+        color: white;
     }
 
     .footer .link {
@@ -288,6 +288,7 @@
         background: none;
         border: none;
     }
+
 
 .category-div {
     width: 100%;

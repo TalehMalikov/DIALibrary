@@ -37,13 +37,13 @@
 
                             <tbody>
                                 <tr>
-                                    <th class="col text-end">Kitabın Adı</th>
-                                    <td class="col">@file.File.Name</td>
+                                    <th class="col-sm-3 text-end">Kitabın Adı</th>
+                                    <td class="col-sm-9">@file.File.Name</td>
                                 </tr>
 
                                 <tr>
-                                    <th class="col text-end">Müəllif</th>
-                                    <td class="col">
+                                    <th class="col-sm-3 text-end">Müəllif</th>
+                                    <td class="col-sm-9">
                                         @{
                                             var builder = new StringBuilder();
                                             foreach (var m in file.Authors)
@@ -52,7 +52,7 @@
                                                 builder.Append(" ");
                                                 builder.Append(m.LastName);
                                                 builder.Append(", ");
-                                                <a>@builder.ToString().Trim().Trim(',')</a>
+                                                <span>@builder.ToString().Trim().Trim(',')</span>
                                             }
                                         }
                                     </td>

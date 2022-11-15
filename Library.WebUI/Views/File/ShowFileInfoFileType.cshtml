@@ -36,13 +36,13 @@
 
                             <tbody>
                                 <tr>
-                                    <th class="col text-end">Kitabın Adı</th>
-                                    <td class="col">@fileAuthorData.File.Name</td>
+                                    <th scope="col" class="col text-end">Kitabın Adı</th>
+                                    <td class="col-9">@fileAuthorData.File.Name</td>
                                 </tr>
 
                                 <tr>
-                                    <th class="col text-end">Müəllif</th>
-                                    <td class="col">
+                                    <th class="col-3 text-end">Müəllif</th>
+                                    <td class="col-9">
                                         @{
                                             var builder = new StringBuilder();
                                             foreach (var m in fileAuthorData.Authors)
@@ -51,7 +51,7 @@
                                                 builder.Append(" ");
                                                 builder.Append(m.LastName);
                                                 builder.Append(", ");
-                                                <a>@builder.ToString().Trim().Trim(',')</a>
+                                                <span>@builder.ToString().Trim().Trim(',')</span>
                                             }
                                         }
                                     </td>
