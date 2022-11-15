@@ -3,7 +3,6 @@ using FileTester.MySystem;
 using FileTester.Services.Abstract;
 using IronBarCode;
 using Microsoft.AspNetCore.Mvc;
-using System.Drawing;
 using System.Text;
 using File = Library.Entities.Concrete.File;
 
@@ -149,9 +148,9 @@ namespace FileTester.Controllers
 
             string filename = Guid.NewGuid().ToString();
 
-            /*var MyQRWithLogo = QRCodeWriter.CreateQrCodeWithLogo(Defaults.DefaultUrlForQRCode+guid,
+            var MyQRWithLogo = QRCodeWriter.CreateQrCodeWithLogo(Defaults.DefaultUrlForQRCode+guid,
                 "wwwroot/logo.png", 500).SaveAsPng(Defaults.DefaultPhotoPath + photopath);
-*/
+
             return RedirectToAction("Index", "File");
         }
     }

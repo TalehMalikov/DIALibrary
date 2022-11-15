@@ -5,10 +5,7 @@ using Library.Entities.Concrete;
 using Library.Entities.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-using System.Text.Json;
 
 namespace Library.Admin.Controllers
 {
@@ -160,6 +157,7 @@ namespace Library.Admin.Controllers
             {
                 AccountViewModel viewModel = new AccountViewModel();
                 var account = await _accountService.Get(accessToken, id);
+
                 if (account.Success == false)
                     return new NotFoundObjectResult(account.Message);
 
@@ -174,12 +172,14 @@ namespace Library.Admin.Controllers
                 if (account.Data.User.IsStudent)
                 {
                     var student = await _studentService.GetByUserId(accessToken, account.Data.User.Id);
+                    
                     viewModel.StudentDto = new StudentDto()
                     {
                         Id = student.Data.Id,
                         UserId = account.Data.User.Id,
                         SpecialtyId = student.Data.Specialty.Id,
-                        GroupId = student.Data.Group.Id
+                        GroupId = student.Data.Group.Id,
+                        AcceptanceDate = student.Data.AcceptanceDate
                     };
                 }
 
@@ -190,6 +190,46 @@ namespace Library.Admin.Controllers
                 viewModel.GroupList = new SelectList(groups.Data, "Id", "Name");
 
                 return PartialView(viewModel);
+            }
+            return new NotFoundResult();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateCommonAccount(AccountViewModel viewModel)
+        {
+            string accessToken = HttpContext.Session.GetString("AdminAccessToken");
+            if (accessToken != null)
+            {
+                var accountDto = new AccountDto()
+                {
+                    Id = viewModel.AccountRole.Account.Id,
+                    UserId = viewModel.AccountRole.Account.User.Id,
+                    AccountName = viewModel.AccountRole.Account.AccountName,
+                    PasswordHash = viewModel.AccountRole.Account.PasswordHash,
+                    Email = viewModel.AccountRole.Account.Email,
+                    IsDeleted = viewModel.AccountRole.Account.IsDeleted,
+                    LastModified = viewModel.AccountRole.Account.LastModified
+                };
+
+                var userUpdate = await _userService.Update(accessToken, viewModel.AccountRole.Account.User);
+
+                var updateAccount = await _accountService.Update(accessToken, accountDto);
+
+                if(updateAccount.Success && userUpdate.Success)
+                {
+                    if(viewModel.AccountRole.Account.User.IsStudent)
+                    {
+                        var updateStudent = await _studentService.Update(accessToken, viewModel.StudentDto);
+                        if (updateAccount.Success) 
+                            return RedirectToAction("Index", "Account");
+                        return BadRequest(updateStudent);
+                    }
+                    return RedirectToAction("Index", "Account");
+                }
+                else
+                {
+                    // log
+                }
             }
             return new NotFoundResult();
         }

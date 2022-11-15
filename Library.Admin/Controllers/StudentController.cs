@@ -37,15 +37,5 @@ namespace Library.Admin.Controllers
             var responseUser = await _userService.Delete(token, id);
             return RedirectToAction("ShowStudents");
         }
-
-        //public async Task<IActionResult> SaveStudent(int id)
-        //{
-        //    string token = HttpContext.Session.GetString("AdminAccessToken");
-        //    if (id == 0)
-        //    {
-        //        return PartialView();
-        //    }
-        //}
-
     }
 }

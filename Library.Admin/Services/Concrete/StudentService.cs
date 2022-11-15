@@ -17,9 +17,12 @@ namespace Library.Admin.Services.Concrete
             return result;
         }
 
-        public Task<Result> Update(string token, Student entity)
+        public async Task<Result> Update(string token, StudentDto student)
         {
-            throw new NotImplementedException();
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var result = await client.PutJsonAsync<Result, StudentDto>(BaseUrl + "Student/update", student);
+            return result;
         }
 
         public async Task<Result> Delete(string token, int id)
@@ -42,7 +45,7 @@ namespace Library.Admin.Services.Concrete
         {
             using HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var result = await client.GetJsonAsync<DataResult<Student>>(BaseUrl + "Student/getbyuserid");
+            var result = await client.GetJsonAsync<DataResult<Student>>(BaseUrl + "Student/getbyuserid/" + id);
             return result;
         }
     }

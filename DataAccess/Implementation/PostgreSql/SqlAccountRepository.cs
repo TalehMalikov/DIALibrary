@@ -47,7 +47,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             connection.Open();
             string query = "select Accounts.id as accountId,accountName,passwordHash,Email," +
                            "Accounts.isDeleted as AccountIsDeleted,Accounts.LastModified as AccountLastModified, " +
-                           "Users.Id as UserId,FirstName,LastName,FatherName,birthdate,gender," +
+                           "Users.Id as UserId,FirstName,LastName,FatherName,birthdate,gender,isStudent," +
                            "Users.IsDeleted as UserIsDeleted,Users.LastModified as UserLastModified " +
                            "from accounts inner join Users on Users.id = accounts.userid where Accounts.Id=@id and Users.IsDeleted=false and Accounts.IsDeleted = false";
             using NpgsqlCommand cmd = new NpgsqlCommand(query, connection);
@@ -64,7 +64,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             connection.Open();
             string query = "select Accounts.id as accountid,accountname,passwordhash,email," +
                            "Accounts.isdeleted as AccountIsDeleted,Accounts.lastmodified as AccountLastModified, " +
-                           "Users.Id as UserId,firstname,lastname,fathername,birthdate,gender," +
+                           "Users.Id as UserId,firstname,lastname,fathername,birthdate,gender,isStudent," +
                            "Users.IsDeleted as UserIsDeleted,Users.LastModified as UserLastModified " +
                            "from accounts inner join Users on Users.id = accounts.userid where Users.IsDeleted=false and Accounts.IsDeleted = false";
 
@@ -82,7 +82,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             connection.Open();
             string query = "select Accounts.id as accountid,accountname,passwordhash,email," +
                            "Accounts.isdeleted as AccountIsDeleted,Accounts.lastmodified as AccountLastModified, " +
-                           "Users.Id as UserId,firstname,lastname,fathername,birthdate,gender," +
+                           "Users.Id as UserId,firstname,lastname,fathername,birthdate,gender,isStudent," +
                            "Users.IsDeleted as UserIsDeleted,Users.LastModified as UserLastModified " +
                            "from accounts inner join Users on Users.id = accounts.userid where Upper(Accounts.Email)=@email and Users.IsDeleted=false and Accounts.IsDeleted = false";
             using NpgsqlCommand cmd = new NpgsqlCommand(query, connection);
@@ -117,7 +117,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             connection.Open();
             string query = "select Accounts.id as accountid,accountname,passwordhash,email," +
                            "Accounts.isdeleted as AccountIsDeleted,Accounts.lastmodified as AccountLastModified, " +
-                           "Users.Id as UserId,firstname,lastname,fathername,birthdate,gender," +
+                           "Users.Id as UserId,firstname,lastname,fathername,birthdate,gender,isStudent," +
                            "Users.IsDeleted as UserIsDeleted,Users.LastModified as UserLastModified " +
                            "from accounts inner join Users on Users.id = accounts.userid where Upper(Accounts.AccountName)=@accountname and Users.IsDeleted=false and Accounts.IsDeleted = false";
             using NpgsqlCommand cmd = new NpgsqlCommand(query, connection);
@@ -160,6 +160,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
                     BirthDate = reader.Get<DateTime>("BirthDate"),
                     Gender = reader.Get<bool>("Gender"),
                     IsDeleted = reader.Get<bool>("UserIsDeleted"),
+                    IsStudent = reader.Get<bool>("IsStudent"),
                     LastModified = reader.Get<DateTime>("UserLastModified")
                 },
                 AccountName = reader.Get<string>("AccountName"),

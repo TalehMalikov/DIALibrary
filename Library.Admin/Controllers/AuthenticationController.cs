@@ -31,14 +31,18 @@ namespace Library.Admin.Controllers
             var result = await _authService.Login(model.AccountLoginDto);
             if (result.Success)
             {
-                HttpContext.Session.SetString("AdminAccessToken", result.Data.Token);
-                HttpContext.Session.SetString("AdminEmail", result.Data.Email);
-                HttpContext.Session.SetString("UserRole", GetRole(result.Data.Token));
-                HttpContext.Session.SetString("FullName",result.Data.FullName);
-
-                var account = await _accountService.GetByEmail(result.Data.Email);
-                HttpContext.Session.SetString("AdminId",account.Data.Id.ToString());
-                return RedirectToAction("Index", "Home");
+                var role = GetRole(result.Data.Token);
+                if (role == "SuperAdmin" || role == "Admin" || role == "GroupAdmin" || role == "ResourceAdmin")
+                {
+                    HttpContext.Session.SetString("AdminAccessToken", result.Data.Token);
+                    HttpContext.Session.SetString("AdminEmail", result.Data.Email);
+                    HttpContext.Session.SetString("UserRole", role);
+                    HttpContext.Session.SetString("FullName", result.Data.FullName);
+                    var account = await _accountService.GetByEmail(result.Data.Email);
+                    HttpContext.Session.SetString("AdminId", account.Data.Id.ToString());
+                    return RedirectToAction("Index", "Home");
+                }
+                return RedirectToAction("Login");
             }
             return RedirectToAction("Login");
         }

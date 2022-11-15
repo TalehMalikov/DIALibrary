@@ -13,17 +13,11 @@ Mən:
 asp-antiforgery
 
 
-	Əhməd
 Confirm Resubmission																- 
 Localization																		-  
 
-ShowFilteredFiles = author
-
 --------------------------------------------
 				Admin Panel Task
-
-1. Hesablar
-2. Hesabım
 3. Confirm resubmission
 4. Antiforgery
 5. Script handling
