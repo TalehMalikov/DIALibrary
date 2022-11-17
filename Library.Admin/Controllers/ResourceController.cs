@@ -801,16 +801,19 @@ namespace Library.Admin.Controllers
 
         public void QrCodeGenerator(string guid, string qrCodeFilePath)
         {
-        //Generate normal QrCode
-        //QRCodeWriter.CreateQrCode("Ehmed başına daş. Geberrr", 500, QRCodeWriter.QrErrorCorrectionLevel.Medium).SaveAsPng("MyQR.png");
+            try
+            {
+                bool basePhotoPathExists = System.IO.Directory.Exists(DefaultPath.OriginalDefaultQRCodePhotoPath);
+                if (!basePhotoPathExists) Directory.CreateDirectory(DefaultPath.OriginalDefaultQRCodePhotoPath);
 
-
-
-            bool basePhotoPathExists = System.IO.Directory.Exists(DefaultPath.OriginalDefaultQRCodePhotoPath);
-            if (!basePhotoPathExists) Directory.CreateDirectory(DefaultPath.OriginalDefaultQRCodePhotoPath);
-
-            var MyQRWithLogo = QRCodeWriter.CreateQrCodeWithLogo(DefaultPath.OriginalDefaultUrlForQRCode+guid,
-                "wwwroot/img/logo.png", 500).SaveAsPng(DefaultPath.OriginalDefaultQRCodePhotoPath + qrCodeFilePath);
+                var MyQRWithLogo = QRCodeWriter.CreateQrCodeWithLogo(DefaultPath.OriginalDefaultUrlForQRCode + guid,
+                        @"C:\WWW\libdiaeduaz-admin\wwwroot\img\logo.png", 500)
+                    .SaveAsPng(DefaultPath.OriginalDefaultQRCodePhotoPath + qrCodeFilePath);
+            }
+            catch (Exception ex)
+            {
+                System.IO.File.WriteAllText(@"C:\WWW\Bura At\temporarilylog.txt",ex.Message);
+            }
         }
 
         #endregion

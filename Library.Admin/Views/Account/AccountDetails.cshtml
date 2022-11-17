@@ -90,8 +90,7 @@
             var dataId = $(elem).data("id");
 
             $.ajax({
-                //url: "/librarydashboardv2/Account/UpdateAccount?id=" + dataId,
-                url: "/Account/UpdateAccount?id=" + dataId,
+                url: "/librarydashboardv2/Account/UpdateAccount?id=" + dataId,
                 success: function (data) {
                     $('#createUpdateModal').html(data);
                     $("#createUpdateModal").modal("show");

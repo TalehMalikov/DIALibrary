@@ -77,8 +77,7 @@
             var dataId = $(elem).data("id");
 
             $.ajax({
-                //url: "/librarydashboardv2/Author/SaveAuthor?id=" + dataId,
-                url: "/Author/SaveAuthor?id=" + dataId,
+                url: "/librarydashboardv2/Author/SaveAuthor?id=" + dataId,
                 success: function (data) {
                     console.log(data);
                     $('#createModal').html(data);
@@ -94,7 +93,7 @@
             var dataId = $(elem).data("id");
 
             $.ajax({
-                url: "/Author/SaveFileAuthor?fileId=" + dataId,
+                url: "/librarydashboardv2/Author/SaveFileAuthor?fileId=" + dataId,
                 success: function (data) {
                     console.log(data);
                     $('#createFileAuthorModal').html(data);

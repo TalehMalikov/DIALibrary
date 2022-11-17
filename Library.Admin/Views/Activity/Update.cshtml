@@ -76,7 +76,7 @@
             var dataPath = $(elem).data("path");
 
             $.ajax({
-                url: "/Resource/ShowPhotoModal?path=" + dataPath,
+                url: "/librarydashboardv2/Resource/ShowPhotoModal?path=" + dataPath,
                 success: function (data) {
                     console.log(data);
                     $('#createPhotoModal').html(data);
