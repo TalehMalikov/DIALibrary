@@ -49,7 +49,7 @@
                                                 builder.Append(" ");
                                                 builder.Append(m.LastName);
                                                 builder.Append(", ");
-                                                <a>@builder.ToString().Trim().Trim(',')</a>
+                                                <span>@builder.ToString().Trim().Trim(',')</span>
                                             }
                                         }
                                     </td>
@@ -80,7 +80,10 @@
                                 <tr>
                                     <th class="col text-end">Description</th>
                                     <td class="col">
-                                        <img width="130" height="130" src="@Url.Action("QrCodePhoto","Resources", new{ name = @file.File.QrCodeFilePath})" alt="QrCode Image">
+                                        <!--
+                                        <img width="130" height="130" src="Url.Action("QrCodePhoto", "Resources", new { name = @file.File.QrCodeFilePath })" alt="QrCode Image">
+                                        -->
+                                        @file.File.Description
                                     </td>
                                 </tr>
                             </tbody>
