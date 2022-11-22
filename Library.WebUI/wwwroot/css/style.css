@@ -6,6 +6,10 @@
     outline: none;
     list-style: none;
 }
+
+.col-sm-3, .col-sm-9, .col {
+    width: auto !important
+}
 /*#drop-box {
     transform: translate3d(0px, 46.4px, 0px) !important;
 }*/
@@ -793,5 +797,8 @@
         background: #0085b6;
     }
 
+#navbottom .dropdown-item:focus {
+    background: none;
+}
 /*# sourceMappingURL=style.css.map */
 /*Hello*/
