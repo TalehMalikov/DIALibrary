@@ -193,8 +193,8 @@ namespace Library.Admin.Controllers
 
                         if (uploadFile.Success && uploadPhoto.Success)
                         {
-                            viewModel.File.QrCodeFilePath  = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.File.Name)+".png";
-                            QrCodeGenerator(viewModel.File.GUID, viewModel.File.QrCodeFilePath);
+                            //viewModel.File.QrCodeFilePath  = UniqueNameGenerator.UniqueFilePathGenerator(viewModel.File.Name)+".png";
+                            //QrCodeGenerator(viewModel.File.GUID, viewModel.File.QrCodeFilePath);
 
                             var fileDto = new FileDto()
                             {
@@ -208,7 +208,7 @@ namespace Library.Admin.Controllers
                                 FileTypeId = viewModel.File.FileType.Id,
                                 PhotoPath = viewModel.File.PhotoPath,
                                 FilePath = viewModel.File.FilePath,
-                                QrCodeFilePath = viewModel.File.QrCodeFilePath,
+                                QrCodeFilePath ="",
                                 PublisherName = viewModel.File.PublisherName,
                                 PublicationDate = viewModel.File.PublicationDate,
                                 PageNumber = viewModel.File.PageNumber,
@@ -228,7 +228,7 @@ namespace Library.Admin.Controllers
                                 if(!viewModel.File.ExistingStatus)
                                     await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, viewModel.File.FilePath));
                                 await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultPhotoPath, viewModel.File.PhotoPath));
-                                await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultQRCodePhotoPath, fileDto.QrCodeFilePath));
+                                //await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultQRCodePhotoPath, fileDto.QrCodeFilePath));
                             }
                         }
                         else
@@ -272,7 +272,7 @@ namespace Library.Admin.Controllers
                                     FileTypeId = viewModel.File.FileType.Id,
                                     PhotoPath = viewModel.File.PhotoPath,
                                     FilePath = viewModel.File.FilePath,
-                                    //QrCodeFilePath = viewModel.File.QrCodeFilePath,
+                                    QrCodeFilePath = string.Empty,
                                     PublisherName = viewModel.File.PublisherName,
                                     PublicationDate = viewModel.File.PublicationDate,
                                     PageNumber = viewModel.File.PageNumber,
@@ -325,7 +325,7 @@ namespace Library.Admin.Controllers
                                     FileTypeId = viewModel.File.FileType.Id,
                                     PhotoPath = viewModel.File.PhotoPath,
                                     FilePath = viewModel.File.FilePath,
-                                    //QrCodeFilePath = viewModel.File.QrCodeFilePath,
+                                    QrCodeFilePath = string.Empty,
                                     PublisherName = viewModel.File.PublisherName,
                                     PublicationDate = viewModel.File.PublicationDate,
                                     PageNumber = viewModel.File.PageNumber,
@@ -377,7 +377,7 @@ namespace Library.Admin.Controllers
                                     FileTypeId = viewModel.File.FileType.Id,
                                     PhotoPath = viewModel.File.PhotoPath,
                                     FilePath = viewModel.File.FilePath,
-                                    //QrCodeFilePath = viewModel.File.QrCodeFilePath,
+                                    QrCodeFilePath = string.Empty,
                                     PublisherName = viewModel.File.PublisherName,
                                     PublicationDate = viewModel.File.PublicationDate,
                                     PageNumber = viewModel.File.PageNumber,
@@ -420,7 +420,7 @@ namespace Library.Admin.Controllers
                                 FileTypeId = viewModel.File.FileType.Id,
                                 PhotoPath = viewModel.File.PhotoPath,
                                 FilePath = viewModel.File.FilePath,
-                                //QrCodeFilePath = viewModel.File.QrCodeFilePath,
+                                QrCodeFilePath = string.Empty,
                                 PublisherName = viewModel.File.PublisherName,
                                 PublicationDate = viewModel.File.PublicationDate,
                                 PageNumber = viewModel.File.PageNumber,
