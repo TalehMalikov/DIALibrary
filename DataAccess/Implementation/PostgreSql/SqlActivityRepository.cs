@@ -82,6 +82,16 @@ namespace Library.DataAccess.Implementation.PostgreSql
             return 1 == command.ExecuteNonQuery();
         }
 
+        public bool Activate(int id)
+        {
+            using NpgsqlConnection connection = new(_connectionString);
+            connection.Open();
+            string cmdString = "Update activities set isdeleted = false where id=@id";
+            using NpgsqlCommand command = new(cmdString,connection);
+            command.Parameters.AddWithValue("@id", id);
+            return 1 == command.ExecuteNonQuery();
+        }
+
         public List<Activity> GetDeletedActivities()
         {
             List<Activity> activities = new();

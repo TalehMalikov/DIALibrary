@@ -1,8 +1,8 @@
 ﻿using Library.Admin.Services.Abstract;
 using Library.Core.Extensions;
 using Library.Core.Result.Concrete;
-using Library.Entities.Concrete;
 using System.Net.Http.Headers;
+using Activity = Library.Entities.Concrete.Activity;
 
 namespace Library.Admin.Services.Concrete
 {
@@ -13,6 +13,14 @@ namespace Library.Admin.Services.Concrete
             using HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             var result = await client.PostJsonAsync<Result, Activity>(BaseUrl + "Activity/add", activity);
+            return result;
+        }
+
+        public async Task<Result> Activate(string token, int id)
+        {
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var result = await client.PutJsonAsync<Result,int>(BaseUrl + "Activity/activate",id);
             return result;
         }
 
@@ -61,5 +69,7 @@ namespace Library.Admin.Services.Concrete
             var result = await client.GetJsonAsync<DataResult<Activity>>(BaseUrl + "Activity/getbyid/" + id);
             return result;
         }
+
+        
     }
 }

@@ -103,5 +103,18 @@ namespace Library.WebAPI.Controllers
 
             return BadRequest(result);
         }
+
+        [HttpPut("activate")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
+        public IActionResult Activate(int id)
+        {
+            var result = _activityService.Activate(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
     }
 }

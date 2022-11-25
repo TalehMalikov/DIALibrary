@@ -1,4 +1,5 @@
 ﻿using Library.Business.Abstraction;
+using Library.Core.Aspects.Autofac.Caching;
 using Library.Core.Result.Concrete;
 using Library.Core.Utils;
 using Library.DataAccess.Abstraction;
@@ -14,12 +15,14 @@ namespace Library.Business.Concrete
             _activityRepository = activityRepository;
         }
 
+        [CacheRemoveAspect(nameof(IActivityService.Get))]
         public Result Add(Activity value)
         {
             _activityRepository.Add(value);
             return new SuccessResult(StatusMessagesUtil.AddSuccessMessage);
         }
 
+        [CacheRemoveAspect(nameof(IActivityService.Get))]
         public Result Update(Activity value)
         {
             if (_activityRepository.Update(value))
@@ -27,11 +30,21 @@ namespace Library.Business.Concrete
             return new ErrorResult(StatusMessagesUtil.NotFoundMessageGivenId);
         }
 
+        [CacheRemoveAspect(nameof(IActivityService.Get))]
         public Result DeleteFromDb(int id)
         {
             if (_activityRepository.DeleteFromDb(id))
                 return new SuccessResult(StatusMessagesUtil.DeleteSuccessMessage);
             return new ErrorResult(StatusMessagesUtil.NotFoundMessageGivenId);
+        }
+
+        [CacheRemoveAspect(nameof(IActivityService.Get))]
+        public Result Activate(int id)
+        {
+            var result = _activityRepository.Activate(id);
+            if (result)
+                return new SuccessResult();
+            return new ErrorResult();
         }
 
         public DataResult<List<Activity>> GetDeletedActivities()
@@ -42,6 +55,7 @@ namespace Library.Business.Concrete
             return new SuccessDataResult<List<Activity>>(result);
         }
 
+        [CacheRemoveAspect(nameof(IActivityService.Get))]
         public Result Delete(int id)
         {
             if (_activityRepository.Delete(id))
@@ -49,6 +63,7 @@ namespace Library.Business.Concrete
             return new ErrorResult(StatusMessagesUtil.NotFoundMessageGivenId);
         }
 
+        [CacheAspect]
         public DataResult<Activity> Get(int id)
         {
             var result = _activityRepository.Get(id);
@@ -57,6 +72,7 @@ namespace Library.Business.Concrete
             return new SuccessDataResult<Activity>(result);
         }
 
+        [CacheAspect]
         public DataResult<List<Activity>> GetAll()
         {
             var result = _activityRepository.GetAll();

@@ -126,7 +126,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             cmd.Parameters.AddWithValue("@fatherName", value.FatherName);
             cmd.Parameters.AddWithValue("@birthDate", value.BirthDate);
             cmd.Parameters.AddWithValue("@gender", value.Gender);
-            cmd.Parameters.AddWithValue("@isDeleted", false);
+            cmd.Parameters.AddWithValue("@isDeleted", value.IsDeleted);
             cmd.Parameters.AddWithValue("@lastModified", DateTime.Now);
             return 1 == cmd.ExecuteNonQuery();
         }

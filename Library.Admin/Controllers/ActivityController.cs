@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.Contracts;
-using Library.Admin.Models;
+﻿using Library.Admin.Models;
 using Library.Admin.Services.Abstract;
 using Library.Core.DefaultSystemPath;
 using Library.Core.Extensions;
@@ -100,7 +99,7 @@ namespace Library.Admin.Controllers
             string token = HttpContext.Session.GetString("AdminAccessToken");
             if (token == null) return RedirectToAction("Login", "Authentication");
             await _activityService.Delete(token, id);
-            return RedirectToAction("Index", "Activity");
+            return PartialView("SuccessfullyCompleted");
         }
 
         public async Task<IActionResult> DeleteFromDb(int id)
@@ -111,10 +110,11 @@ namespace Library.Admin.Controllers
             var result = await _activityService.DeleteFromDb(token, id);
             if (result.Success)
                 DeleteFileFromFileSystem(activity.Data.PhotoPath);
-            return RedirectToAction("DeletedActivities");
+            return RedirectToAction("DeactivatedActivities");
 
         }
 
+       
         public async Task<IActionResult> Update(int id)
         {
             if (HttpContext.Session.GetString("AdminAccessToken") == null)
@@ -179,6 +179,27 @@ namespace Library.Admin.Controllers
 
             return View(model);
         }
+
+        
+        public async Task<IActionResult> Activate(int id)
+        {
+            string token = HttpContext.Session.GetString("AdminAccessToken");
+            if (token == null) return RedirectToAction("Login", "Authentication");
+            await _activityService.Activate(token, id);
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> DeactivatedActivities()
+        {
+            string token = HttpContext.Session.GetString("AdminAccessToken");
+            if (token == null) return RedirectToAction("Login", "Authentication");
+            var result = await _activityService.GetDeletedActivities(token);
+            var model = new ActivityViewModel
+            {
+                Activities = result.Data
+            };
+            return View(model);
+            }
 
         #region Upload and Delete Photo
         private IActionResult GetPhoto(string path)
