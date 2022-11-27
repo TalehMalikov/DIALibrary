@@ -20,7 +20,7 @@ namespace Library.Admin.Services.Concrete
         {
             using HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var result = await client.PutJsonAsync<Result,int>(BaseUrl + "Activity/activate",id);
+            var result = await client.GetJsonAsync<Result>(BaseUrl + "Activity/activate/" + id);
             return result;
         }
 
@@ -70,6 +70,6 @@ namespace Library.Admin.Services.Concrete
             return result;
         }
 
-        
+
     }
 }

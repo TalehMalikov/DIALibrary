@@ -1,5 +1,4 @@
-﻿@using Library.WebUI.ViewModels
-@model ActivityViewModel
+﻿@model ActivityViewModel
 @{
     ViewData["Title"] = "Show";
     Layout = "~/Views/Shared/_CommonLayout.cshtml";
@@ -40,7 +39,7 @@
 
             @foreach (var item in data.Content.Split("\r\n"))
             {
-                <p>@item</p>
+                <p class="text-justify">@item</p>
             }
 
         </div>

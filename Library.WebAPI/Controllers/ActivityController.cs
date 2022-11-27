@@ -104,7 +104,7 @@ namespace Library.WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPut("activate")]
+        [HttpGet("activate/{id:int}")]
         [Authorize(Roles = "SuperAdmin,Admin")]
         public IActionResult Activate(int id)
         {

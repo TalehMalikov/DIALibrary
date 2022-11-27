@@ -70,13 +70,14 @@ namespace Library.Admin.Controllers
                         Content = model.Activity.Content,
                         CreatedDate = model.Activity.CreatedDate,
                         LastModified = DateTime.Now,
-                        PhotoPath = model.Activity.PhotoPath+result.Data,
+                        PhotoPath = model.Activity.PhotoPath + result.Data,
                         Title = model.Activity.Title,
                         IsDeleted = false
                     });
                     if (addResult.Success) return RedirectToAction("Index", "Activity");
-                    DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultActivityPhotoPath, model.Activity.PhotoPath));
-                    return RedirectToAction("Index","Activity");
+                    DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultActivityPhotoPath,
+                        model.Activity.PhotoPath));
+                    return RedirectToAction("Index", "Activity");
                 }
             }
 
@@ -114,7 +115,7 @@ namespace Library.Admin.Controllers
 
         }
 
-       
+
         public async Task<IActionResult> Update(int id)
         {
             if (HttpContext.Session.GetString("AdminAccessToken") == null)
@@ -146,7 +147,7 @@ namespace Library.Admin.Controllers
                     Title = model.Activity.Title
                 });
                 if (result.Success)
-                    return RedirectToAction("Index","Activity");
+                    return RedirectToAction("Index", "Activity");
             }
             else if (model.ActivityPhoto != null)
             {
@@ -172,7 +173,8 @@ namespace Library.Admin.Controllers
                     }
                     else
                     {
-                        DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultActivityPhotoPath, newPhotoPath.Data));
+                        DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultActivityPhotoPath,
+                            newPhotoPath.Data));
                     }
                 }
             }
@@ -180,7 +182,7 @@ namespace Library.Admin.Controllers
             return View(model);
         }
 
-        
+
         public async Task<IActionResult> Activate(int id)
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
@@ -199,9 +201,10 @@ namespace Library.Admin.Controllers
                 Activities = result.Data
             };
             return View(model);
-            }
+        }
+    
 
-        #region Upload and Delete Photo
+         #region Upload and Delete Photo
         private IActionResult GetPhoto(string path)
         {
             try
