@@ -54,6 +54,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpGet("getbyid/{id:int}")]
+        [Authorize(Roles = "SuperAdmin,Admin,ResourceAdmin")]
         public IActionResult Get(int id)
         {
             var result = _externalSourceService.Get(id);
