@@ -3,9 +3,27 @@
     Layout = "_Layout";
 }
 
-<div class="container">
-    
+<div class="d-flex justify-content-end">
+    <a asp-action="Create" class="btn btn-primary align-self-end" asp-controller="ExternalSource">Create</a>
+</div>
+<hr />
+
+<div class="container-fluid align-items-baseline justify-content-center d-flex flex-wrap">
+
     @{
+        foreach (var item in Model.SourceList)
+        {
+            <div class="card m-sm-1" style="width: 18rem;">
+                <img class="card-img-top" src="@Url.Action("ShowPhoto", "Resource", new { path = item.PhotoPath })" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Name</h5>
+                    <a href="@item.SourceLink" class="text link">Source link</a>
+                    <hr/>
+                    <a asp-action="Edit" asp-controller="ExternalSource" class="btn btn-primary">Edit</a>
+                    <a class="btn btn-danger delete" data-controller="ExternalSource" data-action="Delete" data-id="@item.Id">Delete</a>
+                </div>
+            </div>
+        }
 
     }
 </div>

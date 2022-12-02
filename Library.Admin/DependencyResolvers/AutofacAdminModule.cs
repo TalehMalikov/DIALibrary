@@ -25,6 +25,7 @@ namespace Library.Admin.DependencyResolvers
             builder.RegisterType<AccountRoleService>().As<IAccountRoleService>().SingleInstance();
             builder.RegisterType<FileAuthorService>().As<IFileAuthorService>().SingleInstance();
             builder.RegisterType<ActivityService>().As<IActivityService>().SingleInstance();
+            builder.RegisterType<ExternalSourceService>().As<IExternalSourceService>().SingleInstance();
             builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().SingleInstance();
         }
     }
