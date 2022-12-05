@@ -1,6 +1,4 @@
 ﻿
-using static System.Net.WebRequestMethods;
-
 namespace Library.Admin.Services.Concrete
 {
     public class BaseService

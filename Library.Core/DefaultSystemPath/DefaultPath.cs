@@ -7,5 +7,6 @@
         public const string OriginalDefaultActivityPhotoPath = @"C:\wwwroot\DIALibrary\ActivityPhoto\";
         public const string OriginalDefaultUrlForQRCode = "https://lib.dia.edu.az/File/ShowFileInfo?guid=";
         public const string OriginalDefaultQRCodePhotoPath = @"C:\wwwroot\DIALibrary\QRCodeImages\";
+        public const string OriginalDefaultExternalSourcePath = @"C:\wwwroot\DIALibrary\ExternalSourcePhotos\";
     }
 }
