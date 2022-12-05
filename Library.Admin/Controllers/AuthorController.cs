@@ -11,7 +11,7 @@ namespace Library.Admin.Controllers
         private readonly IAuthorService _authorService;
         private readonly IFileAuthorService _fileAuthorService;
 
-        public AuthorController(IAuthorService authorService,IFileAuthorService fileAuthorService)
+        public AuthorController(IAuthorService authorService, IFileAuthorService fileAuthorService)
         {
             _authorService = authorService;
             _fileAuthorService = fileAuthorService;
@@ -20,57 +20,50 @@ namespace Library.Admin.Controllers
         public async Task<IActionResult> ShowAuthors()
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-            if (token != null)
+            if (String.IsNullOrWhiteSpace(token)) return RedirectToAction("Login", "Authentication");
+            var result = await _authorService.GetAll(token);
+            var model = new AuthorViewModel
             {
-                var result = await _authorService.GetAll(token);
-                var model = new AuthorViewModel
-                {
-                    Authors = result.Data
-                };
-
-                return View(model);
-            }
-            return new NotFoundResult();
+                Authors = result.Data
+            };
+            return View(model);
         }
 
         [HttpGet]
         public async Task<IActionResult> SaveAuthor(int id)
         {
             string accessToken = HttpContext.Session.GetString("AdminAccessToken");
-            if (accessToken != null)
-            {
-                AuthorViewModel viewModel = new AuthorViewModel();
-                
-                if (id == 0)
-                    return PartialView(viewModel);
+            if (String.IsNullOrWhiteSpace(accessToken)) return RedirectToAction("Login", "Authentication");
+            AuthorViewModel viewModel = new AuthorViewModel();
 
-                var author = await _authorService.Get(accessToken,id);
-
-                viewModel.Author = author.Data;
-
+            if (id == 0)
                 return PartialView(viewModel);
-            }
-            return new NotFoundResult();
+
+            var author = await _authorService.Get(accessToken, id);
+
+            viewModel.Author = author.Data;
+
+            return PartialView(viewModel);
+
         }
 
         [HttpPost]
         public async Task<IActionResult> SaveAuthor(AuthorViewModel model)
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-            if (token != null)
+            if (String.IsNullOrWhiteSpace(token)) return RedirectToAction("Login", "Authentication");
+
+            if (model.Author.Id == 0)
             {
-                if(model.Author.Id==0)
-                {
-                    var result = await _authorService.Add(token, model.Author);
-                    return RedirectToAction("ShowAuthors");
-                }
-                else
-                {
-                    var result = await _authorService.Update(token, model.Author);
-                    return RedirectToAction("ShowAuthors");
-                }
+                var result = await _authorService.Add(token, model.Author);
+                return RedirectToAction("ShowAuthors");
             }
-            return new NotFoundResult();
+            else
+            {
+                var result = await _authorService.Update(token, model.Author);
+                return RedirectToAction("ShowAuthors");
+            }
+
         }
 
         [HttpGet]

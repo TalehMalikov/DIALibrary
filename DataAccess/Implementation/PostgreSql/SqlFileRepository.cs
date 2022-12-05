@@ -29,7 +29,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             command.Parameters.AddWithValue("@name", value.Name);
             command.Parameters.AddWithValue("@categoryId", value.CategoryId);
             command.Parameters.AddWithValue("@originalLanguageId", value.OriginalLanguageId);
-            command.Parameters.AddWithValue("@lastModified", value.LastModified);
+            command.Parameters.AddWithValue("@lastModified", DateTime.Now);
             command.Parameters.AddWithValue("@existingStatus", value.ExistingStatus);
             command.Parameters.AddWithValue("@fileTypeId", value.FileTypeId);
             command.Parameters.AddWithValue("@editionStatus", value.EditionStatus);
@@ -171,7 +171,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             command.Parameters.AddWithValue("@name", value.Name);
             command.Parameters.AddWithValue("@categoryId", value.CategoryId);
             command.Parameters.AddWithValue("@originalLanguageId", value.OriginalLanguageId);
-            command.Parameters.AddWithValue("@lastModified", value.LastModified);
+            command.Parameters.AddWithValue("@lastModified", DateTime.Now);
             command.Parameters.AddWithValue("@existingStatus", value.ExistingStatus);
             command.Parameters.AddWithValue("@fileTypeId", value.FileTypeId);
             command.Parameters.AddWithValue("@editionStatus", value.EditionStatus);

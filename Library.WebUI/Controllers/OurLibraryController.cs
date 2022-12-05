@@ -1,6 +1,7 @@
 ﻿using Library.WebUI.ViewModels;
 using Library.WebUI.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
+using Library.Core.DefaultSystemPath;
 
 namespace Library.WebUI.Controllers
 {
@@ -32,6 +33,22 @@ namespace Library.WebUI.Controllers
             viewModel.ExternalSourceList = await _externalSourceService.GetAll();
 
             return View(viewModel);
+        }
+
+        public IActionResult GetPhoto(string path)
+        {
+            try
+            {
+                string fullpath = Path.Combine(DefaultPath.OriginalDefaultExternalSourcePath, path);
+
+                var content = System.IO.File.ReadAllBytes(fullpath);
+
+                return File(content, "img/*");
+            }
+            catch
+            {
+                return Ok();
+            }
         }
     }
 }
