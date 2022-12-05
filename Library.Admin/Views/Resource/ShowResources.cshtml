@@ -36,7 +36,6 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                     <tr>
-                        <th></th>
                         <th>Ad</th>
                         <th>Kateqoriya</th>
                         <th>Orjinal dil</th>
@@ -185,7 +184,7 @@
 
         $(document).ready(function () {
 
-            $('#dataTable thead tr').each(function () {
+            $('#dataTable tfoot th').each(function () {
                 var title = $(this).text();
                 $(this).html('<input type="text" placeholder="Search" style="width:100%;" />');
             });
