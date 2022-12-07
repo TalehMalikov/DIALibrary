@@ -32,7 +32,6 @@
                             <th>Başlama tarixi</th>
                             <th>Müddəti</th>
                             <th>Fayl</th>
-                            <th>GUID</th>
                             <th>Son dəyişilmə tarixi</th>
                             <th>Yenilə</th>
                             <th>Sil</th>
@@ -47,7 +46,6 @@
                             <th>Başlama tarixi</th>
                             <th>Müddəti</th>
                             <th>Fayl</th>
-                            <th>GUID</th>
                             <th>Son dəyişilmə tarixi</th>
                             <th>Yenilə</th>
                             <th>Sil</th>
@@ -61,10 +59,8 @@
                                 <td>@educationalProgram.EducationLevel</td>
                                 <td>@educationalProgram.Specialty.Name</td>
                                 <td>@educationalProgram.IsActive</td>
-                                <td>@educationalProgram.ProgramDate.ToString("dd/MM/yyyy")</td>
+                                <td>@educationalProgram.ProgramDate.ToString("d")</td>
                                 <td>@educationalProgram.EducationTime</td>
-                                <td><a target="_blank"  asp-action="OpenFile"  asp-controller="Resource" asp-route-path="@educationalProgram.FilePath" class="btn btn-info" name="submit" id="submit">Aç</a></td>                                           
-                                <td>@educationalProgram.GUID</td>
                                 <td>@educationalProgram.LastModified</td>
                                 <td><button class="btn btn-primary bgupdate" onclick="ShowSaveModal(this)" data-id="@educationalProgram.Id" id="btnUpdate"><i class='fas fa-download'></i> Update</button></td>
                                 <td><button class="btn btn-danger bgdelete" onclick="ShowDeleteModal(this)" data-toggle="modal" data-id="@educationalProgram.Id" data-target="#DelModal"  id="btnDel"><i class='fas fa-trash-alt'></i> Delete</button></td>

@@ -11,7 +11,7 @@
         {
             <h1 class="h3 mb-2 text-gray-800">@Model.File.FileType.Name</h1>
             <p class="mp-4">
-                Buradakı @Model.File.FileType.Name akademiyanın nəşrləri həmçinin xarici mənbələrdən toplanan resurslardır.
+                Buradakı @Model.File.FileType.Name.ToLower() akademiyanın nəşrləri həmçinin xarici mənbələrdən toplanan resurslardır.
             <span class="float-right">
                 <a class="btn btn-primary" onclick="ShowSaveModal(this)" data-toggle="modal" data-id="0" id="myBtnAdd"><i class='fas fa-download'></i>Əlavə et</a>
             </span>
@@ -35,23 +35,22 @@
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
-                        <tr>
-                            <th>Ad</th>
-                            <th>Kateqoriya</th>
-                            <th>Orjinal dil</th>
-                            <th>Çap dili</th>
-                            <th>Nəşrimizdir?</th>
-                            <th>Şəkil</th>
-                            <th>Fayl</th>
-                            <th>Çap evi</th>
-                            <th>Çap tarixi</th>
-                            <th>Səhifə sayı</th>
-                            <th>Description</th>
-                            <th>GUID</th>
-                            <th>Son dəyişilmə tarixi</th>
-                            <th>Yenilə</th>
-                            <th>Sil</th>
-                        </tr>
+                    <tr>
+                        <th>Ad</th>
+                        <th>Kateqoriya</th>
+                        <th>Orjinal dil</th>
+                        <th>Çap dili</th>
+                        <th>Nəşrimizdir?</th>
+                        <th>Şəkil</th>
+                        <th>Fayl</th>
+                        <th>Çap evi</th>
+                        <th>Çap tarixi</th>
+                        <th>Səhifə sayı</th>
+                        <th>Description</th>
+                        <th>Son dəyişilmə tarixi</th>
+                        <th>Yenilə</th>
+                        <th>Sil</th>
+                    </tr>
                     </thead>
                     <tfoot>
                         <tr>
@@ -63,10 +62,9 @@
                             <th>Şəkil</th>
                             <th>Fayl</th>
                             <th>Çap evi</th>
-                            <th>Çap tarixi</th>
+                            <th>Çap ili</th>
                             <th>Səhifə sayı</th>
                             <th>Description</th>
-                            <th>GUID</th>
                             <th>Son dəyişilmə tarixi</th>
                             <th>Yenilə</th>
                             <th>Sil</th>
@@ -93,11 +91,10 @@
                                     }
                                 }
                                 <td>@file.PublisherName</td>
-                                <td>@file.PublicationDate.ToString("dd/MM/yyyy")</td>
+                                <td>@file.PublicationDate.Year.ToString()</td>
                                 <td>@file.PageNumber</td>
-                                <td>@file.Description</td>
-                                <td>@file.GUID</td>
-                                <td>@file.LastModified</td>
+                                <td class="text-center"><a class="btn btn-primary">Show</a></td>
+                                <td>@file.LastModified.ToString("d")</td>
                                 <td><button class="btn btn-primary bgupdate" onclick="ShowSaveModal(this)" data-id="@file.Id" id="btnUpdate"><i class='fas fa-download'></i> Update</button></td>
                                 <td><a class="btn btn-danger bgdelete" onclick="ShowDeleteModal(this)" data-toggle="modal" data-id="@file.Id" data-target="#DelModal"  id="btnDel"><i class='fas fa-trash-alt'></i> Delete</a></td>
                             </tr>
