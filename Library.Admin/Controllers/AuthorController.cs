@@ -51,30 +51,15 @@ namespace Library.Admin.Controllers
         public async Task<IActionResult> SaveAuthor(AuthorViewModel model)
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-            if (token != null)
-            {
-                if(model.Author.Id==0)
-                {
-                    if(String.IsNullOrWhiteSpace(model.Author.FirstName))
-                        model.Author.FirstName = String.Empty;
-                    if(String.IsNullOrWhiteSpace(model.Author.FatherName))
-                        model.Author.FatherName = String.Empty;
-                    if (String.IsNullOrWhiteSpace(model.Author.LastName))
-                        model.Author.LastName = String.Empty;
-                    var result = await _authorService.Add(token, model.Author);
-                    return RedirectToAction("ShowAuthors");
-                }
-                else
-                {
-                    var result = await _authorService.Update(token, model.Author);
-                    return RedirectToAction("ShowAuthors");
-                }
-            }
-            return new NotFoundResult();
             if (String.IsNullOrWhiteSpace(token)) return RedirectToAction("Login", "Authentication");
-
             if (model.Author.Id == 0)
             {
+                if (String.IsNullOrWhiteSpace(model.Author.FirstName))
+                    model.Author.FirstName = String.Empty;
+                if (String.IsNullOrWhiteSpace(model.Author.FatherName))
+                    model.Author.FatherName = String.Empty;
+                if (String.IsNullOrWhiteSpace(model.Author.LastName))
+                    model.Author.LastName = String.Empty;
                 var result = await _authorService.Add(token, model.Author);
                 return RedirectToAction("ShowAuthors");
             }
@@ -83,7 +68,6 @@ namespace Library.Admin.Controllers
                 var result = await _authorService.Update(token, model.Author);
                 return RedirectToAction("ShowAuthors");
             }
-
         }
 
         [HttpGet]
