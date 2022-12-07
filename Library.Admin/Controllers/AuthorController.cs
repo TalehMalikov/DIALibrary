@@ -65,6 +65,12 @@ namespace Library.Admin.Controllers
             }
             else
             {
+                if (String.IsNullOrWhiteSpace(model.Author.FirstName))
+                    model.Author.FirstName = String.Empty;
+                if (String.IsNullOrWhiteSpace(model.Author.FatherName))
+                    model.Author.FatherName = String.Empty;
+                if (String.IsNullOrWhiteSpace(model.Author.LastName))
+                    model.Author.LastName = String.Empty;
                 var result = await _authorService.Update(token, model.Author);
                 return RedirectToAction("ShowAuthors");
             }
