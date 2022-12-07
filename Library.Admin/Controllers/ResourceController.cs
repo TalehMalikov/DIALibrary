@@ -45,6 +45,8 @@ namespace Library.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> ShowResources(int id)
         {
+            if (String.IsNullOrWhiteSpace(HttpContext.Session.GetString("AdminAccessToken")))
+                return RedirectToAction("Login", "Authentication");
             ResourceViewModel viewModel = new ResourceViewModel();
             var result = await _fileService.GetAll();
             var fileTypes = await _fileTypeService.GetAll();

@@ -8,10 +8,10 @@ namespace Library.Business.CrossCuttingConcerns.Validation.FluentValidation
         public AuthorValidator()
         {
             RuleFor(p => string.IsNullOrWhiteSpace(p.FirstName)).NotEqual(true);
-            RuleFor(p => string.IsNullOrWhiteSpace(p.FatherName)).NotEqual(true);
+            //RuleFor(p => string.IsNullOrWhiteSpace(p.FatherName)).NotEqual(true);
             RuleFor(p => p.FirstName).MinimumLength(3);
             RuleFor(p => p.LastName).MinimumLength(3);
-            RuleFor(p=> p.FatherName).MinimumLength(3);
+            //RuleFor(p=> p.FatherName).MinimumLength(3);
             RuleFor(p => p.FirstName).MaximumLength(255);
             RuleFor(p => p.LastName).MaximumLength(255);
             RuleFor(p => p.FatherName).MaximumLength(255);
@@ -20,3 +20,4 @@ namespace Library.Business.CrossCuttingConcerns.Validation.FluentValidation
         }
     }
 }
+
