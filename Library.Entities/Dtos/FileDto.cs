@@ -13,7 +13,6 @@ namespace Library.Entities.Dtos
         public int FileTypeId { get; set; }
         public string PhotoPath { get; set; }
         public string FilePath { get; set; }
-        public string QrCodeFilePath { get; set; }
         public string PublisherName { get; set; }
         public DateTime PublicationDate { get; set; }
         public int PageNumber { get; set; }

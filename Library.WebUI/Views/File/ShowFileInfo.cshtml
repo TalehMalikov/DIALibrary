@@ -80,9 +80,6 @@
                                 <tr>
                                     <th class="col text-end">Description</th>
                                     <td class="col">
-                                        <!--
-                                        <img width="130" height="130" src="Url.Action("QrCodePhoto", "Resources", new { name = @file.File.QrCodeFilePath })" alt="QrCode Image">
-                                        -->
                                         @file.File.Description
                                     </td>
                                 </tr>
@@ -92,7 +89,7 @@
                         <div class="buttons float-end py-2">
                             <a target="_blank" href="@Url.Action("OpenFile","Resources",new {name=file.File.FilePath})" class="btn btn-primary">Oxumaq</a>
 
-                            @if (!String.IsNullOrWhiteSpace(HttpContextAccessor?.HttpContext?.Session.GetString("AccessToken"))))
+                            @if (!String.IsNullOrWhiteSpace(HttpContextAccessor?.HttpContext?.Session.GetString("AccessToken")))
                             {
                                 <a href="@Url.Action("DownloadFileFromFileSystem","Resources",new {id=file.File.Id})" class="btn btn-danger" download>Yükləmək</a>
                             }
