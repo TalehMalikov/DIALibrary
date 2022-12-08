@@ -41,7 +41,6 @@ namespace Library.DataAccess.Implementation.PostgreSql
             command.Parameters.AddWithValue("@filePath", value.FilePath);
             command.Parameters.AddWithValue("@pageNumber", value.PageNumber);
             command.Parameters.AddWithValue("@guid", value.GUID);
-            command.Parameters.AddWithValue("@qrcodefilepath",value.QrCodeFilePath);
             int id = Convert.ToInt32(command.ExecuteScalar());
             return id;
         }
@@ -183,7 +182,6 @@ namespace Library.DataAccess.Implementation.PostgreSql
             command.Parameters.AddWithValue("@filePath", value.FilePath);
             command.Parameters.AddWithValue("@pageNumber", value.PageNumber);
             command.Parameters.AddWithValue("@guid", value.GUID);
-            command.Parameters.AddWithValue("@qrcodefilepath", value.QrCodeFilePath);
             return 1 == command.ExecuteNonQuery();
         }
 
@@ -218,7 +216,6 @@ namespace Library.DataAccess.Implementation.PostgreSql
                 Description=reader.Get<string>("Description"),
                 PhotoPath= reader.Get<string>("PhotoPath"),
                 FilePath = reader.Get<string>("FilePath"),
-                QrCodeFilePath = reader.Get<string>("QrCodeFilePath"),
                 PublisherName= reader.Get<string>("PublisherName"),
                 PageNumber=reader.Get<int>("PageNumber"),
                 EditionStatus = reader.Get<bool>("EditionStatus"),

@@ -556,7 +556,6 @@ namespace Library.Admin.Controllers
                             if (!result.Success)
                             {
                                 await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultFilePath, viewModel.EducationalProgram.FilePath));
-                                await DeleteFileFromFileSystem(Path.Combine(DefaultPath.OriginalDefaultQRCodePhotoPath, educationalProgramDto.QrCodePhotoPath));
                             }
                         }
                         else
