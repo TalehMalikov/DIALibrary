@@ -28,7 +28,7 @@ namespace Library.Admin.Controllers
             var model = new HomeViewModel
             {
                 EducationalPrograms = educationalPrograms.Data.Count,
-                TotalStudents = accountRoles.Data.Count(p => p.Account.User.IsStudent == true),
+                TotalStudents = accountRoles.Data.Where(p => p.Account.User.IsStudent == true).ToList().Count,
                 TotalUsers = accountRoles.Data.Count,
                 TotalAdmins = accountRoles.Data.Count(p => p.Role.Name.ToLower() != "user"),
                 OurPublications = files.Data.Count(p => p.EditionStatus),
