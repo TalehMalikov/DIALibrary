@@ -29,6 +29,44 @@ namespace Library.Admin.Controllers
             return View(model);
         }
 
+        //[HttpGet]
+        //public async Task<IActionResult> SaveInstitution(int id)
+        //{
+        //    if (id == 0)
+        //        return View();
+        //    else
+        //    {
+        //        string token = HttpContext.Session.GetString("AdminAccessToken");
+        //        var result = await _authorService.Get(token, id);
+        //        var model = new AuthorViewModel
+        //        {
+        //            Author = result.Data
+        //        };
+        //        return View(model);
+
+        //    }
+        //}
+
+        //[HttpPost]
+        //public async Task<IActionResult> SaveInstitution(AuthorViewModel viewModel)
+        //{
+        //    if (viewModel.Author.Id == 0)
+            
+        //    }
+        //        return View();
+        //    else
+        //    {
+        //        string token = HttpContext.Session.GetString("AdminAccessToken");
+        //        var result = await _authorService.Get(token, id);
+        //        var model = new AuthorViewModel
+        //        {
+        //            Author = result.Data
+        //        };
+        //        return View(model);
+
+        //    }
+        //}
+
         [HttpGet]
         public async Task<IActionResult> SaveAuthor(int id)
         {
@@ -48,6 +86,7 @@ namespace Library.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> SaveAuthor(AuthorViewModel model)
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
@@ -65,6 +104,12 @@ namespace Library.Admin.Controllers
             }
             else
             {
+                if (String.IsNullOrWhiteSpace(model.Author.FirstName))
+                    model.Author.FirstName = String.Empty;
+                if (String.IsNullOrWhiteSpace(model.Author.FatherName))
+                    model.Author.FatherName = String.Empty;
+                if (String.IsNullOrWhiteSpace(model.Author.LastName))
+                    model.Author.LastName = String.Empty;
                 var result = await _authorService.Update(token, model.Author);
                 return RedirectToAction("ShowAuthors");
             }

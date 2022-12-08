@@ -1,44 +1,31 @@
-﻿@model AuthorViewModel
+﻿@model AuthorViewModel;
+@{
+    Layout = "_Layout";
+}
 <div class="modal-dialog modal-dialog-scrollable">
     <!-- Modal content -->
     <div class="modal-content" id="editDebtModelBody">
         <div style="overflow:auto;" class="modal-body">
-            <form asp-controller="Author" asp-action="SaveAuthor" class="form-group">
-                <div class="form-group row d-flex justify-content-center">
-                    <div class="col-sm-6 d-flex justify-content-evenly">
-                        <div class="mr-sm-3">
-                            @Html.RadioButtonFor(model => model.Author.IsInstitution, true)
-                            <label for="gender">Müəssisə</label><br>
-                        </div>
-
-                        <div>
-                            @Html.RadioButtonFor(model => model.Author.IsInstitution, false)
-                            <label for="gender">Müəllif</label>
-                        </div>
-                    </div>
-                </div>
-                <hr />
+            <form asp-controller="Author" asp-action="SaveAuthor" class="form-group" asp-antiforgery="true">
                 <div class="modal-body">
                     <input hidden asp-for="@Model.Author.Id" />
                     <div class="form-group row d-flex justify-content-center">
                         <div class="col-sm-6 col-sm-10 mb-3 mb-sm-0">
                             <input type="text" class="form-control form-control-register"
-                                   id="exampleInputFirstName" placeholder="Adı" asp-for="@Model.Author.FirstName">
+                                   id="exampleInputFirstName" placeholder="Example: Dövlət İdarəçilik Akademiyası" asp-for="@Model.Author.FirstName">
                             <span asp-validation-for="@Model.Author.FirstName" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group row d-flex justify-content-center">
                         <div class="col-sm-6 col-sm-10 mb-3 mb-sm-0">
                             <input type="text" class="form-control form-control-register"
-                                   id="exampleInputFirstName" placeholder="Soyadı" asp-for="@Model.Author.LastName">
-                            <span asp-validation-for="@Model.Author.LastName" class="text-danger"></span>
+                                   id="exampleInputFirstName" placeholder="Soyadı" asp-for="@Model.Author.LastName" hidden>
                         </div>
                     </div>
                     <div class="form-group row d-flex justify-content-center">
                         <div class="col-sm-6 col-sm-10 mb-3 mb-sm-0">
-                            <input type="text" class="form-control form-control-register"
+                            <input type="text" class="form-control form-control-register" hidden
                                    id="exampleInputFirstName" placeholder="Ata adı" asp-for="@Model.Author.FatherName">
-                            <span asp-validation-for="@Model.Author.FatherName" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group row d-flex justify-content-center">
@@ -48,19 +35,7 @@
                             <span asp-validation-for="@Model.Author.BookCount" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="form-group row d-flex justify-content-center">
-                        <div class="col-sm-6 d-flex justify-content-evenly">
-                            <div class="mr-sm-3">
-                                @Html.RadioButtonFor(model => model.Author.Gender, false)
-                                <label for="gender">Kişi</label><br>
-                            </div>
-
-                            <div>
-                                @Html.RadioButtonFor(model => model.Author.Gender, true)
-                                <label for="gender">Qadın</label>
-                            </div>
-                        </div>
-                    </div>
+                    <input hidden type="radio" asp-for="Author.Gender"/>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-success" type="submit">Yadda saxla</button>

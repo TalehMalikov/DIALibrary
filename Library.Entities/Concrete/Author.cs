@@ -9,5 +9,6 @@ namespace Library.Entities.Concrete
         public string FatherName { get; set; }
         public short BookCount { get; set; }
         public bool Gender { get; set; }
+        public bool IsInstitution { get; set; }
     }
 }
