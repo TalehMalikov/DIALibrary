@@ -81,12 +81,15 @@ namespace Library.WebUI.Controllers
 
         public async Task<IActionResult> DownloadFileFromFileSystem(int id)
         {
+            var result = await _fileService.GetFileById(id);
+            var file = result.Data;
+
+            string filePath="", contentType="", filename="";
+            var memory = new MemoryStream();
+
             try
             {
-                var result = await _fileService.GetFileById(id);
-                var file = result.Data;
-
-                string filePath, contentType, filename;
+               
 
                 filePath = Path.Combine(DefaultPath.OriginalDefaultFilePath, file.FilePath);
 
@@ -95,7 +98,6 @@ namespace Library.WebUI.Controllers
 
                 if (file == null) return null;
 
-                var memory = new MemoryStream();
                 using (var stream = new FileStream(filePath, FileMode.Open))
                 {
                     await stream.CopyToAsync(memory);
@@ -107,8 +109,10 @@ namespace Library.WebUI.Controllers
             catch(Exception ex)
             {
                 System.IO.File.AppendAllText(@"C:\Log\tmplog.txt",ex.Message);
-                System.IO.File.AppendAllText(@"C:\Log\tmplog.txt","ex.Message");
-            }
+                System.IO.File.AppendAllText(@"C:\Log\tmplog.txt","\n");
+            } 
+            return File(memory, contentType, filename);
+
         }
     }
 }
