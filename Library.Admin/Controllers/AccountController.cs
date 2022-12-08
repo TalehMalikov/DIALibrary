@@ -161,9 +161,6 @@ namespace Library.Admin.Controllers
                 if (account.Success == false)
                     return new NotFoundObjectResult(account.Message);
 
-                //var accountRole = await _accountRoleService.GetAccountRoleByAccountId(accessToken, id);
-                //viewModel.AccountRole = accountRole.Data;
-
                 viewModel.AccountRole = new AccountRole()
                 {
                     Account = account.Data

@@ -2,11 +2,11 @@
 {
     public class DefaultPath
     {
-        public const string OriginalDefaultPhotoPath = @"C:\wwwroot\DIALibrary\BookPhotos\";
-        public const string OriginalDefaultFilePath = @"C:\wwwroot\DIALibrary\BookFiles\";
-        public const string OriginalDefaultActivityPhotoPath = @"C:\wwwroot\DIALibrary\ActivityPhoto\";
+        public const string OriginalDefaultPhotoPath = @"C:\WWW\Files\BookPhotos\";
+        public const string OriginalDefaultFilePath = @"C:\WWW\Files\BookFiles\";
+        public const string OriginalDefaultActivityPhotoPath = @"C:\WWW\Files\ActivityPhoto\";
         public const string OriginalDefaultUrlForQRCode = "https://lib.dia.edu.az/File/ShowFileInfo?guid=";
-        public const string OriginalDefaultQRCodePhotoPath = @"C:\wwwroot\DIALibrary\QRCodeImages\";
-        public const string OriginalDefaultExternalSourcePath = @"C:\wwwroot\DIALibrary\ExternalSourcePhotos\";
+        public const string OriginalDefaultQRCodePhotoPath = @"C:\WWW\Files\QRCodeImages\";
+        public const string OriginalDefaultExternalSourcePath = @"C:\WWW\Files\ExternalSourcePhotos\";
     }
 }
