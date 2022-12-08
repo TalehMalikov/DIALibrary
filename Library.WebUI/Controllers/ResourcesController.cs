@@ -106,7 +106,8 @@ namespace Library.WebUI.Controllers
             }
             catch(Exception ex)
             {
-                System.IO.File.WriteAllText("",ex.Message);
+                System.IO.File.AppendAllText(@"C:\Log\tmplog.txt",ex.Message);
+                System.IO.File.AppendAllText(@"C:\Log\tmplog.txt","\n");
             }
         }
     }
