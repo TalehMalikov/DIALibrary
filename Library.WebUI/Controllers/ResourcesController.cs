@@ -44,24 +44,6 @@ namespace Library.WebUI.Controllers
             }
         }
 
-        [HttpGet]
-        public IActionResult QrCodePhoto(string name)
-        {
-            try
-            {
-                name = ReformatString(name);
-                string fullPath = Path.Combine(DefaultPath.OriginalDefaultQRCodePhotoPath, name);
-
-                var content = System.IO.File.ReadAllBytes(fullPath);
-
-                return File(content, "img/*");
-            }
-            catch
-            {
-                return BadRequest("Not found");
-            }
-        }
-        
         public IActionResult ActivityPhoto(string name)
         {
             try
@@ -99,25 +81,33 @@ namespace Library.WebUI.Controllers
 
         public async Task<IActionResult> DownloadFileFromFileSystem(int id)
         {
-            var result = await _fileService.GetFileById(id);
-            var file = result.Data;
-
-            string filePath, contentType, filename;
-
-            filePath = Path.Combine(DefaultPath.OriginalDefaultFilePath, file.FilePath);
-
-            contentType = $"{Path.GetExtension(file.FilePath).TrimStart('.')}/*";
-            filename = file.FilePath;
-
-            if (file == null) return null;
-
-            var memory = new MemoryStream();
-            using (var stream = new FileStream(filePath, FileMode.Open))
+            try
             {
-                await stream.CopyToAsync(memory);
+                var result = await _fileService.GetFileById(id);
+                var file = result.Data;
+
+                string filePath, contentType, filename;
+
+                filePath = Path.Combine(DefaultPath.OriginalDefaultFilePath, file.FilePath);
+
+                contentType = $"{Path.GetExtension(file.FilePath).TrimStart('.')}/*";
+                filename = file.FilePath;
+
+                if (file == null) return null;
+
+                var memory = new MemoryStream();
+                using (var stream = new FileStream(filePath, FileMode.Open))
+                {
+                    await stream.CopyToAsync(memory);
+                }
+
+                memory.Position = 0;
+                return File(memory, contentType, filename);
             }
-            memory.Position = 0;
-            return File(memory, contentType, filename);
+            catch(Exception ex)
+            {
+                System.IO.File.WriteAllText("",ex.Message);
+            }
         }
     }
 }

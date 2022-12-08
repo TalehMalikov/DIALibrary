@@ -8,10 +8,8 @@ namespace Library.Admin.Models
     {
         public List<File> Files { get; set; }
         public List<EducationalProgram> EducationalPrograms { get; set; }
-
         public IFormFile AddedPicture { get; set; }
         public IFormFile AddedFile { get; set; }
-
 
         public SelectList CategoryList { get; set; }
         public SelectList LanguageList { get; set; }
@@ -21,7 +19,6 @@ namespace Library.Admin.Models
 
         #region Author
         public List<int> Members { get; set; }
-
         public string SelectedMembers { get; set; } //used to store the selected members, such as: "tom,johnn,david"
         public SelectList AuthorList { get; set; }
         #endregion
