@@ -90,7 +90,7 @@
                         </table>
 
                         <div class="buttons float-end py-2">
-                            <a href="@Url.Action("OpenFile","Resources",new {name=fileAuthorData.File.FilePath})" class="btn btn-primary">Oxumaq</a>
+                            <a href="@Url.Action("OpenFile","Resources",new {name=fileAuthorData.File.FilePath})" class="btn btn-primary changeUrl">Oxumaq</a>
                             @if (!String.IsNullOrWhiteSpace(HttpContextAccessor?.HttpContext?.Session.GetString("AccessToken")))
                             {
                                 <a href="@Url.Action("DownloadFileFromFileSystem","Resources",new {id=fileAuthorData.File.Id})" class="btn btn-danger" download>Yükləmək</a>
@@ -104,3 +104,13 @@
     </div>
 </section>
 
+@section Scripts
+{
+    <script>
+        $('.changeUrl').click(function(event) {
+        var url = $(this).attr('href');
+        let fullUrl = "https://lib.dia.edu.az" + url + "#toolbar=0";
+        window.open(fullUrl, '_blank');
+        });
+    </script>
+}

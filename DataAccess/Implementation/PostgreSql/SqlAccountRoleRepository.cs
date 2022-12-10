@@ -40,7 +40,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             connection.Open();
             string query = "select accountroles.id as accountroleid ,accountid,userid,firstname," +
                             "lastname,fathername,birthdate,gender,users.isdeleted as userisdeleted," +
-                            "users.lastmodified as userlastmodified,accountname,passwordhash,email," +
+                            "users.lastmodified as userlastmodified,accountname,passwordhash,email,users.isstudent," +
                             "accounts.isdeleted as accountisdeleted,accounts.lastmodified as accountlastmodified," +
                             "roleid, roles.name as rolename, roles.description from accountroles join accounts on accountid = accounts.id " +
                             "join users on userid = users.id join roles on roleid = roles.id " +
@@ -61,7 +61,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
             string query = "select accountroles.id as accountroleid ,accountid,userid,firstname," +
                             "lastname,fathername,birthdate,gender,users.isdeleted as userisdeleted," +
                             "users.lastmodified as userlastmodified,accountname,passwordhash,email," +
-                            "accounts.isdeleted as accountisdeleted,accounts.lastmodified as accountlastmodified," +
+                            "accounts.isdeleted as accountisdeleted,accounts.lastmodified as accountlastmodified,users.isstudent," +
                             "roleid, roles.name as rolename, roles.description from accountroles join accounts on accountid = accounts.id " +
                             "join users on userid = users.id join roles on roleid = roles.id " +
                             "where accounts.isdeleted=false and users.isdeleted=false";
@@ -130,7 +130,8 @@ namespace Library.DataAccess.Implementation.PostgreSql
                         FatherName = reader.Get<string>("FatherName"),
                         FirstName = reader.Get<string>("FirstName"),
                         Gender = reader.Get<bool>("Gender"),
-                        LastName = reader.Get<string>("LastName")
+                        LastName = reader.Get<string>("LastName"),
+                        IsStudent = reader.Get<bool>("IsStudent")
                     }
                 },
                 Role = new Role

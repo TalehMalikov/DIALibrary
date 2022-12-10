@@ -4,9 +4,9 @@
     ViewData["Title"] = "GetById";
     Layout = "_PrivateOfficeLayout";
 }
-    <section id="account">
-        <div class="container-lg">
-            @{
+<section id="account">
+    <div class="container-lg">
+        @{
             var educationalProgram = Model.EducationalProgramViewModel.EducationalProgram;
             <div>
 
@@ -20,52 +20,65 @@
                         <table class="table table-bordered table-striped">
 
                             <tbody>
-                                <tr>
-                                    <th class="col text-end">Adı</th>
-                                    <td class="col">@educationalProgram.Name</td>
-                                </tr>
+                            <tr>
+                                <th class="col text-end">Adı</th>
+                                <td class="col">@educationalProgram.Name</td>
+                            </tr>
 
-                                <tr>
-                                    <th class="col text-end">Təhsil səviyyəsi</th>
-                                    <td class="col">@educationalProgram.EducationLevel</td>
-                                </tr>
+                            <tr>
+                                <th class="col text-end">Təhsil səviyyəsi</th>
+                                <td class="col">@educationalProgram.EducationLevel</td>
+                            </tr>
 
-                                <tr>
-                                    <th class="col text-end">Fakültə </th>
-                                    <td class="col">@educationalProgram.Specialty.Faculty.Name</td>
-                                </tr>
+                            <tr>
+                                <th class="col text-end">Fakültə </th>
+                                <td class="col">@educationalProgram.Specialty.Faculty.Name</td>
+                            </tr>
 
-                                <tr>
-                                    <th class="col text-end">İxtisas </th>
-                                    <td class="col">@educationalProgram.Specialty.Name</td>
-                                </tr>
+                            <tr>
+                                <th class="col text-end">İxtisas </th>
+                                <td class="col">@educationalProgram.Specialty.Name</td>
+                            </tr>
 
-                                <tr>
-                                    <th class="col text-end">Tarixi</th>
-                                    <td class="col">@educationalProgram.ProgramDate.Date.ToString("dd.MM.yyyy")</td>
-                                </tr>
+                            <tr>
+                                <th class="col text-end">Tarixi</th>
+                                <td class="col">@educationalProgram.ProgramDate.Date.ToString("dd.MM.yyyy")</td>
+                            </tr>
 
-                                <tr>
-                                    <th class="col text-end">Müddəti</th>
-                                    <td class="col">@educationalProgram.EducationTime</td>
-                                </tr>
+                            <tr>
+                                <th class="col text-end">Müddəti</th>
+                                <td class="col">@educationalProgram.EducationTime</td>
+                            </tr>
 
-                                <tr>
-                                    <th class="col text-end">QR Code</th>
-                                    <td class="col">
-                                        <img width="130" height="130" src="@Url.Action("QrCodePhoto","Resources", new{ name = @educationalProgram.QrCodePhotoPath})" alt="QrCode Image">
-                                    </td>
-                                </tr>
+                            <tr>
+                                <th class="col text-end">QR Code</th>
+                                <td class="col">
+                                    <img width="130" height="130" src="@Url.Action("QrCodePhoto","Resources", new{ name = @educationalProgram.QrCodePhotoPath})" alt="QrCode Image">
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
 
                         <div class="buttons float-end py-2">
-                            <a target="_blank" href="@Url.Action("OpenFile","Resources",new {name=educationalProgram.FilePath})" class="btn btn-primary">Oxumaq</a>
+                            <a target="_blank" href="@Url.Action("OpenFile","Resources",new {name=educationalProgram.FilePath})" class="btn btn-primary changeUrl">Oxumaq</a>
                             <a href="@Url.Action("DownloadFileFromFileSystem","Resources",new {id=educationalProgram.Id})" class="btn btn-danger" download>Yükləmək</a>
                         </div>
                     </div>
                 </div>
             </div>
-            }
-        </div>
-    </section>
+        }
+    </div>
+    
+    
+</section>
+
+@section scripts
+    {
+    <script>
+        $('.changeUrl').click(function (event) {
+            var url = $(this).attr('href');
+            let fullUrl = "https://lib.dia.edu.az" + url + "#toolbar=0";
+            window.open(fullUrl, '_blank');
+        });
+    </script>
+}

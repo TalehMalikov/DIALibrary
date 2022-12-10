@@ -87,7 +87,7 @@
                         </table>
 
                         <div class="buttons float-end py-2">
-                            <a target="_blank" href="@Url.Action("OpenFile","Resources",new {name=file.File.FilePath})" class="btn btn-primary">Oxumaq</a>
+                            <a target="_blank" href="@Url.Action("OpenFile","Resources",new {name=file.File.FilePath})" class="btn btn-primary changeUrl">Oxumaq</a>
 
                             @if (!String.IsNullOrWhiteSpace(HttpContextAccessor?.HttpContext?.Session.GetString("AccessToken")))
                             {
@@ -101,3 +101,13 @@
     </div>
 </section>
 
+@section Scripts
+{
+    <script>
+    $('.changeUrl').click(function(event) {
+            var url = $(this).attr('href');
+            let fullUrl = "https://lib.dia.edu.az" + url + "#toolbar=0";
+            window.open(fullUrl, '_blank');
+        });
+    </script>
+}
