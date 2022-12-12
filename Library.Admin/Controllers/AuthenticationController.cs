@@ -40,7 +40,7 @@ namespace Library.Admin.Controllers
                     HttpContext.Session.SetString("UserRole", role);
                     HttpContext.Session.SetString("FullName", result.Data.FullName);
                     var account = await _accountService.GetByEmail(result.Data.Email);
-                    HttpContext.Session.SetString("AdminId", account.Data.Id.ToString());
+                    //HttpContext.Session.SetString("AdminId", account.Data.Id.ToString());
                     return RedirectToAction("Index", "Home");
                 }
                 return RedirectToAction("Login");
@@ -128,10 +128,25 @@ namespace Library.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult ChangePassword(int id)
+        public IActionResult ChangePassword()
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
             if (string.IsNullOrWhiteSpace(token)) return RedirectToAction("Login", "Authentication");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(AuthViewModel model)
+        {
+            string token = HttpContext.Session.GetString("AdminAccessToken");
+            if (string.IsNullOrWhiteSpace(token)) return RedirectToAction("Login", "Authentication");
+            string email = HttpContext.Session.GetString("AdminEmail");
+            if (!(string.IsNullOrWhiteSpace(model.Password) & string.IsNullOrWhiteSpace(model.RepeatPassword)) &
+                (model.Password == model.RepeatPassword))
+            {
+
+            }
             return View();
         }
 

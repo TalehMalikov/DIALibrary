@@ -40,6 +40,8 @@ const handleActivePageNumber = () => {
             button.classList.add("active");
         }
     });
+    newFunction();
+
 };
 
 const appendPageNumber = (index) => {
@@ -48,19 +50,27 @@ const appendPageNumber = (index) => {
     pageNumber.innerHTML = index;
     pageNumber.setAttribute("page-index", index);
     pageNumber.setAttribute("aria-label", "Page " + index);
-
+    if (index == "...") {
+        pageNumber.setAttribute('id', 'infinity')
+    }
     paginationNumbers.appendChild(pageNumber);
+
 };
 
 const getPaginationNumbers = () => {
     for (let i = 1; i <= pageCount; i++) {
-        appendPageNumber(i);
+        if (i < 4) {
+            appendPageNumber(i);
+        } else {
+            appendPageNumber('...')
+            appendPageNumber(pageCount);
+            break
+        }
     }
 };
 
 const setCurrentPage = (pageNum) => {
     currentPage = pageNum;
-
     handleActivePageNumber();
     handlePageButtonsStatus();
 
@@ -74,6 +84,20 @@ const setCurrentPage = (pageNum) => {
         }
     });
 };
+
+const newFunction = () => {
+    try {
+        infElement = document.getElementById('infinity');
+        if (currentPage < 4 || currentPage == pageCount) {
+            infElement.innerHTML = '...'
+        } else {
+            infElement.innerHTML = currentPage;
+            infElement.classList.add('active');
+        }
+    } catch (error) {
+
+    }
+}
 
 window.addEventListener("load", () => {
     getPaginationNumbers();

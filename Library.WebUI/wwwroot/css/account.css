@@ -141,16 +141,23 @@ a {
     border-radius: 2px;
     overflow: hidden;
     height: auto;
-    transition: all .2s;
-    width: 90%;
+    transition: all 1s;
+    width: 100%;
     padding: 0;
-    display: none;
+    opacity: 0;
+    visibility: 0;
+    transition: opacity 1s;
+    height: 0;
+    margin-bottom: 0;
 }
 
+.list {
+    white-space: nowrap;
+}
 
 .height {
+    opacity: 1 !important;
     height: auto;
-    display: block;
 }
 
 .nav-links .name {
@@ -182,6 +189,10 @@ a {
 @media (max-width:768px) {
     .show {
         width: 100px !important;
+    }
+
+    .list {
+        white-space: normal;
     }
 
     .pad {
