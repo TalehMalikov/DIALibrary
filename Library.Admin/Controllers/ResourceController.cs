@@ -684,13 +684,21 @@ namespace Library.Admin.Controllers
                 filePath = Path.Combine(DefaultPath.OriginalDefaultFilePath, builder.ToString());
 
 
-            if (!System.IO.File.Exists(filePath))
+            try
             {
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                if (!System.IO.File.Exists(filePath))
                 {
-                    await file.CopyToAsync(stream);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                    return new SuccessDataResult<string>(extension, "Successfully uploaded!");
                 }
-                return new SuccessDataResult<string>(extension,"Successfully uploaded!");
+            }
+            catch(Exception ex)
+            {
+                System.IO.File.WriteAllText(@"C:\Log\tmplog.txt", ex.Message);
+                System.IO.File.WriteAllText(@"C:\Log\tmplog.txt", "\n");
             }
             return new ErrorDataResult<string>();
         }

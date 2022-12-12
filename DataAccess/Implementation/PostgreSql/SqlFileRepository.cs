@@ -24,7 +24,7 @@ namespace Library.DataAccess.Implementation.PostgreSql
                                "PhotoPath,FilePath,PageNumber,GUID)" +
                                " Values(@name,@categoryId,@originalLanguageId,@lastModified,@existingStatus,@fileTypeId," +
                                "@editionStatus,@publicationLanguageId,@description,@publisherName,@publicationDate,@photoPath," +
-                               "@filePath,@pageNumber) RETURNING Files.Id";
+                               "@filePath,@pageNumber,@guid) RETURNING Files.Id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             command.Parameters.AddWithValue("@name", value.Name);
             command.Parameters.AddWithValue("@categoryId", value.CategoryId);
