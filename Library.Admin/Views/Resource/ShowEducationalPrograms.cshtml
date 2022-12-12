@@ -61,6 +61,7 @@
                                 <td>@educationalProgram.IsActive</td>
                                 <td>@educationalProgram.ProgramDate.ToString("d")</td>
                                 <td>@educationalProgram.EducationTime</td>
+                                <td><a target="_blank" asp-action="OpenFile" asp-controller="Resource" asp-route-path="@educationalProgram.FilePath" class="btn btn-info changeUrl" name="submit" id="submit">Aç</a></td>
                                 <td>@educationalProgram.LastModified</td>
                                 <td><button class="btn btn-primary bgupdate" onclick="ShowSaveModal(this)" data-id="@educationalProgram.Id" id="btnUpdate"><i class='fas fa-download'></i> Update</button></td>
                                 <td><button class="btn btn-danger bgdelete" onclick="ShowDeleteModal(this)" data-toggle="modal" data-id="@educationalProgram.Id" data-target="#DelModal"  id="btnDel"><i class='fas fa-trash-alt'></i> Delete</button></td>
@@ -87,14 +88,14 @@
             </div>
 
             <div style="overflow-x:auto;" class="modal-body ">
-                <p>Are you sure to delete this row?</p>
+                <p>Silmək istədiyinizə əminsiz?</p>
             </div>
 
             <div class="modal-footer">
                 <form asp-action="DeleteEducationalProgram" asp-controller="Resource" method="post">
                     <input asp-for="DeletedEducationalProgram.Id" class="deletedId" hidden />
-                    <button type="submit" class="btn btn-primary bgupdate">Yes</button>
-                    <button type="button" class="btn btn-danger bgdelete" data-dismiss="modal">No</button>
+                    <button type="submit" class="btn btn-primary bgupdate">Hə</button>
+                    <button type="button" class="btn btn-danger bgdelete" data-dismiss="modal">Yox</button>
                 </form>
             </div>
         </div>
@@ -146,6 +147,12 @@
                     }
                 });
             });
+        });
+
+        $('.changeUrl').click(function(event) {
+            var url = $(this).attr('href');
+            let fullUrl = "https://lib.dia.edu.az" + url + "#toolbar=0";
+            window.open(fullUrl, '_blank');
         });
     </script>
 }

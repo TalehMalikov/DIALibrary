@@ -8,7 +8,6 @@ namespace Library.Entities.Dtos
         public string Name { get; set; }
         public string EducationLevel { get; set; }
         public string FilePath { get; set; }
-        public string QrCodePhotoPath { get; set; }
         public bool IsActive { get; set; }
         public DateTime LastModified { get; set; }
         public int SpecialtyId { get; set; }

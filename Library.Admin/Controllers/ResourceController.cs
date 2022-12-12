@@ -170,10 +170,6 @@ namespace Library.Admin.Controllers
         }
 
         [HttpPost]
-        [AutoValidateAntiforgeryToken]
-        [RequestSizeLimit(MaxFileSize)]
-        [RequestFormLimits(MultipartBodyLengthLimit = MaxFileSize)]
-        [DisableFormValueModelBinding]
         public async Task<IActionResult> SaveResource(ResourceViewModel viewModel)
         {
             string accessToken = HttpContext.Session.GetString("AdminAccessToken");
@@ -551,7 +547,6 @@ namespace Library.Admin.Controllers
                                 Name = viewModel.EducationalProgram.Name,
                                 EducationLevel = viewModel.EducationalProgram.EducationLevel,
                                 FilePath = viewModel.EducationalProgram.FilePath,
-                                QrCodePhotoPath = viewModel.EducationalProgram.QrCodePhotoPath+".png",
                                 GUID = viewModel.EducationalProgram.GUID,
                                 IsActive = viewModel.EducationalProgram.IsActive,
                                 LastModified = viewModel.EducationalProgram.LastModified,
