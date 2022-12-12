@@ -62,6 +62,16 @@ namespace Library.WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpGet("getbyaccountname")]
+        public IActionResult GetByAccountName(string name)
+        {
+            var result = _accountService.GetByAccountName(name);
+
+            if (result.Success)
+                return Ok(result);
+            return BadRequest(result);
+        }
+
         [HttpDelete("{id:int}")]
         [Authorize(Roles="SuperAdmin,Admin,GroupAdmin")]
         public IActionResult Delete(int id)

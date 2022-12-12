@@ -84,9 +84,26 @@ namespace Library.DataAccess.Implementation.PostgreSql
                            "Accounts.isdeleted as AccountIsDeleted,Accounts.lastmodified as AccountLastModified, " +
                            "Users.Id as UserId,firstname,lastname,fathername,birthdate,gender,isStudent," +
                            "Users.IsDeleted as UserIsDeleted,Users.LastModified as UserLastModified " +
+                           "from accounts inner join Users on Users.id = accounts.userid where Upper(Accounts.AccountName)=@email and Users.IsDeleted=false and Accounts.IsDeleted = false";
+            using NpgsqlCommand cmd = new NpgsqlCommand(query, connection);
+            cmd.Parameters.AddWithValue("@email", email.ToUpper());
+            var reader = cmd.ExecuteReader();
+            if (reader.Read())
+                return ReadAccount(reader);
+            return null;
+        }
+
+        public Account GetByAccountName(string accountName)
+        {
+            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
+            connection.Open();
+            string query = "select Accounts.id as accountid,accountname,passwordhash,email," +
+                           "Accounts.isdeleted as AccountIsDeleted,Accounts.lastmodified as AccountLastModified, " +
+                           "Users.Id as UserId,firstname,lastname,fathername,birthdate,gender,isStudent," +
+                           "Users.IsDeleted as UserIsDeleted,Users.LastModified as UserLastModified " +
                            "from accounts inner join Users on Users.id = accounts.userid where Upper(Accounts.AccountName)=@accountName and Users.IsDeleted=false and Accounts.IsDeleted = false";
             using NpgsqlCommand cmd = new NpgsqlCommand(query, connection);
-            cmd.Parameters.AddWithValue("@accountName", email.ToUpper());
+            cmd.Parameters.AddWithValue("@accountName", accountName.ToUpper());
             var reader = cmd.ExecuteReader();
             if (reader.Read())
                 return ReadAccount(reader);
@@ -109,23 +126,6 @@ namespace Library.DataAccess.Implementation.PostgreSql
             while (reader.Read())
                 roles.Add(ReadRole(reader));
             return roles;
-        }
-
-        public Account GetByAccountName(string accountName)
-        {
-            using NpgsqlConnection connection = new NpgsqlConnection(_connectionString);
-            connection.Open();
-            string query = "select Accounts.id as accountid,accountname,passwordhash,email," +
-                           "Accounts.isdeleted as AccountIsDeleted,Accounts.lastmodified as AccountLastModified, " +
-                           "Users.Id as UserId,firstname,lastname,fathername,birthdate,gender,isStudent," +
-                           "Users.IsDeleted as UserIsDeleted,Users.LastModified as UserLastModified " +
-                           "from accounts inner join Users on Users.id = accounts.userid where Accounts.AccountName=@accountname and Users.IsDeleted=false and Accounts.IsDeleted = false";
-            using NpgsqlCommand cmd = new NpgsqlCommand(query, connection);
-            cmd.Parameters.AddWithValue("@accountname", accountName);
-            var reader = cmd.ExecuteReader();
-            if (reader.Read())
-                return ReadAccount(reader);
-            return null;
         }
 
         public bool Update(AccountDto value)

@@ -21,6 +21,7 @@ namespace Library.Admin.Controllers
             _accountService = accountService;
         }
 
+        #region Login
         public IActionResult Login()
         {
             return View();
@@ -75,6 +76,11 @@ namespace Library.Admin.Controllers
 
             return RedirectToAction("Login");
         }
+
+
+        #endregion
+
+        #region ResetPassword
 
         public IActionResult ResetPassword()
         {
@@ -149,6 +155,10 @@ namespace Library.Admin.Controllers
             }
             return View();
         }
+
+        #endregion
+
+
 
 
     }
