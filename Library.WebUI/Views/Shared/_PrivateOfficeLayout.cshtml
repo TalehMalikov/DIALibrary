@@ -42,7 +42,8 @@
 
                 <div class="nav-items">
                     <span class="nav-links">
-                        <span class="name list">Kabinetim </span>
+                        <span class="name list"><i class="fas mx-2 fa-user"></i>Kabinetim<i class="fas fa-caret-down mx-1"></i></span>
+
 
                         <ul class="dropdowns">
                             <li class="drop-name"><a asp-controller="PrivateOffice" asp-action="Index" class="drop-name">Məlumatları yenilə</a></li>
@@ -51,11 +52,11 @@
                     </span>
 
                     <a asp-controller="Home" asp-action="Index" class="nav-links text-decoration-none">
-                        <span class="name">Ana səhifə</span>
+                        <span class="name"><i class="fas fa-home mx-2"></i>Ana səhifə</span>
                     </a>
 
                     <span class="nav-links">
-                        <span class="name list">Bizim kitabxana </span>
+                        <span class="name list"><i class="fas fa-books mx-2"></i>Bizim Kitabxana<i class="fas fa-caret-down mx-1"></i></span>
 
                         <ul class="dropdowns">
                             <li class="drop-name"><a asp-controller="OurLibrary" asp-action="MoreInfo" class="drop-name">Ümumi məlumat</a> </li>
@@ -65,12 +66,13 @@
                     </span>
 
                     <span class="nav-links">
-                        <span class="name list">E-Kitabxana </span>
+                        <span class="name list"><i class="fas fa-file-alt mx-2"></i>E-Kitabxana<i class="fas fa-caret-down mx-1"></i></span>
 
                         <ul class="dropdowns">
                             <li class="drop-name"><a asp-controller="File" asp-action="ECatalogIndex" class="drop-name">E-Kataloq</a> </li>
                             <li class="drop-name"><a asp-controller="Category" asp-action="Index" class="drop-name">E-Kitablar</a></li>
-                            <li class="drop-name r-list">E-Resurslar</li>
+                            <li class="drop-name r-list"><a class="drop-name">E-Resurslar</a></li>
+
 
                             <ul class="drop r-drop">
                                 @foreach (var item in @ViewBag.AllFileTypes)

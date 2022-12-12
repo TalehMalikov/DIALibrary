@@ -52,7 +52,7 @@ builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddSession(sessions =>
 {
-    sessions.IdleTimeout = TimeSpan.FromHours(1);
+    sessions.IdleTimeout = TimeSpan.FromHours(2);
     sessions.Cookie.IsEssential = true;
     sessions.Cookie.HttpOnly = true;
 });

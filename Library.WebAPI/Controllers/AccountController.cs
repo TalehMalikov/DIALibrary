@@ -1,4 +1,5 @@
 ﻿using Library.Business.Abstraction;
+using Library.Core.Domain.Dtos;
 using Library.Entities.Concrete;
 using Library.Entities.Dtos;
 using Microsoft.AspNetCore.Authorization;
@@ -98,9 +99,9 @@ namespace Library.WebAPI.Controllers
 
         [HttpPost("getbyaccountname")]
         [Authorize(Roles = "Admin,SuperAdmin")]
-        public IActionResult GetByAccountName(string accountName)
+        public IActionResult GetByAccountName(ResetPasswordDto value)
         {
-            var result = _accountService.GetByAccountName(accountName);
+            var result = _accountService.GetByAccountName(value.AccountName);
             if (result.Success)
             {
                 return Ok(result);

@@ -60,7 +60,7 @@
                      data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" asp-controller="Account" asp-action="AccountDetails" asp-route-id="@HttpContextAccessor?.HttpContext?.Session.GetString("AdminId")">Məlumatları yenilə</a>
-                        <a class="collapse-item" asp-controller="Account" asp-action="ChangePassword" asp-route-id="@HttpContextAccessor?.HttpContext?.Session.GetString("AdminId")">Parolu dəyiş</a>
+                        <a class="collapse-item" asp-action="ChangePassword" asp-controller="Authentication">Parolu dəyiş</a>
                     </div>
                 </div>
 

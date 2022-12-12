@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using Library.Core.Domain.Dtos;
 using Library.Core.Utils;
 using Library.Entities.Dtos;
 
@@ -14,7 +15,7 @@ namespace Library.Admin.Controllers
         private readonly IAuthService _authService;
         private readonly IAccountService _accountService;
 
-        public AuthenticationController(IAuthService authService,IAccountService accountService)
+        public AuthenticationController(IAuthService authService, IAccountService accountService)
         {
             _authService = authService;
             _accountService = accountService;
@@ -39,7 +40,7 @@ namespace Library.Admin.Controllers
                     HttpContext.Session.SetString("UserRole", role);
                     HttpContext.Session.SetString("FullName", result.Data.FullName);
                     var account = await _accountService.GetByEmail(result.Data.Email);
-                    HttpContext.Session.SetString("AdminId", account.Data.Id.ToString());
+                    //HttpContext.Session.SetString("AdminId", account.Data.Id.ToString());
                     return RedirectToAction("Index", "Home");
                 }
                 return RedirectToAction("Login");
@@ -77,6 +78,8 @@ namespace Library.Admin.Controllers
 
         public IActionResult ResetPassword()
         {
+            string token = HttpContext.Session.GetString("AdminAccessToken");
+            if (string.IsNullOrWhiteSpace(token)) return RedirectToAction("Login", "Authentication");
             return View();
         }
 
@@ -84,7 +87,11 @@ namespace Library.Admin.Controllers
         public async Task<IActionResult> UpdatePassword(AuthViewModel model)
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-            var account = await _authService.GetAccountByAccountName(token, model.AccountName);
+            if (string.IsNullOrWhiteSpace(token)) return RedirectToAction("Login", "Authentication");
+            var account = await _authService.GetAccountByAccountName(token, new ResetPasswordDto
+            {
+                AccountName = model.AccountName
+            });
             if (account.Success)
             {
                 var viewModel = new AuthViewModel();
@@ -99,6 +106,7 @@ namespace Library.Admin.Controllers
         public async Task<IActionResult> ResetPassword(AuthViewModel model)
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
+            if (string.IsNullOrWhiteSpace(token)) return RedirectToAction("Login", "Authentication");
             if (!string.IsNullOrWhiteSpace(model.Password))
             {
 
@@ -117,6 +125,29 @@ namespace Library.Admin.Controllers
             }
 
             return RedirectToAction("ResetPassword");
+        }
+
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            string token = HttpContext.Session.GetString("AdminAccessToken");
+            if (string.IsNullOrWhiteSpace(token)) return RedirectToAction("Login", "Authentication");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(AuthViewModel model)
+        {
+            string token = HttpContext.Session.GetString("AdminAccessToken");
+            if (string.IsNullOrWhiteSpace(token)) return RedirectToAction("Login", "Authentication");
+            string email = HttpContext.Session.GetString("AdminEmail");
+            if (!(string.IsNullOrWhiteSpace(model.Password) & string.IsNullOrWhiteSpace(model.RepeatPassword)) &
+                (model.Password == model.RepeatPassword))
+            {
+
+            }
+            return View();
         }
 
 
