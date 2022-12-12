@@ -21,10 +21,10 @@ namespace Library.DataAccess.Implementation.PostgreSql
             connection.Open();
             string cmdString = "Insert Into Files(Name,CategoryId,OriginalLanguageId,LastModified,ExistingStatus," +
                                "FileTypeId,EditionStatus,PublicationLanguageId,Description,PublisherName,PublicationDate," +
-                               "PhotoPath,FilePath,PageNumber,GUID, QrCodeFilePath)" +
+                               "PhotoPath,FilePath,PageNumber,GUID)" +
                                " Values(@name,@categoryId,@originalLanguageId,@lastModified,@existingStatus,@fileTypeId," +
                                "@editionStatus,@publicationLanguageId,@description,@publisherName,@publicationDate,@photoPath," +
-                               "@filePath,@pageNumber) RETURNING Files.Id";
+                               "@filePath,@pageNumber,@guid) RETURNING Files.Id";
             using NpgsqlCommand command = new NpgsqlCommand(cmdString, connection);
             command.Parameters.AddWithValue("@name", value.Name);
             command.Parameters.AddWithValue("@categoryId", value.CategoryId);
