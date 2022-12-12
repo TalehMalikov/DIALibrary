@@ -14,12 +14,12 @@ namespace Library.Core.Utils
         public static string GenerateVerificationCode()
         {
             Random random = new Random();
-            string code = random.Next(100000, 1000000).ToString();
+            string code = random.Next(10000000, 100000000).ToString();
             return code;
         }
         public static void SendMail(string emailTo, string subject, string content)
         {
-            string emailFrom = "taleh29@outlook.com";
+            string emailFrom = "noreply@dia.edu.az";
             using var email = new MimeMessage();
             email.From.Add(MailboxAddress.Parse(emailFrom));
             email.To.Add(MailboxAddress.Parse(emailTo));
@@ -28,10 +28,10 @@ namespace Library.Core.Utils
 
             using var smtp = new SmtpClient();
             //smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
-            smtp.Connect("smtp.office365.com", 587, SecureSocketOptions.StartTls);
+            smtp.Connect("smtp.yandex.com", 465, SecureSocketOptions.StartTls);
             //smtp.Connect("smtp.live.com", 587, SecureSocketOptions.StartTls);
             //smtp.Connect("smtp.mail.yahoo.com", 465, SecureSocketOptions.StartTls);
-            smtp.Authenticate(emailFrom, "t1a2l3e4h5@");
+            smtp.Authenticate(emailFrom, "D@t@center64@!");
             smtp.Send(email);
             smtp.Disconnect(true);
         }
