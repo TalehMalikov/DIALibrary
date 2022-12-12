@@ -170,10 +170,6 @@ namespace Library.Admin.Controllers
         }
 
         [HttpPost]
-        [AutoValidateAntiforgeryToken]
-        [RequestSizeLimit(MaxFileSize)]
-        [RequestFormLimits(MultipartBodyLengthLimit = MaxFileSize)]
-        [DisableFormValueModelBinding]
         public async Task<IActionResult> SaveResource(ResourceViewModel viewModel)
         {
             string accessToken = HttpContext.Session.GetString("AdminAccessToken");
