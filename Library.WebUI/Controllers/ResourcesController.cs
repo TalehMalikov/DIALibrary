@@ -84,33 +84,22 @@ namespace Library.WebUI.Controllers
             var result = await _fileService.GetFileById(id);
             var file = result.Data;
 
-            string filePath="", contentType="", filename="";
+            string filePath = "", contentType = "", filename = "";
             var memory = new MemoryStream();
 
-            try
+            filePath = Path.Combine(DefaultPath.OriginalDefaultFilePath, file.FilePath);
+
+            contentType = $"{Path.GetExtension(file.FilePath).TrimStart('.')}/*";
+            filename = file.FilePath;
+
+            if (file == null) return null;
+
+            using (var stream = new FileStream(filePath, FileMode.Open))
             {
-               
-
-                filePath = Path.Combine(DefaultPath.OriginalDefaultFilePath, file.FilePath);
-
-                contentType = $"{Path.GetExtension(file.FilePath).TrimStart('.')}/*";
-                filename = file.FilePath;
-
-                if (file == null) return null;
-
-                using (var stream = new FileStream(filePath, FileMode.Open))
-                {
-                    await stream.CopyToAsync(memory);
-                }
-
-                memory.Position = 0;
-                return File(memory, contentType, filename);
+                await stream.CopyToAsync(memory);
             }
-            catch(Exception ex)
-            {
-                System.IO.File.AppendAllText(@"C:\Log\tmplog.txt",ex.Message);
-                System.IO.File.AppendAllText(@"C:\Log\tmplog.txt","\n");
-            } 
+
+            memory.Position = 0;
             return File(memory, contentType, filename);
 
         }
