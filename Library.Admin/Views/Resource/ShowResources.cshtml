@@ -155,7 +155,8 @@
             var dataId = $(elem).data("id");
 
             $.ajax({
-                url: "/librarydashboardv2/Resource/SaveResource?id=" + dataId,
+                //url: "/librarydashboardv2/Resource/SaveResource?id=" + dataId,
+                url: "/Resource/SaveResource?id=" + dataId,
                 success: function (data) {
                     $('#createModal').html(data);
                     $("#createModal").modal("show");

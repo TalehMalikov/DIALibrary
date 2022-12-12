@@ -2,7 +2,7 @@
 <div class="modal-dialog modal-dialog-scrollable modal-lg">
     <div class="modal-content" id="editDebtModelBody">
         <div style="overflow:auto;" class="modal-body">
-            <form asp-controller="Resource" asp-action="SaveResource" method="post" class="form-group" enctype="multipart/form-data" >
+            <form asp-controller="Resource" asp-action="SaveResource" asp-antiforgery="true" method="post" class="form-group" enctype="multipart/form-data" >
                 <input hidden asp-for="File.Id" />
                 <input hidden asp-for="File.FilePath" />
                 <input hidden asp-for="File.PhotoPath" />
