@@ -8,12 +8,16 @@ using Library.Entities.Concrete;
 using Library.Entities.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Text;
+using Library.Admin.Extensions;
 using File = Library.Entities.Concrete.File;
 
 namespace Library.Admin.Controllers
 {
+    
     public class ResourceController : Controller
     {
         private readonly IFileService _fileService;
@@ -24,6 +28,7 @@ namespace Library.Admin.Controllers
         private readonly ISpecialtyService _specialtyService;
         private readonly IAuthorService _authorService;
         private readonly IFileAuthorService _fileAuthorService;
+        private const long MaxFileSize =  1024L * 1024L * 1024L;
 
         public ResourceController(IFileService fileService, ILanguageService languageService,
             ICategoryService categoryService,
@@ -165,6 +170,10 @@ namespace Library.Admin.Controllers
         }
 
         [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        [RequestSizeLimit(MaxFileSize)]
+        [RequestFormLimits(MultipartBodyLengthLimit = MaxFileSize)]
+        [DisableFormValueModelBinding]
         public async Task<IActionResult> SaveResource(ResourceViewModel viewModel)
         {
             string accessToken = HttpContext.Session.GetString("AdminAccessToken");
