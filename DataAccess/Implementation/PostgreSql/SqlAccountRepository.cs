@@ -84,9 +84,9 @@ namespace Library.DataAccess.Implementation.PostgreSql
                            "Accounts.isdeleted as AccountIsDeleted,Accounts.lastmodified as AccountLastModified, " +
                            "Users.Id as UserId,firstname,lastname,fathername,birthdate,gender,isStudent," +
                            "Users.IsDeleted as UserIsDeleted,Users.LastModified as UserLastModified " +
-                           "from accounts inner join Users on Users.id = accounts.userid where Upper(Accounts.AccountName)=@email and Users.IsDeleted=false and Accounts.IsDeleted = false";
+                           "from accounts inner join Users on Users.id = accounts.userid where Accounts.Email=@email and Users.IsDeleted=false and Accounts.IsDeleted = false";
             using NpgsqlCommand cmd = new NpgsqlCommand(query, connection);
-            cmd.Parameters.AddWithValue("@email", email.ToUpper());
+            cmd.Parameters.AddWithValue("@email", email);
             var reader = cmd.ExecuteReader();
             if (reader.Read())
                 return ReadAccount(reader);

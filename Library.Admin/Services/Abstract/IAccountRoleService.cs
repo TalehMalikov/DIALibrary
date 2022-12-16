@@ -9,7 +9,8 @@ namespace Library.Admin.Services.Abstract
         Task<DataResult<List<Role>>> GetRoles(string token);
         Task<DataResult<List<AccountRole>>> GetAccountRoles(string token);
         Task<DataResult<AccountRole>> GetAccountRole(string token, int id);
-        Task<DataResult<AccountRole>> GetAccountRoleByAccountId(string token,int accountId);
+        Task<DataResult<AccountRole>> GetAccountRoleByAccountName(string token,string accountName);
+        Task<DataResult<AccountRole>> GetAccountRoleByAccountId(string token, int id);
         Task<Result> Add(string token, AccountRoleDto role);
         Task<Result> Delete(string token,int id);
         Task<Result> Update(string token, AccountRoleDto role);

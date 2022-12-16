@@ -17,7 +17,7 @@ namespace Library.Admin.Controllers
         private readonly IStudentService _studentService;
         private readonly ISpecialtyService _specialtyService;
         private readonly IGroupService _groupService;
-        public AccountController(IAccountService accountService, IUserService userService,IAccountRoleService accountRoleService,
+        public AccountController(IAccountService accountService, IUserService userService, IAccountRoleService accountRoleService,
                                 IStudentService studentService, ISpecialtyService specialtyService, IGroupService groupService)
         {
             _accountService = accountService;
@@ -38,7 +38,7 @@ namespace Library.Admin.Controllers
         public async Task<IActionResult> NewAccount(AccountViewModel model)
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-            if(token!=null)
+            if (token != null)
             {
                 model.Password = model.Password.Trim();
                 model.RepeatPassword = model.RepeatPassword.Trim();
@@ -55,7 +55,7 @@ namespace Library.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-            if(token!=null)
+            if (token != null)
             {
                 var result = await _accountService.GetAll(token);
                 var model = new AccountViewModel
@@ -68,17 +68,15 @@ namespace Library.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AccountDetails(int id)
+        public async Task<IActionResult> AccountDetails()
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
-            if (token != null)
-            {
-                AccountViewModel model = new AccountViewModel();
-                var account = await _accountRoleService.GetAccountRoleByAccountId(token, id);
-                model.AccountRole = account.Data;
-                return View(model);
-            }
-            return new NotFoundResult();
+            if (token == null) return RedirectToAction("Login", "Authentication");
+            string accountName = HttpContext.Session.GetString("AdminEmail");
+            AccountViewModel model = new AccountViewModel();
+            var account = await _accountRoleService.GetAccountRoleByAccountName(token, accountName);
+            model.AccountRole = account.Data;
+            return View(model);
         }
 
         [HttpGet]
@@ -95,7 +93,7 @@ namespace Library.Admin.Controllers
                 viewModel.AccountRole = accountRole.Data;
 
                 var roles = await _accountRoleService.GetRoles(accessToken);
-                viewModel.Roles = new SelectList(roles.Data,"Id","Name");
+                viewModel.Roles = new SelectList(roles.Data, "Id", "Name");
 
                 return PartialView(viewModel);
             }
@@ -106,19 +104,19 @@ namespace Library.Admin.Controllers
         public async Task<IActionResult> UpdateAccount(AccountViewModel viewModel)
         {
             string accessToken = HttpContext.Session.GetString("AdminAccessToken");
-            if(accessToken!=null)
+            if (accessToken != null)
             {
-                var updateUser = await _userService.Update(accessToken,viewModel.AccountRole.Account.User);
-                if(updateUser.Success)
+                var updateUser = await _userService.Update(accessToken, viewModel.AccountRole.Account.User);
+                if (updateUser.Success)
                 {
                     var accountRoleDto = new AccountRoleDto()
                     {
-                        Id=viewModel.AccountRole.Id,
+                        Id = viewModel.AccountRole.Id,
                         RoleId = viewModel.AccountRole.Role.Id,
                         AccountId = viewModel.AccountRole.Account.Id
                     };
                     var updateAccountRole = await _accountRoleService.Update(accessToken, accountRoleDto);
-                    if(updateAccountRole.Success)
+                    if (updateAccountRole.Success)
                     {
                         var accountDto = new AccountDto()
                         {
@@ -132,7 +130,7 @@ namespace Library.Admin.Controllers
                         };
                         var result = await _accountService.Update(accessToken, accountDto);
                         if (result.Success)
-                            return RedirectToAction("AccountDetails", "Account", new { id = $"{viewModel.AccountRole.Account.Id}" });
+                            return RedirectToAction("AccountDetails", "Account");
                         else
                             return BadRequest(result);
                     }
@@ -169,7 +167,7 @@ namespace Library.Admin.Controllers
                 if (account.Data.User.IsStudent)
                 {
                     var student = await _studentService.GetByUserId(accessToken, account.Data.User.Id);
-                    
+
                     viewModel.StudentDto = new StudentDto()
                     {
                         Id = student.Data.Id,
@@ -212,12 +210,12 @@ namespace Library.Admin.Controllers
 
                 var updateAccount = await _accountService.Update(accessToken, accountDto);
 
-                if(updateAccount.Success && userUpdate.Success)
+                if (updateAccount.Success && userUpdate.Success)
                 {
-                    if(viewModel.AccountRole.Account.User.IsStudent)
+                    if (viewModel.AccountRole.Account.User.IsStudent)
                     {
                         var updateStudent = await _studentService.Update(accessToken, viewModel.StudentDto);
-                        if (updateAccount.Success) 
+                        if (updateAccount.Success)
                             return RedirectToAction("Index", "Account");
                         return BadRequest(updateStudent);
                     }

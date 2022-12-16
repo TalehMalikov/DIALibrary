@@ -58,7 +58,7 @@ namespace Library.WebAPI.Controllers
             string token = GenerateJwtToken(account);
             return Ok(new SuccessDataResult<LoginResponseDto>(new LoginResponseDto
             {
-                Email = account.Email,
+                Email = account.AccountName,
                 Token = token,
                 FullName = account.User.FirstName + " " + account.User.LastName,
             }));

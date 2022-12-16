@@ -33,10 +33,17 @@ namespace Library.Admin.Services.Concrete
             return result;
         }
 
-        public async Task<DataResult<AccountRole>> GetAccountRoleByAccountId(string token, int accountId)
+        public async Task<DataResult<AccountRole>> GetAccountRoleByAccountName(string token, string email)
         {
             var accountRoles = await GetAccountRoles(token);
-            var result = accountRoles.Data.FirstOrDefault(r => r.Account.Id == accountId);
+            var result = accountRoles.Data.FirstOrDefault(r => r.Account.AccountName == email);
+            return new SuccessDataResult<AccountRole>(result);
+        }
+
+        public async Task<DataResult<AccountRole>> GetAccountRoleByAccountId(string token, int id)
+        {
+            var accountRoles = await GetAccountRoles(token);
+            var result = accountRoles.Data.FirstOrDefault(r => r.Account.Id == id);
             return new SuccessDataResult<AccountRole>(result);
         }
 

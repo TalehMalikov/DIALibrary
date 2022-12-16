@@ -4,7 +4,7 @@ namespace Library.WebUI.Services.Concrete
 {
     public abstract class BaseService
     {
-        protected const string BaseUrl = "https://lib.dia.edu.az/api/";
-        //protected const string BaseUrl = "https://localhost:44375/";
+        //protected const string BaseUrl = "https://lib.dia.edu.az/api/";
+        protected const string BaseUrl = "https://localhost:7185/";
     }
 }
