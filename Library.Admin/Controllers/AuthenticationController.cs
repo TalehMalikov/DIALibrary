@@ -151,7 +151,17 @@ namespace Library.Admin.Controllers
             if (!(string.IsNullOrWhiteSpace(model.Password) & string.IsNullOrWhiteSpace(model.RepeatPassword)) &
                 (model.Password == model.RepeatPassword))
             {
-
+                var account = await _accountService.GetByAccountName(email);
+                _accountService.Update(token, new AccountDto
+                {
+                    AccountName = account.Data.AccountName,
+                    Email = account.Data.Email,
+                    Id = account.Data.Id,
+                    IsDeleted = account.Data.IsDeleted,
+                    LastModified = DateTime.Now,
+                    UserId = account.Data.User.Id,
+                    PasswordHash = SecurityUtil.ComputeSha256Hash(model.Password)
+                });
             }
             return View();
         }

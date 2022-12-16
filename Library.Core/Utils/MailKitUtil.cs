@@ -28,7 +28,7 @@ namespace Library.Core.Utils
 
             using var smtp = new SmtpClient();
             //smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
-            smtp.Connect("mail.dia.edu.az", 465, SecureSocketOptions.StartTls);
+            smtp.Connect("smtp.yandex.com", 465, SecureSocketOptions.SslOnConnect);
             //smtp.Connect("smtp.live.com", 587, SecureSocketOptions.StartTls);
             //smtp.Connect("smtp.mail.yahoo.com", 465, SecureSocketOptions.StartTls);
             smtp.Authenticate(emailFrom, "D@t@center64@!");

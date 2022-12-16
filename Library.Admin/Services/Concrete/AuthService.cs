@@ -17,12 +17,12 @@ namespace Library.Admin.Services.Concrete
             return result;
         }
 
-        public async Task<DataResult<Account>> GetAccountByAccountName(string token, ResetPasswordDto passwd)
+        public async Task<DataResult<Account>> GetAccountByAccountName(string token, string email)
         {
             using HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             var result =
-                await client.PostJsonAsync<DataResult<Account>,ResetPasswordDto>(BaseUrl + "Account/getbyaccountname", passwd);
+                await client.GetJsonAsync<DataResult<Account>>(BaseUrl + "Account/getbyaccountname?name="+ passwd);
             return result;
         }
     }

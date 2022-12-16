@@ -107,17 +107,5 @@ namespace Library.WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost("getbyaccountname")]
-        [Authorize(Roles = "Admin,SuperAdmin")]
-        public IActionResult GetByAccountName(ResetPasswordDto value)
-        {
-            var result = _accountService.GetByAccountName(value.AccountName);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-
-            return BadRequest(result);
-        }
     }
 }

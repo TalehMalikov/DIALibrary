@@ -7,6 +7,6 @@ namespace Library.Admin.Services.Abstract
     public interface IAuthService
     {
         Task<DataResult<LoginResponseDto>> Login(AccountLoginDto account);
-        Task<DataResult<Account>> GetAccountByAccountName(string token, ResetPasswordDto passwd);
+        Task<DataResult<Account>> GetAccountByAccountName(string token, string email);
     }
 }
