@@ -27,7 +27,7 @@ namespace Library.WebUI.Controllers
         {
             var result = await _authService.Login(new AccountLoginDto
             {
-                Email = loginViewModel.LoginModel.Email,
+                AccountName = loginViewModel.LoginModel.AccountName,
                 Password = loginViewModel.LoginModel.Password
             });
 
@@ -37,7 +37,7 @@ namespace Library.WebUI.Controllers
             if (result.Success)
             {
                 HttpContext.Session.SetString("AccessToken",result.Data.Token);
-                HttpContext.Session.SetString("Email",loginViewModel.LoginModel.Email);
+                HttpContext.Session.SetString("Email",loginViewModel.LoginModel.AccountName);
             }
             return RedirectToAction("Index", "Home");
         }

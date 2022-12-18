@@ -22,7 +22,7 @@ namespace Library.Admin.Services.Concrete
             using HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             var result =
-                await client.GetJsonAsync<DataResult<Account>>(BaseUrl + "Account/getbyaccountname?name="+ passwd);
+                await client.GetJsonAsync<DataResult<Account>>(BaseUrl + "Account/getbyaccountname?name="+ email);
             return result;
         }
     }

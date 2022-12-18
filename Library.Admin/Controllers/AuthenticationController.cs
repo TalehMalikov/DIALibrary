@@ -94,10 +94,7 @@ namespace Library.Admin.Controllers
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
             if (string.IsNullOrWhiteSpace(token)) return RedirectToAction("Login", "Authentication");
-            var account = await _authService.GetAccountByAccountName(token, new ResetPasswordDto
-            {
-                AccountName = model.AccountName
-            });
+            var account = await _authService.GetAccountByAccountName(token, model.AccountName);
             if (account.Success)
             {
                 var viewModel = new AuthViewModel();

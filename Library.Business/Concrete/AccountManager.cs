@@ -35,6 +35,14 @@ namespace Library.Business.Concrete
             return new SuccessDataResult<Account>(result);
         }
 
+        public DataResult<Account> Login(string accountName)
+        {
+            var result = _accountRepository.Login(accountName);
+            if (result == null)
+                return new ErrorDataResult<Account>(result, StatusMessagesUtil.NotFoundMessage);
+            return new SuccessDataResult<Account>(result);
+        }
+
         [CacheAspect]
         public DataResult<List<Role>> GetRoles(Account account)
         {

@@ -12,5 +12,6 @@ namespace Library.Business.Abstraction
         DataResult<List<Role>> GetRoles(Account account);
         DataResult<Account> GetByEmail(string email);
         DataResult<Account> GetByAccountName(string accountName);
+        DataResult<Account> Login(string accountName);
     }
 }

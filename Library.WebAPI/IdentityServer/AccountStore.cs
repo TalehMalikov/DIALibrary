@@ -39,7 +39,7 @@ namespace Library.WebAPI.IdentityServer
 
         public Task<Account> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
         {
-            var user = _db.GetByEmail(normalizedUserName).Data;
+            var user = _db.Login(normalizedUserName).Data;
 
             return Task.FromResult(user);
         }

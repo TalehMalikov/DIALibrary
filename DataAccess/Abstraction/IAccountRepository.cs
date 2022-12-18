@@ -10,5 +10,6 @@ namespace Library.DataAccess.Abstraction
         Account GetByEmail(string email);
         List<Role> GetRoles(Account account);
         Account GetByAccountName(string accountName);
+        Account Login(string accountName);
     }
 }

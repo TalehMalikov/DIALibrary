@@ -36,7 +36,7 @@ namespace Library.WebAPI.Controllers
         [Route("login")]
         public IActionResult Login(AccountLoginDto model)
         {
-            var account = _userManager.FindByNameAsync(model.Email).Result;
+            var account = _userManager.FindByNameAsync(model.AccountName).Result;
 
             if (account == null)
                 return BadRequest(new ErrorDataResult<Account>(account));
@@ -113,7 +113,7 @@ namespace Library.WebAPI.Controllers
                 {
                     new Claim(ClaimTypes.NameIdentifier, account.Id.ToString()),
                     new Claim(ClaimTypes.Name, account.Id.ToString()),
-                    new Claim(ClaimTypes.Email, account.Email),
+                    new Claim(ClaimTypes.Email, account.AccountName),
                 }),
                 Expires = date.AddHours(1), //Token expires after 1 hours
                 NotBefore = date,
