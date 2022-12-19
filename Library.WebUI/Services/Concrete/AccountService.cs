@@ -9,10 +9,10 @@ namespace Library.WebUI.Services.Concrete
 {
     public class AccountService : BaseService, IAccountService
     {
-        public async Task<DataResult<Account>> GetByEmail(string name)
+        public async Task<DataResult<Account>> GetByAccountName(string name)
         {
             using HttpClient client = new HttpClient();
-            var result = await client.GetJsonAsync<DataResult<Account>>(BaseUrl + "Account/getbyemail?name=" + name);
+            var result = await client.GetJsonAsync<DataResult<Account>>(BaseUrl + "Account/getbyaccountname?name=" + name);
             return result;
         }
 

@@ -50,7 +50,7 @@ namespace Library.WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> ForgotPassword(PasswordViewModel model)
         {
-            var result = await _accountService.GetByEmail(model.Email);
+            var result = await _accountService.GetByAccountName(model.Email);
             string email = result.Data.Email;
             if (result.Success & model.Email == email)
             {
@@ -92,7 +92,7 @@ namespace Library.WebUI.Controllers
                 return RedirectToAction("ForgotPassword");
             if (model.Password != model.RepeatPassword)
                 return View();
-            var account = await _accountService.GetByEmail(email);
+            var account = await _accountService.GetByAccountName(email);
             account.Data.PasswordHash = SecurityUtil.ComputeSha256Hash(model.Password);
             await _accountService.ResetPassword(account.Data);
             return RedirectToAction("Index", "Home");
@@ -103,7 +103,7 @@ namespace Library.WebUI.Controllers
             var email = HttpContext.Session.GetString("Email");
             AccountViewModel viewModel = new AccountViewModel();
 
-            var account = await _accountService.GetByEmail(email);
+            var account = await _accountService.GetByAccountName(email);
             viewModel.Account = account.Data;
 
             var allFileTypes = await _fileTypeService.GetAllFileTypes();
@@ -117,7 +117,7 @@ namespace Library.WebUI.Controllers
         {
             string? token = HttpContext.Session.GetString("AccessToken");
             string? email = HttpContext.Session.GetString("Email");
-            var account = await _accountService.GetByEmail(email);
+            var account = await _accountService.GetByAccountName(email);
             if (SecurityUtil.ComputeSha256Hash(model.ChangePassword.OldPassword) != account.Data.PasswordHash)
                 return View();
             if (model.ChangePassword.Password != model.ChangePassword.RepeatPassword)
