@@ -36,7 +36,7 @@ namespace Library.WebUI.Controllers
             var accessToken = HttpContext.Session.GetString("AccessToken");
 
 
-            var account = await _accountService.GetByEmail( email);
+            var account = await _accountService.GetByAccountName( email);
             viewModel.Account = account.Data;
 
             var allFileTypes = await _fileTypeService.GetAllFileTypes();

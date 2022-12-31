@@ -5,7 +5,7 @@ namespace Library.WebUI.Services.Abstract
 {
     public interface IAccountService
     {
-        Task<DataResult<Account>> GetByEmail(string name);
+        Task<DataResult<Account>> GetByAccountName(string name);
         Task<Result> Update(string token, Account account);
         Task<Result> ResetPassword(Account account);
     }

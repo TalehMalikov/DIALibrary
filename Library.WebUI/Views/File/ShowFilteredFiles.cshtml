@@ -64,7 +64,7 @@
                     @if(@Model.FileModel.FileAuthors.Data.Count>0)
                     {
                         <div class="title d-flex">
-                            <h3 class="text-bold">@Model.FileModel.FileAuthors.Data[0].File.FileType.Name<span class="text-secondary">  [sayı: @Model.FileModel.FileAuthors.Data.Count]</span></h3>
+                            <h3 class="text-bold">@Model.FileModel.FileAuthors.Data[0].File.FileType.Name<span class="text-secondary">  [resurs sayı: @Model.FileModel.FileAuthors.Data.Count]</span></h3>
                         </div>
                         <hr/>
 
@@ -76,7 +76,7 @@
                                         <img src="@Url.Action("Picture","Resources", new{ name = item.File.PhotoPath})" class="result-img">
                                     </a>
                                     <div class="book-info d-flex flex-column px-4 ">
-                                        <h6 class="h6"><span class="text-bold">Kitab Adı: </span>@item.File.Name</h6>
+                                        <h6 class="h6"><span class="text-bold">Adı: </span>@item.File.Name</h6>
                                         <h6 class="h6"><span class="text-bold">Müəllif:</span>
                                         @{
                                                 var builder = new StringBuilder();
