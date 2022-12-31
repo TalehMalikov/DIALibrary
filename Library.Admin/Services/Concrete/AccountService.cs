@@ -57,7 +57,7 @@ namespace Library.Admin.Services.Concrete
         public async Task<DataResult<Account>> GetByAccountName(string name)
         {
             using HttpClient client = new HttpClient();
-            var result = await client.GetJsonAsync<DataResult<Account>>(BaseUrl + "Account/accountname?name=" + name);
+            var result = await client.GetJsonAsync<DataResult<Account>>(BaseUrl + "Account/getbyaccountname?name=" + name);
             return result;
         }
     }

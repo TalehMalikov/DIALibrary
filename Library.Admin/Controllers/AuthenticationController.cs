@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-using Library.Core.Domain.Dtos;
 using Library.Core.Utils;
 using Library.Entities.Dtos;
 
@@ -81,7 +80,6 @@ namespace Library.Admin.Controllers
         #endregion
 
         #region ResetPassword
-
         public IActionResult ResetPassword()
         {
             string token = HttpContext.Session.GetString("AdminAccessToken");
@@ -149,7 +147,7 @@ namespace Library.Admin.Controllers
                 (model.Password == model.RepeatPassword))
             {
                 var account = await _accountService.GetByAccountName(email);
-                _accountService.Update(token, new AccountDto
+                var result = await _accountService.Update(token, new AccountDto
                 {
                     AccountName = account.Data.AccountName,
                     Email = account.Data.Email,
@@ -159,13 +157,12 @@ namespace Library.Admin.Controllers
                     UserId = account.Data.User.Id,
                     PasswordHash = SecurityUtil.ComputeSha256Hash(model.Password)
                 });
+                if (result.Success) return RedirectToAction("Logout");
             }
-            return View();
+            return View(model);
         }
 
         #endregion
-
-
 
 
     }
