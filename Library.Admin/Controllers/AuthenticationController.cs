@@ -33,14 +33,14 @@ namespace Library.Admin.Controllers
             if (result.Success)
             {
                 var role = GetRole(result.Data.Token);
-                if (role == "SuperAdmin" || role == "Admin" || role == "GroupAdmin" || role == "ResourceAdmin")
+                if (role.Contains("SuperAdmin") || role.Contains("Admin") || role.Contains("GroupAdmin") || role.Contains("ResourceAdmin"))
                 {
                     HttpContext.Session.SetString("AdminAccessToken", result.Data.Token);
                     HttpContext.Session.SetString("AdminEmail", result.Data.Email);
                     HttpContext.Session.SetString("UserRole", role);
                     HttpContext.Session.SetString("FullName", result.Data.FullName);
                     var account = await _accountService.GetByEmail(result.Data.Email);
-                    //HttpContext.Session.SetString("AdminId", account.Data.Id.ToString());
+                    HttpContext.Session.SetString("AdminId", account.Data.Id.ToString());
                     return RedirectToAction("Index", "Home");
                 }
                 return RedirectToAction("Login");
@@ -139,17 +139,26 @@ namespace Library.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(AuthViewModel model)
         {
-            string token = HttpContext.Session.GetString("AdminAccessToken");
+            string? token = HttpContext.Session.GetString("AdminAccessToken");
             if (string.IsNullOrWhiteSpace(token)) return RedirectToAction("Login", "Authentication");
-            string email = HttpContext.Session.GetString("AdminEmail");
+            string? email = HttpContext.Session.GetString("AdminEmail");
             if (!(string.IsNullOrWhiteSpace(model.Password) & string.IsNullOrWhiteSpace(model.RepeatPassword)) &
                 (model.Password == model.RepeatPassword))
             {
-
+                var account = await _accountService.GetByEmail(email);
+                var accountDto = new AccountDto
+                {
+                    Id = account.Data.Id,
+                    AccountName = account.Data.AccountName,
+                    Email = account.Data.Email,
+                    IsDeleted = account.Data.IsDeleted,
+                    LastModified = DateTime.UtcNow,
+                    UserId = account.Data.User.Id,
+                    PasswordHash = SecurityUtil.ComputeSha256Hash(model.Password)
+                };
+                await _accountService.Update(token, accountDto);
             }
             return View();
         }
-
-
     }
 }

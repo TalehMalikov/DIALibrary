@@ -1,4 +1,5 @@
-﻿using Library.Core.Extensions;
+﻿using Library.Core.Domain.Dtos;
+using Library.Core.Extensions;
 using Library.Core.Result.Concrete;
 using Library.Entities.Concrete;
 using Library.WebUI.Services.Abstract;
@@ -13,6 +14,18 @@ namespace Library.WebUI.Services.Concrete
         {
             using HttpClient client = new HttpClient();
             var result = await client.GetJsonAsync<DataResult<Account>>(BaseUrl + "Account/getbyemail?name=" + name);
+            return result;
+        }
+
+        public async Task<DataResult<Account>> GetByAccountName(string accessToken, string accountName)
+        {
+            using HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            var account = new ResetPasswordDto()
+            {
+                AccountName = accountName
+            };
+            var result = await client.PostJsonAsync<DataResult<Account>, ResetPasswordDto>(BaseUrl + "Account/getbyaccountname", account);
             return result;
         }
 

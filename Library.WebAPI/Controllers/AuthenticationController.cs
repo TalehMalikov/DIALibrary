@@ -36,7 +36,7 @@ namespace Library.WebAPI.Controllers
         [Route("login")]
         public IActionResult Login(AccountLoginDto model)
         {
-            var account = _userManager.FindByNameAsync(model.Email).Result;
+            var account = _accountService.GetByAccountName(model.Email).Data;
 
             if (account == null)
                 return BadRequest(new ErrorDataResult<Account>(account));

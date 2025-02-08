@@ -30,13 +30,13 @@ namespace Library.WebUI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var email = HttpContext.Session.GetString("Email");
+            var accountName = HttpContext.Session.GetString("Email");
             AccountViewModel viewModel = new AccountViewModel();
             
             var accessToken = HttpContext.Session.GetString("AccessToken");
 
 
-            var account = await _accountService.GetByEmail( email);
+            var account = await _accountService.GetByAccountName(accessToken, accountName);
             viewModel.Account = account.Data;
 
             var allFileTypes = await _fileTypeService.GetAllFileTypes();

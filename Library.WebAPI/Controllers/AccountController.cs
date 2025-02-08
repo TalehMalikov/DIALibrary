@@ -98,7 +98,7 @@ namespace Library.WebAPI.Controllers
         }
 
         [HttpPost("getbyaccountname")]
-        [Authorize(Roles = "Admin,SuperAdmin")]
+        [Authorize(Roles = "User,GroupAdmin,ResourceAdmin,Admin,SuperAdmin")]
         public IActionResult GetByAccountName(ResetPasswordDto value)
         {
             var result = _accountService.GetByAccountName(value.AccountName);
